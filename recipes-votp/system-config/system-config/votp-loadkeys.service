@@ -1,0 +1,10 @@
+[Unit]
+Description="Load keys for Votp"
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=loadkeys fr
+
+[Install]
+WantedBy=multi-user.target
