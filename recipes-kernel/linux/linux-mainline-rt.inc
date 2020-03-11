@@ -16,6 +16,10 @@ addtask firmware_path before do_configure after do_patch
 # Kernel build process dependencies
 DEPENDS += "bc-native bison-native openssl-native util-linux-native xz-native rsync-native"
 
+KBRANCH ?= "v4.19.106-rt44"
+KMACHINE ?= "${MACHINE}"
+
 # Required to add firmwares built-in
 DEPENDS += " linux-firmware "
 inherit kernel
+inherit kernel-yocto
