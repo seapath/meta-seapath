@@ -4,6 +4,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;protocol=git;name=machine;tag=v4.19.106-rt44;nobranch=1; \
         file://defconfig; \
+        file://virtualization.cfg \
 "
 
 LINUX_VERSION ?= "4.19"
