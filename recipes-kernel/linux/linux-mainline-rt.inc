@@ -2,8 +2,6 @@ SUMMARY = "Linux kernel"
 SECTION = "kernel"
 LICENSE = "GPLv2"
 
-require recipes-kernel/linux/linux.inc
-
 LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 
 # Set firmware path in kernel configuration
@@ -17,6 +15,7 @@ addtask firmware_path before do_configure after do_patch
 DEPENDS += "bc-native bison-native openssl-native util-linux-native xz-native rsync-native"
 
 KBRANCH ?= "v4.19.106-rt44"
+KCONFIG_MODE="--alldefconfig"
 KMACHINE ?= "${MACHINE}"
 
 # Required to add firmwares built-in
