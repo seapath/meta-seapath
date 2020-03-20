@@ -8,6 +8,7 @@ SRC_URI = "\
     file://tests.d/01-sw-versions.conf \
     file://tests.d/02-preempt-rt.conf \
     file://tests.d/03-no-kernel-errors.conf \
+    file://tests.d/04-virtualization.conf \
 "
 RDEPENDS_${PN} += "cukinia"
 RDEPENDS_${PN} += "bash"
@@ -19,4 +20,5 @@ do_install () {
     install -m 0644 ${WORKDIR}/tests.d/01-sw-versions.conf ${D}${sysconfdir}/cukinia/tests.d
     install -m 0644 ${WORKDIR}/tests.d/02-preempt-rt.conf ${D}${sysconfdir}/cukinia/tests.d
     install -m 0644 ${WORKDIR}/tests.d/03-no-kernel-errors.conf ${D}${sysconfdir}/cukinia/tests.d
+    install -m 0644 ${WORKDIR}/tests.d/04-virtualization.conf ${D}${sysconfdir}/cukinia/tests.d
 }
