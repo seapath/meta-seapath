@@ -9,6 +9,7 @@ IMAGE_INSTALL_append = " \
 # Virtualization
 IMAGE_INSTALL_append = " \
     libvirt \
+    libvirt-libvirtd \
     qemu \
 "
 
