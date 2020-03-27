@@ -20,6 +20,12 @@ IMAGE_INSTALL_append = " \
     kernel-modules \
 "
 
+# Container
+IMAGE_INSTALL_append = " \
+    docker-ce \
+    docker-ce-contrib \
+"
+
 GLIBC_GENERATE_LOCALES = "en_US.UTF-8 fr_FR.UTF-8"
 IMAGE_LINGUAS ?= "en_US fr_FR"
 
