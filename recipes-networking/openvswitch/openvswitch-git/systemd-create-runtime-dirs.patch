@@ -1,0 +1,31 @@
+From 6876e0c155b7f83e1f8545446e2dd69c2b7989f2 Mon Sep 17 00:00:00 2001
+From: Mark Asselstine <mark.asselstine@windriver.com>
+Date: Tue, 4 Sep 2018 15:38:59 -0400
+Subject: [PATCH] systemd: create runtime dirs
+
+The recommendation would be to make use of "RuntimeDirectory=" and
+"RuntimeDirectoryMode=" instead of 'mkdir' and 'chown' but since the
+upstream service file uses 'chown' we will match this by using
+'mkdir'. Without this the service will fail to start since these
+directories won't exist.
+
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ rhel/usr_lib_systemd_system_ovsdb-server.service | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/rhel/usr_lib_systemd_system_ovsdb-server.service b/rhel/usr_lib_systemd_system_ovsdb-server.service
+index aad557f..69b0bf6 100644
+--- a/rhel/usr_lib_systemd_system_ovsdb-server.service
++++ b/rhel/usr_lib_systemd_system_ovsdb-server.service
+@@ -11,6 +11,7 @@ PIDFile=/var/run/openvswitch/ovsdb-server.pid
+ Restart=on-failure
+ EnvironmentFile=/etc/openvswitch/default.conf
+ EnvironmentFile=-/etc/sysconfig/openvswitch
++ExecStartPre=-/bin/mkdir /var/run/openvswitch /var/log/openvswitch
+ ExecStartPre=-/bin/chown ${OVS_USER_ID} /var/run/openvswitch /var/log/openvswitch
+ ExecStartPre=/bin/sh -c 'rm -f /run/openvswitch.useropts; /bin/echo "OVS_USER_ID=${OVS_USER_ID}" > /run/openvswitch.useropts'
+ ExecStartPre=/bin/sh -c 'if [ "$${OVS_USER_ID/:*/}" != "root" ]; then /bin/echo "OVS_USER_OPT=--ovs-user=${OVS_USER_ID}" >> /run/openvswitch.useropts; fi'
+-- 
+2.7.4
+
