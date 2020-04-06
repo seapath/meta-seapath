@@ -6,6 +6,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;
         file://defconfig; \
         file://kvm_guest_tuning.cfg \
         file://networking.cfg \
+        file://openvswitch.cfg \
         file://virtualization.cfg \
 "
 
