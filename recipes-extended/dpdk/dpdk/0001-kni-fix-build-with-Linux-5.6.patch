@@ -1,0 +1,57 @@
+From 38ad54f3bc7614b53bd6ca3644a471a3842502fc Mon Sep 17 00:00:00 2001
+From: Ferruh Yigit <ferruh.yigit@intel.com>
+Date: Wed, 12 Feb 2020 17:14:24 +0000
+Subject: [PATCH] kni: fix build with Linux 5.6
+
+With the following Linux commit a new parameter 'txqueue' has been added
+to 'ndo_tx_timeout' ndo:
+commit 0290bd291cc0 ("netdev: pass the stuck queue to the timeout handler")
+
+The change reflected to the KNI with version check.
+
+Cc: stable@dpdk.org
+
+Signed-off-by: Ferruh Yigit <ferruh.yigit@intel.com>
+Acked-by: David Marchand <david.marchand@redhat.com>
+
+Upstream-Status: Backport [38ad54f3bc7614b53bd6ca3644a471a3842502fc]
+
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ kernel/linux/kni/compat.h  | 4 ++++
+ kernel/linux/kni/kni_net.c | 5 +++++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/kernel/linux/kni/compat.h b/kernel/linux/kni/compat.h
+index 7109474..9ee45db 100644
+--- a/kernel/linux/kni/compat.h
++++ b/kernel/linux/kni/compat.h
+@@ -130,3 +130,7 @@
+ #if KERNEL_VERSION(4, 10, 0) <= LINUX_VERSION_CODE
+ #define HAVE_IOVA_TO_KVA_MAPPING_SUPPORT
+ #endif
++
++#if KERNEL_VERSION(5, 6, 0) <= LINUX_VERSION_CODE
++#define HAVE_TX_TIMEOUT_TXQUEUE
++#endif
+diff --git a/kernel/linux/kni/kni_net.c b/kernel/linux/kni/kni_net.c
+index 97fe85b..c82c881 100644
+--- a/kernel/linux/kni/kni_net.c
++++ b/kernel/linux/kni/kni_net.c
+@@ -623,8 +623,13 @@ kni_net_rx(struct kni_dev *kni)
+ /*
+  * Deal with a transmit timeout.
+  */
++#ifdef HAVE_TX_TIMEOUT_TXQUEUE
++static void
++kni_net_tx_timeout(struct net_device *dev, unsigned int txqueue)
++#else
+ static void
+ kni_net_tx_timeout(struct net_device *dev)
++#endif
+ {
+ 	pr_debug("Transmit timeout at %ld, latency %ld\n", jiffies,
+ 			jiffies - dev_trans_start(dev));
+-- 
+2.7.4
+
