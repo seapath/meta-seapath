@@ -24,6 +24,7 @@ IMAGE_INSTALL_append = " \
 IMAGE_INSTALL_append = " \
     docker-ce \
     docker-ce-contrib \
+    kubernetes \
 "
 
 GLIBC_GENERATE_LOCALES = "en_US.UTF-8 fr_FR.UTF-8"
