@@ -1,0 +1,12 @@
+[Unit]
+Description="Configure OVS for Votp"
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-init=true
+
+[Install]
+WantedBy=multi-user.target
