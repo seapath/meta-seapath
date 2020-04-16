@@ -1,0 +1,31 @@
+From 06be8236a307214d62a3e764f526ae8b2e37c7eb Mon Sep 17 00:00:00 2001
+From: Eloi Bail <eloi.bail@savoirfairelinux.com>
+Date: Thu, 16 Apr 2020 16:17:49 +0200
+Subject: [PATCH] networkd-wait-online: add --any option
+
+Add --any option to systemd-networkd-wait-online command so that
+even if several interfaces are in configuring state,
+systemd-networkd-wait-online exits with success when at least one
+interface becomes online.
+
+Signed-off-by: Eloi Bail <eloi.bail@savoirfairelinux.com>
+---
+ units/systemd-networkd-wait-online.service.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/units/systemd-networkd-wait-online.service.in b/units/systemd-networkd-wait-online.service.in
+index 7666e16669..0d4f09ef1e 100644
+--- a/units/systemd-networkd-wait-online.service.in
++++ b/units/systemd-networkd-wait-online.service.in
+@@ -18,7 +18,7 @@ Before=network-online.target shutdown.target
+ 
+ [Service]
+ Type=oneshot
+-ExecStart=@rootlibexecdir@/systemd-networkd-wait-online
++ExecStart=@rootlibexecdir@/systemd-networkd-wait-online --any
+ RemainAfterExit=yes
+ 
+ [Install]
+-- 
+2.17.1
+
