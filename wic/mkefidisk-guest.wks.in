@@ -5,4 +5,4 @@ part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --
 part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
 part /var --source rootfs --ondisk sda --rootfs-dir=${IMAGE_ROOTFS}/var --fstype=ext4 --label data --align 1024 --use-uuid
 
-bootloader --ptable gpt --timeout=5 --append="rootfstype=ext4 console=ttyS0,115200 console=tty0 default_hugepagesz=1G hugepagesz=1G hugepages=4 iommu=pt intel_iommu=on systemd.unified_cgroup_hierarchy=0"
+bootloader --ptable gpt --timeout=5 --append="rootfstype=ext4 systemd.unified_cgroup_hierarchy=0 console=ttyS0,115200n8"
