@@ -1,5 +1,5 @@
 DESCRIPTION = "A debug image for rte"
-require rte-common.inc
+require rte-host-common.inc
 
 # Monitoring tools
 IMAGE_INSTALL += "htop"

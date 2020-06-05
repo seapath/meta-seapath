@@ -1,5 +1,5 @@
 DESCRIPTION = "A test image for rte"
-require rte-image.bb
+require rte-host-common.inc
 
 # Real time Tools
 IMAGE_INSTALL += "rt-tests"

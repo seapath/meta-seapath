@@ -1,2 +1,2 @@
 DESCRIPTION = "A production image for rte"
-require rte-host-common.inc
+require rte-common.inc
