@@ -5,16 +5,6 @@ IMAGE_INSTALL_append = " \
     cukinia-tests \
     system-config \
 "
-
-# Virtualization
-IMAGE_INSTALL_append = " \
-    libvirt \
-    libvirt-libvirtd \
-    libvirt-virsh \
-    openvswitch \
-    qemu \
-"
-
 # Add kernel-modules
 IMAGE_INSTALL_append = " \
     kernel-modules \
