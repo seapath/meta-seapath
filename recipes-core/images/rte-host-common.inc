@@ -12,4 +12,5 @@ IMAGE_INSTALL_append = " \
 IMAGE_FEATURES += "ssh-server-openssh"
 
 # HA
-IMAGE_INSTALL_append = " pacemaker cluster-glue crmsh"
+IMAGE_INSTALL_append = " pacemaker cluster-glue crmsh drbd-utils ocfs2-tools \
+ceph resource-agents dlm "
