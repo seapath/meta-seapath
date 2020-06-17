@@ -11,6 +11,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;
         file://networking.cfg \
         file://openvswitch.cfg \
         file://virtualization.cfg \
+        file://ha.cfg \
 "
 
 LINUX_VERSION ?= "4.19"
