@@ -17,6 +17,8 @@ IMAGE_INSTALL_append = " \
     kubernetes \
 "
 
+IMAGE_INSTALL_append = " less"
+
 GLIBC_GENERATE_LOCALES = "en_US.UTF-8 fr_FR.UTF-8"
 IMAGE_LINGUAS ?= "en_US fr_FR"
 
