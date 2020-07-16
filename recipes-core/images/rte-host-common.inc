@@ -9,8 +9,6 @@ IMAGE_INSTALL_append = " \
     openvswitch \
     qemu \
 "
-IMAGE_FEATURES += "ssh-server-openssh"
-
 # HA
 IMAGE_INSTALL_append = " pacemaker cluster-glue crmsh drbd-utils ocfs2-tools \
 ceph resource-agents dlm xfsprogs "
