@@ -1,0 +1,8 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
+SRC_URI += "file://nsswitch.conf"
+
+do_install_append() {
+    install -m 755 -d ${D}/etc/
+    install -m 644 ${WORKDIR}/nsswitch.conf ${D}/etc/
+}
