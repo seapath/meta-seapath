@@ -20,6 +20,8 @@ IMAGE_INSTALL_append = " \
 IMAGE_INSTALL_append = " less"
 
 IMAGE_INSTALL_append = " pam-radius"
+
+IMAGE_INSTALL_append = " sssd adcli krb5-user"
 IMAGE_FEATURES += "ssh-server-openssh"
 
 GLIBC_GENERATE_LOCALES = "en_US.UTF-8 fr_FR.UTF-8"
