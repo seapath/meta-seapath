@@ -9,7 +9,7 @@ DESCRIPTION = "\
 
 HOMEPAGE = "http://openvswitch.org/"
 SECTION = "networking"
-LICENSE = "Apache-2"
+LICENSE = "Apache-2.0"
 
 DEPENDS += "bridge-utils openssl python3 perl python3-six-native coreutils-native"
 
