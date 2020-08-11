@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2020, RTE (http://www.rte-france.com)
+*/
+
 #include <glib.h>
 #include <string.h>
 

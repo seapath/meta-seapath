@@ -1,3 +1,5 @@
+# Copyright (C) 2020, RTE (http://www.rte-france.com)
+
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=cbbd794e2a0a289b9dfcc9f513d1996e"
 

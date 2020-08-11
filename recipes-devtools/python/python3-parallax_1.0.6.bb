@@ -1,3 +1,5 @@
+# Copyright (C) 2020, RTE (http://www.rte-france.com)
+
 SUMMARY = "Execute commands and copy files over SSH to multiple machines at once."
 HOMEPAGE = "https://github.com/krig/parallax/"
 LICENSE = "BSD-3-Clause"

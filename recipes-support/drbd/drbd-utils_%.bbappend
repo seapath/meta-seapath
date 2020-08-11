@@ -1,3 +1,5 @@
+# Copyright (C) 2020, RTE (http://www.rte-france.com)
+
 EXTRA_OECONF = " \
                 --with-initdir=/etc/init.d    \
                 --with-pacemaker           \

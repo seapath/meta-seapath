@@ -1,3 +1,5 @@
+# Copyright (C) 2020, RTE (http://www.rte-france.com)
+
 cmake_minimum_required(VERSION 3.1)
 
 project(test_sync_storage)

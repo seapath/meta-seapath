@@ -1,3 +1,5 @@
+# Copyright (C) 2020, RTE (http://www.rte-france.com)
+
 DESCRIPTION = "Votp System configuration"
 LICENSE = "CLOSED"
 

@@ -1,3 +1,5 @@
+# Copyright (C) 2020, RTE (http://www.rte-france.com)
+
 SUMMARY = "Linux kernel"
 SECTION = "kernel"
 LICENSE = "GPL-2.0"

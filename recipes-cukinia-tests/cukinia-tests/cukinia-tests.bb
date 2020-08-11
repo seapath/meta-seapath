@@ -1,3 +1,5 @@
+# Copyright (C) 2020, RTE (http://www.rte-france.com)
+
 SUMMARY = "cukinia-tests"
 DESCRIPTION = "Cukinia test files"
 HOMEPAGE = "https://github.com/savoirfairelinux/cukinia"

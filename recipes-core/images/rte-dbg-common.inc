@@ -1,3 +1,5 @@
+# Copyright (C) 2020, RTE (http://www.rte-france.com)
+
 # Monitoring tools
 IMAGE_INSTALL += "htop"
 

@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2020, RTE (http://www.rte-france.com)
+*/
+
 #include <glib-unix.h>
 #include <glib.h>
 #include <glib/gstdio.h>

@@ -1,3 +1,5 @@
+# Copyright (C) 2020, RTE (http://www.rte-france.com)
+
 EXTRA_OECMAKE_append = " -DENABLE_GIT_VERSION=OFF"
 
 def limit_parallel(limit):

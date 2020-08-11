@@ -1,3 +1,5 @@
+# Copyright (C) 2020, RTE (http://www.rte-france.com)
+
 SUMMARY = "Active Directory enrollment"
 DESCRIPTION = "A helper library and tools for Active Directory client operations."
 
