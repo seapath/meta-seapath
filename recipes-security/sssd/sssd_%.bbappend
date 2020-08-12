@@ -12,6 +12,7 @@ DEPENDS_append = " \
 EXTRA_OECONF = " \
     --with-smb-idmap-interface-version=5 \
     --without-nfsv4-idmapd-plugin \
+    --with-ldb-lib-dir=${libdir}/ldb/modules/ldb \
 "
 
 SRC_URI += "file://sssd.service"
