@@ -1,6 +1,18 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-PACKAGECONFIG_append = " curl systemd"
-DEPENDS_append = " jansson"
+PACKAGECONFIG_append = " \
+    curl \
+    samba \
+    systemd \
+"
+DEPENDS_append = " \
+    cifs-utils \
+    jansson \
+"
+
+EXTRA_OECONF = " \
+    --with-smb-idmap-interface-version=5 \
+    --without-nfsv4-idmapd-plugin \
+"
 
 SRC_URI += "file://sssd.service"
 
