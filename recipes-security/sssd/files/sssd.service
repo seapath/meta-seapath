@@ -3,9 +3,8 @@ Before=systemd-user-sessions.service nss-user-lookup.target
 Wants=nss-user-lookup.target
 
 [Service]
-Environment=DEBUG_LOGGER=--logger=files
 EnvironmentFile=-/etc/sysconfig/sssd
-ExecStart=/usr/sbin/sssd -i ${DEBUG_LOGGER}
+ExecStart=/usr/sbin/sssd -i -d 3 ${DEBUG_LOGGER}
 Type=notify
 NotifyAccess=main
 PIDFile=/var/run/sssd.pid
