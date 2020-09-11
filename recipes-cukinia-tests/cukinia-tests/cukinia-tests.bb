@@ -11,6 +11,7 @@ SRC_URI = "\
     file://tests.d/04-virtualization.conf \
     file://tests.d/05-container.conf \
     file://tests.d/06-ovs.conf \
+    file://tests.d/07-systemd.conf \
 "
 RDEPENDS_${PN} += "cukinia"
 RDEPENDS_${PN} += "bash"
@@ -25,4 +26,5 @@ do_install () {
     install -m 0644 ${WORKDIR}/tests.d/04-virtualization.conf ${D}${sysconfdir}/cukinia/tests.d
     install -m 0644 ${WORKDIR}/tests.d/05-container.conf ${D}${sysconfdir}/cukinia/tests.d
     install -m 0644 ${WORKDIR}/tests.d/06-ovs.conf ${D}${sysconfdir}/cukinia/tests.d
+    install -m 0644 ${WORKDIR}/tests.d/07-systemd.conf ${D}${sysconfdir}/cukinia/tests.d
 }
