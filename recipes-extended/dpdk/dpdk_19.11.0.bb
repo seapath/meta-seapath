@@ -1,5 +1,6 @@
 include dpdk.inc
 
+RDEPENDS_${PN} += "pciutils"
 CONFIG_NAME = "common_linux"
 TEST_DIR = "app/test"
 
