@@ -2,13 +2,14 @@ DESCRIPTION = "Intel(r) Data Plane Development Kit"
 HOMEPAGE = "http://dpdk.org"
 
 STABLE = ""
-BRANCH = "main"
-S = "${WORKDIR}/git"
 
-SRC_URI = "git://dpdk.org/dpdk${STABLE};branch=${BRANCH} \
-	   file://dpdk-16.04-add-RTE_KERNELDIR_OUT-to-split-kernel-bu.patch \
-	   file://dpdk-16.07-add-sysroot-option-within-app-makefile.patch \
-	  "
+S = "${WORKDIR}/${PN}${STABLE}-${PV}"
+
+SRC_URI = " \
+        https://fast.dpdk.org/rel/dpdk-${PV}.tar.xz;name=libtar \
+        file://dpdk-16.04-add-RTE_KERNELDIR_OUT-to-split-kernel-bu.patch \
+        file://dpdk-16.07-add-sysroot-option-within-app-makefile.patch \
+"
 
 COMPATIBLE_MACHINE = "null"
 COMPATIBLE_HOST_libc-musl_class-target = "null"
