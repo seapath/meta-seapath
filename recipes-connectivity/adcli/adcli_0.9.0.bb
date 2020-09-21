@@ -4,11 +4,8 @@ DESCRIPTION = "A helper library and tools for Active Directory client operations
 HOMEPAGE = "http://cgit.freedesktop.org/realmd/adcli"
 SECTION = "net"
 
-SRCREV = "93a39bd12db11dd407676f428cfbc30406a88c36"
-
-SRC_URI = "git://gitlab.freedesktop.org/realmd/adcli;branch=master"
-
-S = "${WORKDIR}/git"
+SRC_URI = "https://gitlab.freedesktop.org/realmd/adcli/-/archive/${PV}/${PN}-${PV}.tar.gz;name=libtar"
+SRC_URI[libtar.md5sum] = "5f543b231169768b543a170ff2282435"
 
 LICENSE = "LGPLv2+"
 LIC_FILES_CHKSUM = "file://COPYING;md5=23c2a5e0106b99d75238986559bb5fc6"
