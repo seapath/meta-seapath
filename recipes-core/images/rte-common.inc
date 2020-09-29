@@ -1,7 +1,7 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
 
 DESCRIPTION = "A common base for rte product"
-LICENSE = "CLOSED"
+LICENSE = "Apache-2.0"
 require recipes-core/images/core-image-minimal.bb
 IMAGE_INSTALL_append = " \
     cukinia-tests \

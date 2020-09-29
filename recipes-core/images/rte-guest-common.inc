@@ -2,7 +2,6 @@
 
 DESCRIPTION = "A common base for guest image"
 
-LICENSE = "CLOSED"
 require rte-common.inc
 
 IMAGE_INSTALL_append = " \
