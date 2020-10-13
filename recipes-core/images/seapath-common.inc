@@ -1,6 +1,6 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
 
-DESCRIPTION = "A common base for rte product"
+DESCRIPTION = "A common base for Seapath images"
 LICENSE = "Apache-2.0"
 require recipes-core/images/core-image-minimal.bb
 IMAGE_INSTALL_append = " \

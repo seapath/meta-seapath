@@ -1,7 +1,7 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
 
-DESCRIPTION = "A test image for rte"
-require rte-host-common.inc
+DESCRIPTION = "A test image for Seapath"
+require seapath-host-common.inc
 
 # Real time Tools
 IMAGE_INSTALL += "rt-tests"

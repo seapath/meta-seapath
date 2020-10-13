@@ -1,7 +1,7 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
 
-DESCRIPTION = "A production image for rte"
-require rte-common.inc
+DESCRIPTION = "A production image for Seapath"
+require seapath-common.inc
 
 # Virtualization
 IMAGE_INSTALL_append = " \

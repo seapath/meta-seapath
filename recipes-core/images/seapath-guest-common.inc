@@ -2,7 +2,7 @@
 
 DESCRIPTION = "A common base for guest image"
 
-require rte-common.inc
+require seapath-common.inc
 
 IMAGE_INSTALL_append = " \
    pacemaker-remote \

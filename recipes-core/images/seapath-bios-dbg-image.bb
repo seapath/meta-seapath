@@ -1,7 +1,7 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
 
-DESCRIPTION = "A debug image for rte with bios support"
-require rte-host-common.inc
-require rte-dbg-common.inc
+DESCRIPTION = "A debug image for Seapath with bios support"
+require seapath-host-common.inc
+require seapath-dbg-common.inc
 
 WKS_FILE = "mkefidisk-bios.wks.in"
