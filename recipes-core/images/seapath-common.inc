@@ -32,3 +32,4 @@ IMAGE_LINGUAS ?= "en_US fr_FR"
 
 IMAGE_FSTYPES = "wic.gz"
 WKS_FILE = "mkefidisk.wks.in"
+EXTRA_IMAGE_FEATURES = ""
