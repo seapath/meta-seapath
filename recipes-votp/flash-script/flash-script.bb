@@ -9,12 +9,16 @@ RDEPENDS_${PN} = "bash"
 
 SRC_URI = " \
     file://flash.sh \
+    file://profile \
 "
 
 do_install () {
     install -d ${D}/${bindir}
     install -m 0755 ${WORKDIR}/flash.sh ${D}/${bindir}/flash
+    install -d -m 0700 ${D}/${ROOT_HOME}
+    install -m 0644 ${WORKDIR}/profile ${D}/${ROOT_HOME}/.profile
 
 }
 
 FILES_${PN} = "${bindir}/flash"
+FILES_${PN} += "${ROOT_HOME}/.profile"
