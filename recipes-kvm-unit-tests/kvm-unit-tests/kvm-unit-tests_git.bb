@@ -1,4 +1,5 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
+# SPDX-License-Identifier: Apache-2.0
 
 LICENSE = "GPL-2.0 & LGPL-2.0+"
 LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=8a44f57fb36dd391ae65e11a6d370615"

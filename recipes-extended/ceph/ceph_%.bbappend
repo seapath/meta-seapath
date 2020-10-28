@@ -1,4 +1,5 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
+# SPDX-License-Identifier: Apache-2.0
 
 EXTRA_OECMAKE_append = " -DENABLE_GIT_VERSION=OFF"
 

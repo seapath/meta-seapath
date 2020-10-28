@@ -1,4 +1,5 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
+# SPDX-License-Identifier: Apache-2.0
 
 SUMMARY = "Active Directory enrollment"
 DESCRIPTION = "A helper library and tools for Active Directory client operations."
