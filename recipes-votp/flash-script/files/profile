@@ -1,0 +1,5 @@
+# Copyright (C) 2020, RTE (http://www.rte-france.com)
+
+echo "To flash the distribution you can used the flash script."
+flash --help
+echo "Images can be found in /media directory."

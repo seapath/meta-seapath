@@ -1,0 +1,11 @@
+# Copyright (C) 2020, RTE (http://www.rte-france.com)
+
+# short-description: Create an EFI disk image
+# long-description: Creates a partitioned EFI disk image that the user
+# can directly dd to boot media.
+part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label flasher_efi --active --align 1024  --part-type C12A7328-F81F-11D2-BA4B-00A0C93EC93B --size 128M --use-uuid --fsoptions="defaults,noauto"
+part / --source rootfs --ondisk sda --fstype=ext4 --label flasher_sys --align 1024 --use-uuid --fsoptions="defaults,ro"
+
+part /media --ondisk sda --fstype=ext4 --label flasher_data --align 1024 --use-uuid --size 7G --fsoptions="defaults,ro"
+
+bootloader --ptable gpt --timeout=5 --append="rootfstype=ext4 console=ttyS0,115200 console=tty0 quiet ro"
