@@ -10,11 +10,8 @@ def limit_parallel(limit):
 
 PARALLEL_MAKE = "${@limit_parallel(8)}"
 
-# For the POC remove ceph user depencie in systemd service.
-# In production use an specfic user in recommanded.
-do_install_append () {
-    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-        sed s'/ --setuser ceph --setgroup ceph//' -i \
-            ${D}${systemd_unitdir}/system/*.service
-    fi
-}
+inherit useradd
+
+USERADD_PACKAGES= "${PN}"
+USERADD_PARAM_${PN} = "--system --no-create-home --home-dir /var/lib/ceph \
+    --shell /bin/nologin --user-group -c 'Ceph daemons' ceph"
