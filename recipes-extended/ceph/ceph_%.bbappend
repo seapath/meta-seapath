@@ -3,6 +3,8 @@
 
 EXTRA_OECMAKE_append = " -DENABLE_GIT_VERSION=OFF"
 
+RDEPENDS_${PN} += "python-setuptools"
+
 def limit_parallel(limit):
    import multiprocessing
    nproc = min(multiprocessing.cpu_count(), int(limit))
