@@ -3,8 +3,6 @@
 
 [Unit]
 Description="Configure OVS for Votp"
-After=network-online.target
-Wants=network-online.target
 
 [Service]
 Type=oneshot
