@@ -12,7 +12,6 @@ inherit cmake pythonnative python-dir systemd useradd
 
 SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
            file://0001-ceph-fix-build-errors-for-cross-compile.patch \
-           file://ceph.conf \
            file://0001-rgw-add-executor-type-for-basic_waitable_timers.patch \
            file://0001-rgw-beast-handle_connection-takes-io_context.patch \
 "
@@ -88,7 +87,6 @@ do_install_append () {
 	sed -i -e 's:${WORKDIR}.*python2:${bindir}/python:' ${D}${bindir}/ceph-volume-systemd
 	find ${D} -name SOURCES.txt | xargs sed -i -e 's:${WORKDIR}::'
 	install -d ${D}${sysconfdir}/ceph
-	install -m 644 ${WORKDIR}/ceph.conf ${D}${sysconfdir}/ceph/
 	install -d ${D}${systemd_unitdir}
 	mv ${D}${libexecdir}/systemd/system ${D}${systemd_unitdir}
 	mv ${D}${libexecdir}/ceph/ceph-osd-prestart.sh ${D}${libdir}/ceph
