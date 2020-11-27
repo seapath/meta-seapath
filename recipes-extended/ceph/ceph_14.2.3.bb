@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING-LGPL2.1;md5=fbc093901857fcd118f065f900982c24 
                     file://COPYING-GPL2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
                     file://COPYING;md5=601c21a554d728c3038ca292b83b8af0 \
 "
-inherit cmake pythonnative python-dir systemd useradd
+inherit cmake python3native python3-dir systemd useradd
 # Disable python pybind support for ceph temporary, when corss compiling pybind,
 # pybind mix cmake and python setup environment, would case a lot of errors.
 
@@ -14,6 +14,7 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
            file://0001-ceph-fix-build-errors-for-cross-compile.patch \
            file://0001-rgw-add-executor-type-for-basic_waitable_timers.patch \
            file://0001-rgw-beast-handle_connection-takes-io_context.patch \
+           file://0001-Add-LDFLAGS-when-linking-cython-libraries.patch \
 "
 SRC_URI[md5sum] = "e4a53270fba14bf34d0b4c2a2340042e"
 SRC_URI[sha256sum] = "63d0eddab80f7bcdd4e9ac86d2b36c6cc8c9e2d34f20e8e426ff1620d66748dd"
@@ -29,8 +30,8 @@ DEPENDS = "boost bzip2 curl expat gperf-native \
            keyutils libaio libibverbs lz4 \
            nspr nss \
            oath openldap openssl \
-           python python-cython-native rabbitmq-c rocksdb snappy udev \
-           valgrind xfsprogs zlib \
+           python3-cython-native python3-setuptools-native rabbitmq-c rocksdb snappy udev \
+           valgrind xfsprogs zlib boost \
 "
 
 USERADD_PACKAGES= "${PN}"
@@ -65,13 +66,15 @@ EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
                  -DWITH_LTTNG=OFF \
                  -DWITH_BABELTRACE=OFF \
                  -DWITH_TESTS=OFF \
-                 -DWITH_MGR=OFF \
+                 -DWITH_MGR=ON \
                  -DWITH_MGR_DASHBOARD_FRONTEND=OFF \
                  -DWITH_SYSTEM_BOOST=ON \
                  -DWITH_SYSTEM_ROCKSDB=ON \
                  -DWITH_RDMA=OFF \
                  -DWITH_RADOSGW_AMQP_ENDPOINT=OFF \
                  -DENABLE_GIT_VERSION=OFF \
+                 -DMGR_PYTHON_VERSION=3.7 \
+                 -DWITH_PYTHON3=3.7 \
 "
 
 do_configure_prepend () {
@@ -81,10 +84,10 @@ do_configure_prepend () {
 }
 
 do_install_append () {
-	sed -i -e 's:${WORKDIR}.*python2:${bindir}/python:' ${D}${bindir}/ceph
-	sed -i -e 's:${WORKDIR}.*python2:${bindir}/python:' ${D}${bindir}/ceph-crash
-	sed -i -e 's:${WORKDIR}.*python2:${bindir}/python:' ${D}${bindir}/ceph-volume
-	sed -i -e 's:${WORKDIR}.*python2:${bindir}/python:' ${D}${bindir}/ceph-volume-systemd
+	sed -i -e 's:${WORKDIR}.*python3:${bindir}/python3:' ${D}${bindir}/ceph
+	sed -i -e 's:${WORKDIR}.*python3:${bindir}/python3:' ${D}${bindir}/ceph-crash
+	sed -i -e 's:${WORKDIR}.*python3:${bindir}/python3:' ${D}${bindir}/ceph-volume
+	sed -i -e 's:${WORKDIR}.*python3:${bindir}/python3:' ${D}${bindir}/ceph-volume-systemd
 	find ${D} -name SOURCES.txt | xargs sed -i -e 's:${WORKDIR}::'
 	install -d ${D}${sysconfdir}/ceph
 	install -d ${D}${systemd_unitdir}
@@ -132,20 +135,22 @@ FILES_${PN} += " \
     /etc/default/volatiles/99_ceph-placeholder \
 "
 
-FILES_${PN}-python = "\
+FILES_${PN}-python3 = "\
                 ${PYTHON_SITEPACKAGES_DIR}/* \
 "
 RDEPENDS_${PN} += "\
-		python \
-		python-misc \
-		python-modules \
-		python-prettytable \
-		python-setuptools \
-		${PN}-python \
+		python3 \
+		python3-core \
+		python3-misc \
+		python3-modules \
+		python3-prettytable \
+		python3-setuptools \
+		${PN}-python3 \
+		boost-python \
 "
 COMPATIBLE_HOST = "(x86_64).*"
 PACKAGES += " \
-	${PN}-python \
+${PN}-python3 \
 "
 INSANE_SKIP_${PN}-python += "ldflags"
 INSANE_SKIP_${PN} += "dev-so"
