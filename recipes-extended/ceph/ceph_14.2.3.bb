@@ -93,6 +93,13 @@ do_install_append () {
 	mv ${D}${libexecdir}/ceph/ceph_common.sh ${D}${libdir}/ceph
 	# WITH_FUSE is set to OFF, remove ceph-fuse related units
 	rm ${D}${systemd_unitdir}/system/ceph-fuse.target ${D}${systemd_unitdir}/system/ceph-fuse@.service
+	for directory in / mon osd mds tmp radosgw bootstrap-rgw bootstrap-mgr \
+		bootstrap-mds bootstrap-osd bootstrap-rbd bootstrap-rbd-mirror
+	do
+		install -m 0755 -d ${D}${localstatedir}/lib/ceph/${directory}
+	done
+	install -m 0755 -d ${D}${localstatedir}/log/ceph
+	chown ceph:ceph ${D}${localstatedir}/log/ceph ${D}${localstatedir}/lib/ceph
 }
 
 do_install_append_class-target () {
