@@ -1,0 +1,58 @@
+From f1651b8c509d60787d10c4115e29fecfd2da237c Mon Sep 17 00:00:00 2001
+From: Casey Bodley <cbodley@redhat.com>
+Date: Tue, 23 Apr 2019 15:41:45 -0400
+Subject: [PATCH] rgw: add executor type for basic_waitable_timers
+
+as of boost 1.70, the timer no longer depends on io_context directly,
+so we have to specify its executor as a template parameter
+
+Signed-off-by: Casey Bodley <cbodley@redhat.com>
+
+Upstream-Status: Backport [f1651b8c509d60787d10c4115e29fecfd2da237c]
+
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ src/rgw/rgw_dmclock_async_scheduler.h | 5 +++++
+ src/rgw/rgw_reshard.h                 | 9 ++++++++-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/src/rgw/rgw_dmclock_async_scheduler.h b/src/rgw/rgw_dmclock_async_scheduler.h
+index 70487a5253..1d454acd2e 100644
+--- a/src/rgw/rgw_dmclock_async_scheduler.h
++++ b/src/rgw/rgw_dmclock_async_scheduler.h
+@@ -82,7 +82,12 @@ class AsyncScheduler : public md_config_obs_t, public Scheduler {
+   using Completion = async::Completion<Signature, async::AsBase<Request>>;
+ 
+   using Clock = ceph::coarse_real_clock;
++#if BOOST_VERSION < 107000
+   using Timer = boost::asio::basic_waitable_timer<Clock>;
++#else
++  using Timer = boost::asio::basic_waitable_timer<Clock,
++        boost::asio::wait_traits<Clock>, executor_type>;
++#endif
+   Timer timer; //< timer for the next scheduled request
+ 
+   CephContext *const cct;
+diff --git a/src/rgw/rgw_reshard.h b/src/rgw/rgw_reshard.h
+index d99a6ff68d..213fc238d2 100644
+--- a/src/rgw/rgw_reshard.h
++++ b/src/rgw/rgw_reshard.h
+@@ -183,7 +183,14 @@ class RGWReshardWait {
+   ceph::condition_variable cond;
+ 
+   struct Waiter : boost::intrusive::list_base_hook<> {
+-    boost::asio::basic_waitable_timer<Clock> timer;
++#if BOOST_VERSION < 107000
++    using Timer = boost::asio::basic_waitable_timer<Clock>;
++#else
++    using Executor = boost::asio::io_context::executor_type;
++    using Timer = boost::asio::basic_waitable_timer<Clock,
++          boost::asio::wait_traits<Clock>, Executor>;
++#endif
++    Timer timer;
+     explicit Waiter(boost::asio::io_context& ioc) : timer(ioc) {}
+   };
+   boost::intrusive::list<Waiter> waiters;
+-- 
+2.21.0
+
