@@ -12,12 +12,10 @@ inherit cmake python3native python3-dir systemd useradd
 
 SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
            file://0001-ceph-fix-build-errors-for-cross-compile.patch \
-           file://0001-rgw-add-executor-type-for-basic_waitable_timers.patch \
-           file://0001-rgw-beast-handle_connection-takes-io_context.patch \
            file://0001-Add-LDFLAGS-when-linking-cython-libraries.patch \
 "
-SRC_URI[md5sum] = "e4a53270fba14bf34d0b4c2a2340042e"
-SRC_URI[sha256sum] = "63d0eddab80f7bcdd4e9ac86d2b36c6cc8c9e2d34f20e8e426ff1620d66748dd"
+SRC_URI[md5sum] = "4b7f92e537bb4c5e1cd3d3972728a2f5"
+SRC_URI[sha256sum] = "ccc616a17f0a18a9b1de7417e870847740f329d52cb5ab35230e7424cfbd04e7"
 
 def limit_parallel(limit):
    import multiprocessing
@@ -72,6 +70,7 @@ EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
                  -DWITH_SYSTEM_ROCKSDB=ON \
                  -DWITH_RDMA=OFF \
                  -DWITH_RADOSGW_AMQP_ENDPOINT=OFF \
+                 -DWITH_RADOSGW_KAFKA_ENDPOINT=OFF \
                  -DENABLE_GIT_VERSION=OFF \
                  -DMGR_PYTHON_VERSION=3.7 \
                  -DWITH_PYTHON3=3.7 \
