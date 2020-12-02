@@ -3,6 +3,7 @@
 
 [Unit]
 Description="Configure OVS for Votp"
+After=ovs-vswitchd.service
 
 [Service]
 Type=oneshot
