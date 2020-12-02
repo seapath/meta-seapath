@@ -102,6 +102,7 @@ do_install_append () {
 	done
 	install -m 0755 -d ${D}${localstatedir}/log/ceph
 	chown ceph:ceph ${D}${localstatedir}/log/ceph ${D}${localstatedir}/lib/ceph
+	sed -i 's/sbin/bin/' ${D}${systemd_unitdir}/system/ceph-volume@.service
 }
 
 do_install_append_class-target () {
