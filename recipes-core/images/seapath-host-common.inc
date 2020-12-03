@@ -9,6 +9,7 @@ IMAGE_INSTALL_append = " \
     libvirt \
     libvirt-libvirtd \
     libvirt-virsh \
+    libvirt-python \
     openvswitch \
     qemu \
 "
