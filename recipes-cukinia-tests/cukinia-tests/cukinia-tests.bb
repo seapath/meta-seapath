@@ -16,12 +16,15 @@ SRC_URI = "\
     file://tests.d/05-container.conf \
     file://tests.d/06-ovs.conf \
     file://tests.d/07-systemd.conf \
+    file://cluster_tests.d/01-pacemaker.conf \
+    file://cluster_tests.d/02-ceph.conf \
 "
 RDEPENDS_${PN} += "cukinia"
 RDEPENDS_${PN} += "bash"
 do_install () {
     install -m 0755 -d ${D}${sysconfdir}/cukinia/
     install -m 0755 -d ${D}${sysconfdir}/cukinia/tests.d/
+    install -m 0755 -d ${D}${sysconfdir}/cukinia/cluster_tests.d/
     install -m 0644 ${WORKDIR}/cukinia.conf ${D}${sysconfdir}/cukinia
     install -m 0644 ${WORKDIR}/tests.d/00-cukinia-installation.conf ${D}${sysconfdir}/cukinia/tests.d
     install -m 0644 ${WORKDIR}/tests.d/01-sw-versions.conf ${D}${sysconfdir}/cukinia/tests.d
@@ -31,4 +34,8 @@ do_install () {
     install -m 0644 ${WORKDIR}/tests.d/05-container.conf ${D}${sysconfdir}/cukinia/tests.d
     install -m 0644 ${WORKDIR}/tests.d/06-ovs.conf ${D}${sysconfdir}/cukinia/tests.d
     install -m 0644 ${WORKDIR}/tests.d/07-systemd.conf ${D}${sysconfdir}/cukinia/tests.d
+    install -m 0644 ${WORKDIR}/cluster_tests.d/01-pacemaker.conf \
+        ${D}${sysconfdir}/cukinia/cluster_tests.d/
+    install -m 0644 ${WORKDIR}/cluster_tests.d/02-ceph.conf \
+        ${D}${sysconfdir}/cukinia/cluster_tests.d/
 }
