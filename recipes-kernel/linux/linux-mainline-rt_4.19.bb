@@ -6,7 +6,7 @@ require linux-mainline-rt.inc
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;protocol=git;name=machine;tag=v4.19.106-rt44;nobranch=1; \
-        file://defconfig; \
+        file://defconfig \
         file://docker.cfg \
         file://dpdk.cfg \
         file://inkernelconfig.cfg \
@@ -16,6 +16,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;
         file://virtualization.cfg \
         file://ha.cfg \
         file://watchdog.cfg \
+        file://nuc.cfg \
 "
 
 LINUX_VERSION ?= "4.19"
