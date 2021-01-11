@@ -7,7 +7,7 @@ Description="Load keys for Votp"
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStart=loadkeys -d
+ExecStart=loadkeys fr
 
 [Install]
 WantedBy=multi-user.target
