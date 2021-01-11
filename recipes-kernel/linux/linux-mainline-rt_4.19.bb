@@ -18,6 +18,10 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;
         file://watchdog.cfg \
 "
 
+SRC_URI_append = " \
+        file://intel-nuc.cfg \
+"
+
 LINUX_VERSION ?= "4.19"
 LINUX_VERSION_EXTENSION_append = "-mainline-rt"
 
