@@ -18,6 +18,10 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;
         file://watchdog.cfg \
 "
 
+SRC_URI_append_votp-nuc = " \
+        file://intel-nuc.cfg \
+"
+
 LINUX_VERSION ?= "4.19"
 LINUX_VERSION_EXTENSION_append = "-mainline-rt"
 
@@ -26,4 +30,4 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
 
 EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
 
-COMPATIBLE_MACHINE = "(votp)"
+COMPATIBLE_MACHINE = "(votp|votp-nuc)"
