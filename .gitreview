@@ -2,4 +2,4 @@
 host = g1.sfl.team
 port = 29419
 project = rte/votp/meta-seapath
-defaultbranch = master
+defaultbranch = sfl/master
