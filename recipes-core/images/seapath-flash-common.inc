@@ -6,6 +6,7 @@ require recipes-core/images/core-image-minimal.bb
 IMAGE_INSTALL_append = " \
     system-config \
     flash-script \
+    bmap-tools \
 "
 # Add kernel-modules
 IMAGE_INSTALL_append = " \
