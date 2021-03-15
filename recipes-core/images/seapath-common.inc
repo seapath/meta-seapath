@@ -31,6 +31,6 @@ IMAGE_INSTALL_append = " openssh-sftp-server"
 GLIBC_GENERATE_LOCALES = "en_US.UTF-8 fr_FR.UTF-8"
 IMAGE_LINGUAS ?= "en_US fr_FR"
 
-IMAGE_FSTYPES = "wic.gz"
+IMAGE_FSTYPES = "wic.gz wic.bmap"
 WKS_FILE = "mkefidisk.wks.in"
 EXTRA_IMAGE_FEATURES = ""
