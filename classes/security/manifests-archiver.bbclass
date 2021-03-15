@@ -40,6 +40,15 @@ def create_archive_from_path(srcpath, archivepath, d):
     if os.path.isfile(archivepath):
         os.remove(archivepath)
 
+    # If srcpath does not exist, skip it
+    # This situation can occur if something else than an image is
+    # built or either:
+    #    * Bitbake received SIGINT
+    #    * Bitbake faced an exception that does not raise a catchable Event
+    if not os.path.isdir(srcpath):
+        bb.warn("Path %s does not exist. Archiving is skipped" % srcpath)
+        return
+
     with tarfile.open(archivepath, "w:gz") as tar:
         for file in os.scandir(srcpath):
             tar.add(file.path, arcname=file.name)
