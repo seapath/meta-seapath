@@ -12,3 +12,5 @@ require hardening-handler.inc
 # Community / 3rd-party classes to be included
 inherit cve-check
 
+# Hardening framework classes
+inherit security/manifests-archiver
