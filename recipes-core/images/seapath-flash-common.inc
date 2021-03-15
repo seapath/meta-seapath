@@ -12,6 +12,8 @@ IMAGE_INSTALL_append = " \
     kernel-modules \
 "
 
+IMAGE_INSTALL_append = " openssh-sshd openssh-sftp-server"
+
 IMAGE_INSTALL_append = " less"
 
 IMAGE_FEATURES += "debug-tweaks"
