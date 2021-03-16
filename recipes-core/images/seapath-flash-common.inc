@@ -7,6 +7,8 @@ IMAGE_INSTALL_append = " \
     system-config \
     flash-script \
     bmap-tools \
+    python3-json \
+    python3-modules \
 "
 # Add kernel-modules
 IMAGE_INSTALL_append = " \
