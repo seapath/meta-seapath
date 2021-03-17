@@ -20,7 +20,7 @@ SRC_URI = "\
     file://cluster_tests.d/02-ceph.conf \
 "
 RDEPENDS_${PN} += "cukinia"
-RDEPENDS_${PN} += "bash"
+RDEPENDS_${PN} += "bash coreutils pciutils"
 do_install () {
     install -m 0755 -d ${D}${sysconfdir}/cukinia/
     install -m 0755 -d ${D}${sysconfdir}/cukinia/tests.d/
