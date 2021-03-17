@@ -8,9 +8,11 @@
 #
 
 require hardening-handler.inc
+require hardening-config.inc
 
 # Community / 3rd-party classes to be included
 inherit cve-check
+inherit image-buildinfo
 
 # Hardening framework classes
 inherit security/manifests-archiver
