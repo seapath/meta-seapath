@@ -27,3 +27,5 @@ KMACHINE ?= "${MACHINE}"
 DEPENDS += " linux-firmware "
 inherit kernel
 inherit kernel-yocto
+inherit security/deploy-kernelconfig
+
