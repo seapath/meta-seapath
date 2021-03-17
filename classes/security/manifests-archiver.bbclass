@@ -17,7 +17,7 @@
 MANIFESTS_ARCHIVER_DIR ?= "${SEC_ROOTDIR}/manifests"
 MANIFESTS_ARCHIVER_DIR[doc] = "Directory where manifests will be stored"
 
-MANIFESTS_LIST ?= "IMAGE_MANIFEST CVE_CHECK_MANIFEST"
+MANIFESTS_LIST ?= "IMAGE_MANIFEST CVE_CHECK_MANIFEST BUILDINFO_FILE"
 MANIFESTS_LIST[doc] = "List of manifests to be included. Those should be paths to existing files"
 
 MANIFESTS_IMAGE_BASEDIR = "${MANIFESTS_ARCHIVER_DIR}/${DATETIME}"
