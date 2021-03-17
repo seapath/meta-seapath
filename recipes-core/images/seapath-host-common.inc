@@ -25,7 +25,6 @@ IMAGE_INSTALL_append = " \
     cluster-glue-plugin-raexec \
     crmsh \
     drbd-utils \
-    ocfs2-tools \
     ceph \
     resource-agents \
     dlm \
