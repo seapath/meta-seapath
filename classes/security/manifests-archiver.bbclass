@@ -72,6 +72,37 @@ def copy_manifests_in_list_to_dir(manifestlist, destdir, d):
         # consequent builds.
         bb.utils.copyfile(manifestfile, os.path.join(destdir, manifestname))
 
+def symlink_image_manifest_to_dir(destdir, d):
+    """
+    Symlink image manifest file to 'destdir'.
+    """
+
+    imagemanifest = d.getVar("IMAGE_MANIFEST")
+    if not imagemanifest:
+        bb.fatal("IMAGE_MANIFEST must not be set empty")
+
+    import os
+    import errno
+
+    if not os.path.isfile(imagemanifest):
+        bb.fatal("'%s' file is missing or not a regular file" % imagemanifest)
+
+    manifestname = os.path.basename(imagemanifest)
+
+    # Manifest name is pruned of its datetime, so that only the most
+    # recently generated manifest is symlinked for each image.
+    manifestname = manifestname.rsplit('-', 1)[0] + '.manifest'
+
+    linkname = os.path.join(destdir, manifestname)
+    try:
+        os.symlink(imagemanifest, linkname)
+    except OSError as e:
+        if e.errno == errno.EEXIST:
+            os.unlink(linkname)
+            os.symlink(imagemanifest, linkname)
+        else:
+            raise e
+
 python run_manifests_archiver() {
     archivepath = os.path.join(d.getVar("MANIFESTS_ARCHIVER_DIR"), d.getVar("MANIFESTS_ARCHIVER_ARCHIVE_PATH"))
     create_archive_from_path(d.getVar("MANIFESTS_IMAGE_BASEDIR"), archivepath, d)
@@ -86,6 +117,15 @@ python do_prepare_image_manifests() {
     copy_manifests_in_list_to_dir(manifestlist, imagedir, d)
 }
 
+python do_symlink_image_manifests() {
+    manifestdir = d.getVar("MANIFESTS_ARCHIVER_DIR")
+
+    bb.utils.mkdirhier(manifestdir)
+
+    manifestlist = d.getVar("MANIFESTS_LIST").split()
+    symlink_image_manifest_to_dir(manifestdir, d)
+}
+
 # NOTE: "secdoc-compliance" will serve later as an introspection flag
 # to generate coverage documentation
 do_manifests_archiver[secdoc-compliance] = "ANSSI-NT28/R1"
@@ -93,7 +133,7 @@ do_manifests_archiver[doc] = "Archives all the manifests generated when producin
 
 # Exclude this function from the variable dependency computation as it
 # relies on DATETIME
-IMAGE_POSTPROCESS_COMMAND += "do_prepare_image_manifests;"
+IMAGE_POSTPROCESS_COMMAND += "do_prepare_image_manifests; do_symlink_image_manifests;"
 IMAGE_POSTPROCESS_COMMAND[vardepvalueexclude] .= "| do_prepare_image_manifests ;"
 IMAGE_POSTPROCESS_COMMAND[vardepsexclude] += "do_prepare_image_manifests"
 
