@@ -12,6 +12,8 @@ DEPENDS_append = " \
     jansson \
 "
 
+RDEPENDS_remove = " bind"
+
 EXTRA_OECONF = " \
     --with-smb-idmap-interface-version=5 \
     --without-nfsv4-idmapd-plugin \
