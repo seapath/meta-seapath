@@ -5,7 +5,7 @@
 IMAGE_INSTALL += "htop"
 
 # Network tools
-IMAGE_INSTALL += "tcpdump"
+IMAGE_INSTALL += "tcpdump inetutils-ping inetutils-ping6"
 
 # Active directory tools
 IMAGE_INSTALL += " \
