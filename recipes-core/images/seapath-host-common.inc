@@ -28,5 +28,4 @@ IMAGE_INSTALL_append = " \
     ceph \
     resource-agents \
     dlm \
-    xfsprogs \
 "
