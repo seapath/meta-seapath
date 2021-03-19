@@ -14,5 +14,12 @@ IMAGE_INSTALL += "kvm-unit-tests"
 EXTRA_IMAGE_FEATURES += "ptest-pkgs"
 IMAGE_INSTALL += "ptest-runner"
 
+# Active Directory tools
+IMAGE_INSTALL += " \
+    adcli \
+    krb5-user \
+    sssd \
+"
+
 # Add extra space for testing
 IMAGE_ROOTFS_EXTRA_SPACE = "2465792"
