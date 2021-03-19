@@ -13,12 +13,6 @@ IMAGE_INSTALL_append = " \
     kernel-modules \
 "
 
-# Container
-IMAGE_INSTALL_append = " \
-    docker-ce \
-    docker-ce-contrib \
-"
-
 IMAGE_INSTALL_append = " less"
 
 IMAGE_INSTALL_append = " pam-radius"
