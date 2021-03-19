@@ -17,6 +17,8 @@ IMAGE_INSTALL += "ptest-runner"
 # Active Directory tools
 IMAGE_INSTALL += " \
     adcli \
+    docker-ce \
+    docker-ce-contrib \
     krb5-user \
     sssd \
 "
