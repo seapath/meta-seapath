@@ -23,7 +23,6 @@ IMAGE_INSTALL_append = " less"
 
 IMAGE_INSTALL_append = " pam-radius"
 
-IMAGE_INSTALL_append = " sssd adcli krb5-user"
 IMAGE_FEATURES += "ssh-server-openssh"
 IMAGE_INSTALL_append = " openssh-sftp-server"
 
