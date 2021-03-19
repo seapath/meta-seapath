@@ -14,7 +14,7 @@ do_fetch_prepend () {
         if os.path.islink(key) and not os.path.isfile(key):
             error_msg = "Can't find ssh public key. "
             error_msg += "Put your ssh public key in "
-            error_msg += '"yocto-bsp/keys/ansible_public_ssh_key.pub".'
+            error_msg += '"keys/ansible_public_ssh_key.pub".'
             bb.fatal(error_msg)
 }
 
