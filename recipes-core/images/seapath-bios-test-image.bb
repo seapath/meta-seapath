@@ -3,4 +3,4 @@
 
 DESCRIPTION = "A test image for Seapath with bios support"
 require seapath-test-image.bb
-WKS_FILE = "mkefidisk-bios.wks.in"
+WKS_FILE = "mkbiosdisk.wks.in"

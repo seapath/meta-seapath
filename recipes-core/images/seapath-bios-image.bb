@@ -3,4 +3,4 @@
 
 DESCRIPTION = "A production image for Seapath with bios support"
 require seapath-host-common.inc
-WKS_FILE = "mkefidisk-bios.wks.in"
+WKS_FILE = "mkbiosdisk.wks.in"
