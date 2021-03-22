@@ -15,5 +15,4 @@ IMAGE_INSTALL_append = " \
     drbd-utils \
     ceph \
     resource-agents \
-    dlm \
 "
