@@ -9,4 +9,4 @@ IMAGE_INSTALL_append = " \
    pacemaker-remote \
 "
 IMAGE_FSTYPES = "wic.qcow2 wic.vmdk"
-WKS_FILE = "mkefidisk-bios.wks.in"
+WKS_FILE = "mkbiosdisk.wks.in"

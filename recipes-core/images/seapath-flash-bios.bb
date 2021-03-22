@@ -3,4 +3,4 @@
 DESCRIPTION = "An image working on BIOS machine used to flash other Seapath images"
 require recipes-core/images/seapath-flash-common.inc
 
-WKS_FILE = "mkefidisk-bios-flasher.wks.in"
+WKS_FILE = "mkbiosdisk-flasher.wks.in"

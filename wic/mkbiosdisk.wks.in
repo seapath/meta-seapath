@@ -1,10 +1,9 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
-# short-description: Create an EFI disk image
-# long-description: Creates a partitioned EFI disk image that the user
+# short-description: Create an BIOS disk image
+# long-description: Creates a partitioned BIOS disk image that the user
 # can directly dd to boot media.
-# part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
 part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024 --use-uuid --fsoptions="defaults,noauto"
 part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
 
