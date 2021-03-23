@@ -42,6 +42,10 @@ do_install_append() {
         fi
         rm "${i}"
     done
+
+    # Remove any build-time contamination
+    sed -i "s%${HOSTTOOLS_DIR}/%%g" ${D}${libdir}/ocf/resource.d/heartbeat/.ocf-binaries
+    sed -i "s%${HOSTTOOLS_DIR}/rm%/bin/rm%g" ${D}${base_libdir}/systemd/system/ldirectord.service
 }
 
 RDEPENDS_${PN}_remove = "lvm2 nfs-utils"
