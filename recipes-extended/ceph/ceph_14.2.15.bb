@@ -147,6 +147,7 @@ RDEPENDS_${PN} += "\
 		python3-setuptools \
 		${PN}-python3 \
 		boost-python \
+		lvm2 \
 "
 COMPATIBLE_HOST = "(x86_64).*"
 PACKAGES += " \
