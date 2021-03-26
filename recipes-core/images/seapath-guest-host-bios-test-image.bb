@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 DESCRIPTION = "A test image for seapath host and guest"
-require seapath-guest-host-image.bb
+require seapath-guest-host-bios-image.bb
 
 # Tests
 IMAGE_INSTALL += "test-sync-storage"
