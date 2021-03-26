@@ -5,3 +5,9 @@ DESCRIPTION = "A production image for Seapath"
 require seapath-common.inc
 require seapath-host-common-ha.inc
 require seapath-host-common-virtu.inc
+
+# Hypervisor and cluster tests
+IMAGE_INSTALL_append = " \
+    cukinia-tests-cluster \
+    cukinia-tests-hypervisor \
+"
