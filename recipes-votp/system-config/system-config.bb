@@ -25,6 +25,7 @@ SRC_URI = " \
     file://common/90-sysctl-hardening.conf \
     file://common/authorized_keys \
     file://common/votp-loadkeys.service \
+    file://host/openvswitch.conf \
     file://host/votp-config_ovs.service \
 "
 
@@ -44,6 +45,9 @@ do_install () {
 # Host
     install -m 0644 ${WORKDIR}/host/votp-config_ovs.service \
         ${D}${systemd_unitdir}/system
+    install -d ${D}${sysconfdir}/modules-load.d
+    install -m 0644 ${WORKDIR}/host/openvswitch.conf \
+        ${D}${sysconfdir}/modules-load.d
 }
 
 PACKAGES =+ " \
@@ -76,4 +80,5 @@ FILES_${PN}-common = " \
 
 FILES_${PN}-host = " \
     ${systemd_unitdir}/system/votp-config_ovs.service \
+    ${sysconfdir}/modules-load.d/openvswitch.conf \
 "
