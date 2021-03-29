@@ -11,6 +11,7 @@ SRC_URI = "\
     file://cukinia-cluster.conf \
     file://cukinia-common.conf \
     file://cukinia-hypervisor.conf \
+    file://cukinia-vm.conf \
     file://common_tests.d/cukinia-installation.conf \
     file://common_tests.d/sw-versions.conf \
     file://common_tests.d/preempt-rt.conf \
@@ -51,18 +52,23 @@ do_install () {
     install -m 0644 ${WORKDIR}/common_tests.d/systemd.conf \
         ${D}${sysconfdir}/cukinia/common_tests.d
 
-#hypervisor
+# hypervisor
     install -m 0755 -d ${D}${sysconfdir}/cukinia/hypervisor_tests.d/
     install -m 0644 ${WORKDIR}/cukinia-hypervisor.conf ${D}${sysconfdir}/cukinia
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/virtualization.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/ovs.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
+
+# vm
+    install -m 0644 ${WORKDIR}/cukinia-vm.conf ${D}${sysconfdir}/cukinia
 }
 
 
 
-PACKAGES =+ "${PN}-cluster ${PN}-hypervisor ${PN}-common"
+PACKAGES =+ "${PN}-cluster ${PN}-hypervisor ${PN}-common ${PN}-vm"
+
+RDEPENDS_${PN}-vm += "${PN}-common"
 
 FILES_${PN} = " \
     ${sysconfdir}/cukinia/cukinia.conf \
@@ -82,4 +88,8 @@ FILES_${PN}-common = " \
 FILES_${PN}-hypervisor = " \
     ${sysconfdir}/cukinia/cukinia-hypervisor.conf \
     ${sysconfdir}/cukinia/hypervisor_tests.d/* \
+"
+
+FILES_${PN}-vm = " \
+    ${sysconfdir}/cukinia/cukinia-vm.conf \
 "
