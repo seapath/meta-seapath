@@ -22,6 +22,7 @@ do_fetch_prepend () {
 }
 
 SRC_URI = " \
+    file://common/90-sysctl-hardening.conf \
     file://common/authorized_keys \
     file://common/votp-loadkeys.service \
     file://host/votp-config_ovs.service \
@@ -36,6 +37,9 @@ do_install () {
     install -d -m 0700 ${D}/${ROOT_HOME}/.ssh
     install -m 0600 ${WORKDIR}/common/authorized_keys \
         ${D}/${ROOT_HOME}/.ssh/authorized_keys
+    install -d ${D}${sysconfdir}/sysctl.d
+    install -m 0644 ${WORKDIR}/common/90-sysctl-hardening.conf \
+        ${D}${sysconfdir}/sysctl.d
 
 # Host
     install -m 0644 ${WORKDIR}/host/votp-config_ovs.service \
@@ -66,6 +70,7 @@ inherit allarch systemd distro_features_check
 
 FILES_${PN}-common = " \
     ${ROOT_HOME}/.ssh/authorized_keys \
+    ${sysconfdir}/sysctl.d/90-sysctl-hardening.conf \
     ${systemd_unitdir}/system/votp-loadkeys.service \
 "
 
