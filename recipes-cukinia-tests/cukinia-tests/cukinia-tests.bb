@@ -19,6 +19,7 @@ SRC_URI = "\
     file://common_tests.d/systemd.conf \
     file://cluster_tests.d/pacemaker.conf \
     file://cluster_tests.d/ceph.conf \
+    file://hypervisor_tests.d/iommu.conf \
     file://hypervisor_tests.d/virtualization.conf \
     file://hypervisor_tests.d/ovs.conf \
     file://hypervisor_tests.d/ceph.conf \
@@ -56,6 +57,8 @@ do_install () {
 # hypervisor
     install -m 0755 -d ${D}${sysconfdir}/cukinia/hypervisor_tests.d/
     install -m 0644 ${WORKDIR}/cukinia-hypervisor.conf ${D}${sysconfdir}/cukinia
+    install -m 0644 ${WORKDIR}/hypervisor_tests.d/iommu.conf \
+        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/virtualization.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/ovs.conf \
