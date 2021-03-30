@@ -10,6 +10,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
     file://openvswitch.service-require-loaded-iommu.patch \
+    file://ovs-vswitchd.service-add-sandboxing-options.patch \
     file://ovsdb-server.service-add-sandboxing-options.patch \
     file://systemd-move-conf-db-out-of-etc.patch \
 "
