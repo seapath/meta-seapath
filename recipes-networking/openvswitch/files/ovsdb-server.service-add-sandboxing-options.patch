@@ -1,0 +1,52 @@
+From 870b0ef915f9ee391a252dddba123270efcf6e25 Mon Sep 17 00:00:00 2001
+From: Philip-Dylan Gleonec <philip-dylan.gleonec@savoirfairelinux.com>
+Date: Tue, 30 Mar 2021 16:40:47 +0200
+Subject: [PATCH] ovsdb-server.service: add sandboxing options
+
+Add sandboxing options to ovsdb-server.service. The options set are the
+following:
+* PrivateTmp: secure access to temporary files of the process
+* NoNewPrivileges: ensure the process and children can not gain new
+  privileges
+* ProtectSystem=strict: mount all filesystem read-only except /dev,
+  /proc and /sys
+* ReadWritePaths: list of directories the process can write to
+* ProtectHome=tmpfs: prevent access to /home/, /root and /run/user
+* ProtectKernelModules: prevent the service from loading kernel modules
+* ProtectKernelTunables: make /proc/sys, /sys and other kernel tunables
+  read-only
+* ProtectControlGroups: make /sys/fs/cgroups read-only
+* RestrictSUIDGID: prevent the process from setting SUID/GID bits
+* RestrictNamespaces: restrict access to the list of Linux namespaces
+* CapabilityBoundingSet: restrict the capabilities available to the
+  running process
+
+Signed-off-by: Philip-Dylan Gleonec <philip-dylan.gleonec@savoirfairelinux.com>
+---
+ rhel/usr_lib_systemd_system_ovsdb-server.service | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/rhel/usr_lib_systemd_system_ovsdb-server.service b/rhel/usr_lib_systemd_system_ovsdb-server.service
+index c0c66ade6..5bfce49b4 100644
+--- a/rhel/usr_lib_systemd_system_ovsdb-server.service
++++ b/rhel/usr_lib_systemd_system_ovsdb-server.service
+@@ -31,3 +31,16 @@ ExecStop=/usr/share/openvswitch/scripts/ovs-ctl --no-ovs-vswitchd stop
+ ExecReload=/usr/share/openvswitch/scripts/ovs-ctl --no-ovs-vswitchd \
+            ${OVS_USER_OPT} \
+            --no-monitor restart $OPTIONS
++
++# Sandboxing
++PrivateTmp=yes
++NoNewPrivileges=true
++ProtectSystem=strict
++ReadWritePaths=/run /var/run /var/log /var/lib
++ProtectHome=tmpfs
++ProtectKernelModules=yes
++ProtectKernelTunables=yes
++ProtectControlGroups=yes
++RestrictSUIDGID=true
++RestrictNamespaces=pid user cgroup
++CapabilityBoundingSet=CAP_SYS_NICE
+-- 
+2.25.1
+
