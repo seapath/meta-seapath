@@ -9,5 +9,6 @@ SYSTEMD_AUTO_ENABLE_${PN}-switch = "disable"
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
+    file://openvswitch.service-require-loaded-iommu.patch \
     file://systemd-move-conf-db-out-of-etc.patch \
 "
