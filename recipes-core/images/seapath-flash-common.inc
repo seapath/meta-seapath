@@ -4,11 +4,12 @@ DESCRIPTION = "A common base for image used to flash Seapath images"
 LICENSE = "Apache-2.0"
 require recipes-core/images/core-image-minimal.bb
 IMAGE_INSTALL_append = " \
-    system-config \
-    flash-script \
     bmap-tools \
+    flash-script \
     python3-json \
     python3-modules \
+    os-release \
+    system-config \
 "
 # Add kernel-modules
 IMAGE_INSTALL_append = " \
