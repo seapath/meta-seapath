@@ -43,6 +43,6 @@ SYSTEMD_SERVICE_${PN} = " \
 
 REQUIRED_DISTRO_FEATURES = "systemd"
 
-inherit allarch systemd
+inherit allarch systemd distro_features_check
 
 FILES_${PN} = "${ROOT_HOME}/.ssh/authorized_keys"
