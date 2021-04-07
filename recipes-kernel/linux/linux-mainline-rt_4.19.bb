@@ -22,7 +22,7 @@ SRC_URI_append_votp-nuc = " \
         file://intel-nuc.cfg \
 "
 
-LINUX_VERSION ?= "4.19"
+LINUX_VERSION ?= "4.19.106"
 LINUX_VERSION_EXTENSION_append = "-mainline-rt"
 
 S = "${WORKDIR}/git"
