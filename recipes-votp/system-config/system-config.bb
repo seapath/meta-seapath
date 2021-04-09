@@ -22,27 +22,53 @@ do_fetch_prepend () {
 }
 
 SRC_URI = " \
-    file://votp-config_ovs.service \
-    file://votp-loadkeys.service \
-    file://authorized_keys \
+    file://common/authorized_keys \
+    file://common/votp-loadkeys.service \
+    file://host/votp-config_ovs.service \
 "
 
 do_install () {
     install -d ${D}${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/votp-config_ovs.service ${D}${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/votp-loadkeys.service ${D}${systemd_unitdir}/system
-    install -d -m 0700 ${D}/${ROOT_HOME}/.ssh
-    install -m 0600 ${WORKDIR}/authorized_keys ${D}/${ROOT_HOME}/.ssh/authorized_keys
 
+# Common
+    install -m 0644 ${WORKDIR}/common/votp-loadkeys.service \
+        ${D}${systemd_unitdir}/system
+    install -d -m 0700 ${D}/${ROOT_HOME}/.ssh
+    install -m 0600 ${WORKDIR}/common/authorized_keys \
+        ${D}/${ROOT_HOME}/.ssh/authorized_keys
+
+# Host
+    install -m 0644 ${WORKDIR}/host/votp-config_ovs.service \
+        ${D}${systemd_unitdir}/system
 }
 
-SYSTEMD_SERVICE_${PN} = " \
-    votp-config_ovs.service \
+PACKAGES =+ " \
+    ${PN}-common \
+    ${PN}-host \
+"
+
+SYSTEMD_PACKAGES += " \
+    ${PN}-common \
+    ${PN}-host \
+"
+
+SYSTEMD_SERVICE_${PN}-common = " \
     votp-loadkeys.service \
+"
+
+SYSTEMD_SERVICE_${PN}-host = " \
+    votp-config_ovs.service \
 "
 
 REQUIRED_DISTRO_FEATURES = "systemd"
 
 inherit allarch systemd distro_features_check
 
-FILES_${PN} = "${ROOT_HOME}/.ssh/authorized_keys"
+FILES_${PN}-common = " \
+    ${ROOT_HOME}/.ssh/authorized_keys \
+    ${systemd_unitdir}/system/votp-loadkeys.service \
+"
+
+FILES_${PN}-host = " \
+    ${systemd_unitdir}/system/votp-config_ovs.service \
+"

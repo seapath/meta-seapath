@@ -7,7 +7,7 @@ require recipes-core/images/core-image-minimal.bb
 IMAGE_INSTALL_append = " \
     cukinia-tests \
     cukinia-tests-common \
-    system-config \
+    system-config-common \
 "
 # Add kernel-modules
 IMAGE_INSTALL_append = " \
