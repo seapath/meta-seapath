@@ -10,4 +10,5 @@ require seapath-host-common-virtu.inc
 IMAGE_INSTALL_append = " \
     cukinia-tests-cluster \
     cukinia-tests-hypervisor \
+    system-config-host \
 "
