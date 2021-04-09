@@ -72,8 +72,8 @@ EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
                  -DWITH_RADOSGW_AMQP_ENDPOINT=OFF \
                  -DWITH_RADOSGW_KAFKA_ENDPOINT=OFF \
                  -DENABLE_GIT_VERSION=OFF \
-                 -DMGR_PYTHON_VERSION=3.7 \
-                 -DWITH_PYTHON3=3.7 \
+                 -DMGR_PYTHON_VERSION=3.8 \
+                 -DWITH_PYTHON3=3.8 \
 "
 
 do_configure_prepend () {
