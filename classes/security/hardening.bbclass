@@ -15,4 +15,5 @@ inherit cve-check
 inherit image-buildinfo
 
 # Hardening framework classes
+inherit security/kconfig-hardened-check
 inherit security/manifests-archiver
