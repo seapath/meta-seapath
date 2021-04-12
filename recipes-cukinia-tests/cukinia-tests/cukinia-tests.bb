@@ -11,6 +11,7 @@ SRC_URI = "\
     file://cukinia-cluster.conf \
     file://cukinia-common.conf \
     file://cukinia-hypervisor.conf \
+    file://cukinia-realtime.conf \
     file://cukinia-vm.conf \
     file://common_tests.d/cukinia-installation.conf \
     file://common_tests.d/sw-versions.conf \
@@ -27,6 +28,7 @@ SRC_URI = "\
     file://hypervisor_tests.d/ceph.conf \
     file://hypervisor_tests.d/kernel.conf \
     file://includes/kernel_config_functions \
+    file://realtime_tests.d/cyclictest.conf \
 "
 
 RDEPENDS_${PN} += "cukinia"
@@ -80,21 +82,31 @@ do_install () {
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/kernel.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
 
+# realtime
+    install -m 0755 -d ${D}${sysconfdir}/cukinia/realtime_tests.d/
+    install -m 0644 ${WORKDIR}/cukinia-realtime.conf ${D}${sysconfdir}/cukinia
+    install -m 0644 ${WORKDIR}/realtime_tests.d/cyclictest.conf \
+        ${D}${sysconfdir}/cukinia/realtime_tests.d
+
 # vm
     install -m 0644 ${WORKDIR}/cukinia-vm.conf ${D}${sysconfdir}/cukinia
 }
 
+PACKAGES =+ " \
+    ${PN}-cluster \
+    ${PN}-common \
+    ${PN}-hypervisor \
+    ${PN}-realtime \
+    ${PN}-vm \
+"
 
-
-PACKAGES =+ "${PN}-cluster ${PN}-hypervisor ${PN}-common ${PN}-vm"
-
+RDEPENDS_${PN}-realtime += "rt-tests"
 RDEPENDS_${PN}-vm += "${PN}-common"
 
 FILES_${PN} = " \
     ${sysconfdir}/cukinia/cukinia.conf \
     ${datadir}/cukinia/includes \
 "
-
 
 FILES_${PN}-cluster = " \
     ${sysconfdir}/cukinia/cukinia-cluster.conf \
@@ -109,6 +121,11 @@ FILES_${PN}-common = " \
 FILES_${PN}-hypervisor = " \
     ${sysconfdir}/cukinia/cukinia-hypervisor.conf \
     ${sysconfdir}/cukinia/hypervisor_tests.d/* \
+"
+
+FILES_${PN}-realtime = " \
+    ${sysconfdir}/cukinia/cukinia-realtime.conf \
+    ${sysconfdir}/cukinia/realtime_tests.d/* \
 "
 
 FILES_${PN}-vm = " \
