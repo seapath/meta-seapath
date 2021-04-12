@@ -5,7 +5,7 @@ DESCRIPTION = "A test image for Seapath"
 require seapath-host-common.inc
 
 # Real time Tools
-IMAGE_INSTALL += "rt-tests"
+IMAGE_INSTALL += "cukinia-tests-realtime"
 
 # KVM unit tests
 IMAGE_INSTALL += "kvm-unit-tests"

@@ -8,7 +8,7 @@ require seapath-guest-host-bios-image.bb
 IMAGE_INSTALL += "test-sync-storage"
 
 # Real time Tools
-IMAGE_INSTALL += "rt-tests"
+IMAGE_INSTALL += "cukinia-tests-realtime"
 
 # KVM unit tests
 IMAGE_INSTALL += "kvm-unit-tests"
