@@ -16,8 +16,6 @@ IMAGE_INSTALL_append = " \
 
 IMAGE_INSTALL_append = " less"
 
-IMAGE_INSTALL_append = " pam-radius"
-
 IMAGE_FEATURES += "ssh-server-openssh"
 IMAGE_INSTALL_append = " openssh-sftp-server"
 
