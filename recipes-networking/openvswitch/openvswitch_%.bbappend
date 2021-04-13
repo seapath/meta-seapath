@@ -3,3 +3,5 @@
 
 do_configure[depends] += "virtual/kernel:do_shared_workdir"
 do_compile[depends] += "make-mod-scripts:do_configure"
+
+SYSTEMD_AUTO_ENABLE_${PN}-switch = "disable"
