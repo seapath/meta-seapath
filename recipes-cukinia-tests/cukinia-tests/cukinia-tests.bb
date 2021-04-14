@@ -17,12 +17,14 @@ SRC_URI = "\
     file://common_tests.d/preempt-rt.conf \
     file://common_tests.d/container.conf \
     file://common_tests.d/systemd.conf \
+    file://common_tests.d/kernel.conf \
     file://cluster_tests.d/pacemaker.conf \
     file://cluster_tests.d/ceph.conf \
     file://hypervisor_tests.d/iommu.conf \
     file://hypervisor_tests.d/virtualization.conf \
     file://hypervisor_tests.d/ovs.conf \
     file://hypervisor_tests.d/ceph.conf \
+    file://includes/kernel_config_functions \
 "
 
 RDEPENDS_${PN} += "cukinia"
@@ -53,6 +55,12 @@ do_install () {
         ${D}${sysconfdir}/cukinia/common_tests.d
     install -m 0644 ${WORKDIR}/common_tests.d/systemd.conf \
         ${D}${sysconfdir}/cukinia/common_tests.d
+    install -m 0644 ${WORKDIR}/common_tests.d/kernel.conf \
+        ${D}${sysconfdir}/cukinia/common_tests.d
+
+    install -m 0755 -d ${D}${datadir}/cukinia/includes/
+    install -m 0644 ${WORKDIR}/includes/kernel_config_functions \
+        ${D}${datadir}/cukinia/includes/kernel_config_functions
 
 # hypervisor
     install -m 0755 -d ${D}${sysconfdir}/cukinia/hypervisor_tests.d/
@@ -78,6 +86,7 @@ RDEPENDS_${PN}-vm += "${PN}-common"
 
 FILES_${PN} = " \
     ${sysconfdir}/cukinia/cukinia.conf \
+    ${datadir}/cukinia/includes \
 "
 
 
