@@ -24,6 +24,7 @@ SRC_URI = "\
     file://hypervisor_tests.d/virtualization.conf \
     file://hypervisor_tests.d/ovs.conf \
     file://hypervisor_tests.d/ceph.conf \
+    file://hypervisor_tests.d/kernel.conf \
     file://includes/kernel_config_functions \
 "
 
@@ -72,6 +73,8 @@ do_install () {
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/ovs.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/ceph.conf \
+        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
+    install -m 0644 ${WORKDIR}/hypervisor_tests.d/kernel.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
 
 # vm
