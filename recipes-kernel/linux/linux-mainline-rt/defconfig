@@ -392,3 +392,4 @@ CONFIG_TIGON3=y
 # CONFIG_BNX2X is not set
 # CONFIG_SYSTEMPORT is not set
 # CONFIG_BNXT is not set
+CONFIG_AIO=y
