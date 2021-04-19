@@ -70,7 +70,7 @@ SYSTEMD_SERVICE_${PN}-host = " \
 
 REQUIRED_DISTRO_FEATURES = "systemd"
 
-inherit allarch systemd distro_features_check
+inherit allarch systemd features_check
 
 FILES_${PN}-common = " \
     ${ROOT_HOME}/.ssh/authorized_keys \
