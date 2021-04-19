@@ -18,6 +18,7 @@ SRC_URI = "\
     file://common_tests.d/container.conf \
     file://common_tests.d/systemd.conf \
     file://common_tests.d/kernel.conf \
+    file://common_tests.d/kernel_errors.conf \
     file://cluster_tests.d/pacemaker.conf \
     file://cluster_tests.d/ceph.conf \
     file://hypervisor_tests.d/iommu.conf \
@@ -55,6 +56,8 @@ do_install () {
     install -m 0644 ${WORKDIR}/common_tests.d/preempt-rt.conf \
         ${D}${sysconfdir}/cukinia/common_tests.d
     install -m 0644 ${WORKDIR}/common_tests.d/systemd.conf \
+        ${D}${sysconfdir}/cukinia/common_tests.d
+    install -m 0644 ${WORKDIR}/common_tests.d/kernel_errors.conf \
         ${D}${sysconfdir}/cukinia/common_tests.d
     install -m 0644 ${WORKDIR}/common_tests.d/kernel.conf \
         ${D}${sysconfdir}/cukinia/common_tests.d
