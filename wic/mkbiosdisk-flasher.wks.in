@@ -9,4 +9,4 @@ part / --source rootfs --ondisk sda --fstype=ext4 --label flasher_sys --align 10
 
 part /media --ondisk sda --fstype=ext4 --label flasher_data --align 1024 --use-uuid --size 7G --fsoptions="defaults,ro"
 
-bootloader --timeout=5 --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0 quiet ro"
+bootloader --timeout=5 --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0 audit=0 quiet ro"
