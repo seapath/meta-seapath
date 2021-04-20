@@ -27,6 +27,7 @@ SRC_URI = "\
     file://hypervisor_tests.d/ovs.conf \
     file://hypervisor_tests.d/ceph.conf \
     file://hypervisor_tests.d/kernel.conf \
+    file://hypervisor_tests.d/spectre_mitigations.conf \
     file://includes/kernel_config_functions \
     file://realtime_tests.d/cyclictest.conf \
 "
@@ -80,6 +81,8 @@ do_install () {
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/ceph.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/kernel.conf \
+        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
+    install -m 0644 ${WORKDIR}/hypervisor_tests.d/spectre_mitigations.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
 
 # realtime
