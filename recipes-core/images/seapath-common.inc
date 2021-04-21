@@ -14,6 +14,12 @@ IMAGE_INSTALL_append = " \
     kernel-modules \
 "
 
+# Ansible required modules
+IMAGE_INSTALL_append = " \
+    python3-json \
+    python3-modules \
+"
+
 IMAGE_INSTALL_append = " less"
 
 IMAGE_FEATURES += "ssh-server-openssh"
