@@ -23,6 +23,7 @@ do_fetch_prepend () {
 
 SRC_URI = " \
     file://common/90-sysctl-hardening.conf \
+    file://common/99-sysctl-network.conf \
     file://common/authorized_keys \
     file://common/votp-loadkeys.service \
     file://host/openvswitch.conf \
@@ -40,6 +41,8 @@ do_install () {
         ${D}/${ROOT_HOME}/.ssh/authorized_keys
     install -d ${D}${sysconfdir}/sysctl.d
     install -m 0644 ${WORKDIR}/common/90-sysctl-hardening.conf \
+        ${D}${sysconfdir}/sysctl.d
+    install -m 0644 ${WORKDIR}/common/99-sysctl-network.conf \
         ${D}${sysconfdir}/sysctl.d
 
 # Host
@@ -75,6 +78,7 @@ inherit allarch systemd features_check
 FILES_${PN}-common = " \
     ${ROOT_HOME}/.ssh/authorized_keys \
     ${sysconfdir}/sysctl.d/90-sysctl-hardening.conf \
+    ${sysconfdir}/sysctl.d/99-sysctl-network.conf \
     ${systemd_unitdir}/system/votp-loadkeys.service \
 "
 
