@@ -5,6 +5,8 @@ DESCRIPTION = "A common base for guest image"
 
 require seapath-common.inc
 
+inherit security/qa-guest-images
+
 IMAGE_INSTALL_append = " \
     cukinia-tests-vm \
     pacemaker-remote \

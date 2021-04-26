@@ -6,6 +6,8 @@ require seapath-common.inc
 require seapath-host-common-ha.inc
 require seapath-host-common-virtu.inc
 
+inherit security/qa-host-images
+
 # Hypervisor and cluster tests
 IMAGE_INSTALL_append = " \
     cukinia-tests-cluster \
