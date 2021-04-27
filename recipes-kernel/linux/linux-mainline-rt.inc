@@ -19,7 +19,7 @@ addtask firmware_path before do_build after do_configure
 # Kernel build process dependencies
 DEPENDS += "bc-native bison-native openssl-native util-linux-native xz-native rsync-native elfutils-native"
 
-KBRANCH ?= "v4.19.106-rt44"
+KBRANCH ?= "v4.19.188-rt77"
 KCONFIG_MODE="--alldefconfig"
 KMACHINE ?= "${MACHINE}"
 
