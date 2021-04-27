@@ -14,4 +14,5 @@ SRC_URI += " \
     file://ovs-vswitchd.service-create-vm-sockets-directory.patch \
     file://ovsdb-server.service-add-sandboxing-options.patch \
     file://systemd-move-conf-db-out-of-etc.patch \
+    file://fix-prandom-max.patch \
 "
