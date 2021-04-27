@@ -5,7 +5,7 @@ require linux-mainline-rt.inc
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;protocol=git;name=machine;tag=v4.19.106-rt44;nobranch=1; \
+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;protocol=git;name=machine;tag=v4.19.188-rt77;nobranch=1; \
         file://defconfig \
 "
 
@@ -13,7 +13,7 @@ SRC_URI_append_votp-nuc = " \
         file://intel-nuc.cfg \
 "
 
-LINUX_VERSION ?= "4.19.106"
+LINUX_VERSION ?= "4.19.188"
 LINUX_VERSION_EXTENSION_append = "-mainline-rt"
 
 S = "${WORKDIR}/git"
