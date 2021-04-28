@@ -7,4 +7,4 @@
 part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024 --use-uuid --fsoptions="defaults,noauto"
 part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
 
-bootloader --timeout=5 --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0 default_hugepagesz=1G hugepagesz=1G hugepages=4 systemd.unified_cgroup_hierarchy=0 audit=0 extra_kernel_parameters_markers"
+bootloader --timeout=0 --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0 default_hugepagesz=1G hugepagesz=1G hugepages=4 systemd.unified_cgroup_hierarchy=0 audit=0 extra_kernel_parameters_markers"
