@@ -3,9 +3,17 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # First, set some global options.
-options { chain_hostnames(off); flush_lines(0); use_dns(no); dns_cache(no); use_fqdn(no);
-          owner("root"); group("adm"); perm(0640); stats_freq(0);
-          bad_hostname("^gconfd$");
+options {
+        chain_hostnames(off);
+        flush_lines(0);
+        use_dns(no);
+        dns_cache(no);
+        use_fqdn(no);
+        owner("root");
+        group("adm");
+        perm(0640);
+        stats_freq(0);
+        bad_hostname("^gconfd$");
 };
 
 ########################
@@ -14,8 +22,10 @@ options { chain_hostnames(off); flush_lines(0); use_dns(no); dns_cache(no); use_
 # This is the default behavior of sysklogd package
 # Logs may come from unix stream, but not from another machine.
 #
-source s_src { systemd_journal(); internal();
-             file("/proc/kmsg" program_override("kernel"));
+source s_src {
+        systemd_journal();
+        internal();
+        file("/proc/kmsg" program_override("kernel"));
 };
 
 ########################
