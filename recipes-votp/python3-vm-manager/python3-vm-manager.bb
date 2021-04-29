@@ -9,3 +9,17 @@ SRC_URI = "file://src/"
 S = "${WORKDIR}/src"
 FILESEXTRAPATHS_prepend := "${THISDIR}/.:"
 inherit setuptools3
+
+do_install_append() {
+    # Create testdata directory
+    install -d ${D}/${datadir}/testdata
+
+    # Move python test scripts in testdata
+    mv ${D}/${bindir}/* ${D}/${datadir}/testdata/
+    rm -rf ${D}/${bindir}
+
+    # testdata files
+    install -m 644 ${S}/vm_manager/testdata/* ${D}/${datadir}/testdata/
+}
+
+FILES_${PN} += "${datadir}/testdata/*"
