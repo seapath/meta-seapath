@@ -13,5 +13,6 @@ inherit security/users
 IMAGE_INSTALL_append = " \
     cukinia-tests-cluster \
     cukinia-tests-hypervisor \
+    syslog-ng-client \
     system-config-host \
 "
