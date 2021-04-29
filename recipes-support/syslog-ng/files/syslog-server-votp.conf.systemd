@@ -27,13 +27,22 @@ source s_src {
         internal();
         file("/proc/kmsg" program_override("kernel"));
 };
+source s_net {
+        network(
+                ip("192.168.220.6")
+                port(601)
+                transport("tcp")
+        );
+};
 
 ########################
 # Destinations
 ########################
 destination d_syslog { file("/var/log/syslog"); };
+destination d_remote { file("/var/log/syslog.remote"); };
 
 ########################
 # Log paths
 ########################
 log { source(s_src); destination(d_syslog); };
+log { source(s_net); destination(d_remote); };
