@@ -23,6 +23,9 @@ SRC_URI = "\
     file://common_tests.d/kernel_errors.conf \
     file://cluster_tests.d/pacemaker.conf \
     file://cluster_tests.d/ceph.conf \
+    file://cluster_tests.d/vm_manager_libvirt.conf \
+    file://cluster_tests.d/vm_manager_pacemaker.conf \
+    file://cluster_tests.d/vm_manager_rbd.conf \
     file://hypervisor_tests.d/iommu.conf \
     file://hypervisor_tests.d/virtualization.conf \
     file://hypervisor_tests.d/ovs.conf \
@@ -48,6 +51,12 @@ do_install () {
     install -m 0644 ${WORKDIR}/cluster_tests.d/pacemaker.conf \
         ${D}${sysconfdir}/cukinia/cluster_tests.d
     install -m 0644 ${WORKDIR}/cluster_tests.d/ceph.conf \
+        ${D}${sysconfdir}/cukinia/cluster_tests.d
+    install -m 0644 ${WORKDIR}/cluster_tests.d/vm_manager_libvirt.conf \
+        ${D}${sysconfdir}/cukinia/cluster_tests.d
+    install -m 0644 ${WORKDIR}/cluster_tests.d/vm_manager_rbd.conf \
+        ${D}${sysconfdir}/cukinia/cluster_tests.d
+    install -m 0644 ${WORKDIR}/cluster_tests.d/vm_manager_pacemaker.conf \
         ${D}${sysconfdir}/cukinia/cluster_tests.d
 
 # common
