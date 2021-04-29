@@ -4,3 +4,5 @@
 DESCRIPTION = "A monitor image for Seapath cluster"
 require seapath-common.inc
 require seapath-host-common-ha.inc
+
+IMAGE_INSTALL_append = " syslog-ng-server"
