@@ -32,11 +32,20 @@ source s_src {
 # Destinations
 ########################
 destination d_syslog { file("/var/log/syslog"); };
+# Network destination
+# mem-buff-size is set to 163840000 ~= 156MB (default value)
+# disk-buf-size is set to 1073741824 = 1GB
 destination d_net {
         network(
                 "192.168.220.6"
                 port(601)
                 transport("tcp")
+                disk-buffer(
+                        mem-buf-size(163840000)
+                        disk-buf-size(1073741824)
+                        reliable(yes)
+                        dir("/var/log")
+                )
         );
  };
 
