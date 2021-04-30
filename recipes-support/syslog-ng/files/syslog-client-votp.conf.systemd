@@ -32,7 +32,13 @@ source s_src {
 # Destinations
 ########################
 destination d_syslog { file("/var/log/syslog"); };
-destination d_net { network("192.168.220.6" port(601) transport("tcp")); };
+destination d_net {
+        network(
+                "192.168.220.6"
+                port(601)
+                transport("tcp")
+        );
+ };
 
 ########################
 # Log paths
