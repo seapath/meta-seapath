@@ -10,6 +10,8 @@ RCONFLICTS_${PN} = "syslog-ng-server"
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
+    file://clientcert.pem \
+    file://clientkey.pem \
     file://syslog-client-votp.conf.systemd \
 "
 
@@ -17,8 +19,16 @@ do_install() {
     install -d ${D}${sysconfdir}/syslog-ng
     install -m 0644 ${WORKDIR}/syslog-client-votp.conf.systemd \
        ${D}${sysconfdir}/syslog-ng/syslog-ng.conf
+
+    install -d ${D}${sysconfdir}/syslog-ng/cert.d
+    install -m 0644 ${WORKDIR}/clientcert.pem \
+        ${D}${sysconfdir}/syslog-ng/cert.d
+    install -m 0400 ${WORKDIR}/clientkey.pem \
+        ${D}${sysconfdir}/syslog-ng/cert.d
 }
 
 FILES_${PN} += " \
+    ${sysconfdir}/syslog-ng/cert.d/clientcert.pem \
+    ${sysconfdir}/syslog-ng/cert.d/clientkey.pem \
     ${sysconfdir}/syslog-ng/syslog-ng.conf \
 "
