@@ -31,7 +31,12 @@ source s_net {
         network(
                 ip("192.168.220.6")
                 port(601)
-                transport("tcp")
+                transport("tls")
+                tls(
+                        key-file("/etc/syslog-ng/cert.d/serverkey.pem")
+                        cert-file("/etc/syslog-ng/cert.d/servercert.pem")
+                        ca-dir("/etc/syslog-ng/ca.d")
+                )
         );
 };
 
