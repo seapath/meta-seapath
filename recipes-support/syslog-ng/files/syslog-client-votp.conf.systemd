@@ -39,7 +39,12 @@ destination d_net {
         network(
                 "192.168.220.6"
                 port(601)
-                transport("tcp")
+                transport("tls")
+                tls(
+                        key-file("/etc/syslog-ng/cert.d/clientkey.pem")
+                        cert-file("/etc/syslog-ng/cert.d/clientcert.pem")
+                        ca-dir("/etc/syslog-ng/ca.d")
+                ) 
                 disk-buffer(
                         mem-buf-size(163840000)
                         disk-buf-size(1073741824)
