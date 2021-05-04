@@ -5,7 +5,6 @@ sys:*:3:
 adm:*:4:
 tty:*:5:
 disk:*:6:
-lp:*:7:
 mail:*:8:
 uucp:*:10:
 proxy:*:13:
