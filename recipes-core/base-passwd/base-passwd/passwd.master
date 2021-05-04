@@ -4,5 +4,4 @@ bin:*:2:2:bin:/bin:/bin/sh
 sys:*:3:3:sys:/dev:/bin/sh
 sync:*:4:65534:sync:/bin:/bin/sync
 mail:*:8:8:mail:/var/mail:/bin/sh
-proxy:*:13:13:proxy:/bin:/bin/sh
 nobody:*:65534:65534:nobody:/nonexistent:/bin/sh
