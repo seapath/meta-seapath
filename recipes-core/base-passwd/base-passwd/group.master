@@ -6,7 +6,6 @@ disk:*:6:
 mail:*:8:
 tape:*:26:
 sudo:*:27:
-audio:*:29:
 dip:*:30:
 operator:*:37:
 src:*:40:
