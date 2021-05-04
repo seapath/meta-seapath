@@ -5,7 +5,6 @@ sys:*:3:3:sys:/dev:/bin/sh
 sync:*:4:65534:sync:/bin:/bin/sync
 lp:*:7:7:lp:/var/spool/lpd:/bin/sh
 mail:*:8:8:mail:/var/mail:/bin/sh
-news:*:9:9:news:/var/spool/news:/bin/sh
 uucp:*:10:10:uucp:/var/spool/uucp:/bin/sh
 proxy:*:13:13:proxy:/bin:/bin/sh
 www-data:*:33:33:www-data:/var/www:/bin/sh

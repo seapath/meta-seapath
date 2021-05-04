@@ -7,7 +7,6 @@ tty:*:5:
 disk:*:6:
 lp:*:7:
 mail:*:8:
-news:*:9:
 uucp:*:10:
 proxy:*:13:
 kmem:*:15:
