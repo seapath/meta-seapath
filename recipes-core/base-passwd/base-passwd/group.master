@@ -21,7 +21,6 @@ dip:*:30:
 operator:*:37:
 list:*:38:
 src:*:40:
-gnats:*:41:
 shadow:*:42:
 utmp:*:43:
 video:*:44:

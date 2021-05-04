@@ -7,5 +7,4 @@ mail:*:8:8:mail:/var/mail:/bin/sh
 uucp:*:10:10:uucp:/var/spool/uucp:/bin/sh
 proxy:*:13:13:proxy:/bin:/bin/sh
 list:*:38:38:Mailing List Manager:/var/list:/bin/sh
-gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
 nobody:*:65534:65534:nobody:/nonexistent:/bin/sh
