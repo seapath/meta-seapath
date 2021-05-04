@@ -19,7 +19,6 @@ sudo:*:27:
 audio:*:29:
 dip:*:30:
 operator:*:37:
-list:*:38:
 src:*:40:
 shadow:*:42:
 utmp:*:43:
