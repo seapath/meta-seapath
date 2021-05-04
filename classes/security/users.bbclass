@@ -10,6 +10,7 @@ inherit extrausers
 SUDOERS_DIR ?="${IMAGE_ROOTFS}/etc/sudoers.d"
 USERS_LIST ?= ""
 USERS_LIST_EXPIRED ?= ""
+USERS_LIST_REMOVED ?= ""
 USERS_LIST_SUDOERS ?= ""
 
 IMAGE_INSTALL_append = " sudo"
@@ -17,6 +18,7 @@ IMAGE_INSTALL_append = " sudo"
 python do_add_users() {
     userslist = d.getVar("USERS_LIST").split()
     userslistexpired = d.getVar("USERS_LIST_EXPIRED").split()
+    userslistremoved = d.getVar("USERS_LIST_REMOVED").split()
     userslistsudoers = d.getVar("USERS_LIST_SUDOERS").split()
     sudoersdir = d.getVar("SUDOERS_DIR")
 
@@ -48,6 +50,10 @@ python do_add_users() {
 
         with open(os.path.join(sudoersdir, user), "w") as f:
             f.write(user+"  ALL=(ALL) NOPASSWD:ALL")
+
+    # remove users from USERS_LIST_REMOVED
+    for user in userslistremoved:
+        extrausersparams += " userdel "+user+";"
 
     if extrausersparams:
         d.setVar("EXTRA_USERS_PARAMS", extrausersparams)
