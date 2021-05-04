@@ -10,6 +10,5 @@ proxy:*:13:13:proxy:/bin:/bin/sh
 www-data:*:33:33:www-data:/var/www:/bin/sh
 backup:*:34:34:backup:/var/backups:/bin/sh
 list:*:38:38:Mailing List Manager:/var/list:/bin/sh
-irc:*:39:39:ircd:/var/run/ircd:/bin/sh
 gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
 nobody:*:65534:65534:nobody:/nonexistent:/bin/sh

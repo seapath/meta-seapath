@@ -23,7 +23,6 @@ www-data:*:33:
 backup:*:34:
 operator:*:37:
 list:*:38:
-irc:*:39:
 src:*:40:
 gnats:*:41:
 shadow:*:42:
