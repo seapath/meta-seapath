@@ -4,7 +4,6 @@ adm:*:4:
 tty:*:5:
 disk:*:6:
 mail:*:8:
-cdrom:*:24:
 floppy:*:25:
 tape:*:26:
 sudo:*:27:
