@@ -33,7 +33,6 @@ video:*:44:
 sasl:*:45:
 plugdev:*:46:
 staff:*:50:
-games:*:60:
 shutdown:*:61
 users:*:100:
 nogroup:*:65534:
