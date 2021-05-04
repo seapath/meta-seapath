@@ -9,7 +9,6 @@ lp:*:7:
 mail:*:8:
 news:*:9:
 uucp:*:10:
-man:*:12:
 proxy:*:13:
 kmem:*:15:
 dialout:*:20:
