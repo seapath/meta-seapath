@@ -19,7 +19,6 @@ tape:*:26:
 sudo:*:27:
 audio:*:29:
 dip:*:30:
-www-data:*:33:
 backup:*:34:
 operator:*:37:
 list:*:38:
