@@ -1,6 +1,10 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
+SRC_URI += "file://VirtualDomain"
+
 REQUIRED_HEARTBEAT_SCRIPTS = "VirtualDomain"
 
 do_install_append() {
@@ -33,6 +37,9 @@ do_install_append() {
     rm ${D}${libdir}/ocf/lib/heartbeat/lvm-*.sh
     rm ${D}${datadir}/cluster/lvm.metadata
     rm ${D}${datadir}/cluster/lvm*.sh
+
+    install -m 755 ${WORKDIR}/VirtualDomain \
+        ${D}${libdir}/ocf/resource.d/heartbeat/VirtualDomain
 
     # Remove unused heartbeat modules not declared in REQUIRED_HEARTBEAT_SCRIPTS
     for i in $(find ${D}${libdir}/ocf/resource.d/heartbeat/* -type f); do
