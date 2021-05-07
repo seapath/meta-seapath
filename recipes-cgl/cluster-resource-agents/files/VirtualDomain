@@ -35,7 +35,7 @@ OCF_RESKEY_backingfile_default=""
 OCF_RESKEY_stateless_default="false"
 OCF_RESKEY_copyindirs_default=""
 OCF_RESKEY_shutdown_mode_default=""
-OCF_RESKEY_seapath_default="true"
+OCF_RESKEY_seapath_default="false"
 
 : ${OCF_RESKEY_config=${OCF_RESKEY_config_default}}
 : ${OCF_RESKEY_migration_transport=${OCF_RESKEY_migration_transport_default}}
