@@ -95,8 +95,8 @@ ChallengeResponseAuthentication no
 #UseLogin no
 PermitUserEnvironment no
 Compression no
-ClientAliveInterval 15
-ClientAliveCountMax 4
+ClientAliveInterval 300
+ClientAliveCountMax 0
 #UseDNS no
 #PidFile /var/run/sshd.pid
 #MaxStartups 10:30:100
