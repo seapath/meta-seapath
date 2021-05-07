@@ -36,6 +36,7 @@ SRC_URI = "\
     file://hypervisor_tests.d/spectre_mitigations.conf \
     file://hypervisor_tests.d/users.conf \
     file://hypervisor_tests.d/groups.conf \
+    file://hypervisor_tests.d/passwd.conf \
     file://includes/kernel_config_functions \
     file://realtime_tests.d/cyclictest.conf \
 "
@@ -107,6 +108,8 @@ do_install () {
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/users.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/groups.conf \
+        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
+    install -m 0644 ${WORKDIR}/hypervisor_tests.d/passwd.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
 
 # realtime
