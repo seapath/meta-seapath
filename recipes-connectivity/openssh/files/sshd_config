@@ -93,7 +93,7 @@ ChallengeResponseAuthentication no
 #PrintLastLog yes
 #TCPKeepAlive yes
 #UseLogin no
-#PermitUserEnvironment no
+PermitUserEnvironment no
 Compression no
 ClientAliveInterval 15
 ClientAliveCountMax 4
