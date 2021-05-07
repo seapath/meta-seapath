@@ -10,6 +10,7 @@ SRCREV = "${AUTOREV}"
 SRC_URI = " \
     file://common/90-sysctl-hardening.conf \
     file://common/99-sysctl-network.conf \
+    file://common/terminal_idle.sh \
     file://common/votp-loadkeys.service \
     file://host/openvswitch.conf \
     file://host/votp-config_ovs.service \
@@ -26,6 +27,9 @@ do_install () {
         ${D}${sysconfdir}/sysctl.d
     install -m 0644 ${WORKDIR}/common/99-sysctl-network.conf \
         ${D}${sysconfdir}/sysctl.d
+    install -d ${D}${sysconfdir}/profile.d
+    install -m 0644 ${WORKDIR}/common/terminal_idle.sh \
+        ${D}${sysconfdir}/profile.d
 
 # Host
     install -m 0644 ${WORKDIR}/host/votp-config_ovs.service \
@@ -60,6 +64,7 @@ inherit allarch systemd features_check
 FILES_${PN}-common = " \
     ${sysconfdir}/sysctl.d/90-sysctl-hardening.conf \
     ${sysconfdir}/sysctl.d/99-sysctl-network.conf \
+    ${sysconfdir}/profile.d/terminal_idle.sh \
     ${systemd_unitdir}/system/votp-loadkeys.service \
 "
 
