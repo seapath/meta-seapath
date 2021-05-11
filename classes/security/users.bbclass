@@ -15,11 +15,13 @@ USERS_LIST_SUDOERS ?= ""
 
 IMAGE_INSTALL_append = " sudo"
 
-python do_add_users() {
+python do_configure_users() {
     userslist = d.getVar("USERS_LIST").split()
     userslistexpired = d.getVar("USERS_LIST_EXPIRED").split()
+    userslistlocked = d.getVar("USERS_LIST_LOCKED").split()
     userslistremoved = d.getVar("USERS_LIST_REMOVED").split()
     userslistsudoers = d.getVar("USERS_LIST_SUDOERS").split()
+
     sudoersdir = d.getVar("SUDOERS_DIR")
 
     extrausersparams = ""
@@ -55,6 +57,10 @@ python do_add_users() {
     for user in userslistremoved:
         extrausersparams += " userdel "+user+";"
 
+    # lock users from USERS_LIST_LOCKED
+    for user in userslistlocked:
+        extrausersparams += " usermod -L "+user+";"
+
     if extrausersparams:
         d.setVar("EXTRA_USERS_PARAMS", extrausersparams)
 }
@@ -62,7 +68,7 @@ python do_add_users() {
 # do_add_users must be called very early following rootfs generation
 # so that extrausers.bbclass can use EXTRA_USERS_PARAMS variable
 python prepend_to_rootfs_postprocess () {
-    e.data.prependVar('ROOTFS_POSTPROCESS_COMMAND', ' do_add_users;')
+    e.data.prependVar('ROOTFS_POSTPROCESS_COMMAND', ' do_configure_users;')
 }
 addhandler prepend_to_rootfs_postprocess
 prepend_to_rootfs_postprocess[eventmask] = "bb.event.RecipePreFinalise"
