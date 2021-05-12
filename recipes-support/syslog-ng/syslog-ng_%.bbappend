@@ -11,6 +11,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
     file://cacert.pem \
+    file://syslog-ng@default \
     file://syslog-ng@.service \
 "
 
@@ -27,6 +28,10 @@ do_install_append() {
     install -d {D}{systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/syslog-ng@.service \
         ${D}${systemd_unitdir}/system
+
+    install -d ${D}{sysconfdir}/default
+    install -m 0644 ${WORKDIR}/syslog-ng@default \
+        ${D}${sysconfdir}/default
 }
 
 CONFFILES_${PN}_remove = "${sysconfdir}/${BPN}.conf"
@@ -37,5 +42,6 @@ SYSTEMD_SERVICE_${PN} += " \
 
 FILES_${PN} += " \
     ${sysconfdir}/syslog-ng/ca.d/* \
+    ${sysconfdir}/default/syslog-ng@default \
     ${systemd_unitdir}/system/syslog-ng@.service \
 "
