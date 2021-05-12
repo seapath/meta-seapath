@@ -12,6 +12,7 @@ USERS_LIST ?= ""
 USERS_LIST_EXPIRED ?= ""
 USERS_LIST_REMOVED ?= ""
 USERS_LIST_SUDOERS ?= ""
+GROUP_LIST ?= ""
 
 IMAGE_INSTALL_append = " sudo"
 
@@ -61,9 +62,26 @@ python do_configure_users() {
     for user in userslistlocked:
         extrausersparams += " usermod -L "+user+";"
 
+    ret = configure_groups(d, userslist, extrausersparams)
+    if ret:
+        extrausersparams += ret
+
     if extrausersparams:
         d.setVar("EXTRA_USERS_PARAMS", extrausersparams)
 }
+
+def configure_groups(d, userslist, extrausersparams):
+    grouplist = d.getVarFlags("GROUP_LIST")
+    ret = ""
+    for g in grouplist:
+        bb.note("adding group for %s" %(g))
+        if g not in userslist:
+            bb.fatal("%s is not defined in USERS_LIST" %(g))
+
+        for group in grouplist[g].split():
+            ret += " usermod -a -G "+group+" "+g+";"
+            bb.note("adding group %s for %s" %(group, g))
+    return ret
 
 # do_add_users must be called very early following rootfs generation
 # so that extrausers.bbclass can use EXTRA_USERS_PARAMS variable
