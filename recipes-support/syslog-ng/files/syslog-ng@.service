@@ -10,6 +10,7 @@ Type=notify
 EnvironmentFile=-/etc/default/syslog-ng@%i
 EnvironmentFile=-/etc/sysconfig/syslog-ng@%i
 ExecStartPre=-/bin/mkdir -p /var/run/syslog-ng
+WorkingDirectory=/var/log/syslog-ng
 ExecStart=/usr/sbin/syslog-ng -F $OTHER_OPTIONS --cfgfile $CONFIG_FILE --control $CONTROL_FILE --persist-file $PERSIST_FILE --pidfile $PID_FILE
 ExecReload=/bin/kill -HUP $MAINPID
 StandardOutput=journal
