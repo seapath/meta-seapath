@@ -17,5 +17,20 @@ StandardOutput=journal
 StandardError=journal
 Restart=on-failure
 
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/run/syslog-ng /var/log/syslog-ng /var/lib/syslog-ng
+ProtectHome=tmpfs
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+NoNewPrivileges=true
+RestrictNamespaces=pid
+MemoryDenyWriteExecute=yes
+PrivateDevices=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+PrivateMounts=yes
+
 [Install]
 WantedBy=multi-user.target
