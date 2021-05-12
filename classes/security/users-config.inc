@@ -19,3 +19,6 @@ USERS_LIST_LOCKED[doc] = "List of users to lock"
 
 # Configure users with the ansible key enabled
 USERS_SSH_ANSIBLE = "admin root"
+
+# Groups set for users
+GROUP_LIST[admin] = "admin"
