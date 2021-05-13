@@ -12,7 +12,7 @@ auth		include		common-auth
 account		required	pam_nologin.so
 account		include		common-account
 password	include		common-password
-session		optional	pam_keyinit.so force revoke
+session		requisite	pam_keyinit.so force revoke
 session		include		common-session
 session		required	pam_loginuid.so
 
