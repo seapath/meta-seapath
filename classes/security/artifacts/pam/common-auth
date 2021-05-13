@@ -5,6 +5,6 @@
 # Common configuration for the "auth" section of PAM config.
 #
 
-auth	[success=1 default=ignore]	pam_unix.so nullok_secure
+auth	[success=1 default=ignore]	pam_unix.so
 auth	requisite			pam_deny.so
 auth	required			pam_permit.so
