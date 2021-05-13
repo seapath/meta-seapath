@@ -1,10 +1,18 @@
-#%PAM-1.0
+# Copyright (C) 2021, RTE (http://www.rte-france.com)
+# SPDX-License-Identifier: Apache-2.0
 
-auth       include      common-auth
-account    required     pam_nologin.so
-account    include      common-account
-password   include      common-password
-session    optional     pam_keyinit.so force revoke
-session    include      common-session
-session    required     pam_loginuid.so
+#
+# PAM configuration for SSH daemon connections
+#
+# Note that key exchange and cryptographic authentication made
+# by SSH server are outside of PAM scope.
+#
+
+auth		include		common-auth
+account		required	pam_nologin.so
+account		include		common-account
+password	include		common-password
+session		optional	pam_keyinit.so force revoke
+session		include		common-session
+session		required	pam_loginuid.so
 

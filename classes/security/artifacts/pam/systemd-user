@@ -1,8 +1,12 @@
-# This file is part of systemd.
-#
-# Used by systemd --user instances.
+# Copyright (C) 2021, RTE (http://www.rte-france.com)
+# SPDX-License-Identifier: Apache-2.0
 
-account required pam_unix.so
-session required pam_loginuid.so
-session optional pam_keyinit.so force revoke
-session optional pam_systemd.so
+#
+# PAM configuration for 'systemd' related applications
+# that rely on PAM for authentication
+#
+
+account	required	pam_unix.so
+session	required	pam_loginuid.so
+session	optional	pam_keyinit.so force revoke
+session	optional	pam_systemd.so
