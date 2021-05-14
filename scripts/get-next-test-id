@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Copyright (C) 2021, RTE (http://www.rte-france.com)
+# SPDX-License-Identifier: Apache-2.0
+
+# This script search for test identifier SEAPATH-XXXXX recursively
+# in the path provided in argument and returns the first available
+# test ID.
+
+_path="${1}"
+
+[ -d "${_path}" ] || {
+	echo "Invalid path provided: '${_path}'"
+	exit 1
+}
+
+# List all identifiers from files in the given path
+_num_list=$(grep -rhEo "SEAPATH-[0-9]+" "${_path}" | sort | cut -d- -f2 | xargs -0)
+
+# List any missing identifier in the extracted list
+_missing_number=$(echo "${_num_list}" | awk '{for(i=p+1; i<$1; i++) print i} {p=$1}')
+
+# If the list of missing numbers is not empty, return the head of it as it is the
+# first identifier available.
+# Otherwise, get the latest from the identifiers list and increase it by one.
+if [ -n "${_missing_number}" ]; then
+    _next_num="$(echo ${_missing_number} | cut -d' ' -f1)"
+else
+    _num="$(echo "${_num_list}" | tail -n 1)"
+    _next_num=$(expr ${_num} + 1)
+fi
+
+printf "%05d\n" "${_next_num}"
