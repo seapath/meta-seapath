@@ -38,7 +38,7 @@ destination d_syslog { file("/var/log/syslog-ng/syslog.local"); };
 destination d_net {
         network(
                 "192.168.220.6"
-                port(601)
+                port(6514)
                 transport("tls")
                 tls(
                         key-file("/etc/syslog-ng/cert.d/clientkey.pem")
