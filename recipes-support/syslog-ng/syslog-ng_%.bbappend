@@ -1,7 +1,11 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
+inherit log-dirs
+
 DEPENDS += " openssl-native"
+
+LOG_DIRS_LIST += " syslog-ng"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 

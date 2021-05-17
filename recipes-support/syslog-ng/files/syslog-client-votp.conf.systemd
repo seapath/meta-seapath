@@ -31,7 +31,7 @@ source s_src {
 ########################
 # Destinations
 ########################
-destination d_syslog { file("/var/log/syslog"); };
+destination d_syslog { file("/var/log/syslog-ng/syslog.local"); };
 # Network destination
 # mem-buff-size is set to 163840000 ~= 156MB (default value)
 # disk-buf-size is set to 1073741824 = 1GB
@@ -49,7 +49,7 @@ destination d_net {
                         mem-buf-size(163840000)
                         disk-buf-size(1073741824)
                         reliable(yes)
-                        dir("/var/log")
+                        dir("/var/log/syslog-ng")
                 )
         );
  };
