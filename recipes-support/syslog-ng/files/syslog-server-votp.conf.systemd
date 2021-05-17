@@ -43,8 +43,8 @@ source s_net {
 ########################
 # Destinations
 ########################
-destination d_syslog { file("/var/log/syslog"); };
-destination d_remote { file("/var/log/syslog.remote"); };
+destination d_syslog { file("/var/log/syslog-ng/syslog.local"); };
+destination d_remote { file("/var/log/syslog-ng/syslog.remote"); };
 
 ########################
 # Log paths
