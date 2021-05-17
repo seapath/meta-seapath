@@ -8,7 +8,6 @@ IMAGE_INSTALL_append = " \
     cukinia-tests \
     cukinia-tests-common \
     system-config-common \
-    ssh-config \
 "
 # Add kernel-modules
 IMAGE_INSTALL_append = " \
@@ -34,3 +33,6 @@ IMAGE_LINGUAS ?= "en_US fr_FR"
 IMAGE_FSTYPES = "wic.gz wic.bmap"
 WKS_FILE = "mkefidisk.wks.in"
 EXTRA_IMAGE_FEATURES = ""
+
+inherit security/users
+inherit ansible-ssh
