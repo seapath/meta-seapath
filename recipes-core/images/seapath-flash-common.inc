@@ -9,7 +9,6 @@ IMAGE_INSTALL_append = " \
     python3-json \
     python3-modules \
     os-release \
-    ssh-config \
 "
 # Add kernel-modules
 IMAGE_INSTALL_append = " \
@@ -24,4 +23,9 @@ GLIBC_GENERATE_LOCALES = "en_US.UTF-8 fr_FR.UTF-8"
 IMAGE_LINGUAS ?= "en_US fr_FR"
 
 IMAGE_FSTYPES = "wic.gz"
+IMAGE_FEATURES += "ssh-server-openssh"
 EXTRA_IMAGE_FEATURES = ""
+
+USERS_SSH_ANSIBLE = "root"
+
+inherit ansible-ssh

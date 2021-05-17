@@ -7,7 +7,6 @@ require seapath-host-common-ha.inc
 require seapath-host-common-virtu.inc
 
 inherit security/qa-host-images
-inherit security/users
 
 # Hypervisor and cluster tests
 IMAGE_INSTALL_append = " \

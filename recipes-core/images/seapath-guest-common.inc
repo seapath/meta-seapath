@@ -14,3 +14,7 @@ IMAGE_INSTALL_append = " \
 "
 IMAGE_FSTYPES = "wic.qcow2 wic.vmdk"
 WKS_FILE = "mkefidisk-guest.wks.in"
+
+# Remove users that do not exist in
+# guest images
+USERS_LIST_LOCKED_remove = "qemu ceph"
