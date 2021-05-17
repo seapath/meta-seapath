@@ -31,6 +31,7 @@ PrivateDevices=yes
 RestrictRealtime=yes
 RestrictSUIDSGID=yes
 PrivateMounts=yes
+CapabilityBoundingSet=CAP_SYSLOG
 
 [Install]
 WantedBy=multi-user.target
