@@ -17,4 +17,5 @@ inherit image-buildinfo
 # Hardening framework classes
 inherit security/kconfig-hardened-check
 inherit security/manifests-archiver
+inherit security/pam-policy
 inherit security/rootfs-tweaks
