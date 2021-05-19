@@ -19,3 +19,4 @@ target_link_libraries (test_sync_storage_result ${GLIB2_LIBRARIES})
 
 install(TARGETS test_sync_storage_write)
 install(TARGETS test_sync_storage_result)
+install(PROGRAMS launch_votp_test.sh TYPE BIN)

@@ -1,0 +1,15 @@
+# Copyright (C) 2021, RTE (http://www.rte-france.com)
+# SPDX-License-Identifier: Apache-2.0
+
+[Unit]
+Description="Write periodically on disk"
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/sysconfig/votp-test-sync.conf
+ExecStart=/usr/bin/launch_votp_test.sh
+
+[Install]
+WantedBy=multi-user.target
