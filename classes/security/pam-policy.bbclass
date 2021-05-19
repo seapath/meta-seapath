@@ -18,4 +18,5 @@ python() {
     if bb.data.inherits_class('image', d):
         if bb.utils.contains('DISTRO_FEATURES', 'pam', True, False, d):
             d.appendVar("ROOTFS_POSTPROCESS_COMMAND", "install_pam_policy;")
+            d.appendVar("IMAGE_INSTALL", " pam-plugin-cracklib")
 }
