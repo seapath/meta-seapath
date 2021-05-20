@@ -1,0 +1,40 @@
+[Unit]
+Description=Open vSwitch Database Unit
+After=syslog.target network-pre.target
+Before=network.target network.service
+Wants=ovs-delete-transient-ports.service
+PartOf=openvswitch.service
+
+[Service]
+Type=forking
+PIDFile=/var/run/openvswitch/ovsdb-server.pid
+Restart=on-failure
+Environment="OVS_USER_OPT=--db-file=/var/lib/openvswitch/conf.db"
+EnvironmentFile=/etc/openvswitch/default.conf
+EnvironmentFile=-/etc/sysconfig/openvswitch
+ExecStartPre=-/bin/mkdir /var/run/openvswitch /var/log/openvswitch
+ExecStartPre=-/bin/chown ${OVS_USER_ID} /var/run/openvswitch /var/log/openvswitch
+ExecStartPre=/bin/sh -c 'rm -f /run/openvswitch.useropts; /bin/echo "OVS_USER_ID=${OVS_USER_ID}" > /run/openvswitch.useropts'
+ExecStartPre=/bin/sh -c 'if [ "$${OVS_USER_ID/:*/}" != "root" ]; then /bin/echo "OVS_USER_OPT=--ovs-user=${OVS_USER_ID}" >> /run/openvswitch.useropts; fi'
+EnvironmentFile=-/run/openvswitch.useropts
+ExecStart=/usr/share/openvswitch/scripts/ovs-ctl \
+          --no-ovs-vswitchd --no-monitor --system-id=random \
+          ${OVS_USER_OPT} \
+          start $OPTIONS
+ExecStop=/usr/share/openvswitch/scripts/ovs-ctl --no-ovs-vswitchd stop
+ExecReload=/usr/share/openvswitch/scripts/ovs-ctl --no-ovs-vswitchd \
+           ${OVS_USER_OPT} \
+           --no-monitor restart $OPTIONS
+
+# Sandboxing
+PrivateTmp=yes
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/run /var/run /var/log /var/lib
+ProtectHome=tmpfs
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictSUIDGID=true
+RestrictNamespaces=pid user cgroup
+CapabilityBoundingSet=CAP_SYS_NICE

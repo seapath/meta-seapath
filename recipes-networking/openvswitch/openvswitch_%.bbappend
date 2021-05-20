@@ -9,10 +9,18 @@ SYSTEMD_AUTO_ENABLE_${PN}-switch = "disable"
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
-    file://openvswitch.service-require-loaded-iommu.patch \
-    file://ovs-vswitchd.service-add-sandboxing-options.patch \
-    file://ovs-vswitchd.service-create-vm-sockets-directory.patch \
-    file://ovsdb-server.service-add-sandboxing-options.patch \
-    file://systemd-move-conf-db-out-of-etc.patch \
+    file://openvswitch.service \
+    file://ovs-vswitchd.service \
+    file://ovsdb-server.service \
     file://fix-prandom-max.patch \
 "
+
+do_install_append()  {
+    install -d ${D}/${systemd_unitdir}/system/
+    install -m 644 ${WORKDIR}/openvswitch.service \
+        ${D}/${systemd_unitdir}/system/openvswitch.service
+    install -m 644 ${WORKDIR}/ovs-vswitchd.service \
+        ${D}/${systemd_unitdir}/system/ovs-vswitchd.service
+    install -m 644 ${WORKDIR}/ovsdb-server.service \
+        ${D}/${systemd_unitdir}/system/ovsdb-server.service
+}
