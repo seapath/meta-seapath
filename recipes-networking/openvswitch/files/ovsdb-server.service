@@ -35,6 +35,6 @@ ProtectHome=tmpfs
 ProtectKernelModules=yes
 ProtectKernelTunables=yes
 ProtectControlGroups=yes
-RestrictSUIDGID=true
+RestrictSUIDSGID=true
 RestrictNamespaces=pid user cgroup
 CapabilityBoundingSet=CAP_SYS_NICE
