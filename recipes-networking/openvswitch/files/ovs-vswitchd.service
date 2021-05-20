@@ -41,7 +41,7 @@ ReadWritePaths=/run /var/run/openvswitch /var/log/openvswitch
 ProtectKernelModules=yes
 ProtectKernelTunables=yes
 ProtectControlGroups=yes
-RestrictSUIDGID=true
+RestrictSUIDSGID=true
 RestrictNamespaces=pid user cgroup
 # CAP_IPC_LOCK is required for mlockall calls
 CapabilityBoundingSet=CAP_SYS_NICE CAP_NET_ADMIN CAP_IPC_LOCK
