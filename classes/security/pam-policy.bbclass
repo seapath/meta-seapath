@@ -7,13 +7,18 @@
 
 IMAGE_FEATURES[validitems] += "unsafe-pam-policy"
 
-install_pam_policy(){
+install_pam_policy() {
     if ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'true', 'false', d)}; then
         rm --one-file-system -f ${IMAGE_ROOTFS}/etc/pam.d/*
         for policyfile in ${SEC_ARTIFACTS_DIR}/pam/*; do
             install -D -m 0644 ${policyfile} ${IMAGE_ROOTFS}/etc/pam.d/$(basename ${policyfile})
         done
     fi
+}
+
+clear_securetty() {
+    rm -f ${IMAGE_ROOTFS}/etc/securetty
+    touch ${IMAGE_ROOTFS}/etc/securetty
 }
 
 python() {
@@ -33,6 +38,6 @@ python() {
                                           "Consider adding 'unsafe-pam-policy' to IMAGE_FEATURES " + \
                                           "or remove 'debug-tweaks / allow-empty-password / empty-root-password'")
 
-            d.appendVar("ROOTFS_POSTPROCESS_COMMAND", "install_pam_policy;")
+            d.appendVar("ROOTFS_POSTPROCESS_COMMAND", "install_pam_policy; clear_securetty;")
             d.appendVar("IMAGE_INSTALL", " pam-plugin-cracklib")
 }
