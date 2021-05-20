@@ -10,3 +10,6 @@ IMAGE_INSTALL += "tcpdump inetutils-ping inetutils-ping6"
 # System tools
 IMAGE_FEATURES += "allow-empty-password debug-tweaks empty-root-password \
                    post-install-logging"
+
+# Debug images are not compatible with SEAPATH PAM policy
+IMAGE_FEATURES += "unsafe-pam-policy"
