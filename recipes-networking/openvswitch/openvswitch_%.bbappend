@@ -5,12 +5,18 @@ do_configure[depends] += "virtual/kernel:do_shared_workdir"
 do_compile[depends] += "make-mod-scripts:do_configure"
 
 inherit useradd
+inherit create-dirs
 
 USERADD_PACKAGES= "${PN}"
 USERADD_PARAM_${PN} = " \
     --system \
     -U openvswitch \
 "
+
+SYSTEMD_AUTO_ENABLE_${PN}-switch = "disable"
+
+SERVICE_DIRS_LIST = " openvswitch"
+SERVICE_DIRS_PREFIX = "log"
 
 SYSTEMD_AUTO_ENABLE_${PN}-switch = "disable"
 
