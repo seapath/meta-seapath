@@ -11,9 +11,10 @@ python() {
 }
 
 set_random_root_passwd(){
-    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+    if ${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager', 'systemd', 'true', 'false', d)}; then
         install -D -m 0644 ${SEC_ARTIFACTS_DIR}/random-root-passwd.service \
             ${IMAGE_ROOTFS}/lib/systemd/system
+        install -d -m 0755 ${IMAGE_ROOTFS}/etc/systemd/system/sysinit.target.wants
         ln -sf /lib/systemd/system/random-root-passwd.service \
             ${IMAGE_ROOTFS}/etc/systemd/system/sysinit.target.wants/random-root-passwd.service
     fi
