@@ -17,6 +17,7 @@ SYSTEMD_AUTO_ENABLE_${PN}-switch = "disable"
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
+    file://openvswitch.conf \
     file://openvswitch.service \
     file://ovs-vswitchd.service \
     file://ovsdb-server.service \
@@ -24,6 +25,10 @@ SRC_URI += " \
 "
 
 do_install_append()  {
+    install -d ${D}/${sysconfdir}/sysconfig/
+    install -m 0644 ${WORKDIR}/openvswitch.conf \
+        ${D}${sysconfdir}/sysconfig/openvswitch
+
     install -d ${D}/${systemd_unitdir}/system/
     install -m 644 ${WORKDIR}/openvswitch.service \
         ${D}/${systemd_unitdir}/system/openvswitch.service
