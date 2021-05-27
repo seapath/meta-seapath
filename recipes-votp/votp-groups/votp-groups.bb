@@ -10,12 +10,17 @@ SRCREV = "${AUTOREV}"
 inherit useradd
 
 PACKAGES =+ " \
+    ${PN}-hugepages \
     ${PN}-vfio-net \
 "
 
 USERADD_PACKAGES= " \
+    ${PN}-hugepages \
     ${PN}-vfio-net \
 "
+
+GROUPADD_PARAM_${PN}-hugepages = "-r hugepages"
+ALLOW_EMPTY_${PN}-hugepages = "1"
 
 GROUPADD_PARAM_${PN}-vfio-net = "-r vfio-net"
 ALLOW_EMPTY_${PN}-vfio-net = "1"
