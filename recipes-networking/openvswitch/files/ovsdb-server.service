@@ -8,13 +8,15 @@ PartOf=openvswitch.service
 [Service]
 Type=forking
 PIDFile=/var/run/openvswitch/ovsdb-server.pid
+User=openvswitch
+Group=openvswitch
 Restart=on-failure
 Environment="OVS_USER_OPT=--db-file=/var/lib/openvswitch/conf.db"
 EnvironmentFile=/etc/openvswitch/default.conf
 EnvironmentFile=-/etc/sysconfig/openvswitch
-ExecStartPre=/bin/sh -c 'rm -f /run/openvswitch.useropts; /bin/echo "OVS_USER_ID=${OVS_USER_ID}" > /run/openvswitch.useropts'
-ExecStartPre=/bin/sh -c 'if [ "$${OVS_USER_ID/:*/}" != "root" ]; then /bin/echo "OVS_USER_OPT=--ovs-user=${OVS_USER_ID}" >> /run/openvswitch.useropts; fi'
-EnvironmentFile=-/run/openvswitch.useropts
+ExecStartPre=/bin/sh -c 'rm -f /run/openvswitch/openvswitch.useropts; /bin/echo "OVS_USER_ID=${OVS_USER_ID}" > /run/openvswitch/openvswitch.useropts'
+ExecStartPre=/bin/sh -c 'if [ "$${OVS_USER_ID/:*/}" != "root" ]; then /bin/echo "OVS_USER_OPT=--ovs-user=${OVS_USER_ID}" >> /run/openvswitch/openvswitch.useropts; fi'
+# EnvironmentFile=-/run/openvswitch.useropts
 ExecStart=/usr/share/openvswitch/scripts/ovs-ctl \
           --no-ovs-vswitchd --no-monitor --system-id=random \
           ${OVS_USER_OPT} \
@@ -35,4 +37,5 @@ ProtectKernelTunables=yes
 ProtectControlGroups=yes
 RestrictSUIDSGID=true
 RestrictNamespaces=pid user cgroup
-CapabilityBoundingSet=CAP_SYS_NICE
+AmbientCapabilities=CAP_SYS_NICE
+CapabilityBoundingSet=CAP_SYS_NICE CAP_NET_BIND_SERVICE CAP_IPC_LOCK
