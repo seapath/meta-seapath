@@ -1,0 +1,1 @@
+SUBSYSTEM=="vfio", KERNEL=="[0-9]*", GROUP="openvswitch", MODE="0660"

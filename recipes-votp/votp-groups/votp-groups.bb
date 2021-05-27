@@ -19,3 +19,19 @@ USERADD_PACKAGES= " \
 
 GROUPADD_PARAM_${PN}-vfio-net = "-r vfio-net"
 ALLOW_EMPTY_${PN}-vfio-net = "1"
+
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
+SRC_URI += " \
+    file://host/99-vfio-net.rules \
+"
+
+do_install_append() {
+    install -d ${D}${sysconfdir}/udev/rules.d
+    install -m 0644 ${WORKDIR}/host/99-vfio-net.rules \
+        ${D}${sysconfdir}/udev/rules.d
+}
+
+FILES_${PN}-vfio-net = " \
+    ${sysconfdir}/udev/rules.d/99-vfio-net.rules \
+"
