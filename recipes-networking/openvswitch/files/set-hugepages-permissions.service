@@ -1,0 +1,15 @@
+# Copyright (C) 2021, RTE (http://www.rte-france.com)
+# SPDX-License-Identifier: Apache-2.0
+
+[Unit]
+DefaultDependencies=no
+RequiresMountsFor=/dev/hugepages
+After=dev-hugepages.mount
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/chown :openvswitch /dev/hugepages
+ExecStart=/bin/chmod 0775 /dev/hugepages
+
+[Install]
+WantedBy=ovs-vswitchd.service

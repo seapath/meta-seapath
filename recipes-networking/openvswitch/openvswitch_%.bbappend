@@ -35,6 +35,7 @@ SRC_URI += " \
     file://ovs-vswitchd.service \
     file://ovsdb-server.service \
     file://fix-prandom-max.patch \
+    file://set-hugepages-permissions.service \
 "
 
 do_install_append()  {
@@ -49,4 +50,14 @@ do_install_append()  {
         ${D}/${systemd_unitdir}/system/ovs-vswitchd.service
     install -m 644 ${WORKDIR}/ovsdb-server.service \
         ${D}/${systemd_unitdir}/system/ovsdb-server.service
+    install -m 644 ${WORKDIR}/set-hugepages-permissions.service \
+        ${D}/${systemd_unitdir}/system/set-hugepages-permissions.service
 }
+
+SYSTEMD_SERVICE_${PN} += " \
+    set-hugepages-permissions.service \
+"
+
+FILES_${PN} += " \
+    ${systemd_unitdir}/system/set-hugepages-permissions.service \
+"
