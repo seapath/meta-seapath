@@ -5,7 +5,10 @@ do_configure[depends] += "virtual/kernel:do_shared_workdir"
 do_compile[depends] += "make-mod-scripts:do_configure"
 
 DEPENDS += " votp-groups"
-RDEPENDS_${PN} += " votp-groups-vfio-net"
+RDEPENDS_${PN} += " \
+    votp-groups-hugepages \
+    votp-groups-vfio-net \
+"
 
 inherit useradd
 inherit create-dirs
@@ -13,7 +16,7 @@ inherit create-dirs
 USERADD_PACKAGES = "${PN}"
 USERADD_PARAM_${PN} = " \
     --system \
-    -G vfio-net \
+    -G hugepages,vfio-net \
     -U openvswitch \
 "
 
