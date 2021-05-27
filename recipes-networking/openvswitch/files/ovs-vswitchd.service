@@ -1,24 +1,23 @@
 [Unit]
 Description=Open vSwitch Forwarding Unit
-After=ovsdb-server.service network-pre.target systemd-udev-settle.service
+After=ovsdb-server.service network-pre.target systemd-udev-settle.service set-hugepages-permissions.service
 Before=network.target network.service
-Requires=ovsdb-server.service
+Requires=ovsdb-server.service set-hugepages-permissions.service
 ReloadPropagatedFrom=ovsdb-server.service
 AssertPathIsReadWrite=/var/run/openvswitch/db.sock
 PartOf=openvswitch.service
 
 [Service]
 Type=forking
+User=openvswitch
 PIDFile=/var/run/openvswitch/ovs-vswitchd.pid
 Restart=on-failure
 Environment="OVS_USER_OPT=--db-file=/var/lib/openvswitch/conf.db"
 Environment=XDG_RUNTIME_DIR=/var/run/openvswitch
 EnvironmentFile=/etc/openvswitch/default.conf
 EnvironmentFile=-/etc/sysconfig/openvswitch
-EnvironmentFile=-/run/openvswitch.useropts
+EnvironmentFile=-/run/openvswitch/openvswitch.useropts
 LimitSTACK=2M
-ExecStartPre=-/bin/sh -c '/bin/chown :$${OVS_USER_ID##*:} /dev/hugepages'
-ExecStartPre=-/bin/chmod 0775 /dev/hugepages
 ExecStartPre=-/bin/mkdir /var/run/openvswitch/vm-sockets
 ExecStartPre=+/bin/chown -R qemu /var/run/openvswitch/vm-sockets
 ExecStartPre=+/bin/chmod g+ws /var/run/openvswitch/vm-sockets
@@ -44,6 +43,7 @@ ProtectControlGroups=yes
 RestrictSUIDSGID=true
 RestrictNamespaces=pid user cgroup
 # CAP_IPC_LOCK is required for mlockall calls
-CapabilityBoundingSet=CAP_SYS_NICE CAP_NET_ADMIN CAP_IPC_LOCK
+AmbientCapabilities=CAP_SYS_NICE CAP_NET_BROADCAST CAP_NET_RAW CAP_NET_ADMIN CAP_IPC_LOCK
+CapabilityBoundingSet=CAP_SYS_NICE CAP_NET_BROADCAST CAP_NET_RAW CAP_NET_ADMIN CAP_IPC_LOCK
 # Access to devices is required for DPDK in some conf
 # PrivateDevices=yes

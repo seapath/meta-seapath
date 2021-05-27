@@ -23,7 +23,8 @@ USERADD_PARAM_${PN} = " \
 SYSTEMD_AUTO_ENABLE_${PN}-switch = "disable"
 
 SERVICE_DIRS_LIST = " openvswitch"
-SERVICE_DIRS_PREFIX = "log"
+SERVICE_DIRS_PREFIX = "{log,lib,run}"
+SERVICE_DIRS_OWNER = "openvswitch:openvswitch"
 
 SYSTEMD_AUTO_ENABLE_${PN}-switch = "disable"
 
