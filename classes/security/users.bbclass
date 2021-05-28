@@ -12,7 +12,9 @@ USERS_LIST ?= ""
 USERS_LIST_EXPIRED ?= ""
 USERS_LIST_REMOVED ?= ""
 USERS_LIST_SUDOERS ?= ""
-GROUP_LIST ?= ""
+USER_GROUP_LIST ?= ""
+GROUPS_LIST ?= ""
+GROUPS_LIST_SUDOERS ?= ""
 
 IMAGE_INSTALL_append = " sudo"
 
@@ -71,14 +73,32 @@ python do_configure_users() {
 }
 
 def configure_groups(d, userslist, extrausersparams):
-    grouplist = d.getVarFlags("GROUP_LIST")
+    groupslist = d.getVar("GROUPS_LIST").split()
+    groupslistsudoers = d.getVar("GROUPS_LIST_SUDOERS").split()
+    sudoersdir = d.getVar("SUDOERS_DIR")
+    usergrouplist = d.getVarFlags("USER_GROUP_LIST")
     ret = ""
-    for g in grouplist:
+
+    for g in groupslist:
+        bb.note("adding group %s" %(g))
+        ret += " groupadd "+g+";"
+
+    # add in sudoers for groups in GROUP_LIST_SUDOERS
+    for group in groupslistsudoers:
+        if group not in groupslist:
+            bb.warn("Can not add sudoers for group %s (not in GROUP_LIST)"
+                %(group))
+            continue
+
+        with open(os.path.join(sudoersdir, group), "w") as f:
+            f.write("%"+group+"  ALL=(ALL) NOPASSWD:ALL")
+
+    for g in usergrouplist:
         bb.note("adding group for %s" %(g))
         if g not in userslist:
             bb.fatal("%s is not defined in USERS_LIST" %(g))
 
-        for group in grouplist[g].split():
+        for group in usergrouplist[g].split():
             ret += " usermod -a -G "+group+" "+g+";"
             bb.note("adding group %s for %s" %(group, g))
     return ret

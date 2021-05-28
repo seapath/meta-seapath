@@ -20,5 +20,11 @@ USERS_LIST_LOCKED[doc] = "List of users to lock"
 # Configure users with the ansible key enabled
 USERS_SSH_ANSIBLE = "admin root"
 
+# Additionnal group definition
+GROUPS_LIST ?= "privileged"
+GROUPS_LIST[doc] = "List of groups to be added"
+GROUPS_LIST_SUDOERS ?= "privileged"
+GROUPS_LIST_SUDOERS[doc] = "List of groups sudoers"
+
 # Groups set for users
-GROUP_LIST[admin] = "admin"
+USER_GROUP_LIST[admin] = "admin privileged"
