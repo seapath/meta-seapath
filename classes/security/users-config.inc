@@ -25,6 +25,8 @@ GROUPS_LIST ?= "privileged"
 GROUPS_LIST[doc] = "List of groups to be added"
 GROUPS_LIST_SUDOERS ?= "privileged"
 GROUPS_LIST_SUDOERS[doc] = "List of groups sudoers"
+SUDO_GROUP_OWNER ?= "privileged"
+SUDO_GROUP_OWNER[doc] = "Group owner of sudo binary"
 
 # Groups set for users
 USER_GROUP_LIST[admin] = "admin privileged"

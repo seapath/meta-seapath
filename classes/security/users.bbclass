@@ -7,6 +7,7 @@
 require users-config.inc
 inherit extrausers
 
+SUDO_BIN ?="${IMAGE_ROOTFS}/usr/bin/sudo"
 SUDOERS_DIR ?="${IMAGE_ROOTFS}/etc/sudoers.d"
 USERS_LIST ?= ""
 USERS_LIST_EXPIRED ?= ""
@@ -15,6 +16,7 @@ USERS_LIST_SUDOERS ?= ""
 USER_GROUP_LIST ?= ""
 GROUPS_LIST ?= ""
 GROUPS_LIST_SUDOERS ?= ""
+SUDO_GROUP_OWNER ?= ""
 
 IMAGE_INSTALL_append = " sudo"
 
@@ -103,10 +105,16 @@ def configure_groups(d, userslist, extrausersparams):
             bb.note("adding group %s for %s" %(group, g))
     return ret
 
+do_configure_sudo() {
+    $PSEUDO chown "root:${SUDO_GROUP_OWNER}" ${SUDO_BIN}
+    $PSEUDO chmod 4750 ${SUDO_BIN}
+}
+
 # do_add_users must be called very early following rootfs generation
 # so that extrausers.bbclass can use EXTRA_USERS_PARAMS variable
-python prepend_to_rootfs_postprocess () {
+python modify_rootfs_postprocess () {
     e.data.prependVar('ROOTFS_POSTPROCESS_COMMAND', ' do_configure_users;')
+    e.data.appendVar('ROOTFS_POSTPROCESS_COMMAND', ' do_configure_sudo;')
 }
-addhandler prepend_to_rootfs_postprocess
-prepend_to_rootfs_postprocess[eventmask] = "bb.event.RecipePreFinalise"
+addhandler modify_rootfs_postprocess
+modify_rootfs_postprocess[eventmask] = "bb.event.RecipePreFinalise"
