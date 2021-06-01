@@ -40,6 +40,7 @@ SRC_URI = "\
     file://hypervisor_tests.d/passwd.conf \
     file://hypervisor_tests.d/shadow.conf \
     file://hypervisor_tests.d/auditd.conf \
+    file://hypervisor_tests.d/libvirt.conf \
     file://includes/kernel_config_functions \
     file://realtime_tests.d/cyclictest.conf \
 "
@@ -119,6 +120,8 @@ do_install () {
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/shadow.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/auditd.conf \
+        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
+    install -m 0644 ${WORKDIR}/hypervisor_tests.d/libvirt.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
 
 # realtime
