@@ -1,6 +1,12 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
+inherit create-dirs
+
+SERVICE_DIRS_LIST = "libvirt"
+SERVICE_DIRS_PREFIX = "{cache,lib,log,run}"
+SERVICE_DIRS_OWNER = "root:root"
+
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
