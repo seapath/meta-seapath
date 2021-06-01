@@ -23,6 +23,7 @@ SRC_URI = "\
     file://common_tests.d/kernel_errors.conf \
     file://common_tests.d/syslog.conf \
     file://common_tests.d/hardening.conf \
+    file://common_tests.d/sudo.conf \
     file://cluster_tests.d/pacemaker.conf \
     file://cluster_tests.d/ceph.conf \
     file://cluster_tests.d/vm_manager_libvirt.conf \
@@ -86,6 +87,8 @@ do_install () {
     install -m 0644 ${WORKDIR}/common_tests.d/sysctl.conf \
         ${D}${sysconfdir}/cukinia/common_tests.d
     install -m 0644 ${WORKDIR}/common_tests.d/hardening.conf \
+        ${D}${sysconfdir}/cukinia/common_tests.d
+    install -m 0644 ${WORKDIR}/common_tests.d/sudo.conf \
         ${D}${sysconfdir}/cukinia/common_tests.d
 
     install -m 0755 -d ${D}${datadir}/cukinia/includes/
