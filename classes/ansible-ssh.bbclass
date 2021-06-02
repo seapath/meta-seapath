@@ -24,6 +24,8 @@ do_add_ansible_ssh_key() {
         eval flock -x ${IMAGE_ROOTFS}/${sysconfdir} -c \"$PSEUDO chown -R $user:$user ${IMAGE_ROOTFS}/etc/ssh/$user \"
         sed -i "s#AuthorizedKeysFile.*#AuthorizedKeysFile	/etc/ssh/%u/authorized_keys#" \
                         ${IMAGE_ROOTFS}/${sysconfdir}/ssh/sshd_config
+        sed -i "s#AuthorizedKeysFile.*#AuthorizedKeysFile	/etc/ssh/%u/authorized_keys#" \
+                        ${IMAGE_ROOTFS}/${sysconfdir}/ssh/sshd_config_readonly
     done
 }
 
