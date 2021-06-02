@@ -51,6 +51,19 @@ TasksMax=32768
 # support 4096 guests.
 LimitMEMLOCK=64M
 
+# Sandboxing
+PrivateTmp=yes
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/etc/libvirt /var/run/openvswitch/vm-sockets /var/run/libvirt /var/log/libvirt /var/cache/libvirt /var/lib/libvirt
+ProtectHome=tmpfs
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=no
+RestrictSUIDSGID=true
+RestrictNamespaces=pid user cgroup
+CapabilityBoundingSet=CAP_CHOWN CAP_SYS_NICE CAP_SETUID CAP_SETGID CAP_KILL CAP_DAC_OVERRIDE CAP_NET_ADMIN
+
 [Install]
 WantedBy=multi-user.target
 Also=virtlockd.socket
