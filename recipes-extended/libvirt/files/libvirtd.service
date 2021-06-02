@@ -27,8 +27,9 @@ Documentation=https://libvirt.org
 
 [Service]
 Type=forking
-PIDFile=/var/run/libvirtd.pid
+PIDFile=/var/run/libvirt/libvirtd.pid
 EnvironmentFile=-/etc/sysconfig/libvirtd
+ExecStartPre=/bin/sh -c '/bin/rm -f $PIDFile'
 ExecStart=/usr/sbin/libvirtd $LIBVIRTD_ARGS
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
