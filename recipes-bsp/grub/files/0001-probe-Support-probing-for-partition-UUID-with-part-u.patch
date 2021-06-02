@@ -1,0 +1,98 @@
+From 3641f77052009eaad322cfb89669e1c862c80888 Mon Sep 17 00:00:00 2001
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Date: Wed, 15 May 2019 21:04:43 +0200
+Subject: [PATCH] probe: Support probing for partition UUID with --part-uuid
+
+Linux supports root=PARTUUID=<partuuid> boot argument, so add
+support for probing it. Compared to the fs UUID, the partition
+UUID does not change when reformatting a partition.
+
+For now, only disks using a GPT partition table are supported.
+
+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+---
+ docs/grub.texi             |  4 +++-
+ grub-core/commands/probe.c | 34 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+
+diff --git a/docs/grub.texi b/docs/grub.texi
+index 87795075a..11a0e9ad8 100644
+--- a/docs/grub.texi
++++ b/docs/grub.texi
+@@ -4771,9 +4771,11 @@ a rest.
+ @node probe
+ @subsection probe
+ 
+-@deffn Command probe [@option{--set} var] @option{--driver}|@option{--partmap}|@option{--fs}|@option{--fs-uuid}|@option{--label} device
++@deffn Command probe [@option{--set} var] @option{--driver}|@option{--partmap}|@option{--fs}|@option{--fs-uuid}|@option{--label}|@option{--part-uuid} device
+ Retrieve device information. If option @option{--set} is given, assign result
+ to variable @var{var}, otherwise print information on the screen.
++
++The option @option{--part-uuid} is currently only implemented for GPT-formatted disks.
+ @end deffn
+ 
+ 
+diff --git a/grub-core/commands/probe.c b/grub-core/commands/probe.c
+index 95d272287..d2e7f662e 100644
+--- a/grub-core/commands/probe.c
++++ b/grub-core/commands/probe.c
+@@ -24,6 +24,7 @@
+ #include <grub/device.h>
+ #include <grub/disk.h>
+ #include <grub/partition.h>
++#include <grub/gpt_partition.h>
+ #include <grub/net.h>
+ #include <grub/fs.h>
+ #include <grub/file.h>
+@@ -45,6 +46,7 @@ static const struct grub_arg_option options[] =
+     {"fs",		'f', 0, N_("Determine filesystem type."), 0, 0},
+     {"fs-uuid",		'u', 0, N_("Determine filesystem UUID."), 0, 0},
+     {"label",		'l', 0, N_("Determine filesystem label."), 0, 0},
++    {"part-uuid",	0,   0, N_("Determine partition UUID."), 0, 0},
+     {0, 0, 0, 0, 0, 0}
+   };
+ 
+@@ -98,6 +100,38 @@ grub_cmd_probe (grub_extcmd_context_t ctxt, int argc, char **args)
+       grub_device_close (dev);
+       return GRUB_ERR_NONE;
+     }
++  if (state[6].set)
++    {
++      /* AAAABBBB-CCCC-DDDD-EEEE-FFFFFFFFFFFF + null terminator */
++      char val[37] = "none";
++      if (dev->disk && dev->disk->partition &&
++	  grub_strcmp(dev->disk->partition->partmap->name, "gpt") == 0)
++	{
++	  struct grub_gpt_partentry entry;
++	  struct grub_partition *p = dev->disk->partition;
++	  grub_disk_t disk = grub_disk_open(dev->disk->name);
++	  if (!disk)
++	    return grub_errno;
++	  if (grub_disk_read(disk, p->offset, p->index, sizeof(entry), &entry))
++	    return grub_errno;
++	  grub_disk_close(disk);
++	  grub_gpt_part_guid_t *guid = &entry.guid;
++	  grub_snprintf (val, sizeof(val),
++			 "%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x",
++			 grub_le_to_cpu32 (guid->data1),
++			 grub_le_to_cpu16 (guid->data2),
++			 grub_le_to_cpu16 (guid->data3),
++			 guid->data4[0], guid->data4[1], guid->data4[2],
++			 guid->data4[3], guid->data4[4], guid->data4[5],
++			 guid->data4[6], guid->data4[7]);
++	}
++      if (state[0].set)
++	grub_env_set (state[0].arg, val);
++      else
++	grub_printf ("%s", val);
++      grub_device_close (dev);
++      return GRUB_ERR_NONE;
++    }
+   fs = grub_fs_probe (dev);
+   if (! fs)
+     return grub_errno;
+-- 
+2.31.1
+
