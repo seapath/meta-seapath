@@ -2,5 +2,4 @@
 # SPDX-License-Identifier: Apache-2.0
 
 EXTRA_OECONF_append_class-target = " --enable-rbd"
-DEPENDS_append_class-target = " ceph spice"
-PACKAGECONFIG_append = " spice"
+DEPENDS_append_class-target = " ceph"
