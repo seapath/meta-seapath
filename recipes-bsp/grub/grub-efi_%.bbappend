@@ -18,6 +18,10 @@ do_install_append_class-target() {
 # SELoader before its execution.
 RDEPENDS_${PN}_class-target_append = "${@' seloader' if (d.getVar('UEFI_SELOADER') == '1' and d.getVar('UEFI_SB') == '1') else ''}"
 
+# Remove dependency to grub-bootconf as the configuration is installed
+# in grub-efi
+RDEPENDS_${PN}_class-target_remove = "virtual/grub-bootconf"
+
 FILES_${PN}_remove = "${libdir}/grub"
 
 GRUB_BUILDIN += " password_pbkdf2 probe regexp"
