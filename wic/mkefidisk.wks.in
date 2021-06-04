@@ -4,6 +4,8 @@
 # short-description: Create an EFI disk image
 # long-description: Creates a partitioned EFI disk image that the user
 # can directly dd to boot media.
+bootloader --ptable gpt
+
 part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label efi0 --active --align 1024  --part-type C12A7328-F81F-11D2-BA4B-00A0C93EC93B --size 128M --use-uuid --fsoptions="defaults,noauto"
 part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label efi1 --active --align 1024  --part-type C12A7328-F81F-11D2-BA4B-00A0C93EC93B --size 128M --use-uuid --fsoptions="defaults,noauto"
 
@@ -11,5 +13,3 @@ part / --source rootfs --ondisk sda --fstype=ext4 --label rootfs0 --align 1024 -
 part / --source rootfs --ondisk sda --fstype=ext4 --label rootfs1 --align 1024 --use-uuid
 
 part /var/log --size 4096 --ondisk sda --fstype=ext4 --label log --align 1024 --use-uuid
-
-bootloader --ptable gpt --configfile=grub.cfg

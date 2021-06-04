@@ -16,3 +16,8 @@ IMAGE_INSTALL_append = " \
     system-config-host \
     system-upgrade \
 "
+
+# Host images are compatible with votp only
+# GRUB static configuration for host machines
+# depends on votp
+COMPATIBLE_MACHINE = "votp"

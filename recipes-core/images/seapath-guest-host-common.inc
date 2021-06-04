@@ -10,3 +10,7 @@ IMAGE_INSTALL_append = " \
 "
 IMAGE_FSTYPES = "wic.qcow2 wic.vmdk"
 WKS_FILE = "mkbiosdisk.wks.in"
+
+# Guest/Host machines are using legacy BIOS WIC
+# so any machine can be used
+COMPATIBLE_MACHINE = "votp*"
