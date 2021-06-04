@@ -28,7 +28,7 @@ source s_src {
         file("/proc/kmsg" program_override("kernel"));
 };
 source s_net {
-        network(
+        syslog(
                 ip("192.168.220.6")
                 port(6514)
                 transport("tls")

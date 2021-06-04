@@ -36,7 +36,7 @@ destination d_syslog { file("/var/log/syslog-ng/syslog.local"); };
 # mem-buff-size is set to 163840000 ~= 156MB (default value)
 # disk-buf-size is set to 1073741824 = 1GB
 destination d_net {
-        network(
+        syslog(
                 "192.168.220.6"
                 port(6514)
                 transport("tls")
