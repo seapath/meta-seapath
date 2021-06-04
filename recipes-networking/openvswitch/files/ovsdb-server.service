@@ -39,4 +39,5 @@ RestrictSUIDSGID=true
 RestrictNamespaces=pid user cgroup
 AmbientCapabilities=CAP_SYS_NICE
 CapabilityBoundingSet=CAP_SYS_NICE CAP_NET_BIND_SERVICE CAP_IPC_LOCK
+PrivateDevices=yes
 ProtectKernelLogs=true
