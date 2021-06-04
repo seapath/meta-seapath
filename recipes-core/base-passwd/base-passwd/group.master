@@ -1,6 +1,5 @@
 root:*:0:
 daemon:*:1:
-adm:*:4:
 tty:*:5:
 disk:*:6:
 mail:*:8:
