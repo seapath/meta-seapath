@@ -47,3 +47,4 @@ AmbientCapabilities=CAP_SYS_NICE CAP_NET_BROADCAST CAP_NET_RAW CAP_NET_ADMIN CAP
 CapabilityBoundingSet=CAP_SYS_NICE CAP_NET_BROADCAST CAP_NET_RAW CAP_NET_ADMIN CAP_IPC_LOCK
 # Access to devices is required for DPDK in some conf
 # PrivateDevices=yes
+ProtectKernelLogs=true
