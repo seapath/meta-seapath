@@ -22,7 +22,7 @@ IMAGE_INSTALL_append = " less"
 GLIBC_GENERATE_LOCALES = "en_US.UTF-8 fr_FR.UTF-8"
 IMAGE_LINGUAS ?= "en_US fr_FR"
 
-IMAGE_FSTYPES = "wic.gz"
+IMAGE_FSTYPES = "wic.gz wic.bmap"
 IMAGE_FEATURES += "ssh-server-openssh"
 EXTRA_IMAGE_FEATURES = ""
 
