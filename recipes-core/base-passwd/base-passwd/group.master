@@ -6,7 +6,6 @@ mail:*:8:
 shadow:*:42:
 utmp:*:43:
 video:*:44:
-plugdev:*:46:
 staff:*:50:
 shutdown:*:61
 users:*:100:
