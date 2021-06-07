@@ -7,4 +7,11 @@ SRC_URI += " \
     file://0001-probe-Support-probing-for-partition-UUID-with-part-u.patch \
 "
 
+do_install_append_class-target() {
+    rm -rf ${D}${EFI_BOOT_PATH}/${GRUB_TARGET}-efi
+    rm -rf ${D}/usr
+}
+
+FILES_${PN}_remove = "${libdir}/grub"
+
 GRUB_BUILDIN += " password_pbkdf2 probe regexp"
