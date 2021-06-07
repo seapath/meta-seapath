@@ -12,6 +12,12 @@ do_install_append_class-target() {
     rm -rf ${D}/usr
 }
 
+# Ensure that SELoader is installed when enabled while Secureboot is
+# also enabled.
+# "grub-efi" actually depends on MOK2Verify protocol being installed by
+# SELoader before its execution.
+RDEPENDS_${PN}_class-target_append = "${@' seloader' if (d.getVar('UEFI_SELOADER') == '1' and d.getVar('UEFI_SB') == '1') else ''}"
+
 FILES_${PN}_remove = "${libdir}/grub"
 
 GRUB_BUILDIN += " password_pbkdf2 probe regexp"
