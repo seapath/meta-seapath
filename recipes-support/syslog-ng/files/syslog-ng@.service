@@ -27,7 +27,6 @@ ProtectControlGroups=yes
 NoNewPrivileges=true
 RestrictNamespaces=pid
 MemoryDenyWriteExecute=yes
-PrivateDevices=yes
 RestrictRealtime=yes
 RestrictSUIDSGID=yes
 PrivateMounts=yes
