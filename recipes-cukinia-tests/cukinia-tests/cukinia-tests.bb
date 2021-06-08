@@ -11,6 +11,7 @@ SRC_URI = "\
     file://cukinia-cluster.conf \
     file://cukinia-common.conf \
     file://cukinia-hypervisor.conf \
+    file://cukinia-monitor.conf \
     file://cukinia-realtime.conf \
     file://cukinia-vm.conf \
     file://common_tests.d/cukinia-installation.conf \
@@ -43,6 +44,7 @@ SRC_URI = "\
     file://hypervisor_tests.d/auditd.conf \
     file://hypervisor_tests.d/libvirt.conf \
     file://hypervisor_tests.d/files.conf \
+    file://monitor_tests.d/files.conf \
     file://vm_tests.d/files.conf \
     file://includes/kernel_config_functions \
     file://realtime_tests.d/cyclictest.conf \
@@ -131,6 +133,12 @@ do_install () {
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/files.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
 
+# monitor
+    install -m 0755 -d ${D}${sysconfdir}/cukinia/monitor_tests.d/
+    install -m 0644 ${WORKDIR}/cukinia-monitor.conf ${D}${sysconfdir}/cukinia
+    install -m 0644 ${WORKDIR}/monitor_tests.d/files.conf \
+        ${D}${sysconfdir}/cukinia/monitor_tests.d
+
 # realtime
     install -m 0755 -d ${D}${sysconfdir}/cukinia/realtime_tests.d/
     install -m 0644 ${WORKDIR}/cukinia-realtime.conf ${D}${sysconfdir}/cukinia
@@ -148,6 +156,7 @@ PACKAGES =+ " \
     ${PN}-cluster \
     ${PN}-common \
     ${PN}-hypervisor \
+    ${PN}-monitor \
     ${PN}-realtime \
     ${PN}-vm \
 "
@@ -173,6 +182,11 @@ FILES_${PN}-common = " \
 FILES_${PN}-hypervisor = " \
     ${sysconfdir}/cukinia/cukinia-hypervisor.conf \
     ${sysconfdir}/cukinia/hypervisor_tests.d/* \
+"
+
+FILES_${PN}-monitor = " \
+    ${sysconfdir}/cukinia/cukinia-monitor.conf \
+    ${sysconfdir}/cukinia/monitor_tests.d/* \
 "
 
 FILES_${PN}-realtime = " \
