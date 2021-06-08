@@ -42,6 +42,8 @@ SRC_URI = "\
     file://hypervisor_tests.d/shadow.conf \
     file://hypervisor_tests.d/auditd.conf \
     file://hypervisor_tests.d/libvirt.conf \
+    file://hypervisor_tests.d/files.conf \
+    file://vm_tests.d/files.conf \
     file://includes/kernel_config_functions \
     file://realtime_tests.d/cyclictest.conf \
 "
@@ -126,6 +128,8 @@ do_install () {
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/libvirt.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
+    install -m 0644 ${WORKDIR}/hypervisor_tests.d/files.conf \
+        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
 
 # realtime
     install -m 0755 -d ${D}${sysconfdir}/cukinia/realtime_tests.d/
@@ -135,6 +139,9 @@ do_install () {
 
 # vm
     install -m 0644 ${WORKDIR}/cukinia-vm.conf ${D}${sysconfdir}/cukinia
+    install -m 0755 -d ${D}${sysconfdir}/cukinia/vm_tests.d/
+    install -m 0644 ${WORKDIR}/vm_tests.d/files.conf \
+        ${D}${sysconfdir}/cukinia/vm_tests.d
 }
 
 PACKAGES =+ " \
@@ -175,4 +182,5 @@ FILES_${PN}-realtime = " \
 
 FILES_${PN}-vm = " \
     ${sysconfdir}/cukinia/cukinia-vm.conf \
+    ${sysconfdir}/cukinia/vm_tests.d/* \
 "
