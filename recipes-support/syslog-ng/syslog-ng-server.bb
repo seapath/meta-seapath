@@ -21,7 +21,7 @@ do_install() {
        ${D}${sysconfdir}/syslog-ng/syslog-ng.conf
 
     install -d ${D}${sysconfdir}/syslog-ng/cert.d
-    install -m 0644 ${WORKDIR}/servercert.pem \
+    install -m 0400 ${WORKDIR}/servercert.pem \
         ${D}${sysconfdir}/syslog-ng/cert.d
     install -m 0400 ${WORKDIR}/serverkey.pem \
         ${D}${sysconfdir}/syslog-ng/cert.d

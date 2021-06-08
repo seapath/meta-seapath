@@ -20,11 +20,12 @@ do_install_append() {
     rm ${D}${sysconfdir}/${BPN}/syslog-ng.conf
 
     install -d ${D}${sysconfdir}/syslog-ng/ca.d
-    install -m 0644 ${WORKDIR}/cacert.pem \
+    install -m 0400 ${WORKDIR}/cacert.pem \
        ${D}${sysconfdir}/syslog-ng/ca.d
     hashconf=$(openssl x509 -noout -hash -in "${WORKDIR}/cacert.pem")
     ln -sf cacert.pem \
       ${D}${sysconfdir}/syslog-ng/ca.d/$hashconf.0
+    chmod 0400 ${D}${sysconfdir}/syslog-ng/ca.d/$hashconf.0
 
     install -d {D}{systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/syslog-ng@.service \
