@@ -12,7 +12,7 @@
 require qa-common.inc
 
 grub_file_is_setup_properly() {
-    check_grub_configuration "${WIC_IMAGES_DIR}/grub.cfg"
+    check_grub_configuration "${IMAGE_ROOTFS}/boot/EFI/BOOT/grub.cfg"
 }
 
 IMAGE_QA_COMMANDS += "grub_file_is_setup_properly"
