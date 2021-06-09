@@ -7,7 +7,14 @@ SRC_URI += " \
     file://0001-probe-Support-probing-for-partition-UUID-with-part-u.patch \
 "
 
+SRC_URI_append_class-target += " \
+    file://grub-efi.cfg   \
+"
+
 do_install_append_class-target() {
+    if [ "${UEFI_SB}" != "1" ]; then
+        install -D -m 0600 "${WORKDIR}/grub-efi.cfg" "${D}${EFI_FILES_PATH}/grub.cfg"
+    fi
     rm -rf ${D}${EFI_BOOT_PATH}/${GRUB_TARGET}-efi
     rm -rf ${D}/usr
 }
@@ -23,5 +30,7 @@ RDEPENDS_${PN}_class-target_append = "${@' seloader' if (d.getVar('UEFI_SELOADER
 RDEPENDS_${PN}_class-target_remove = "virtual/grub-bootconf"
 
 FILES_${PN}_remove = "${libdir}/grub"
+
+FILES_${PN}_append = " ${EFI_FILES_PATH}"
 
 GRUB_BUILDIN += " password_pbkdf2 probe regexp"
