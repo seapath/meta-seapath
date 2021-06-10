@@ -21,9 +21,9 @@ USERS_LIST_LOCKED[doc] = "List of users to lock"
 USERS_SSH_ANSIBLE = "admin root"
 
 # Additionnal group definition
-GROUPS_LIST ?= "privileged"
+GROUPS_LIST ?= "privileged operator maint-n1 maint-n3 admincluster adminsys ansible"
 GROUPS_LIST[doc] = "List of groups to be added"
-GROUPS_LIST_SUDOERS ?= "privileged"
+GROUPS_LIST_SUDOERS ?= "privileged admincluster adminsys ansible"
 GROUPS_LIST_SUDOERS[doc] = "List of groups sudoers"
 GROUPS_LIST_NOPASSWD ?= "privileged"
 GROUPS_LIST_NOPASSWD[doc] = "List of users that do not require authentication for sudo"
