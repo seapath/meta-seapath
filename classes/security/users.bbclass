@@ -116,6 +116,29 @@ def configure_groups(d, userslist, extrausersparams):
             bb.note("adding group %s for %s" %(group, g))
     return ret
 
+contains() {
+    string="$1"
+    substring="$2"
+    if test "${string#*$substring}" != "$string"; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+do_configure_policy () {
+    # install policies for sudo
+    for GROUP in ${GROUP_POLICIES_SUDO}; do
+        contains " ${GROUPS_LIST} " " ${GROUP} " || \
+            bbfatal "Group ${GROUP} is not defined in GROUPS_LIST"
+        test -f ${SEC_ARTIFACTS_DIR}/sudoers.d/${GROUP} || \
+            bbfatal "Missing ${POLICY} policy for ${GROUP}"
+        install -d -m 0755 ${IMAGE_ROOTFS}/etc/sudoers.d/
+        install -m 440 ${SEC_ARTIFACTS_DIR}/sudoers.d/${GROUP} \
+            ${IMAGE_ROOTFS}/etc/sudoers.d
+    done
+}
+
 do_configure_sudo() {
     $PSEUDO chown "root:${SUDO_GROUP_OWNER}" ${SUDO_BIN}
     $PSEUDO chmod 4750 ${SUDO_BIN}
@@ -126,6 +149,7 @@ do_configure_sudo() {
 python modify_rootfs_postprocess () {
     e.data.prependVar('ROOTFS_POSTPROCESS_COMMAND', ' do_configure_users;')
     e.data.appendVar('ROOTFS_POSTPROCESS_COMMAND', ' do_configure_sudo;')
+    e.data.appendVar('ROOTFS_POSTPROCESS_COMMAND', ' do_configure_policy;')
 }
 addhandler modify_rootfs_postprocess
 modify_rootfs_postprocess[eventmask] = "bb.event.RecipePreFinalise"
