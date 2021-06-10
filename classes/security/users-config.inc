@@ -34,3 +34,6 @@ SUDO_GROUP_OWNER[doc] = "Group owner of sudo binary"
 
 # Groups set for users
 USER_GROUP_LIST[admin] = "admin privileged"
+
+# Permissions policies to enforce
+GROUP_POLICIES_SUDO ?= "operator maint-n1 maint-n3 admincluster adminsys ansible"
