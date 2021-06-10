@@ -15,4 +15,7 @@ grub_file_is_setup_properly() {
     check_grub_configuration "${IMAGE_ROOTFS}/boot/EFI/BOOT/grub.cfg"
 }
 
-IMAGE_QA_COMMANDS += "grub_file_is_setup_properly"
+IMAGE_QA_COMMANDS += "          \
+    grub_file_is_setup_properly \
+    verify_secureboot_signature \
+"

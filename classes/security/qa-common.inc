@@ -6,6 +6,27 @@
 # QA checks
 #
 
+verify_secureboot_signature() {
+    if [ "${UEFI_SB}" != "1" ]; then
+        return 0
+    fi
+
+    for efifile in $(find ${IMAGE_ROOTFS}/boot/EFI/BOOT -type f -iname "*.efi"); do
+        filename=$(basename ${efifile})
+        # LockDown.efi is special : it is supposed to be called to populate
+        # SecureBoot variables so it cannot be signed.
+        # Hence if detected, skip that binary.
+        if [ "${filename}" = "LockDown.efi" ]; then
+            continue
+        fi
+        # Binaries must be signed using the DB key.
+        if ! sbverify "${efifile}" --cert ${UEFI_SB_KEYS_DIR}/DB.crt; then
+            bbwarn "${filename} is not correctly signed for Secureboot"
+            return 1
+        fi
+    done
+}
+
 check_grub_configuration(){
     [ ! -f "$1" ] && return 254
 
