@@ -1,6 +1,11 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
+inherit create-dirs
+
+SERVICE_DIRS_LIST = "corosync"
+SERVICE_DIRS_PREFIX = "{lib,log}"
+
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
