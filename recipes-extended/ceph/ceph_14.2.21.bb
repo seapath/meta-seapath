@@ -14,8 +14,8 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
            file://0001-ceph-fix-build-errors-for-cross-compile.patch \
            file://0001-Add-LDFLAGS-when-linking-cython-libraries.patch \
 "
-SRC_URI[md5sum] = "4b7f92e537bb4c5e1cd3d3972728a2f5"
-SRC_URI[sha256sum] = "ccc616a17f0a18a9b1de7417e870847740f329d52cb5ab35230e7424cfbd04e7"
+SRC_URI[md5sum] = "80c75b5421665fd1e412d29ce74313a2"
+SRC_URI[sha256sum] = "bcedc6a89dd660728b61299e8e12556e3782565c44a75e270016a9736bee0dc2"
 
 def limit_parallel(limit):
    import multiprocessing
