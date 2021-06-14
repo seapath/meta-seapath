@@ -3,7 +3,8 @@ Description=Corosync Cluster Engine
 Documentation=man:corosync man:corosync.conf man:corosync_overview
 ConditionKernelCommandLine=!nocluster
 Requires=network-online.target
-After=network-online.target
+After=network-online.target create-corosync-pid.service create-corosync-log-dir.service
+Wants=create-corosync-pid.service create-corosync-log-dir.service
 
 [Service]
 EnvironmentFile=-/etc/sysconfig/corosync
@@ -28,6 +29,20 @@ StandardError=null
 #RestartSec=70
 #  rewrite according to environment.
 #ExecStartPre=/sbin/modprobe softdog
+
+PrivateTmp=yes
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/log/cluster /var/log/corosync /var/lib/corosync /var/run/corosync.pid
+ProtectHome=tmpfs
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+MemoryDenyWriteExecute=yes
+CapabilityBoundingSet=cap_sys_nice cap_ipc_lock cap_fowner cap_dac_override cap_chown cap_net_admin
+PrivateDevices=yes
 
 [Install]
 WantedBy=multi-user.target
