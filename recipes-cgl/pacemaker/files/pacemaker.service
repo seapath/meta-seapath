@@ -30,6 +30,8 @@ After=syslog.service
 After=rsyslog.service
 After=corosync.service
 Requires=corosync.service
+After=create-var-run-resource-agents.service create-pacemaker-log-dir.service
+Wants=create-var-run-resource-agents.service create-pacemaker-log-dir.service
 
 
 [Install]
@@ -95,3 +97,17 @@ Restart=on-failure
 # crm_perror() writes directly to stderr, so ignore it here
 # to avoid double-logging with the wrong format
 StandardError=null
+
+PrivateTmp=yes
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/etc/pacemaker /var/log/pacemaker /var/lib/pacemaker /var/run/crm /var/run/resource-agents
+ProtectHome=tmpfs
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+MemoryDenyWriteExecute=yes
+CapabilityBoundingSet=cap_chown cap_dac_override cap_kill cap_setgid cap_setuid
+PrivateDevices=yes
