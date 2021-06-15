@@ -1,0 +1,15 @@
+# Copyright (C) 2021, RTE (http://www.rte-france.com)
+# SPDX-License-Identifier: Apache-2.0
+
+[Unit]
+DefaultDependencies=no
+RequiresMountsFor=/var/run
+ConditionPathIsReadWrite=/var/run
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/mkdir -p /var/run/resource-agents
+
+[Install]
+WantedBy=pacemaker.service
