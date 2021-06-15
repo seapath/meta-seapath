@@ -11,6 +11,7 @@ RDEPENDS_${PN} = "bash udev"
 SRC_URI = " \
     file://is_from_inactive_bank.sh \
     file://partition_symlinks.rules \
+    file://switch_bootloader.sh \
 "
 
 do_install () {
@@ -20,9 +21,12 @@ do_install () {
         ${D}${bindir}/is_from_inactive_bank
     install -m 0644 ${WORKDIR}/partition_symlinks.rules \
         ${D}${sysconfdir}/udev/rules.d
+    install -m 0755 ${WORKDIR}/switch_bootloader.sh \
+        ${D}${bindir}/switch_bootloader
 }
 
 FILES_${PN} = " \
     ${sysconfdir}/udev/rules.d/partition_symlinks.rules \
     ${bindir}/is_from_inactive_bank \
+    ${bindir}/switch_bootloader \
 "
