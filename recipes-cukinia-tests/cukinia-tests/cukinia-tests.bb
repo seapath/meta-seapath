@@ -32,6 +32,7 @@ SRC_URI = "\
     file://cluster_tests.d/vm_manager_libvirt.conf \
     file://cluster_tests.d/vm_manager_pacemaker.conf \
     file://cluster_tests.d/vm_manager_rbd.conf \
+    file://cluster_tests.d/corosync.conf \
     file://hypervisor_tests.d/iommu.conf \
     file://hypervisor_tests.d/virtualization.conf \
     file://hypervisor_tests.d/ovs.conf \
@@ -71,6 +72,8 @@ do_install () {
     install -m 0644 ${WORKDIR}/cluster_tests.d/vm_manager_rbd.conf \
         ${D}${sysconfdir}/cukinia/cluster_tests.d
     install -m 0644 ${WORKDIR}/cluster_tests.d/vm_manager_pacemaker.conf \
+        ${D}${sysconfdir}/cukinia/cluster_tests.d
+    install -m 0644 ${WORKDIR}/cluster_tests.d/corosync.conf \
         ${D}${sysconfdir}/cukinia/cluster_tests.d
 
 # common
