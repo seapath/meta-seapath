@@ -54,9 +54,6 @@ LimitMEMLOCK=64M
 # Sandboxing
 PrivateTmp=yes
 NoNewPrivileges=true
-ProtectSystem=strict
-ReadWritePaths=/etc/libvirt /var/lock /var/run/openvswitch/vm-sockets /var/run/libvirt /var/log/libvirt /var/cache/libvirt /var/lib/libvirt
-ProtectHome=tmpfs
 ProtectKernelModules=yes
 ProtectKernelTunables=yes
 ProtectControlGroups=no
