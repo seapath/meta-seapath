@@ -14,6 +14,7 @@ SRC_URI = "\
     file://cukinia-monitor.conf \
     file://cukinia-realtime.conf \
     file://cukinia-vm.conf \
+    file://cukinia-efi.conf \
     file://common_tests.d/cukinia-installation.conf \
     file://common_tests.d/sw-versions.conf \
     file://common_tests.d/preempt-rt.conf \
@@ -26,7 +27,6 @@ SRC_URI = "\
     file://common_tests.d/hardening.conf \
     file://common_tests.d/sudo.conf \
     file://common_tests.d/files.conf \
-    file://common_tests.d/partition-symlinks.conf \
     file://cluster_tests.d/pacemaker.conf \
     file://cluster_tests.d/ceph.conf \
     file://cluster_tests.d/vm_manager_libvirt.conf \
@@ -50,6 +50,7 @@ SRC_URI = "\
     file://vm_tests.d/files.conf \
     file://includes/kernel_config_functions \
     file://realtime_tests.d/cyclictest.conf \
+    file://efi_tests.d/partition-symlinks.conf \
 "
 
 RDEPENDS_${PN} += "cukinia"
@@ -101,8 +102,6 @@ do_install () {
     install -m 0644 ${WORKDIR}/common_tests.d/sudo.conf \
         ${D}${sysconfdir}/cukinia/common_tests.d
     install -m 0644 ${WORKDIR}/common_tests.d/files.conf \
-        ${D}${sysconfdir}/cukinia/common_tests.d
-    install -m 0644 ${WORKDIR}/common_tests.d/partition-symlinks.conf \
         ${D}${sysconfdir}/cukinia/common_tests.d
 
     install -m 0755 -d ${D}${datadir}/cukinia/includes/
@@ -156,6 +155,12 @@ do_install () {
     install -m 0755 -d ${D}${sysconfdir}/cukinia/vm_tests.d/
     install -m 0644 ${WORKDIR}/vm_tests.d/files.conf \
         ${D}${sysconfdir}/cukinia/vm_tests.d
+
+# efi
+    install -m 0644 ${WORKDIR}/cukinia-efi.conf ${D}${sysconfdir}/cukinia
+    install -m 0755 -d ${D}${sysconfdir}/cukinia/efi_tests.d/
+    install -m 0644 ${WORKDIR}/efi_tests.d/partition-symlinks.conf \
+        ${D}${sysconfdir}/cukinia/efi_tests.d
 }
 
 PACKAGES =+ " \
@@ -165,6 +170,7 @@ PACKAGES =+ " \
     ${PN}-monitor \
     ${PN}-realtime \
     ${PN}-vm \
+    ${PN}-efi \
 "
 
 RDEPENDS_${PN}-realtime += "rt-tests"
@@ -203,4 +209,9 @@ FILES_${PN}-realtime = " \
 FILES_${PN}-vm = " \
     ${sysconfdir}/cukinia/cukinia-vm.conf \
     ${sysconfdir}/cukinia/vm_tests.d/* \
+"
+
+FILES_${PN}-efi = " \
+    ${sysconfdir}/cukinia/cukinia-efi.conf \
+    ${sysconfdir}/cukinia/efi_tests.d/* \
 "
