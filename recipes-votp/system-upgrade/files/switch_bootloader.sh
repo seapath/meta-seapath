@@ -1,6 +1,6 @@
 #!/bin/bash
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
-# This program is distributed under the Apache 2 license.
+# SPDX-License-Identifier: Apache-2.0
 #
 # Script that switches between bootloader boot0 and boot1 EFI entries
 # by enabling / disabling them accordingly.
@@ -47,6 +47,3 @@ else
     echo "Error while disabling entry ${entry_to_disable}"
     exit 1
 fi
-
-# Reboot on the enabled entry
-reboot
