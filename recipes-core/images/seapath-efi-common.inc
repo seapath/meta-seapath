@@ -6,4 +6,5 @@ IMAGE_INSTALL_append = " \
     grub-efi             \
     efitools             \
     efibootmgr           \
+    cukinia-tests-efi    \
 "
