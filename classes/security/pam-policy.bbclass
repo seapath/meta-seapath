@@ -21,6 +21,10 @@ clear_securetty() {
     touch ${IMAGE_ROOTFS}/etc/securetty
 }
 
+install_pam_environment() {
+    install -D -m 0640 ${SEC_ARTIFACTS_DIR}/pam/environment ${IMAGE_ROOTFS}/etc/environment
+}
+
 python() {
     if bb.data.inherits_class('image', d):
         if bb.utils.contains('DISTRO_FEATURES', 'pam', True, False, d):
@@ -38,6 +42,6 @@ python() {
                                           "Consider adding 'unsafe-pam-policy' to IMAGE_FEATURES " + \
                                           "or remove 'debug-tweaks / allow-empty-password / empty-root-password'")
 
-            d.appendVar("ROOTFS_POSTPROCESS_COMMAND", "install_pam_policy; clear_securetty;")
+            d.appendVar("ROOTFS_POSTPROCESS_COMMAND", "install_pam_policy; clear_securetty; install_pam_environment;")
             d.appendVar("IMAGE_INSTALL", " pam-plugin-cracklib")
 }
