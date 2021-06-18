@@ -6,6 +6,7 @@ SRC_URI_append = " \
     file://0001-networkd-wait-online-add-any-option.patch \
     file://basic.conf \
 "
+PACKAGECONFIG_append = " seccomp"
 do_install_append () {
     install -m 0644 ${WORKDIR}/basic.conf ${D}/usr/lib/sysusers.d/
     # Remove audio group references
