@@ -8,6 +8,11 @@
 python() {
     if not bb.utils.contains('IMAGE_FEATURES', 'debug-tweaks', True, False, d):
         d.appendVar("ROOTFS_POSTPROCESS_COMMAND", "set_random_root_passwd;")
+    d.appendVar("ROOTFS_POSTPROCESS_COMMAND", "set_bash_profile;")
+}
+
+set_bash_profile() {
+    install -D -m 0644 ${SEC_ARTIFACTS_DIR}/profile ${IMAGE_ROOTFS}/etc/profile
 }
 
 set_random_root_passwd(){
