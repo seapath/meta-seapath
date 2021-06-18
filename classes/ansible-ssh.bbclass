@@ -27,6 +27,8 @@ do_add_ansible_ssh_key() {
         sed -i "s#AuthorizedKeysFile.*#AuthorizedKeysFile	/etc/ssh/%u/authorized_keys#" \
                         ${IMAGE_ROOTFS}/${sysconfdir}/ssh/sshd_config_readonly
     done
+    sed -i "s/^UsePAM*/#UsePAM/g" \
+        ${IMAGE_ROOTFS}/${sysconfdir}/ssh/sshd_config_readonly
 }
 
 python() {
