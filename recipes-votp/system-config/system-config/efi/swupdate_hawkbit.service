@@ -1,0 +1,15 @@
+# Copyright (C) 2021, RTE (http://www.rte-france.com)
+# SPDX-License-Identifier: Apache-2.0
+
+[Unit]
+Description="Daemon to connect to Hawkbit server"
+
+[Service]
+Type=simple
+ExecStart=swupdate_hawkbit.sh
+EnvironmentFile=/etc/sysconfig/swupdate_hawkbit.conf
+StandardOutput=journal
+Environment="LC_ALL=en_US.UTF-8"
+
+[Install]
+WantedBy=multi-user.target
