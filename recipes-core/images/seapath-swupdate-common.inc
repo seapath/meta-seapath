@@ -9,6 +9,7 @@ IMAGE_INSTALL_append = " \
     dosfstools           \
     localedef            \
     glibc-utils          \
+    system-config-efi    \
 "
 
 IMAGE_FSTYPES += "tar.gz"

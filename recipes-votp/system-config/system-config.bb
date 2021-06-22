@@ -6,6 +6,7 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
 SRCREV = "${AUTOREV}"
+RDEPENDS_${PN}-efi = "bash"
 
 SRC_URI = " \
     file://common/90-sysctl-hardening.conf \
@@ -14,10 +15,15 @@ SRC_URI = " \
     file://common/votp-loadkeys.service \
     file://host/openvswitch.conf \
     file://host/votp-config_ovs.service \
+    file://efi/swupdate_hawkbit.conf \
+    file://efi/swupdate_hawkbit.service \
+    file://efi/swupdate_hawkbit.sh \
 "
 
 do_install () {
+    install -d ${D}/${sbindir}
     install -d ${D}${systemd_unitdir}/system
+    install -d ${D}${sysconfdir}/sysconfig
 
 # Common
     install -m 0644 ${WORKDIR}/common/votp-loadkeys.service \
@@ -37,16 +43,26 @@ do_install () {
     install -d ${D}${sysconfdir}/modules-load.d
     install -m 0644 ${WORKDIR}/host/openvswitch.conf \
         ${D}${sysconfdir}/modules-load.d
+
+# EFI
+    install -m 0644 ${WORKDIR}/efi/swupdate_hawkbit.conf \
+        ${D}${sysconfdir}/sysconfig
+    install -m 0755 ${WORKDIR}/efi/swupdate_hawkbit.sh \
+        ${D}/${sbindir}
+    install -m 0644 ${WORKDIR}/efi/swupdate_hawkbit.service \
+        ${D}${systemd_unitdir}/system
 }
 
 PACKAGES =+ " \
     ${PN}-common \
     ${PN}-host \
+    ${PN}-efi \
 "
 
 SYSTEMD_PACKAGES += " \
     ${PN}-common \
     ${PN}-host \
+    ${PN}-efi \
 "
 
 SYSTEMD_SERVICE_${PN}-common = " \
@@ -55,6 +71,10 @@ SYSTEMD_SERVICE_${PN}-common = " \
 
 SYSTEMD_SERVICE_${PN}-host = " \
     votp-config_ovs.service \
+"
+
+SYSTEMD_SERVICE_${PN}-efi = " \
+    swupdate_hawkbit.service \
 "
 
 REQUIRED_DISTRO_FEATURES = "systemd"
@@ -71,4 +91,10 @@ FILES_${PN}-common = " \
 FILES_${PN}-host = " \
     ${systemd_unitdir}/system/votp-config_ovs.service \
     ${sysconfdir}/modules-load.d/openvswitch.conf \
+"
+
+FILES_${PN}-efi = " \
+    ${sysconfdir}/sysconfig/swupdate_hawkbit.conf \
+    ${sbindir}/swupdate_hawkbit.sh \
+    ${system_unitdir}/system/swupdate_hawkbit.service \
 "
