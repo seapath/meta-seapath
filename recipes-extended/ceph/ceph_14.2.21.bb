@@ -153,6 +153,7 @@ RDEPENDS_${PN} += "\
 		python3-modules \
 		python3-prettytable \
 		python3-setuptools \
+		python3-six \
 		${PN}-python3 \
 		boost-python \
 		lvm2 \
