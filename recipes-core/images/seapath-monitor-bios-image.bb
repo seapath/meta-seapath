@@ -6,6 +6,6 @@ require seapath-common.inc
 require seapath-host-common-ha.inc
 require seapath-monitor-common.inc
 
-WKS_FILE = "mkbiosdisk.wks.in"
+WKS_FILE = "mkbiosdisk-monitor.wks.in"
 
 IMAGE_INSTALL_append = " syslog-ng-server"
