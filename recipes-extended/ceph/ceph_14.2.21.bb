@@ -112,12 +112,16 @@ do_install_append () {
 do_install_append_class-target () {
 	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
 		install -d ${D}${sysconfdir}/tmpfiles.d
-		echo "d /var/lib/ceph/crash/posted 0755 root root - -" > ${D}${sysconfdir}/tmpfiles.d/ceph-placeholder.conf
+		echo "d /var/lib/ceph/crash/ 0750 ceph ceph - -" > ${D}${sysconfdir}/tmpfiles.d/ceph-placeholder.conf
+		echo "d /var/lib/ceph/crash/posted/ 0750 ceph ceph - -" > ${D}${sysconfdir}/tmpfiles.d/ceph-placeholder.conf
+		echo "d /var/run/ceph/ 0750 ceph ceph - -" >> ${D}${sysconfdir}/tmpfiles.d/ceph-placeholder.conf
 	fi
 
 	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
 		install -d ${D}${sysconfdir}/default/volatiles
-		echo "d root root 0755 /var/lib/ceph/crash/posted none" > ${D}${sysconfdir}/default/volatiles/99_ceph-placeholder
+		echo "d ceph ceph 0750 /var/lib/ceph/crash none" > ${D}${sysconfdir}/default/volatiles/99_ceph-placeholder
+		echo "d ceph ceph 0750 /var/lib/ceph/crash/posted none" > ${D}${sysconfdir}/default/volatiles/99_ceph-placeholder
+		echo "d /var/run/ceph/ 0750 ceph ceph - -" >> ${D}${sysconfdir}/default/volatiles/99_ceph-placeholder
 	fi
 }
 
