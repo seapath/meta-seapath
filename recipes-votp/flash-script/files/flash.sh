@@ -128,7 +128,7 @@ if command -v efibootmgr &> /dev/null ; then
     done
 
     # Concatenate lists and remove commas if they are repeated or in last position
-    boot_order=$(echo $top_priority$boot_order | tr -s "," | sed 's/,$//'))
+    boot_order=$(echo $top_priority$boot_order | tr -s "," | sed 's/,$//')
 
     # Change boot order
     command="efibootmgr -o $boot_order"
