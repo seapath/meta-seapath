@@ -128,3 +128,11 @@ Subsystem	sftp	/usr/libexec/sftp-server
 #	AllowTcpForwarding no
 #	PermitTTY no
 #	ForceCommand cvs server
+
+# Example of user/group restriction to a specific network
+# This can be adapted to limit ssh access to some user on a specific
+# administration network.
+# Allow user admin from 192.168.X.0/24 subnet
+#AllowUsers admin@192.168.X/24
+# Allow groups privileged and admin from 192.168.X.0/24 subnet
+#AllowGroups privileged@192.168.X/24 admin@192.168.X/24
