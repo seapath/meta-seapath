@@ -3,7 +3,7 @@
 
 [Unit]
 DefaultDependencies=no
-RequiresMountFor=/etc
+RequiresMountsFor=/etc
 After=local-fs.target
 ConditionPathIsReadWrite=/etc
 
