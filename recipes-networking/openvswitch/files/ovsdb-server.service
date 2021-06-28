@@ -41,3 +41,4 @@ AmbientCapabilities=CAP_SYS_NICE
 CapabilityBoundingSet=CAP_SYS_NICE CAP_NET_BIND_SERVICE CAP_IPC_LOCK
 PrivateDevices=yes
 ProtectKernelLogs=true
+SystemCallFilter=~@obsolete @swap @aio @clock @cpu-emulation @keyring @memlock @module @mount @reboot @setuid @timer
