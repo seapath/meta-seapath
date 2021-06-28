@@ -48,3 +48,4 @@ CapabilityBoundingSet=CAP_SYS_NICE CAP_NET_BROADCAST CAP_NET_RAW CAP_NET_ADMIN C
 # Access to devices is required for DPDK in some conf
 # PrivateDevices=yes
 ProtectKernelLogs=true
+SystemCallFilter=~@aio @chown @clock @cpu-emulation @debug @keyring @module @mount @obsolete @reboot @setuid @swap
