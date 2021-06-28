@@ -111,3 +111,4 @@ RestrictNamespaces=true
 MemoryDenyWriteExecute=yes
 CapabilityBoundingSet=cap_chown cap_dac_override cap_kill cap_setgid cap_setuid
 PrivateDevices=yes
+SystemCallFilter=@system-service
