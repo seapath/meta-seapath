@@ -19,3 +19,8 @@ inherit security/kconfig-hardened-check
 inherit security/manifests-archiver
 inherit security/pam-policy
 inherit security/rootfs-tweaks
+
+# Yocto security options for compilation and linking
+require conf/distro/include/security_flags.inc
+require conf/distro/include/virt_security_flags.inc
+require conf/distro/include/cgl_common_security_flags.inc
