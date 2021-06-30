@@ -34,7 +34,6 @@ PrivateTmp=yes
 NoNewPrivileges=true
 ProtectSystem=strict
 ReadWritePaths=/var/log/cluster /var/log/corosync /var/lib/corosync /var/run/corosync.pid
-ProtectHome=tmpfs
 ProtectKernelModules=yes
 ProtectKernelTunables=yes
 ProtectControlGroups=yes
