@@ -7,5 +7,6 @@
 part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024 --use-uuid --fsoptions="defaults,noauto"
 part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
 part /var/log --size 4096 --ondisk sda --fstype=ext4 --label log --align 1024 --use-uuid
+part /mnt/persistent --size 256 --ondisk sda --fstype=ext4 --label persistent --align 1024 --use-uuid
 
 bootloader --timeout=0 --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0 systemd.unified_cgroup_hierarchy=0 audit=0 slab_nomerge pti=on slub_debug=ZF init_on_alloc=1 init_on_free=1"
