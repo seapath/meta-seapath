@@ -25,4 +25,20 @@ create_persistent_dir () {
     install -d ${IMAGE_ROOTFS}/opt/setup
 }
 
+change_init () {
+    cat <<EOF>${IMAGE_ROOTFS}/sbin/init.sh
+#!/bin/bash
+/bin/mount -t proc proc /proc
+/bin/mount -t ext4 /dev/sda4 /mnt/persistent
+/bin/mkdir -p /mnt/persistent/etc
+/bin/mkdir -p /mnt/persistent/.etc-work
+/bin/mount -t overlay overlay -o lowerdir=/etc,upperdir=/mnt/persistent/etc,workdir=/mnt/persistent/.etc-work /etc
+exec /sbin/init \$@
+
+EOF
+
+    chmod 755 ${IMAGE_ROOTFS}/sbin/init.sh
+}
+
+IMAGE_PREPROCESS_COMMAND += "change_init;"
 IMAGE_PREPROCESS_COMMAND += "create_persistent_dir;"
