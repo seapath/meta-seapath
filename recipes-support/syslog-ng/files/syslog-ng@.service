@@ -20,7 +20,6 @@ Restart=on-failure
 PrivateTmp=yes
 ProtectSystem=strict
 ReadWritePaths=/run/syslog-ng /var/log/syslog-ng /var/lib/syslog-ng
-ProtectHome=tmpfs
 ProtectKernelModules=yes
 ProtectKernelTunables=yes
 ProtectControlGroups=yes
