@@ -7,5 +7,4 @@ IMAGE_INSTALL_append = " \
     efitools             \
     efibootmgr           \
     cukinia-tests-efi    \
-    swupdate             \
 "

@@ -4,6 +4,7 @@
 DESCRIPTION = "A test image for Seapath"
 require seapath-host-common.inc
 require seapath-efi-common.inc
+require seapath-swupdate-common.inc
 
 # Real time Tools
 IMAGE_INSTALL += "cukinia-tests-realtime"
