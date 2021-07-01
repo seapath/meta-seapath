@@ -83,7 +83,6 @@ else
     fi
 fi
 
-echo "$command"
 if eval "$command" ; then
     sync
     echo "Flash $image on $disk: success"
@@ -94,24 +93,46 @@ fi
 
 # If EFI image create boot entries
 if command -v efibootmgr &> /dev/null ; then
-    echo "EFI image. Create boot entries"
-    if ! efibootmgr | grep -q "boot0" ; then
-        command="efibootmgr --create --disk \"$disk\" --part 1 --label \"boot0\" --loader /EFI/BOOT/bootx64.efi"
+
+    echo "EFI image."
+    entry_num=$(efibootmgr | awk '/boot0/{ gsub("Boot", ""); gsub("*", ""); print $1 }')
+    if [ ! -z "$entry_num" ] ;  then
+        echo "EFI entry boot0 already exists. Remove boot0"
+        command="efibootmgr -q -b $entry_num -B"
         if eval "$command" ; then
-            echo "Entry boot0 sucessfully created"
+            echo "Entry boot0 successfully removed"
         else
-            echo "Error while creating entry boot0"
+            echo "Error while removing entry boot0"
             exit 1
         fi
     fi
-    if ! efibootmgr | grep -q "boot1" ; then
-        command="efibootmgr --create --disk \"$disk\" --part 2 --label \"boot1\" --loader /EFI/BOOT/bootx64.efi"
+
+    entry_num=$(efibootmgr | awk '/boot1/{ gsub("Boot", ""); gsub("*", ""); print $1 }')
+    if [ ! -z "$entry_num" ] ;  then
+        echo "EFI entry boot1 already exists. Remove boot1"
+        command="efibootmgr -q -b $entry_num -B"
         if eval "$command" ; then
-            echo "Entry boot1 sucessfully created"
+            echo "Entry boot1 successfully removed"
         else
-            echo "Error while creating entry boot1"
+            echo "Error while removing entry boot1"
             exit 1
         fi
+    fi
+
+    command="efibootmgr -q -c -d \"$disk\" -p 1 -L \"boot0\" -l /EFI/BOOT/bootx64.efi"
+    if eval "$command" ; then
+        echo "Entry boot0 successfully created"
+    else
+        echo "Error while creating entry boot0"
+        exit 1
+    fi
+
+    command="efibootmgr -q -c -d \"$disk\" -p 2 -L \"boot1\" -l /EFI/BOOT/bootx64.efi"
+    if eval "$command" ; then
+        echo "Entry boot1 successfully created"
+    else
+        echo "Error while creating entry boot1"
+        exit 1
     fi
 
     # Set top boot order priority for USB and PXE entries
@@ -131,7 +152,7 @@ if command -v efibootmgr &> /dev/null ; then
     boot_order=$(echo $top_priority$boot_order | tr -s "," | sed 's/,$//')
 
     # Change boot order
-    command="efibootmgr -o $boot_order"
+    command="efibootmgr -q -o $boot_order"
     if eval "$command" ; then
         echo "Boot order successfully changed"
     else
