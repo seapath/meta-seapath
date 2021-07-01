@@ -46,6 +46,7 @@ SRC_URI = "\
     file://hypervisor_tests.d/auditd.conf \
     file://hypervisor_tests.d/libvirt.conf \
     file://hypervisor_tests.d/files.conf \
+    file://hypervisor_tests.d/readonly.conf \
     file://monitor_tests.d/files.conf \
     file://vm_tests.d/files.conf \
     file://includes/kernel_config_functions \
@@ -136,6 +137,8 @@ do_install () {
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/libvirt.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/files.conf \
+        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
+    install -m 0644 ${WORKDIR}/hypervisor_tests.d/readonly.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
 
 # monitor
