@@ -2,34 +2,29 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
+die()
+{
+    echo "$@" 1>&2
+    exit 1
+}
+
 do_preinst()
 {
-    bootloader_part=$(readlink -f /dev/upgradable_bootloader)
-    rootfs_part=$(readlink -f /dev/upgradable_rootfs)
-
     echo "Pre-Install:"
-    echo "  Format partitions $bootloader_part and $rootfs_part"
 
     if [ ! -L "/dev/upgradable_bootloader" ] ; then
-        echo "Could not find symbolic link /dev/upgradable_bootloader"
-        exit 1
+        die "Could not find symbolic link /dev/upgradable_bootloader"
     fi
 
     if [ ! -L "/dev/upgradable_rootfs" ] ; then
-        echo "Could not find symbolic link /dev/upgradable_rootfs"
-        exit 1
+        die "Could not find symbolic link /dev/upgradable_rootfs" 1>&2
     fi
+    bootloader_part=$(readlink -f /dev/upgradable_bootloader)
+    rootfs_part=$(readlink -f /dev/upgradable_rootfs)
 
     # Make sure partitions are unmounted
-    mount | grep -q $bootloader_part
-    if [ $? -eq 0 ]; then
-        umount -f $bootloader_part
-    fi
-
-    mount | grep -q $rootfs_part
-    if [ $? -eq 0 ]; then
-        umount -f $rootfs_part
-    fi
+    umount -f "$bootloader_part"
+    umount -f "$rootfs_part"
 
     # Labels can be deduced from static partitioning
     # - Slot A: /dev/<disk>1 (bootloader) + /dev/<disk>3 (rootfs)
@@ -45,30 +40,19 @@ do_preinst()
         rootfs_label="rootfs1"
     fi
 
-    mkfs.vfat -n $bootloader_label $bootloader_part
-    mkfs.ext4 -F $rootfs_part -L $rootfs_label
+    if ! mkfs.vfat -n "$bootloader_label" "$bootloader_part" ; then
+        die "Error when formating the boot partition"
+    fi
+    if ! mkfs.ext4 -F "$rootfs_part" -L "$rootfs_label" ; then
+        die "Error when formating the root partition"
+    fi
 }
 
 do_postinst()
 {
     echo "Post-Install:"
 
-    if [ ! -L "/dev/upgradable_bootloader" ] ; then
-        echo "Could not find symbolic link /dev/upgradable_bootloader"
-        exit 1
-    fi
-
-    if [ ! -L "/dev/upgradable_rootfs" ] ; then
-        echo "Could not find symbolic link /dev/upgradable_rootfs"
-        exit 1
-    fi
-
-    switch_bootloader
-    if [ $? -eq 0 ] ; then
-        echo "Switch bootloader successful"
-    else
-        echo "Switch bootloader did not succeed"
-    fi
+    switch_bootloader || echo "Switch bootloader did not succeed" 1>&2
 
     echo "Rebooting system"
     reboot
@@ -77,14 +61,13 @@ do_postinst()
 case "$1" in
 preinst)
     echo "call do_preinst"
-    do_preinst $@
+    do_preinst
     ;;
 postinst)
     echo "call do_postinst"
-    do_postinst $@
+    do_postinst
     ;;
 *)
-    echo "default"
-    exit 1
+    die "Incorrect command"
     ;;
 esac
