@@ -19,6 +19,7 @@ inherit security/kconfig-hardened-check
 inherit security/manifests-archiver
 inherit security/pam-policy
 inherit security/rootfs-tweaks
+inherit security/traceability
 
 # Yocto security options for compilation and linking
 require conf/distro/include/security_flags.inc
