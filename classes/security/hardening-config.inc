@@ -14,3 +14,6 @@ MANIFESTS_LIST ?= "IMAGE_MANIFEST CVE_CHECK_MANIFEST BUILDINFO_FILE KERNELCONFIG
 
 # Enable PIE for glibc
 GLIBCPIE="--enable-static-pie"
+
+# List supported documents for traceability
+TRACEABILITY_DOCUMENTS += "ANSSINT28"
