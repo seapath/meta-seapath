@@ -95,49 +95,58 @@ fi
 if command -v efibootmgr &> /dev/null ; then
 
     echo "EFI image."
-    entry_num=$(efibootmgr | awk '/boot0/{ gsub("Boot", ""); gsub("*", ""); print $1 }')
+    entry_num=$(efibootmgr | awk '/SEAPATH slot 0/{ gsub("Boot", ""); gsub("*", ""); print $1 }')
     if [ ! -z "$entry_num" ] ;  then
-        echo "EFI entry boot0 already exists. Remove boot0"
+        echo "EFI entry SEAPATH slot 0 already exists. Remove it"
         command="efibootmgr -q -b $entry_num -B"
         if eval "$command" ; then
-            echo "Entry boot0 successfully removed"
+            echo "Entry SEAPATH slot 0 successfully removed"
         else
-            echo "Error while removing entry boot0"
+            echo "Error while removing entry SEAPATH slot 0"
             exit 1
         fi
     fi
 
-    entry_num=$(efibootmgr | awk '/boot1/{ gsub("Boot", ""); gsub("*", ""); print $1 }')
+    entry_num=$(efibootmgr | awk '/SEAPATH slot 1/{ gsub("Boot", ""); gsub("*", ""); print $1 }')
     if [ ! -z "$entry_num" ] ;  then
-        echo "EFI entry boot1 already exists. Remove boot1"
+        echo "EFI entry SEAPATH slot 1 already exists. Remove it"
         command="efibootmgr -q -b $entry_num -B"
         if eval "$command" ; then
-            echo "Entry boot1 successfully removed"
+            echo "Entry SEAPATH slot 1 successfully removed"
         else
-            echo "Error while removing entry boot1"
+            echo "Error while removing entry SEAPATH slot 1"
             exit 1
         fi
     fi
 
-    command="efibootmgr -q -c -d \"$disk\" -p 1 -L \"boot0\" -l /EFI/BOOT/bootx64.efi"
+    command="efibootmgr -q -c -d \"$disk\" -p 2 -L \"SEAPATH slot 1\" -l /EFI/BOOT/bootx64.efi"
     if eval "$command" ; then
-        echo "Entry boot0 successfully created"
+        echo "Entry SEAPATH slot 1 successfully created"
     else
-        echo "Error while creating entry boot0"
+        echo "Error while creating entry SEAPATH slot 1"
         exit 1
     fi
 
-    command="efibootmgr -q -c -d \"$disk\" -p 2 -L \"boot1\" -l /EFI/BOOT/bootx64.efi"
+    command="efibootmgr -q -c -d \"$disk\" -p 1 -L \"SEAPATH slot 0\" -l /EFI/BOOT/bootx64.efi"
     if eval "$command" ; then
-        echo "Entry boot1 successfully created"
+        echo "Entry SEAPATH slot 0 successfully created"
     else
-        echo "Error while creating entry boot1"
+        echo "Error while creating entry SEAPATH slot 0"
+        exit 1
+    fi
+
+    # Disable slot 1
+    passive_boot=$(efibootmgr | awk '/SEAPATH slot 1/{ gsub("Boot", ""); gsub("*", ""); print $1 }')
+    if efibootmgr -q -b "${passive_boot}" -A ; then
+        echo "Entry ${passive_boot} sucessfully disabled"
+    else
+        echo "Error while disabling entry ${passive_boot}"  1>&2
         exit 1
     fi
 
     # Set top boot order priority for USB and PXE entries
     boot_order=$(efibootmgr | grep "BootOrder" | awk '{ print $2}')
-    usb_entries=$(efibootmgr | awk '/USB/{ gsub("Boot",""); gsub("*", ""); print $1 }')
+    usb_entries=$(efibootmgr | awk '/USB HDD/{ gsub("Boot",""); gsub("*", ""); print $1 }')
     pxe_entries=$(efibootmgr | awk '/PCI LAN/{ gsub("Boot",""); gsub("*", ""); print $1 }')
 
     # Create top priority list and remove from original boot order
@@ -152,8 +161,7 @@ if command -v efibootmgr &> /dev/null ; then
     boot_order=$(echo $top_priority$boot_order | tr -s "," | sed 's/,$//')
 
     # Change boot order
-    command="efibootmgr -q -o $boot_order"
-    if eval "$command" ; then
+    if efibootmgr -q -o "$boot_order" ; then
         echo "Boot order successfully changed"
     else
         echo "Error while changing boot order"
