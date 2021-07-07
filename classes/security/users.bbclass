@@ -57,6 +57,7 @@ python do_configure_users() {
 
         with open(os.path.join(sudoersdir, user), "w") as f:
             f.write(user+"  ALL=(ALL) NOPASSWD:ALL")
+            os.chmod(f.name, 0o440)
 
     # remove users from USERS_LIST_REMOVED
     for user in userslistremoved:
@@ -94,6 +95,7 @@ def configure_groups(d, userslist, extrausersparams):
 
         with open(os.path.join(sudoersdir, group), "w") as f:
             f.write("%"+group+"  ALL=(ALL) NOPASSWD:ALL")
+            os.chmod(f.name, 0o440)
 
     for g in usergrouplist:
         bb.note("adding group for %s" %(g))
