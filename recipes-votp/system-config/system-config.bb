@@ -19,6 +19,7 @@ SRC_URI = " \
     file://efi/swupdate_hawkbit.conf \
     file://efi/swupdate_hawkbit.service \
     file://efi/swupdate_hawkbit.sh \
+    file://efi/check-health.sh \
 "
 
 do_install () {
@@ -54,6 +55,8 @@ do_install () {
         ${D}/${sbindir}
     install -m 0644 ${WORKDIR}/efi/swupdate_hawkbit.service \
         ${D}${systemd_unitdir}/system
+    install -m 0755 ${WORKDIR}/efi/check-health.sh \
+        ${D}/${sbindir}/check-health
 }
 
 PACKAGES =+ " \
@@ -102,4 +105,5 @@ FILES_${PN}-efi = " \
     ${sysconfdir}/sysconfig/swupdate_hawkbit.conf \
     ${sbindir}/swupdate_hawkbit.sh \
     ${system_unitdir}/system/swupdate_hawkbit.service \
+    ${sbindir}/check-health \
 "
