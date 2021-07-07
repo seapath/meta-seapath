@@ -33,4 +33,4 @@ FILES_${PN}_remove = "${libdir}/grub"
 
 FILES_${PN}_append = " ${EFI_FILES_PATH}"
 
-GRUB_BUILDIN += " password_pbkdf2 probe regexp"
+GRUB_BUILDIN += " password_pbkdf2 probe regexp chain"
