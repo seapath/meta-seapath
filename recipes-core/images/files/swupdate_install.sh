@@ -52,6 +52,25 @@ do_postinst()
 {
     echo "Post-Install:"
 
+    # Update grubenv
+    if ! mount -t vfat /dev/upgradable_bootloader /boot ; then
+        die "Could not mount /dev/upgradable_bootloader"
+    fi
+
+
+    if ! grub-editenv /boot/EFI/BOOT/grubenv create ; then
+        die "Could not create grubenv"
+    fi
+    if ! grub-editenv /boot/EFI/BOOT/grubenv set bootcount=0 ; then
+        die "Could not set bootcount in grubenv"
+    fi
+
+    if ! umount -f /boot  ; then
+        die "Could not unmount /boot"
+    fi
+
+    touch /mnt/persistent/update_marker
+
     switch_bootloader || echo "Switch bootloader did not succeed" 1>&2
 
     echo "Rebooting system"
