@@ -32,6 +32,8 @@ IMAGE_LINGUAS = "en-us"
 
 IMAGE_FSTYPES = "wic.gz wic.bmap"
 WKS_FILE = "mkefidisk.wks.in"
+# Do not update fstab file when using wic images
+WIC_CREATE_EXTRA_ARGS += "--no-fstab-update"
 EXTRA_IMAGE_FEATURES = ""
 
 inherit security/users

@@ -52,7 +52,6 @@ do_preinst()
 do_postinst()
 {
     echo "Post-Install:"
-    echo "  Copy /etc/fstab and switch bootloader"
 
     if [ ! -L "/dev/upgradable_bootloader" ] ; then
         echo "Could not find symbolic link /dev/upgradable_bootloader"
@@ -63,17 +62,6 @@ do_postinst()
         echo "Could not find symbolic link /dev/upgradable_rootfs"
         exit 1
     fi
-
-    rootfs_part=$(readlink -f /dev/upgradable_rootfs)
-
-    mnt_point=/tmp/mnt-$RANDOM
-    mkdir -p $mnt_point
-    mount $rootfs_part $mnt_point
-
-    cp /etc/fstab $mnt_point/etc/fstab
-
-    umount -f $mnt_point
-    rmdir $mnt_point
 
     switch_bootloader
     if [ $? -eq 0 ] ; then

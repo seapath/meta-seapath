@@ -29,7 +29,8 @@ change_init () {
     cat <<EOF>${IMAGE_ROOTFS}/sbin/init.sh
 #!/bin/bash
 /bin/mount -t proc proc /proc
-/bin/mount -t ext4 /dev/sda4 /mnt/persistent
+/bin/mount -t sysfs sysfs /sys
+/bin/mount -t ext4 \$(blkid -L persistent) /mnt/persistent
 /bin/mkdir -p /mnt/persistent/etc
 /bin/mkdir -p /mnt/persistent/.etc-work
 /bin/mount -t overlay overlay -o lowerdir=/etc,upperdir=/mnt/persistent/etc,workdir=/mnt/persistent/.etc-work /etc
