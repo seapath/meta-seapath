@@ -13,3 +13,4 @@ IMAGE_INSTALL_append = " \
 "
 
 IMAGE_FSTYPES += "tar.gz"
+SYSTEMD_DEFAULT_TARGET="boot-complete.target"
