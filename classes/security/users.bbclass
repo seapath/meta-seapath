@@ -16,6 +16,8 @@ USERS_LIST_SUDOERS ?= ""
 USER_GROUP_LIST ?= ""
 GROUPS_LIST ?= ""
 GROUPS_LIST_SUDOERS ?= ""
+GROUPS_LIST_NOPASSWD ?= ""
+GROUPS_LIST_EXEC ?= ""
 SUDO_GROUP_OWNER ?= ""
 
 IMAGE_INSTALL_append = " sudo"
@@ -56,7 +58,7 @@ python do_configure_users() {
             continue
 
         with open(os.path.join(sudoersdir, user), "w") as f:
-            f.write(user+"  ALL=(ALL) NOPASSWD:ALL")
+            f.write(user+"  ALL=(ALL) ALL")
             os.chmod(f.name, 0o440)
 
     # remove users from USERS_LIST_REMOVED
@@ -80,6 +82,8 @@ def configure_groups(d, userslist, extrausersparams):
     groupslistsudoers = d.getVar("GROUPS_LIST_SUDOERS").split()
     sudoersdir = d.getVar("SUDOERS_DIR")
     usergrouplist = d.getVarFlags("USER_GROUP_LIST")
+    groupslistnopasswd = d.getVar("GROUPS_LIST_NOPASSWD").split()
+    groupslistexec = d.getVar("GROUPS_LIST_EXEC").split()
     ret = ""
 
     for g in groupslist:
@@ -94,7 +98,12 @@ def configure_groups(d, userslist, extrausersparams):
             continue
 
         with open(os.path.join(sudoersdir, group), "w") as f:
-            f.write("%"+group+"  ALL=(ALL) NOPASSWD:ALL")
+            tags = ""
+            if group in groupslistnopasswd:
+                tags += "NOPASSWD:"
+            if group in groupslistexec:
+                tags += "EXEC:"
+            f.write("%"+group+"  ALL=(ALL) "+tags+" ALL")
             os.chmod(f.name, 0o440)
 
     for g in usergrouplist:
