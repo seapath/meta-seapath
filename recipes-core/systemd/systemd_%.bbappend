@@ -5,6 +5,7 @@ FILESEXTRAPATHS_prepend :="${THISDIR}/files:"
 SRC_URI_append = " \
     file://0001-networkd-wait-online-add-any-option.patch \
     file://basic.conf \
+    file://boot-complete.target \
 "
 PACKAGECONFIG_append = " seccomp"
 do_install_append () {
@@ -16,4 +17,7 @@ do_install_append () {
         sed "/GROUP=\"${group}\"/d" -i \
             ${D}/${rootlibexecdir}/udev/rules.d/50-udev-default.rules
     done
+    # Change boot-complete.target to be run after multi-user.target
+    install -m 644 ${WORKDIR}/boot-complete.target \
+        ${D}/${systemd_unitdir}/system/boot-complete.target
 }
