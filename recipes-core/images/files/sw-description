@@ -4,14 +4,14 @@ software =
 
     images: (
         {
-            filename = "seapath-host-efi-image-boot.tar.gz";
+            filename = "seapath-host-efi-image-boot.tar.xz";
             filesystem = "vfat";
             type = "archive";
             device = "/dev/upgradable_bootloader";
             path = "/";
         },
         {
-            filename = "seapath-host-efi-image-votp.tar.gz";
+            filename = "seapath-host-efi-image-votp.tar.xz";
             filesystem = "ext4";
             type = "archive";
             device = "/dev/upgradable_rootfs";

@@ -12,5 +12,5 @@ IMAGE_INSTALL_append = " \
     system-config-efi    \
 "
 
-IMAGE_FSTYPES += "tar.gz"
+IMAGE_FSTYPES += "tar.xz"
 SYSTEMD_DEFAULT_TARGET="boot-complete.target"
