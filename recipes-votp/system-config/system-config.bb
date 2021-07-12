@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 
 SRCREV = "${AUTOREV}"
 RDEPENDS_${PN}-efi = "bash"
+RDEPENDS_${PN}-security = "bash"
 
 SRC_URI = " \
     file://common/90-sysctl-hardening.conf \
@@ -20,6 +21,7 @@ SRC_URI = " \
     file://efi/swupdate_hawkbit.service \
     file://efi/swupdate_hawkbit.sh \
     file://efi/check-health.sh \
+    file://security/disable-local-login.sh \
 "
 
 do_install () {
@@ -57,12 +59,17 @@ do_install () {
         ${D}${systemd_unitdir}/system
     install -m 0755 ${WORKDIR}/efi/check-health.sh \
         ${D}/${sbindir}/check-health
+
+# Security
+    install -m 0755 ${WORKDIR}/security/disable-local-login.sh \
+        ${D}/${sbindir}
 }
 
 PACKAGES =+ " \
     ${PN}-common \
     ${PN}-host \
     ${PN}-efi \
+    ${PN}-security \
 "
 
 SYSTEMD_PACKAGES += " \
@@ -106,4 +113,8 @@ FILES_${PN}-efi = " \
     ${sbindir}/swupdate_hawkbit.sh \
     ${system_unitdir}/system/swupdate_hawkbit.service \
     ${sbindir}/check-health \
+"
+
+FILES_${PN}-security = " \
+    ${sbindir}/disable-local-login.sh \
 "
