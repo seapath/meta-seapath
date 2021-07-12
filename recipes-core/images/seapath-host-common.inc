@@ -14,6 +14,7 @@ IMAGE_INSTALL_append = " \
     cukinia-tests-hypervisor \
     syslog-ng-client \
     system-config-host \
+    system-config-security \
     system-upgrade \
 "
 

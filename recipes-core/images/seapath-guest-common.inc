@@ -11,6 +11,7 @@ IMAGE_INSTALL_append = " \
     cukinia-tests-vm \
     pacemaker-remote \
     syslog-ng-client \
+    system-config-security \
 "
 IMAGE_FSTYPES = "wic.qcow2 wic.vmdk"
 WKS_FILE = "mkefidisk-guest.wks.in"
