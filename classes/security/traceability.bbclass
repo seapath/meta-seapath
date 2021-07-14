@@ -100,7 +100,7 @@ python generate_traceability_document() {
                                           "requirements" : [],
                                           "description" : "This requirement is not covered",
                                           "status" : "not covered"}
-        if requirements_list is not None:
+        if requirements_list:
             for req in requirements_list.keys():
                 tests_list = requirements_list[req]
                 if tests_list:
