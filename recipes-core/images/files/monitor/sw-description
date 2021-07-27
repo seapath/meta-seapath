@@ -11,7 +11,7 @@ software =
             path = "/";
         },
         {
-            filename = "seapath-monitor-efi-image-votp.tar.xz";
+            filename = "seapath-monitor-efi-image-votp-monitor.tar.xz";
             filesystem = "ext4";
             type = "archive";
             device = "/dev/upgradable_rootfs";
