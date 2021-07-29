@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+
+# This is a template of a hook for qemu VMs launched through libvirt.
+# Using libvirt hooks, custom commands can be executed at specific moments of
+# the VM lifetime:
+# * before resource labeling (prepare)
+# * after resource labeling, before starting VM (start)
+# * after VM has started (started)
+# * after VM has stopped (stopped)
+# * after libvirt has released all resources (release)
+# * at the beginning of incoming migration (migrate)
+# * when restoring a saved image (restore)
+# * when libvirt reconnects to VM (reconnect)
+# * when the QEMU driver attaches to an extern QEMU process (attach)
+#
+# This can typically be used to implement OpenFlo security rules per VM.
+
+import os
+import sys
+
+
+def hook_qemu_start(vm_name, vm_params):
+    """
+    Actions to execute before libvirt performs resource labelling
+
+    Parameters:
+    vm_name (str): Name of the virtual machine
+    vm_params (list): List of characteristics of the VM
+
+    Returns:
+    int: 0 if executed correctly, 1 otherwise
+    """
+    return os.system("logger Starting VM %s" % vm_name)
+
+
+def main():
+    return_value = 0
+    hook_name = os.path.basename(__file__)
+    try:
+        hook_args = sys.argv
+        del hook_args[0]  # Remove executable from argument list
+
+        # Save stdin, so we can pass it to each sub-script.
+        if sys.stdin.isatty():
+            stdin_save = [""]
+        else:
+            stdin_save = sys.stdin.readlines()
+
+        vm_name = hook_args[0]
+        hook_command = hook_args[1]
+
+        if hook_command == "prepare":
+            pass
+        elif hook_command == "start":
+            hook_qemu_start(vm_name, stdin_save)
+        elif hook_command == "started":
+            pass
+        elif hook_command == "stopped":
+            pass
+        elif hook_command == "release":
+            pass
+        elif hook_command == "migrate":
+            pass
+        elif hook_command == "restore":
+            pass
+        elif hook_command == "reconnect":
+            pass
+        elif hook_command == "attach":
+            pass
+        else:
+            raise ValueError("Unknown libvirt qemu hook command")
+
+    except Exception as e:
+        sys.stderr.write("%s hook error: %s\n" % (hook_name, str(e)))
+        return_value = 1
+
+    return return_value
