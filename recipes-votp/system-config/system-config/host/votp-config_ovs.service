@@ -1,14 +1,16 @@
-# Copyright (C) 2020, RTE (http://www.rte-france.com)
+# Copyright (C) 2021, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
 [Unit]
-Description="Configure OVS for Votp"
+Description="Configure OVS bridges and ports"
 After=ovs-vswitchd.service
+Before=libvirtd.service
+Before=systemd-networkd.service
 
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStart=ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-init=true
+ExecStart=/usr/bin/setup_ovs.py
 
 [Install]
 WantedBy=multi-user.target
