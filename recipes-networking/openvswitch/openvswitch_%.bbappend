@@ -20,13 +20,9 @@ USERADD_PARAM_${PN} = " \
     -U openvswitch \
 "
 
-SYSTEMD_AUTO_ENABLE_${PN}-switch = "disable"
-
 SERVICE_DIRS_LIST = " openvswitch"
 SERVICE_DIRS_PREFIX = "{log,lib,run}"
 SERVICE_DIRS_OWNER = "openvswitch:openvswitch"
-
-SYSTEMD_AUTO_ENABLE_${PN}-switch = "disable"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 

@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 SRCREV = "${AUTOREV}"
 RDEPENDS_${PN}-efi = "bash"
 RDEPENDS_${PN}-security = "bash"
+RDEPENDS_${PN}-host = "python3-setup-ovs openvswitch"
 
 SRC_URI = " \
     file://common/90-sysctl-hardening.conf \
