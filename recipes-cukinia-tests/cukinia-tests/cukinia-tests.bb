@@ -15,7 +15,6 @@ SRC_URI = "\
     file://cukinia-realtime.conf \
     file://cukinia-vm.conf \
     file://cukinia-efi.conf \
-    file://common_tests.d/cukinia-installation.conf \
     file://common_tests.d/sw-versions.conf \
     file://common_tests.d/preempt-rt.conf \
     file://common_tests.d/container.conf \
@@ -83,8 +82,6 @@ do_install () {
     install -m 0755 -d ${D}${sysconfdir}/cukinia/common_tests.d/
     install -m 0644 ${WORKDIR}/cukinia-common.conf \
         ${D}${sysconfdir}/cukinia/cukinia-common.conf
-    install -m 0644 ${WORKDIR}/common_tests.d/cukinia-installation.conf \
-        ${D}${sysconfdir}/cukinia/common_tests.d
     install -m 0644 ${WORKDIR}/common_tests.d/sw-versions.conf \
         ${D}${sysconfdir}/cukinia/common_tests.d
     install -m 0644 ${WORKDIR}/common_tests.d/preempt-rt.conf \
