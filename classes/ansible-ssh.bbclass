@@ -17,7 +17,7 @@ do_add_ansible_ssh_key() {
             bbwarn "User $user does not exist in destination image. Skipped"
             continue
         fi
-        install -d 0755 ${IMAGE_ROOTFS}/${sysconfdir}/ssh/$user
+        install -m 0755 -d ${IMAGE_ROOTFS}/${sysconfdir}/ssh/$user
         install -m 0600 ${AUTHORIZED_KEYS_DIR}/ansible-authorized_keys \
                         ${IMAGE_ROOTFS}/${sysconfdir}/ssh/$user/authorized_keys
 
