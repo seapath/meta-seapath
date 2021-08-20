@@ -29,7 +29,7 @@ source s_src {
 };
 source s_net {
         syslog(
-                ip("192.168.220.6")
+                ip("127.0.0.1")
                 port(6514)
                 transport("tls")
                 tls(

@@ -37,7 +37,7 @@ destination d_syslog { file("/var/log/syslog-ng/syslog.local"); };
 # disk-buf-size is set to 1073741824 = 1GB
 destination d_net {
         syslog(
-                "192.168.220.6"
+                "127.0.0.1"
                 port(6514)
                 transport("tls")
                 tls(
