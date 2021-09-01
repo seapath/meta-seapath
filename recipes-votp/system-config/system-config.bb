@@ -43,7 +43,11 @@ do_install () {
         ${D}${sysconfdir}/profile.d
     install -m 0644 ${WORKDIR}/common/var-log.mount \
         ${D}${systemd_unitdir}/system
-
+    if [ "${DISTRO}" = "seapath" ] || [ "${DISTRO}" = "votp" ] ; then
+        install -d ${D}/${base_sbindir}
+        echo '#!/bin/sh\nexec /sbin/init $@' > ${D}/${base_sbindir}/init.sh
+        chmod 755 ${D}/${base_sbindir}/init.sh
+    fi
 # Host
     install -m 0644 ${WORKDIR}/host/votp-config_ovs.service \
         ${D}${systemd_unitdir}/system
@@ -72,7 +76,6 @@ PACKAGES =+ " \
     ${PN}-efi \
     ${PN}-security \
 "
-
 SYSTEMD_PACKAGES += " \
     ${PN}-common \
     ${PN}-host \
@@ -119,3 +122,6 @@ FILES_${PN}-efi = " \
 FILES_${PN}-security = " \
     ${sbindir}/disable-local-login.sh \
 "
+
+FILES_${PN}-common_append_seapath = " ${base_sbindir}/init.sh"
+FILES_${PN}-common_append_votp = " ${base_sbindir}/init.sh"
