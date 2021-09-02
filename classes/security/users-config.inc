@@ -18,7 +18,7 @@ USERS_LIST_LOCKED ?= "daemon sync qemu systemd-bus-proxy systemd-timesync \
 USERS_LIST_LOCKED[doc] = "List of users to lock"
 
 # Configure users with the ansible key enabled
-USERS_SSH_ANSIBLE = "admin root"
+USERS_SSH_ANSIBLE = "admin"
 
 # Additionnal group definition
 GROUPS_LIST ?= "privileged operator maint-n1 maint-n3 admincluster adminsys ansible"
