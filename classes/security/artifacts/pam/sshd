@@ -11,6 +11,7 @@
 auth		include		common-auth
 account		required	pam_nologin.so
 account		include		common-account
+account		requisite	pam_access.so
 password	include		common-password
 session		requisite	pam_keyinit.so force revoke
 session		include		common-session
