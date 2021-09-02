@@ -10,7 +10,7 @@ IMAGE_FEATURES[validitems] += "unsafe-pam-policy"
 install_pam_policy() {
     if ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'true', 'false', d)}; then
         rm --one-file-system -f ${IMAGE_ROOTFS}/etc/pam.d/*
-        for policyfile in ${SEC_ARTIFACTS_DIR}/pam/*; do
+        for policyfile in $(find ${SEC_ARTIFACTS_DIR}/pam -maxdepth 1 -type f); do
             install -D -m 0644 ${policyfile} ${IMAGE_ROOTFS}/etc/pam.d/$(basename ${policyfile})
         done
     fi
@@ -22,7 +22,7 @@ clear_securetty() {
 }
 
 install_pam_environment() {
-    install -D -m 0640 ${SEC_ARTIFACTS_DIR}/pam/environment ${IMAGE_ROOTFS}/etc/environment
+    install -D -m 0640 ${SEC_ARTIFACTS_DIR}/pam/config/etc/environment ${IMAGE_ROOTFS}/etc/environment
 }
 
 python() {
