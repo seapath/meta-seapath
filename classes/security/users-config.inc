@@ -5,12 +5,12 @@
 # Configuration used by users.bbclass
 #
 
-USERS_LIST ?= "admin"
+USERS_LIST ?= "admin emergadmin"
 USERS_LIST[doc] = "List of users to be added"
-USERS_LIST_EXPIRED ?= "admin"
-USERS_LIST_EXPIRED[doc] = "List of users with expiration password set"
-USERS_LIST_SUDOERS ?= "admin"
-USERS_LIST_SUDOERS[doc] = "List of users sudoers"
+USERS_LIST_EXPIRED ?= "emergadmin"
+USERS_LIST_EXPIRED[doc] = "List of users with expiration password set. This will enforce a password change at first login."
+USERS_LIST_SUDOERS ?= "admin emergadmin"
+USERS_LIST_SUDOERS[doc] = "List of users that will have a 'user' sudoers entry created with ALL permissions"
 USERS_LIST_REMOVED ?= "mail"
 USERS_LIST_REMOVED[doc] = "List of users to remove"
 USERS_LIST_LOCKED ?= "daemon sync qemu systemd-bus-proxy systemd-timesync \
@@ -34,6 +34,7 @@ SUDO_GROUP_OWNER[doc] = "Group owner of sudo binary"
 
 # Groups set for users
 USER_GROUP_LIST[admin] = "admin privileged"
+USER_GROUP_LIST[emergadmin] = "privileged"
 
 # Permissions policies to enforce
 GROUP_POLICIES_SUDO ?= "operator maint-n1 maint-n3 admincluster adminsys ansible"
