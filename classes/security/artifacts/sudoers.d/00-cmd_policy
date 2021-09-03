@@ -1,0 +1,54 @@
+Cmnd_Alias OPERATOR /bin/journalctl -f, \
+                    /bin/dmesg
+
+Cmnd_Alias MAINTN1  /usr/bin/crm verify \
+                    /usr/bin/crm status \
+                    /usr/bin/ceph mon status \
+                    /usr/bin/ceph df \
+                    /usr/bin/ovs-vsctl list port \
+                    /usr/bin/ovs-vsctl list bridge \
+                    /bin/timedatectl \
+                    /sbin/vm-mgr list \
+                    /sbin/vm-mgr status * \
+                    /sbin/vm-mgr list_metadata * \
+                    /sbin/vm-mgr get_metadata *
+
+Cmnd_Alias MAINTN3 /usr/bin/crm cluster health \
+                   /usr/bin/ceph health \
+                   /bin/systemctl reboot \
+                   /bin/systemctl list-jobs \
+                   /bin/systemctl status * \
+                   /bin/journalctl * \
+                   /usr/bin/ovs-dpctl show -s \
+                   /sbin/vm-mgr rollback \
+                   /sbin/vm-mgr list_snapshots \
+                   /sbin/vm-mgr create_snapshot *
+
+Cmnd_Alias ADMINCLUSTER /bin/systemctl restart * \
+                        /bin/systemctl stop * \
+                        /bin/systemctl daemon-reload * \
+                        /bin/systemctl edit * \
+                        /bin/systemctl kill * \
+                        /bin/timedatectl * \
+                        /usr/bin/ovs-vsctl * \
+                        /usr/bin/ovs-dpctl * \
+                        /usr/bin/crm * \
+                        /usr/bin/ceph * \
+                        /usr/bin/rbd * \
+                        /sbin/vm-mgr start * \
+                        /sbin/vm-mgr stop * \
+                        /sbin/vm-mgr disable * \
+                        /sbin/vm-mgr enable * \
+                        /sbin/vm-mgr purge * \
+                        /sbin/vm-mgr clone * \
+                        /sbin/vm-mgr create * \
+                        /sbin/vm-mgr set_metadata * \
+                        /sbin/vm-mgr snapshot *
+
+Cmnd_Alias ADMINSYS     /usr/sbin/useradd * \
+                        /usr/sbin/userdel * \
+                        /usr/sbin/usermod * \
+                        /bin/systemctl * \
+                        /usr/sbin/chpasswd *
+
+Cmnd_Alias ANSIBLE      /usr/bin/python3 *
