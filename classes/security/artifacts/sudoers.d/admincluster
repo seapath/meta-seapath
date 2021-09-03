@@ -1,1 +1,1 @@
-%admincluster  ALL=(ALL) ALL
+%admincluster  ALL=(ALL) OPERATOR, MAINTN1, MAINTN3, ADMINCLUSTER
