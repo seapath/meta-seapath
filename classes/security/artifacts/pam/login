@@ -7,7 +7,6 @@
 
 auth		optional							pam_faildelay.so delay=3000000
 auth		[success=ok ignore=ignore user_unknown=ignore default=die]  	pam_securetty.so
-auth		requisite							pam_nologin.so
 
 account		requisite							pam_access.so
 
