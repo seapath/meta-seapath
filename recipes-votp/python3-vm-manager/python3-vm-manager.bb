@@ -22,7 +22,7 @@ do_install_append() {
     install -m 644 ${S}/vm_manager/testdata/* ${D}/${datadir}/testdata/
 
     # Install CLI tool as "vm-mgr"
-    install -D -m 750 ${S}/vm_manager/vm_manager_cmd.py ${D}/${sbindir}/vm-mgr
+    install -D -m 750 ${S}/vm_manager_cmd.py ${D}/${sbindir}/vm-mgr
 }
 
 FILES_${PN} += "${datadir}/testdata/*"
