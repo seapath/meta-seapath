@@ -35,7 +35,7 @@ Wants=create-var-run-resource-agents.service create-pacemaker-log-dir.service
 
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=corosync.service
 
 
 [Service]
