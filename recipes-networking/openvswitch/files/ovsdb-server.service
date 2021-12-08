@@ -12,7 +12,7 @@ PartOf=openvswitch.service
 
 [Service]
 Type=forking
-PIDFile=/var/run/openvswitch/ovsdb-server.pid
+PIDFile=/run/openvswitch/ovsdb-server.pid
 User=openvswitch
 Group=openvswitch
 Restart=on-failure
@@ -35,7 +35,7 @@ ExecReload=/usr/share/openvswitch/scripts/ovs-ctl --no-ovs-vswitchd \
 PrivateTmp=yes
 NoNewPrivileges=true
 ProtectSystem=strict
-ReadWritePaths=/var/run/openvswitch /var/log/openvswitch /var/lib/openvswitch
+ReadWritePaths=/run/openvswitch /var/log/openvswitch /var/lib/openvswitch
 ProtectKernelModules=yes
 ProtectKernelTunables=yes
 ProtectControlGroups=yes
