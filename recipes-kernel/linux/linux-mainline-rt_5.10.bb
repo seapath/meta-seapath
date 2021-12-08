@@ -4,20 +4,15 @@
 require linux-mainline-rt.inc
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
+LINUX_VERSION = "5.10.83"
+KBRANCH = "v${LINUX_VERSION}-rt58"
 
-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;protocol=git;name=machine;tag=v4.19.188-rt77;nobranch=1; \
+LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+
+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;protocol=git;name=machine;tag=${KBRANCH};nobranch=1; \
         file://defconfig \
 "
 
-SRC_URI_append_votp-nuc = " \
-        file://intel-nuc.cfg \
-"
-
-SRC_URI_append_votp-no-iommu = " \
-        file://no-iommu.cfg \
-"
-
-LINUX_VERSION ?= "4.19.188"
 LINUX_VERSION_EXTENSION_append = "-mainline-rt"
 
 S = "${WORKDIR}/git"
