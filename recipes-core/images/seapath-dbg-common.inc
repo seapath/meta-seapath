@@ -3,6 +3,7 @@
 
 # Monitoring tools
 IMAGE_INSTALL += "htop"
+IMAGE_INSTALL += "console-vm-script curl screen stress-ng rsync sysstat"
 
 # Network tools
 IMAGE_INSTALL += "tcpdump inetutils-ping inetutils-ping6"
