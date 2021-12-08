@@ -10,7 +10,6 @@ After=network-pre.target ovsdb-server.service ovs-vswitchd.service
 PartOf=network.target
 Requires=ovsdb-server.service
 Requires=ovs-vswitchd.service
-ConditionDirectoryNotEmpty=/sys/class/iommu
 
 [Service]
 Type=oneshot
