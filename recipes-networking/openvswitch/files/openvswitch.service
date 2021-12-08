@@ -1,3 +1,8 @@
+# Based on Open vSwitch source:
+# https://github.com/openvswitch/ovs/blob/ea36b04688f37cf45b7c2304ce31f0d29f212d54/rhel/usr_lib_systemd_system_openvswitch.service
+# Copyright (C) 2021, RTE (http://www.rte-france.com)
+# SPDX-License-Identifier: Apache-2.0
+
 [Unit]
 Description=Open vSwitch
 Before=network.target network.service
