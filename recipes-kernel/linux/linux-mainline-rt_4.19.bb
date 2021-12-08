@@ -9,10 +9,6 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;
         file://defconfig \
 "
 
-SRC_URI_append_votp-nuc = " \
-        file://intel-nuc.cfg \
-"
-
 SRC_URI_append_votp-no-iommu = " \
         file://no-iommu.cfg \
 "
@@ -25,4 +21,4 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
 
 EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
 
-COMPATIBLE_MACHINE = "(votp|votp-nuc|votp-no-iommu)"
+COMPATIBLE_MACHINE = "(votp|votp-no-iommu)"
