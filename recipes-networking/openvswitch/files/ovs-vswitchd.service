@@ -13,43 +13,35 @@ AssertPathIsReadWrite=/run/openvswitch/db.sock
 PartOf=openvswitch.service
 
 [Service]
-Type=forking
+Type=simple
 User=openvswitch
-PIDFile=/run/openvswitch/ovs-vswitchd.pid
 Restart=on-failure
-Environment="OVS_USER_OPT=--db-file=/var/lib/openvswitch/conf.db"
+TimeoutSec=300
 Environment=XDG_RUNTIME_DIR=/run/openvswitch
-EnvironmentFile=/etc/openvswitch/default.conf
-EnvironmentFile=-/etc/sysconfig/openvswitch
-EnvironmentFile=-/run/openvswitch/openvswitch.useropts
 LimitSTACK=2M
 ExecStartPre=-/bin/mkdir -p /run/openvswitch/vm-sockets
 ExecStartPre=+/bin/chown -R qemu /run/openvswitch/vm-sockets
 ExecStartPre=+/bin/chmod g+ws /run/openvswitch/vm-sockets
-ExecStart=/usr/share/openvswitch/scripts/ovs-ctl \
-          --no-ovsdb-server --no-monitor --system-id=random \
-          ${OVS_USER_OPT} \
-          start $OPTIONS
-ExecStop=/usr/share/openvswitch/scripts/ovs-ctl --no-ovsdb-server stop
-ExecReload=/usr/share/openvswitch/scripts/ovs-ctl --no-ovsdb-server \
-          --no-monitor --system-id=random \
-          ${OVS_USER_OPT} \
-          restart $OPTIONS
-TimeoutSec=300
+ExecStart=ovs-vswitchd \
+    unix:/run/openvswitch/db.sock \
+    --mlockall \
+    --no-chdir
+Nice=-10
+
 
 # Sandboxing
 PrivateTmp=yes
 NoNewPrivileges=true
 ProtectSystem=strict
-ReadWritePaths=/run/openvswitch /var/log/openvswitch
+ReadWritePaths=/run/openvswitch
 ProtectKernelModules=yes
 ProtectKernelTunables=yes
 ProtectControlGroups=yes
 RestrictSUIDSGID=true
 RestrictNamespaces=pid user cgroup
 # CAP_IPC_LOCK is required for mlockall calls
-AmbientCapabilities=CAP_SYS_NICE CAP_NET_BROADCAST CAP_NET_RAW CAP_NET_ADMIN CAP_IPC_LOCK
-CapabilityBoundingSet=CAP_SYS_NICE CAP_NET_BROADCAST CAP_NET_RAW CAP_NET_ADMIN CAP_IPC_LOCK
+AmbientCapabilities=CAP_NET_BROADCAST CAP_NET_RAW CAP_NET_ADMIN CAP_IPC_LOCK
+CapabilityBoundingSet=CAP_NET_BROADCAST CAP_NET_RAW CAP_NET_ADMIN CAP_IPC_LOCK
 # Access to devices is required for DPDK in some conf
 # PrivateDevices=yes
 ProtectKernelLogs=true
