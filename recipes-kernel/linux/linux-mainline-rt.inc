@@ -1,11 +1,10 @@
-# Copyright (C) 2020, RTE (http://www.rte-france.com)
+# Copyright (C) 2021, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
 SUMMARY = "Linux kernel"
 SECTION = "kernel"
 LICENSE = "GPL-2.0"
-
-LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+LIC_FILES_CHKSUM ?= "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 
 # Set firmware path in kernel configuration
 do_firmware_path () {
@@ -19,7 +18,6 @@ addtask firmware_path before do_build after do_configure
 # Kernel build process dependencies
 DEPENDS += "bc-native bison-native openssl-native util-linux-native xz-native rsync-native elfutils-native"
 
-KBRANCH ?= "v4.19.188-rt77"
 KCONFIG_MODE="--alldefconfig"
 KMACHINE ?= "${MACHINE}"
 

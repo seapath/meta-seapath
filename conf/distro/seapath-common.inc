@@ -34,9 +34,8 @@ DISTRO_FEATURES_append = " kvm"
 # Enable dpdk for openvswitch
 PACKAGECONFIG_append_pn-openvswitch = " dpdk"
 COMPATIBLE_MACHINE_pn-dpdk = "(votp)"
-EXTRA_OECONF_append_pn-openvswitch += "--with-linux=${STAGING_KERNEL_BUILDDIR} --with-linux-source=${STAGING_KERNEL_DIR} KARCH=${TARGET_ARCH}"
-PREFERRED_VERSION_openvswitch = "2.13+AUTOINC+71d553b995"
-PREFERRED_VERSION_dpdk = "19.11.5"
+PREFERRED_VERSION_openvswitch = "2.15%"
+PREFERRED_VERSION_dpdk = "20.11.%"
 
 # Disable and blacklist busybox
 PREFERRED_PROVIDER_virtual/base-utils = "packagegroup-core-base-utils"
