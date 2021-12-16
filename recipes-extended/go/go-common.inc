@@ -37,6 +37,6 @@ export GO386 ?= "${TARGET_GO386}"
 export GOMIPS ?= "${TARGET_GOMIPS}"
 export GOROOT_FINAL ?= "${libdir}/go"
 
-do_compile:prepend() {
+do_compile_prepend() {
 	BUILD_CC=${BUILD_CC}
 }
