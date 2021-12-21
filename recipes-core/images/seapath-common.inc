@@ -8,6 +8,7 @@ IMAGE_INSTALL_append = " \
     cukinia-tests \
     cukinia-tests-common \
     system-config-common \
+    elastic-beats-metricbeat \
 "
 # Add kernel-modules
 IMAGE_INSTALL_append = " \
