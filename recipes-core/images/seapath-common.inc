@@ -9,6 +9,7 @@ IMAGE_INSTALL_append = " \
     cukinia-tests-common \
     ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','cukinia-tests-common-security','',d)} \
     system-config-common \
+    elastic-beats-metricbeat \
 "
 # Add kernel-modules
 IMAGE_INSTALL_append = " \
