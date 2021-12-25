@@ -4,6 +4,7 @@
 # Monitoring tools
 IMAGE_INSTALL += "htop"
 IMAGE_INSTALL += "console-vm-script curl screen stress-ng rsync sysstat"
+IMAGE_INSTALL += "strace dnf gdb"
 
 # Network tools
 IMAGE_INSTALL += "tcpdump inetutils-ping inetutils-ping6"
@@ -13,6 +14,6 @@ IMAGE_FEATURES += "allow-empty-password debug-tweaks empty-root-password \
                    post-install-logging"
 
 # Debug images are not compatible with SEAPATH PAM policy
-IMAGE_FEATURES += "unsafe-pam-policy"
+#IMAGE_FEATURES += "unsafe-pam-policy"
 
 IMAGE_FSTYPES += "wic.qcow2"
