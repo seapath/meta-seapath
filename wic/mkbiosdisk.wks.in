@@ -5,8 +5,8 @@
 # long-description: Creates a partitioned BIOS disk image that the user
 # can directly dd to boot media.
 part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024 --use-uuid
-part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
-part /var/log --size 4096 --ondisk sda --fstype=ext4 --label log --align 1024
+part / --source rootfs --size 5000 --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
+part /var/log --size 1096 --ondisk sda --fstype=ext4 --label log --align 1024
 part /mnt/persistent --size 256 --ondisk sda --fstype=ext4 --label persistent --align 1024
 
-bootloader --timeout=0 --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0 default_hugepagesz=1G hugepagesz=1G hugepages=7 systemd.unified_cgroup_hierarchy=0 audit=0 isolcpus=2-5 nohz_full=2-5 rcu_nocbs=2-5 slab_nomerge pti=on slub_debug=ZF init=/sbin/init.sh extra_kernel_parameters_markers"
+bootloader --timeout=0 --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0 default_hugepagesz=1G hugepagesz=1G hugepages=7 systemd.unified_cgroup_hierarchy=0 audit=0 isolcpus=2-5 nohz_full=2-5 rcu_nocbs=2-5 slab_nomerge pti=on slub_debug=ZF init=/sbin/init.sh extra_kernel_parameters_markers ipv6.disable=1"
