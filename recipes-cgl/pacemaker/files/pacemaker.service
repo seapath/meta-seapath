@@ -33,10 +33,13 @@ Requires=corosync.service
 After=create-var-run-resource-agents.service create-pacemaker-log-dir.service
 Wants=create-var-run-resource-agents.service create-pacemaker-log-dir.service
 
+#necessary for the live migration to work when a host is shutdowned or rebooted
+After=rbdmap.service
+After=libvirt-guests.service
+After=ceph.target
 
 [Install]
 WantedBy=corosync.service
-
 
 [Service]
 Type=simple
