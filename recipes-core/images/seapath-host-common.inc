@@ -16,6 +16,7 @@ IMAGE_INSTALL_append = " \
     system-config-host \
     system-config-security \
     system-upgrade \
+    net-snmp-server \
 "
 
 # Host images are compatible with votp only
