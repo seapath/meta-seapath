@@ -18,6 +18,9 @@ IMAGE_INSTALL_append = " \
     system-config-host \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
     system-upgrade \
+    net-snmp-server \
+    net-snmp-client \
+    net-snmp-dev \
 "
 
 IMAGE_INSTALL_append = " cukinia-tests-hypervisor-iommu"

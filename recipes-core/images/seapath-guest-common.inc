@@ -12,6 +12,9 @@ IMAGE_INSTALL_append = " \
     pacemaker-remote \
     syslog-ng-client \
     system-config-security \
+    net-snmp-server \
+    net-snmp-client \
+    net-snmp-dev \
 "
 #add docker
 IMAGE_INSTALL += " docker-ce docker-ce-contrib python3-docker-compose"
