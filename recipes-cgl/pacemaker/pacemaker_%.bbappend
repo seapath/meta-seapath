@@ -12,6 +12,8 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI += " \
     file://create-var-run-resource-agents.service \
     file://pacemaker.service \
+    file://alert_smtp.sh \
+    file://alert_snmp.sh \
 "
 
 do_install_append() {
@@ -20,6 +22,8 @@ do_install_append() {
         ${D}/${systemd_unitdir}/system/create-var-run-resource-agents.service
     install -m 644 ${WORKDIR}/pacemaker.service \
         ${D}/${systemd_unitdir}/system/pacemaker.service
+    install --mode=0755 ${WORKDIR}/alert_smtp.sh ${D}${localstatedir}/lib/pacemaker/alert_smtp.sh
+    install --mode=0755 ${WORKDIR}/alert_snmp.sh ${D}${localstatedir}/lib/pacemaker/alert_snmp.sh
 }
 
 FILES_${PN} += " \

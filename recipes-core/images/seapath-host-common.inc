@@ -17,6 +17,9 @@ IMAGE_INSTALL_append = " \
     system-config-security \
     system-upgrade \
     net-snmp-server \
+    net-snmp-client \
+    msmtp \
+    mailx \
 "
 
 # Host images are compatible with votp only
