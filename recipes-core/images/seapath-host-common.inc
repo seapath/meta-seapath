@@ -19,6 +19,9 @@ IMAGE_INSTALL_append = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
     system-upgrade \
     net-snmp-server \
+    net-snmp-client \
+    msmtp \
+    mailx \
 "
 
 # Host images are compatible with votp only
