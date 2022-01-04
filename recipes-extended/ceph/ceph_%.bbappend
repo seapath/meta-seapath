@@ -55,5 +55,6 @@ do_install_append_class-target () {
 
 RDEPENDS_${PN} += "\
 		python3-dateutil \
+		python3-requests \
 		lvm2 \
 "
