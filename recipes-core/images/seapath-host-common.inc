@@ -3,14 +3,14 @@
 
 DESCRIPTION = "A production image for Seapath"
 require seapath-common.inc
-require seapath-host-common-ha.inc
+require ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'seapath-host-common-ha.inc', '', d)}
 require seapath-host-common-virtu.inc
 
-inherit security/qa-host-images
+inherit ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'security/qa-host-images', '', d)}
 
 # Hypervisor and cluster tests
 IMAGE_INSTALL_append = " \
-    cukinia-tests-cluster \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'cukinia-tests-cluster', '', d)} \
     cukinia-tests-hypervisor \
     syslog-ng-client \
     system-config-host \
