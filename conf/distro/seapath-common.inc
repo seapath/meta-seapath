@@ -77,6 +77,9 @@ DISTRO_FEATURES_append = " seapath-security"
 # Enable Ansible SSH key copy
 DISTRO_FEATURES_append = " ansible"
 
+# Enable readonly
+DISTRO_FEATURES_append = " seapath-readonly"
+
 # Enable clustering
 DISTRO_FEATURES_append = " seapath-clustering"
 
@@ -88,3 +91,4 @@ VOLATILE_LOG_DIR = "no"
 
 #Inherit all bbclass that will check DISTRO_FEATURES
 INHERIT += "security/hardening"
+INHERIT += "security/readonly"
