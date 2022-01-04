@@ -7,11 +7,6 @@ require conf/distro/poky.conf
 # Maintainer email
 MAINTAINER = "support@savoirfairelinux.com"
 
-# Distro description
-DISTRO = "seapath"
-DISTRO_NAME = "Seapath Yocto distribution"
-DISTRO_VERSION = "1.0"
-
 # Use systemd as default
 DISTRO_FEATURES_append = " systemd"
 VIRTUAL-RUNTIME_init_manager = "systemd"
