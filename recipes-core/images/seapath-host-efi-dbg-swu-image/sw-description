@@ -1,0 +1,29 @@
+software =
+{
+    version = "v0.1";
+
+    images: (
+        {
+            filename = "seapath-host-efi-dbg-image-boot.tar.xz";
+            filesystem = "vfat";
+            type = "archive";
+            device = "/dev/upgradable_bootloader";
+            path = "/";
+        },
+        {
+            filename = "seapath-host-efi-dbg-image-votp.tar.xz";
+            filesystem = "ext4";
+            type = "archive";
+            device = "/dev/upgradable_rootfs";
+            preserve-attributes = true;
+            path = "/";
+        },
+    );
+
+    scripts: (
+        {
+            filename = "swupdate_install.sh";
+            type = "shellscript";
+        }
+    );
+}
