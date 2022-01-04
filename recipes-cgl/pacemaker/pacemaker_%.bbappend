@@ -20,6 +20,8 @@ do_install_append() {
         ${D}/${systemd_unitdir}/system/create-var-run-resource-agents.service
     install -m 644 ${WORKDIR}/pacemaker.service \
         ${D}/${systemd_unitdir}/system/pacemaker.service
+    install -d ${D}${sysconfdir}/tmpfiles.d
+    echo "d /run/systemd/system/resource-agents-deps.target.d 0750 hacluster haclient -" >> ${D}${sysconfdir}/tmpfiles.d/pacemaker.conf
 }
 
 FILES_${PN} += " \
