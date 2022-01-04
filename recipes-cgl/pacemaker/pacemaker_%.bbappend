@@ -24,6 +24,8 @@ do_install_append() {
         ${D}/${systemd_unitdir}/system/pacemaker.service
     install --mode=0755 ${WORKDIR}/alert_smtp.sh ${D}${localstatedir}/lib/pacemaker/alert_smtp.sh
     install --mode=0755 ${WORKDIR}/alert_snmp.sh ${D}${localstatedir}/lib/pacemaker/alert_snmp.sh
+    install -d ${D}${sysconfdir}/tmpfiles.d
+    echo "d /run/systemd/system/resource-agents-deps.target.d 0750 hacluster haclient -" >> ${D}${sysconfdir}/tmpfiles.d/pacemaker.conf
 }
 
 FILES_${PN} += " \
