@@ -77,6 +77,9 @@ DISTRO_FEATURES_append = " seapath-security"
 # Enable Ansible SSH key copy
 DISTRO_FEATURES_append = " ansible"
 
+# Enable clustering
+DISTRO_FEATURES_append = " seapath-clustering"
+
 # Set version of Ceph
 PREFERRED_VERSION_ceph = "14.2.21"
 
