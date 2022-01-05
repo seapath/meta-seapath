@@ -3,7 +3,6 @@
 
 # HA
 IMAGE_INSTALL_append = " \
-    pacemaker \
     cluster-glue \
     cluster-glue-plugin-stonith2 \
     cluster-glue-plugin-stonith2-ribcl \
@@ -13,5 +12,7 @@ IMAGE_INSTALL_append = " \
     cluster-glue-plugin-raexec \
     crmsh \
     ceph \
+    pacemaker \
+    python3-vm-manager \
     resource-agents \
 "

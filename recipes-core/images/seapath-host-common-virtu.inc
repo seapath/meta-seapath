@@ -9,5 +9,4 @@ IMAGE_INSTALL_append = " \
     libvirt-python \
     openvswitch \
     qemu \
-    python3-vm-manager \
 "
