@@ -5,6 +5,8 @@ SRC_URI_prepend = " \
 "
 
 do_configure_prepend () {
-    cp -v ${WORKDIR}/passwd.master ${S}/
-    cp -v ${WORKDIR}/group.master ${S}/
+    if ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','true','false',d)}; then
+        cp -v ${WORKDIR}/passwd.master ${S}/
+        cp -v ${WORKDIR}/group.master ${S}/
+    fi
 }
