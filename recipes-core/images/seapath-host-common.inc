@@ -14,7 +14,7 @@ IMAGE_INSTALL_append = " \
     cukinia-tests-hypervisor \
     syslog-ng-client \
     system-config-host \
-    system-config-security \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
     system-upgrade \
 "
 

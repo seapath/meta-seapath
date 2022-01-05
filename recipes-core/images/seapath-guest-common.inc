@@ -5,7 +5,7 @@ DESCRIPTION = "A common base for guest image"
 
 require seapath-common.inc
 
-inherit security/qa-guest-images
+inherit ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'security/qa-guest-images', '', d)}
 
 IMAGE_INSTALL_append = " \
     cukinia-tests-vm \
