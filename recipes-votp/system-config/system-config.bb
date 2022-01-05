@@ -34,8 +34,10 @@ do_install () {
     install -m 0644 ${WORKDIR}/common/votp-loadkeys.service \
         ${D}${systemd_unitdir}/system
     install -d ${D}${sysconfdir}/sysctl.d
-    install -m 0644 ${WORKDIR}/common/90-sysctl-hardening.conf \
-        ${D}${sysconfdir}/sysctl.d
+    if ! ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','true','false', d)}; then
+        install -m 0644 ${WORKDIR}/common/90-sysctl-hardening.conf \
+            ${D}${sysconfdir}/sysctl.d
+    fi
     install -m 0644 ${WORKDIR}/common/99-sysctl-network.conf \
         ${D}${sysconfdir}/sysctl.d
     install -d ${D}${sysconfdir}/profile.d
@@ -43,7 +45,8 @@ do_install () {
         ${D}${sysconfdir}/profile.d
     install -m 0644 ${WORKDIR}/common/var-log.mount \
         ${D}${systemd_unitdir}/system
-    if [ "${DISTRO}" = "seapath" ] || [ "${DISTRO}" = "votp" ] ; then
+
+    if ! ${@bb.utils.contains('PACKAGECONFIG','seapath-readonly','true','false', d)}; then
         install -d ${D}/${base_sbindir}
         echo '#!/bin/sh\nexec /sbin/init $@' > ${D}/${base_sbindir}/init.sh
         chmod 755 ${D}/${base_sbindir}/init.sh
@@ -100,7 +103,7 @@ REQUIRED_DISTRO_FEATURES = "systemd"
 inherit allarch systemd features_check
 
 FILES_${PN}-common = " \
-    ${sysconfdir}/sysctl.d/90-sysctl-hardening.conf \
+    "${@bb.utils.contains('DISTRO_FEATURES','seapath-security',"${sysconfdir}/sysctl.d/90-sysctl-hardening.conf","",d)}" \
     ${sysconfdir}/sysctl.d/99-sysctl-network.conf \
     ${sysconfdir}/profile.d/terminal_idle.sh \
     ${systemd_unitdir}/system/var-log.mount \
@@ -123,5 +126,4 @@ FILES_${PN}-security = " \
     ${sbindir}/disable-local-login.sh \
 "
 
-FILES_${PN}-common_append_seapath = " ${base_sbindir}/init.sh"
-FILES_${PN}-common_append_votp = " ${base_sbindir}/init.sh"
+FILES_${PN}-common_append = "${@bb.utils.contains('DISTRO_FEATURES','seapath-readonly', "", " ${base_sbindir}/init.sh", d)}"
