@@ -36,5 +36,7 @@ WKS_FILE = "mkefidisk.wks.in"
 WIC_CREATE_EXTRA_ARGS += "--no-fstab-update"
 EXTRA_IMAGE_FEATURES = ""
 
-inherit security/users
+inherit ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'security/users', '', d)}
 inherit ansible-ssh
+
+require ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','','recipes-core/images/seapath-common-no-security.inc',d)}
