@@ -8,9 +8,11 @@ SRC_URI += " \
 "
 
 do_install_append() {
-    install -d ${D}${sysconfdir}
-    install -m 0644 ${WORKDIR}/login.defs \
-       ${D}${sysconfdir}
+    if ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','true','false',d)}; then
+        install -d ${D}${sysconfdir}
+        install -m 0644 ${WORKDIR}/login.defs \
+           ${D}${sysconfdir}
+    fi
 }
 
 FILES_${PN} += " \
