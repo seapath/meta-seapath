@@ -4,6 +4,8 @@ RDEPENDS_${PN} = "bash"
 
 FILESEXTRAPATHS:prepend :="${THISDIR}/files:"
 
+EXTRA_OECONF += "--with-mib-modules=ucd-snmp/diskio"
+
 SRC_URI += " \
     file://snmp_crmstatus.sh \
 "
