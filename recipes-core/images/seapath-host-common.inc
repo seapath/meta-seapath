@@ -12,6 +12,8 @@ inherit ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'security/qa
 IMAGE_INSTALL_append = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'cukinia-tests-cluster', '', d)} \
     cukinia-tests-hypervisor \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-readonly', 'cukinia-tests-hypervisor-readonly', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'cukinia-tests-hypervisor-security', '', d)} \
     syslog-ng-client \
     system-config-host \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
