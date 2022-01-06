@@ -34,6 +34,22 @@ boot1_order=$(echo "${bootorder}" | \
     grep -n "${boot1}" | \
     cut -d ':' -f 1)
 
+if [ "${boot0_order}" = "" ]; then
+  bootorder=$(echo "${bootorder}" | sed "s/${boot1}/${boot1},${boot0}/")
+  boot0_order=$(echo "${bootorder}" | \
+    tr ',' '\n' | \
+    grep -n "${boot0}" | \
+    cut -d ':' -f 1)
+fi
+
+if [ "${boot1_order}" = "" ]; then
+  bootorder=$(echo "${bootorder}" | sed "s/${boot0}/${boot0},${boot1}/")
+  boot1_order=$(echo "${bootorder}" | \
+    tr ',' '\n' | \
+    grep -n "${boot1}" | \
+    cut -d ':' -f 1)
+fi
+
 if [ "${boot0_order}" -lt "${boot1_order}" ] ; then
     active_boot="${boot0}"
     passive_boot="${boot1}"
