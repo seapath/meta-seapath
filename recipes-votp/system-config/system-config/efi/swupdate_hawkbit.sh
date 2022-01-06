@@ -30,7 +30,7 @@ fi
 mount "${bootloader_part}" /boot 2>/dev/null
 # The system has been updated
 if [ -f /boot/EFI/BOOT/grubenv ] ; then
-    if ! check_health ; then
+    if ! check-health ; then
         echo "Update tests haves failed" 1>&2
         echo "Rebooting to the last working state..."
         grub-editenv /boot/EFI/BOOT/grubenv set "bootcount=4"
