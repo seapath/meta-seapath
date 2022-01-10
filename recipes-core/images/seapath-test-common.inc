@@ -17,6 +17,7 @@ IMAGE_INSTALL += "ptest-runner"
 IMAGE_INSTALL += " \
     docker-ce \
     docker-ce-contrib \
+    python3-docker-compose \
 "
 
 # Add extra space for testing
