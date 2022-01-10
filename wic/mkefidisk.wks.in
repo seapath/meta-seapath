@@ -11,5 +11,5 @@ part /boot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/boot --ondisk sda --labe
 
 part / --source rootfs --exclude-path boot/ --ondisk sda --fstype=ext4 --label rootfs0 --align 1024 --size 6G
 part / --source rootfs --exclude-path boot/ --ondisk sda --fstype=ext4 --label rootfs1 --align 1024 --size 6G
-part /var/log --size 1024 --ondisk sda --fstype=ext4 --label log --align 1024 --use-label
+part /var/log --size 4096 --ondisk sda --fstype=ext4 --label log --align 1024 --use-label
 part /mnt/persistent --size 256 --ondisk sda --fstype=ext4 --label persistent --align 1024
