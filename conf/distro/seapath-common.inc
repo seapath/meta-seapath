@@ -70,6 +70,9 @@ DISTRO_FEATURES_append = " ptest"
 # Enable pam
 DISTRO_FEATURES_append = " pam"
 
+# Enable seccomp for conmon (needed to upgrade podman)
+DISTRO_FEATURES_append = " seccomp"
+
 # Enable security hardening
 DISTRO_FEATURES_append = " seapath-security"
 
@@ -83,8 +86,6 @@ DISTRO_FEATURES_append = " seapath-overlay"
 # Enable clustering
 DISTRO_FEATURES_append = " seapath-clustering"
 
-PREFERRED_VERSION_libvirt = "6.3.0"
-
 # Set persistent /var/log
 VOLATILE_LOG_DIR = "no"
 
@@ -92,3 +93,6 @@ VOLATILE_LOG_DIR = "no"
 INHERIT += "security/hardening"
 INHERIT += "security/readonly"
 INHERIT += "overlay"
+
+PREFERRED_VERSION_libvirt = "6.3.0"
+PREFERRED_VERSION_conmon = "2.0.30%"
