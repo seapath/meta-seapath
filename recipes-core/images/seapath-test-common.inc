@@ -15,9 +15,9 @@ IMAGE_INSTALL += "ptest-runner"
 
 # Active Directory tools
 IMAGE_INSTALL += " \
-    docker-ce \
-    docker-ce-contrib \
-    python3-docker-compose \
+    podman \
+    criu \
+    slirp4netns \
 "
 
 # Add extra space for testing
