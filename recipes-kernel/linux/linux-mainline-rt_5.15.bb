@@ -17,6 +17,10 @@ SRC_URI_append_votp-no-iommu = " \
         file://no-iommu.cfg \
 "
 
+# Uncomment this line to unaible debug traces in Kernel and tracing tools
+# support (like LTTng or perf).
+#SRC_URI_append = " file://traces.cfg"
+
 LINUX_VERSION_EXTENSION_append = "-mainline-rt"
 
 S = "${WORKDIR}/git"

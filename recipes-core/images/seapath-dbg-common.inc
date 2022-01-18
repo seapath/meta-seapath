@@ -8,6 +8,12 @@ IMAGE_INSTALL += "console-vm-script curl screen stress-ng rsync sysstat"
 # Network tools
 IMAGE_INSTALL += "tcpdump inetutils-ping inetutils-ping6"
 
+# Trace tools
+# Uncomment this line to install LTTng.
+# LTTng require the kernel fragment trace.cfg
+# See recipes-kernel/linux/linux-mainline-rt_5.15.bb
+#IMAGE_INSTALL += " lttng-tools lttng-modules"
+
 # System tools
 IMAGE_FEATURES += "allow-empty-password debug-tweaks empty-root-password \
                    post-install-logging"
