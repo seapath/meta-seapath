@@ -20,6 +20,7 @@ IMAGE_INSTALL_append = " \
     system-upgrade \
     net-snmp-server \
     net-snmp-client \
+    net-snmp-dev \
     msmtp \
     mailx \
 "
