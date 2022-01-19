@@ -22,12 +22,14 @@ EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
                  -DWITH_RADOSGW_KAFKA_ENDPOINT=OFF \
 "
 
-def limit_parallel(limit):
+def limit_parallel(d):
    import multiprocessing
+
+   limit = d.getVar("SEAPATH_PARALLEL_MAKE", 8)
    nproc = min(multiprocessing.cpu_count(), int(limit))
    return "-j{}".format(nproc)
 
-PARALLEL_MAKE = "${@limit_parallel(8)}"
+PARALLEL_MAKE = "${@limit_parallel(d)}"
 
 do_install_append () {
 	for directory in / mon osd mds tmp radosgw bootstrap-rgw bootstrap-mgr \
