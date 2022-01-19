@@ -12,6 +12,9 @@ IMAGE_INSTALL_append = " \
     pacemaker-remote \
     syslog-ng-client \
     system-config-security \
+    net-snmp-server \
+    net-snmp-client \
+    net-snmp-dev \
 "
 IMAGE_FSTYPES = "wic.qcow2 wic.vmdk"
 WKS_FILE = "mkefidisk-guest.wks.in"
