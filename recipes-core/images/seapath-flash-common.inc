@@ -9,6 +9,7 @@ IMAGE_INSTALL_append = " \
     python3-json \
     python3-modules \
     os-release \
+    kbd-keymaps \
 "
 # Add kernel-modules
 IMAGE_INSTALL_append = " \

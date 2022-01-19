@@ -15,7 +15,6 @@ SRC_URI = " \
     file://common/99-sysctl-network.conf \
     file://common/terminal_idle.sh \
     file://common/var-log.mount \
-    file://common/votp-loadkeys.service \
     file://host/openvswitch.conf \
     file://host/votp-config_ovs.service \
     file://efi/swupdate_hawkbit.conf \
@@ -31,8 +30,10 @@ do_install () {
     install -d ${D}${sysconfdir}/sysconfig
 
 # Common
-    install -m 0644 ${WORKDIR}/common/votp-loadkeys.service \
-        ${D}${systemd_unitdir}/system
+    if [ -z "${SEAPATH_KEYMAP}" ] ; then
+         SEAPATH_KEYMAP=us
+    fi
+    echo "KEYMAP=\"${SEAPATH_KEYMAP}\"" > ${D}${sysconfdir}/vconsole.conf
     install -d ${D}${sysconfdir}/sysctl.d
     if ! ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','true','false', d)}; then
         install -m 0644 ${WORKDIR}/common/90-sysctl-hardening.conf \
@@ -86,7 +87,6 @@ SYSTEMD_PACKAGES += " \
 "
 
 SYSTEMD_SERVICE_${PN}-common = " \
-    votp-loadkeys.service \
     var-log.mount \
 "
 
@@ -107,7 +107,7 @@ FILES_${PN}-common = " \
     ${sysconfdir}/sysctl.d/99-sysctl-network.conf \
     ${sysconfdir}/profile.d/terminal_idle.sh \
     ${systemd_unitdir}/system/var-log.mount \
-    ${systemd_unitdir}/system/votp-loadkeys.service \
+    ${sysconfdir}/vconsole.conf \
 "
 
 FILES_${PN}-host = " \
