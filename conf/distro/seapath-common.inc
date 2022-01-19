@@ -95,4 +95,5 @@ INHERIT += "security/readonly"
 INHERIT += "overlay"
 
 PREFERRED_VERSION_libvirt = "6.3.0"
+PREFERRED_VERSION_iptables = "1.8.7"
 PREFERRED_VERSION_conmon = "2.0.30%"
