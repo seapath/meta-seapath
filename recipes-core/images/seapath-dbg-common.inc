@@ -14,8 +14,6 @@ IMAGE_FEATURES += "allow-empty-password debug-tweaks empty-root-password \
                    post-install-logging"
 
 # Debug images are not compatible with SEAPATH PAM policy
-#IMAGE_FEATURES += "unsafe-pam-policy"
-
-IMAGE_FEATURES:remove = "read-only-rootfs"
+IMAGE_FEATURES += "unsafe-pam-policy"
 
 IMAGE_FSTYPES += "wic.qcow2"
