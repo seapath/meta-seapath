@@ -7,6 +7,7 @@ SRC_URI_append = " \
     file://basic.conf \
     file://boot-complete.target \
     file://journald.conf \
+    file://resolved.conf \
 "
 PACKAGECONFIG_append = " seccomp"
 do_install_append () {
@@ -22,5 +23,7 @@ do_install_append () {
     install -m 644 ${WORKDIR}/boot-complete.target \
         ${D}/${systemd_unitdir}/system/boot-complete.target
     install -m 0644 ${WORKDIR}/journald.conf \
+        ${D}${sysconfdir}/systemd
+    install -m 0644 ${WORKDIR}/resolved.conf \
         ${D}${sysconfdir}/systemd
 }
