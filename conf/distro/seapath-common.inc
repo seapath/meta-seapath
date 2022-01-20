@@ -83,9 +83,6 @@ DISTRO_FEATURES_append = " seapath-overlay"
 # Enable clustering
 DISTRO_FEATURES_append = " seapath-clustering"
 
-# Set version of Ceph
-PREFERRED_VERSION_ceph = "14.2.21"
-
 # Set version of Libvirt to 6.3.0 (solves GH issue #22)
 PREFERRED_VERSION_libvirt = "6.3.0"
 
