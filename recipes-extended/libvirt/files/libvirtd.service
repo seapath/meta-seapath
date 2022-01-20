@@ -27,7 +27,7 @@ Documentation=https://libvirt.org
 
 [Service]
 Type=forking
-PIDFile=/var/run/libvirt/libvirtd.pid
+PIDFile=/run/libvirt/libvirtd.pid
 EnvironmentFile=-/etc/sysconfig/libvirtd
 ExecStartPre=/bin/sh -c '/bin/rm -f $PIDFile'
 ExecStart=/usr/sbin/libvirtd $LIBVIRTD_ARGS
@@ -59,7 +59,7 @@ ProtectKernelTunables=yes
 ProtectControlGroups=no
 RestrictSUIDSGID=true
 RestrictNamespaces=pid user cgroup
-CapabilityBoundingSet=CAP_CHOWN CAP_SYS_NICE CAP_SETUID CAP_SETGID CAP_KILL CAP_DAC_OVERRIDE CAP_NET_ADMIN
+CapabilityBoundingSet=CAP_CHOWN CAP_SYS_NICE CAP_SETUID CAP_SETGID CAP_KILL CAP_DAC_OVERRIDE CAP_NET_ADMIN CAP_FOWNER CAP_NET_BIND_SERVICE
 ProtectKernelLogs=true
 SystemCallFilter=~@cpu-emulation @aio @clock @module @mount @obsolete @reboot @swap @debug
 
