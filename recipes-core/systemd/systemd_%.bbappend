@@ -6,6 +6,7 @@ SRC_URI_append = " \
     file://0001-networkd-wait-online-add-any-option.patch \
     file://basic.conf \
     file://boot-complete.target \
+    file://journald.conf \
 "
 PACKAGECONFIG_append = " seccomp"
 do_install_append () {
@@ -20,4 +21,6 @@ do_install_append () {
     # Change boot-complete.target to be run after multi-user.target
     install -m 644 ${WORKDIR}/boot-complete.target \
         ${D}/${systemd_unitdir}/system/boot-complete.target
+    install -m 0644 ${WORKDIR}/journald.conf \
+        ${D}${sysconfdir}/systemd
 }
