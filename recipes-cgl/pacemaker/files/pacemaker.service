@@ -88,7 +88,7 @@ SendSIGKILL=no
 # are shutting down.  The default of 30min should cover most typical cluster
 # configurations, but it may need an increase to adapt to local conditions
 # (e.g. a large, clustered database could conceivably take longer to stop).
-TimeoutStopSec=30min
+TimeoutStopSec=2min
 TimeoutStartSec=60s
 
 # Restart options include: no, on-success, on-failure, on-abort or always
