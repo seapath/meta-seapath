@@ -13,6 +13,9 @@ IMAGE_INSTALL_append = " \
     syslog-ng-client \
     system-config-security \
 "
+#add docker
+IMAGE_INSTALL += " docker-ce docker-ce-contrib python3-docker-compose"
+
 IMAGE_FSTYPES = "wic.qcow2 wic.vmdk"
 WKS_FILE = "mkefidisk-guest.wks.in"
 
