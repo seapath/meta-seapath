@@ -30,3 +30,4 @@ EXTRA_IMAGE_FEATURES = ""
 USERS_SSH_ANSIBLE = "root"
 
 inherit ansible-ssh
+COMPATIBLE_MACHINE = "votp-flash"

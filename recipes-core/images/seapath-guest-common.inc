@@ -21,8 +21,8 @@ WKS_FILE = "mkefidisk-guest.wks.in"
 
 # Guest images are compatible with votp-vm only
 # GRUB static configuration for guest machines
-# depends on votp-vm
-COMPATIBLE_MACHINE = "votp-vm"
+# depends on votp-guest
+COMPATIBLE_MACHINE = "votp-guest"
 
 # Remove users that do not exist in
 # guest images

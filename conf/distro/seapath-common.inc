@@ -93,3 +93,5 @@ VOLATILE_LOG_DIR = "no"
 INHERIT += "security/hardening"
 INHERIT += "security/readonly"
 INHERIT += "overlay"
+
+DISTROOVERRIDES =. "seapath."
