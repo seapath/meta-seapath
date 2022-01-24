@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 DESCRIPTION = "A debug image for Seapath"
-require seapath-host-common.inc
+require seapath-test-common.inc
 require seapath-dbg-common.inc
 require seapath-efi-common.inc
 require seapath-swupdate-common.inc
