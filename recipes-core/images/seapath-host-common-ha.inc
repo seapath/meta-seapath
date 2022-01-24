@@ -15,4 +15,5 @@ IMAGE_INSTALL_append = " \
     pacemaker \
     python3-vm-manager \
     resource-agents \
+    mailx \
 "
