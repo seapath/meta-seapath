@@ -1,4 +1,4 @@
-# Copyright (C) 2020, RTE (http://www.rte-france.com)
+# Copyright (C) 2022, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
 # short-description: Create an BIOS disk image
@@ -9,4 +9,4 @@ part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 
 part /var/log --size 4096 --ondisk sda --fstype=ext4 --label log --align 1024
 part /mnt/persistent --size 256 --ondisk sda --fstype=ext4 --label persistent --align 1024
 
-bootloader --timeout=0 --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0 default_hugepagesz=1G hugepagesz=1G hugepages=7 systemd.unified_cgroup_hierarchy=0 audit=0 isolcpus=2-5 nohz_full=2-5 rcu_nocbs=2-5 slab_nomerge pti=on slub_debug=ZF init=/sbin/init.sh extra_kernel_parameters_markers ipv6.disable=1"
+bootloader --timeout=0
