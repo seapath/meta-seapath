@@ -11,6 +11,9 @@ SRC_URI_append_class-target += " \
     file://grub-efi.cfg   \
 "
 
+do_configure_append_class-target () {
+    sed -i "s/@APPEND@/${APPEND}/g" -i "${WORKDIR}/grub-efi.cfg"
+}
 do_install_append_class-target() {
     if [ "${UEFI_SB}" != "1" ]; then
         install -D -m 0600 "${WORKDIR}/grub-efi.cfg" "${D}${EFI_FILES_PATH}/grub.cfg"
