@@ -20,7 +20,24 @@ IMAGE_INSTALL_append = " \
     system-upgrade \
 "
 
-# Host images are compatible with votp only
+# Host images are compatible with votp-host only
 # GRUB static configuration for host machines
-# depends on votp
-COMPATIBLE_MACHINE = "votp"
+# depends on votp-host
+COMPATIBLE_MACHINE = "votp-host"
+
+def get_seapath_kernel_parameters(d):
+    kernel_parameters = ""
+    rt_cores = d.getVar("SEAPATH_RT_CORES", "")
+    nb_hugepages = d.getVar("SEAPATH_1G_HUGEPAGES", "")
+    if rt_cores:
+        kernel_parameters +="isolcpus={} nohz_full={} rcu_nocbs={}".format(
+            rt_cores,
+            rt_cores,
+            rt_cores)
+    if nb_hugepages:
+        kernel_parameters += " default_hugepagesz=1G hugepagesz=1G hugepages={}".format(nb_hugepages)
+    return kernel_parameters
+    
+
+
+APPEND += "${@get_seapath_kernel_parameters(d)}"
