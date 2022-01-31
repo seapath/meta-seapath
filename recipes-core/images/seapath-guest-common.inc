@@ -1,4 +1,4 @@
-# Copyright (C) 2020, RTE (http://www.rte-france.com)
+# Copyright (C) 2022, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
 DESCRIPTION = "A common base for guest image"
@@ -27,3 +27,11 @@ COMPATIBLE_MACHINE = "votp-guest"
 # Remove users that do not exist in
 # guest images
 USERS_LIST_LOCKED_remove = "qemu ceph"
+
+def get_seapath_kernel_parameters(d):
+    disable_ipv6 = d.getVar("SEAPATH_GUEST_DISABLE_IPV6", "")
+    if disable_ipv6 == "true":
+        return "disable_ipv6=1"
+    return ""
+
+APPEND += "${@get_seapath_kernel_parameters(d)}"

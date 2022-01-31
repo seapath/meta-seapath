@@ -27,7 +27,17 @@ do_compile_append_class-target() {
         echo "password_pbkdf2 root ${grub_password}" >> "${B}/grub-efi.cfg"
     fi
     echo "timeout=$grub_timeout" >> "${B}/grub-efi.cfg"
-    echo "set kernel_parameters='${APPEND}'" >> "${B}/grub-efi.cfg"
+    extra_append=""
+    if ${@bb.utils.contains('MACHINE_FEATURES', 'seapath-guest', 'true', 'false', d)} ; then
+        if [ "${SEAPATH_GUEST_DISABLE_IPV6}" = "true" ] ; then
+            extra_append=" disable_ipv6=1"
+        fi
+    else
+        if [ "${SEAPATH_DISABLE_IPV6}" = "true" ] ; then
+            extra_append=" disable_ipv6=1"
+        fi
+    fi
+    echo "set kernel_parameters='${APPEND}${extra_append}'" >> "${B}/grub-efi.cfg"
     cat "${WORKDIR}/grub-efi.cfg.in" >> "${B}/grub-efi.cfg"
 }
 
