@@ -27,6 +27,3 @@ do_install_append_seapath-flash() {
         ${D}${sysconfdir}/ssh/sshd_config
 }
 
-FILES_${PN} += " \
-    ${sysconfdir}/ssh/sshd_config \
-"

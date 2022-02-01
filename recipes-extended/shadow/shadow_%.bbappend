@@ -14,7 +14,3 @@ do_install_append() {
            ${D}${sysconfdir}
     fi
 }
-
-FILES_${PN} += " \
-    ${sysconfdir}/login.defs \
-"
