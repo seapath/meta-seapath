@@ -24,7 +24,7 @@ GLIBC_GENERATE_LOCALES = "en_US.UTF-8 fr_FR.UTF-8"
 IMAGE_LINGUAS ?= "en_US fr_FR"
 
 IMAGE_FSTYPES = "wic.gz wic.bmap"
-IMAGE_FEATURES += "ssh-server-openssh"
+IMAGE_FEATURES += "ssh-server-openssh allow-empty-password empty-root-password"
 EXTRA_IMAGE_FEATURES = ""
 
 USERS_SSH_ANSIBLE = "root"
