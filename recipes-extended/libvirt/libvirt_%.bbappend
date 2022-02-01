@@ -35,6 +35,9 @@ do_install_append() {
     install -d ${D}/${sysconfdir}/libvirt/hooks/
     install -m 0755 ${WORKDIR}/qemu-seapath \
       ${D}${sysconfdir}/libvirt/hooks/qemu-seapath
+
+    rm -f ${D}${sysconfdir}/libvirt/qemu/networks/autostart/default.xml
+    rm -f ${D}${sysconfdir}/libvirt/qemu/networks/default.xml
 }
 
 FILES_${PN} += " \
