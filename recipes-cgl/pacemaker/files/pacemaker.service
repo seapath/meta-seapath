@@ -29,6 +29,7 @@ Wants=resource-agents-deps.target
 After=syslog.service
 After=rsyslog.service
 After=corosync.service
+After=libvirtd.service
 Requires=corosync.service
 After=create-var-run-resource-agents.service create-pacemaker-log-dir.service
 Wants=create-var-run-resource-agents.service create-pacemaker-log-dir.service
