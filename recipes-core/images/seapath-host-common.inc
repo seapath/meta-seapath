@@ -20,6 +20,9 @@ IMAGE_INSTALL_append = " \
     system-upgrade \
 "
 
+IMAGE_INSTALL_append = " cukinia-tests-hypervisor-iommu"
+IMAGE_INSTALL_remove_votp-no-iommu = "cukinia-tests-hypervisor-iommu"
+
 # Host images are compatible with votp-host only
 # GRUB static configuration for host machines
 # depends on votp-host
