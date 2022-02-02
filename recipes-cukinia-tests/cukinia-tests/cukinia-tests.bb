@@ -37,7 +37,6 @@ SRC_URI = "\
     file://cluster_tests.d/vm_manager_pacemaker.conf \
     file://cluster_tests.d/vm_manager_rbd.conf \
     file://cluster_tests.d/corosync.conf \
-    file://hypervisor_tests.d/iommu.conf \
     file://hypervisor_tests.d/virtualization.conf \
     file://hypervisor_tests.d/ovs.conf \
     file://hypervisor_tests.d/ceph.conf \
@@ -56,6 +55,8 @@ SRC_URI = "\
     file://includes/kernel_config_functions \
     file://realtime_tests.d/cyclictest.conf \
     file://efi_tests.d/partition-symlinks.conf \
+    file://hypervisor_iommu_tests.d/iommu.conf \
+    file://hypervisor_iommu_tests.d/kernel.conf \
 "
 
 RDEPENDS_${PN} += "cukinia"
@@ -122,8 +123,6 @@ do_install () {
 # hypervisor
     install -m 0755 -d ${D}${sysconfdir}/cukinia/hypervisor_tests.d/
     install -m 0644 ${WORKDIR}/cukinia-hypervisor.conf ${D}${sysconfdir}/cukinia
-    install -m 0644 ${WORKDIR}/hypervisor_tests.d/iommu.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/virtualization.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/ovs.conf \
@@ -154,6 +153,13 @@ do_install () {
         ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_security_tests.d/shadow.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
+
+# hypervisor IOMMU
+    install -m 0755 -d ${D}${sysconfdir}/cukinia/hypervisor_iommu_tests.d/
+    install -m 0644 ${WORKDIR}/hypervisor_iommu_tests.d/iommu.conf \
+        ${D}${sysconfdir}/cukinia/hypervisor_iommu_tests.d
+    install -m 0644 ${WORKDIR}/hypervisor_iommu_tests.d/kernel.conf \
+        ${D}${sysconfdir}/cukinia/hypervisor_iommu_tests.d
 
 # monitor
     install -m 0755 -d ${D}${sysconfdir}/cukinia/monitor_tests.d/
@@ -187,6 +193,7 @@ PACKAGES =+ " \
     ${PN}-hypervisor \
     ${PN}-hypervisor-readonly \
     ${PN}-hypervisor-security \
+    ${PN}-hypervisor-iommu \
     ${PN}-monitor \
     ${PN}-realtime \
     ${PN}-vm \
@@ -229,6 +236,11 @@ FILES_${PN}-hypervisor-readonly = " \
 FILES_${PN}-hypervisor-security = " \
     ${sysconfdir}/cukinia/cukinia-hypervisor-security.conf \
     ${sysconfdir}/cukinia/hypervisor_security_tests.d/* \
+"
+
+FILES_${PN}-hypervisor-iommu = " \
+    ${sysconfdir}/cukinia/cukinia-hypervisor-iommu.conf \
+    ${sysconfdir}/cukinia/hypervisor_iommu_tests.d/* \
 "
 
 FILES_${PN}-monitor = " \
