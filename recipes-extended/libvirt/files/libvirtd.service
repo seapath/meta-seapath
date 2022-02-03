@@ -31,6 +31,7 @@ PIDFile=/run/libvirt/libvirtd.pid
 EnvironmentFile=-/etc/sysconfig/libvirtd
 ExecStartPre=/bin/sh -c '/bin/rm -f $PIDFile'
 ExecStart=/usr/sbin/libvirtd $LIBVIRTD_ARGS
+ExecStartPost=/usr/bin/virsh list
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 Restart=on-failure
