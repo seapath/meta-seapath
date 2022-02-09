@@ -5,8 +5,6 @@
 # Setup and install hardened PAM policy
 #
 
-IMAGE_FEATURES[validitems] += "unsafe-pam-policy"
-
 install_pam_policy() {
     if ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'true', 'false', d)}; then
         rm --one-file-system -f ${IMAGE_ROOTFS}/etc/pam.d/*

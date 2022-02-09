@@ -95,3 +95,6 @@ INHERIT += "security/readonly"
 INHERIT += "overlay"
 
 DISTROOVERRIDES =. "seapath."
+
+IMAGE_FEATURES[validitems] += "unsafe-pam-policy"
+
