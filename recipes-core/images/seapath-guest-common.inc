@@ -9,7 +9,6 @@ inherit ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'security/qa
 
 IMAGE_INSTALL_append = " \
     cukinia-tests-vm \
-    pacemaker-remote \
     syslog-ng-client \
     system-config-security \
     net-snmp-server \
