@@ -23,11 +23,8 @@ EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
 "
 
 def limit_parallel(d):
-   import multiprocessing
-
-   limit = d.getVar("SEAPATH_PARALLEL_MAKE", 8)
-   nproc = min(multiprocessing.cpu_count(), int(limit))
-   return "-j{}".format(nproc)
+	import multiprocessing
+	return "-j{}".format(d.getVar("SEAPATH_PARALLEL_MAKE", mutiprocessing.cpu_count())
 
 PARALLEL_MAKE = "${@limit_parallel(d)}"
 
