@@ -14,10 +14,10 @@ SRC_URI = "\
 "
 
 # Images to build before building SWUpdate image
-IMAGE_DEPENDS = "seapath-host-efi-swu-image"
+IMAGE_DEPENDS = "seapath-host-efi-dbg-image"
 
 # Images and files that will be included in the .swu image
-SWUPDATE_IMAGES = "seapath-host-efi-swu-image seapath-host-efi-image-boot"
+SWUPDATE_IMAGES = "seapath-host-efi-dbg-image seapath-host-efi-dbg-image-boot"
 
-SWUPDATE_IMAGES_FSTYPES[seapath-host-efi-image] = ".tar.xz"
-SWUPDATE_IMAGES_FSTYPES[seapath-host-efi-image-boot] = ".tar.xz"
+SWUPDATE_IMAGES_FSTYPES[seapath-host-efi-dbg-image] = ".tar.xz"
+SWUPDATE_IMAGES_FSTYPES[seapath-host-efi-dbg-image-boot] = ".tar.xz"
