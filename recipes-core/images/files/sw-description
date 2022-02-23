@@ -4,14 +4,14 @@ software =
 
     images: (
         {
-            filename = "seapath-monitor-efi-image-boot.tar.xz";
+            filename = "@@IMAGE_BASENAME@@-boot.tar.xz";
             filesystem = "vfat";
             type = "archive";
             device = "/dev/upgradable_bootloader";
             path = "/";
         },
         {
-            filename = "seapath-monitor-efi-image-votp-monitor.tar.xz";
+            filename = "@@IMAGE_BASENAME@@-@@MACHINE@@.tar.xz";
             filesystem = "ext4";
             type = "archive";
             device = "/dev/upgradable_rootfs";
