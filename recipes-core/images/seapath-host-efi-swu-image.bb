@@ -14,7 +14,7 @@ SRC_URI = "\
 "
 
 # Images to build before building SWUpdate image
-IMAGE_DEPENDS = "seapath-host-efi-swu-image"
+IMAGE_DEPENDS = "seapath-host-efi-image"
 
 # Images and files that will be included in the .swu image
 SWUPDATE_IMAGES = "seapath-host-efi-swu-image seapath-host-efi-image-boot"
