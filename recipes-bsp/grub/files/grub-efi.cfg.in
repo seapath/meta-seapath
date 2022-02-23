@@ -34,7 +34,7 @@ menuentry 'active_slot' --unrestricted{
     # Convert device to filesystem identifier
     set sys_part=(${disk},${part}${part_num})
     probe --set sys_part_uuid --part-uuid $sys_part
-    linux /bzImage console=ttyS0,115200 console=tty0 root=PARTUUID=$sys_part_uuid ipv6.disable=1 $kernel_parameters
+    linux /bzImage console=ttyS0,115200 console=tty0 root=PARTUUID=$sys_part_uuid efi=runtime $kernel_parameters
 }
 
 
