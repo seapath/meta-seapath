@@ -33,7 +33,7 @@ USERS_LIST_LOCKED_remove = "qemu ceph"
 def get_seapath_kernel_parameters(d):
     disable_ipv6 = d.getVar("SEAPATH_GUEST_DISABLE_IPV6", "")
     if disable_ipv6 == "true":
-        return "disable_ipv6=1"
+        return "ipv6.disable=1"
     return ""
 
 APPEND += "${@get_seapath_kernel_parameters(d)}"

@@ -30,11 +30,11 @@ do_compile_append_class-target() {
     extra_append=""
     if ${@bb.utils.contains('MACHINE_FEATURES', 'seapath-guest', 'true', 'false', d)} ; then
         if [ "${SEAPATH_GUEST_DISABLE_IPV6}" = "true" ] ; then
-            extra_append=" disable_ipv6=1"
+            extra_append=" ipv6.disable=1"
         fi
     else
         if [ "${SEAPATH_DISABLE_IPV6}" = "true" ] ; then
-            extra_append=" disable_ipv6=1"
+            extra_append=" ipv6.disable=1"
         fi
     fi
     echo "set kernel_parameters='${APPEND}${extra_append}'" >> "${B}/grub-efi.cfg"
