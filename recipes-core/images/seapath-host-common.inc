@@ -44,7 +44,7 @@ def get_seapath_kernel_parameters(d):
     if nb_hugepages:
         kernel_parameters += " default_hugepagesz=1G hugepagesz=1G hugepages={}".format(nb_hugepages)
     if disable_ipv6 == "true":
-        kernel_parameters += " disable_ipv6=1"
+        kernel_parameters += " ipv6.disable=1"
     return kernel_parameters
 
 
