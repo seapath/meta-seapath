@@ -11,6 +11,7 @@ KBRANCH = "v${PV}"
 
 SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;protocol=git;name=machine;tag=${KBRANCH};nobranch=1; \
         file://defconfig \
+        file://megaraid.cfg \
 "
 
 SRC_URI_append_votp-no-iommu = " \
