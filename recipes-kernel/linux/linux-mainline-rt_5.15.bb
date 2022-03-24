@@ -14,6 +14,9 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;
         file://megaraid.cfg \
 "
 
+SRC_URI_append_votp-guest = " \
+        file://ptp_kvm.cfg \
+"
 SRC_URI_append_votp-no-iommu = " \
         file://no-iommu.cfg \
 "
