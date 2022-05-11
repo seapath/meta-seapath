@@ -28,6 +28,9 @@ IMAGE_INSTALL_append = " openssh-sftp-server"
 
 IMAGE_INSTALL_append = " syslog-ng"
 
+# AMD micro-codes
+IMAGE_INSTALL_append = " amd-ucode"
+
 GLIBC_GENERATE_LOCALES = "en_US.UTF-8"
 IMAGE_LINGUAS = "en-us"
 
