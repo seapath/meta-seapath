@@ -144,21 +144,21 @@ if command -v efibootmgr &> /dev/null ; then
         exit 1
     fi
 
+    active_boot=$(efibootmgr | awk '/SEAPATH slot 0/{ gsub("Boot", ""); gsub("*", ""); print $1 }')
+    echo "Move SEAPATH boot at the end of the boot order"
+    echo "Disable all unwanted boot entry in UEFI setup or with the efibootmgr"
+    echo "command"
     # Set top boot order priority for USB and PXE entries
     boot_order=$(efibootmgr | grep "BootOrder" | awk '{ print $2}')
-    usb_entries=$(efibootmgr | awk '/USB HDD/{ gsub("Boot",""); gsub("*", ""); print $1 }')
-    pxe_entries=$(efibootmgr | awk '/PCI LAN/{ gsub("Boot",""); gsub("*", ""); print $1 }')
-
-    # Create top priority list and remove from original boot order
-    top_priority=""
-    for entry in $usb_entries $pxe_entries
-    do
-        top_priority+=$entry","
-        boot_order=${boot_order/$entry/}
-    done
-
-    # Concatenate lists and remove commas if they are repeated or in last position
-    boot_order=$(echo $top_priority$boot_order | tr -s "," | sed 's/,$//')
+    # Remove SEAPATH entries from bootOrder
+    boot_order=$(echo "$boot_order" | sed "s/$active_boot//")
+    boot_order=$(echo "$boot_order" | sed "s/$passive_boot//")
+    # Remove unwanted commas
+    boot_order=$(echo "$boot_order" | sed "s/,,/,/")
+    boot_order=$(echo "$boot_order" | sed 's/,$//')
+    boot_order=$(echo "$boot_order" | sed 's/^,//')
+    # Add SEAPATH entries add the end
+    boot_order="$boot_order,$active_boot,$passive_boot"
 
     # Change boot order
     if efibootmgr -q -o "$boot_order" ; then
@@ -167,6 +167,9 @@ if command -v efibootmgr &> /dev/null ; then
         echo "Error while changing boot order"
         exit 1
     fi
+    echo "Set the next reboot to be on SEAPATH slot 0"
+    efibootmgr --bootnext "$active_boot"
+    efibootmgr
 fi
 
 echo "You can reboot. Don't forget to remove your USB key."
