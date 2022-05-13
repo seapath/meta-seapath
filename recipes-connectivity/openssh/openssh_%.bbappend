@@ -6,15 +6,17 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI += " \
     file://sshd_config_seapath \
     file://sshd_config_seapath_flash \
-    file://sshd_config_seapath_readonly \
 "
 
 do_install_append() {
+    # Use permanent SSH keys
     if ${@bb.utils.contains('DISTRO_FEATURES','seapath-readonly','true','false',d)}; then
         install -d ${D}${sysconfdir}/ssh
-        install -m 0644 ${WORKDIR}/sshd_config_seapath_readonly \
-           ${D}${sysconfdir}/ssh/sshd_config
-    elif ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','true','false',d)}; then
+        ln -sf sshd_config ${D}${sysconfdir}/ssh/sshd_config_readonly
+        sed 's|test -f /etc/default/ssh|/bin/false|' \
+            -i "${D}/${libexecdir}/openssh/sshd_check_keys"
+    fi
+    if ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','true','false',d)}; then
         install -d ${D}${sysconfdir}/ssh
         install -m 0644 ${WORKDIR}/sshd_config_seapath \
            ${D}${sysconfdir}/ssh/sshd_config
