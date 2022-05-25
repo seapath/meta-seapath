@@ -10,3 +10,10 @@ INITRAMFS_IMAGE_BUNDLE = "1"
 
 # Set initramfs max size ot 256 MB
 INITRAMFS_MAXSIZE = "262144"
+
+
+# Install EFI tools
+IMAGE_INSTALL_append = " \
+    efitools             \
+    efibootmgr           \
+"
