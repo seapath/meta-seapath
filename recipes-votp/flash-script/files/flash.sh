@@ -92,7 +92,7 @@ else
 fi
 
 # If EFI image create boot entries
-if command -v efibootmgr &> /dev/null ; then
+if command -v efibootmgr &> /dev/null && efibootmgr &> /dev/null ; then
 
     echo "EFI image."
     entry_num=$(efibootmgr | awk '/SEAPATH slot 0/{ gsub("Boot", ""); gsub("*", ""); print $1 }')
