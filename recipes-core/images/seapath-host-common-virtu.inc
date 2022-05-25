@@ -3,6 +3,7 @@
 
 # Virtualization
 IMAGE_INSTALL_append = " \
+    dpdk-tools \
     libvirt \
     libvirt-libvirtd \
     libvirt-virsh \
