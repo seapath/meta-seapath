@@ -5,6 +5,7 @@ LICENSE = "Apache-2.0"
 require recipes-core/images/core-image-minimal.bb
 IMAGE_INSTALL_append = " \
     bmap-tools \
+    e2fsprogs-mke2fs \
     flash-script \
     python3-json \
     python3-modules \
