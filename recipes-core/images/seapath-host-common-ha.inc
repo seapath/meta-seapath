@@ -13,7 +13,6 @@ IMAGE_INSTALL_append = " \
     crmsh \
     ceph \
     pacemaker \
-    python3-vm-manager \
     resource-agents \
     mailx \
 "

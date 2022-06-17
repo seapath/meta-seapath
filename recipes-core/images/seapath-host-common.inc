@@ -21,6 +21,7 @@ IMAGE_INSTALL_append = " \
     net-snmp-server \
     net-snmp-client \
     net-snmp-dev \
+    python3-vm-manager \
 "
 
 IMAGE_INSTALL_append = " cukinia-tests-hypervisor-iommu"
