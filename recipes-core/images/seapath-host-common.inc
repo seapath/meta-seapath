@@ -22,6 +22,7 @@ IMAGE_INSTALL_append = " \
     net-snmp-client \
     net-snmp-dev \
     python3-vm-manager \
+    linuxptp \
 "
 
 IMAGE_INSTALL_append = " cukinia-tests-hypervisor-iommu"
