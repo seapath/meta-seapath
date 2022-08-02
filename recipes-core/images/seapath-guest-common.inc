@@ -14,6 +14,7 @@ IMAGE_INSTALL_append = " \
     net-snmp-server \
     net-snmp-client \
     net-snmp-dev \
+    linuxptp \
 "
 #add docker
 IMAGE_INSTALL += " docker-ce docker-ce-contrib python3-docker-compose"
