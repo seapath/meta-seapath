@@ -11,6 +11,9 @@ inherit ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'security/qa
 # Hypervisor and cluster tests
 IMAGE_INSTALL_append = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'cukinia-tests-cluster', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', \
+            bb.utils.contains('DISTRO_FEATURES', 'seapath-security', \
+                    'cukinia-tests-cluster-security', '', d), '', d)} \
     cukinia-tests-hypervisor \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-readonly', 'cukinia-tests-hypervisor-readonly', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'cukinia-tests-hypervisor-security', '', d)} \
