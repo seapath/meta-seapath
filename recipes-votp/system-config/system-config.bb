@@ -17,6 +17,8 @@ SRC_URI = " \
     file://common/var-log.mount \
     file://host/openvswitch.conf \
     file://host/votp-config_ovs.service \
+    file://host/hugetlb-gigantic-pages.service \
+    file://host/hugetlb-reserve-pages.sh \
     file://efi/swupdate_hawkbit.conf \
     file://efi/swupdate_hawkbit.service \
     file://efi/swupdate_hawkbit.sh \
@@ -55,9 +57,13 @@ do_install () {
 # Host
     install -m 0644 ${WORKDIR}/host/votp-config_ovs.service \
         ${D}${systemd_unitdir}/system
+    install -m 0644 ${WORKDIR}/host/hugetlb-gigantic-pages.service \
+        ${D}${systemd_unitdir}/system
     install -d ${D}${sysconfdir}/modules-load.d
     install -m 0644 ${WORKDIR}/host/openvswitch.conf \
         ${D}${sysconfdir}/modules-load.d
+    install -m 0755 ${WORKDIR}/host/hugetlb-reserve-pages.sh \
+        ${D}/${sbindir}
 
 # EFI
     install -m 0644 ${WORKDIR}/efi/swupdate_hawkbit.conf \
@@ -92,6 +98,7 @@ SYSTEMD_SERVICE_${PN}-common = " \
 
 SYSTEMD_SERVICE_${PN}-host = " \
     votp-config_ovs.service \
+    hugetlb-gigantic-pages.service \
 "
 
 SYSTEMD_SERVICE_${PN}-efi = " \
@@ -112,7 +119,9 @@ FILES_${PN}-common = " \
 
 FILES_${PN}-host = " \
     ${systemd_unitdir}/system/votp-config_ovs.service \
+    ${systemd_unitdir}/system/hugetlb-gigantic-pages.service \
     ${sysconfdir}/modules-load.d/openvswitch.conf \
+    ${sbindir}/hugetlb-reserve-pages.sh \
 "
 
 FILES_${PN}-efi = " \
