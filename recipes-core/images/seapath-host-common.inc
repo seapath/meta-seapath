@@ -36,15 +36,12 @@ COMPATIBLE_MACHINE = "votp-host"
 def get_seapath_kernel_parameters(d):
     kernel_parameters = ""
     rt_cores = d.getVar("SEAPATH_RT_CORES", "")
-    nb_hugepages = d.getVar("SEAPATH_1G_HUGEPAGES", "")
     disable_ipv6 = d.getVar("SEAPATH_DISABLE_IPV6", "")
     if rt_cores:
         kernel_parameters +="isolcpus={} nohz_full={} rcu_nocbs={}".format(
             rt_cores,
             rt_cores,
             rt_cores)
-    if nb_hugepages:
-        kernel_parameters += " default_hugepagesz=1G hugepagesz=1G hugepages={}".format(nb_hugepages)
     if disable_ipv6 == "true":
         kernel_parameters += " ipv6.disable=1"
     return kernel_parameters

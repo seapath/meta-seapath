@@ -46,9 +46,6 @@ do_install_prepend_class-target_votp-host() {
     if [ -n "${SEAPATH_RT_CORES}" ] ; then
         extra_append="isolcpus=${SEAPATH_RT_CORES} nohz_full=${SEAPATH_RT_CORES} rcu_nocbs=${SEAPATH_RT_CORES}"
     fi
-    if [ -n "${SEAPATH_1G_HUGEPAGES}" ] ; then
-        extra_append="$extra_append default_hugepagesz=1G hugepagesz=1G hugepages=${SEAPATH_1G_HUGEPAGES}"
-    fi
     sed "s/\(set kernel_parameters='.*\)'/\1 $extra_append'/" \
         -i "${B}/grub-efi.cfg"
 
