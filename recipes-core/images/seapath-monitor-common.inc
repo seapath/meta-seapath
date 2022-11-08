@@ -6,6 +6,7 @@ USERS_LIST_LOCKED:remove = "qemu"
 IMAGE_INSTALL:append = " \
     cukinia-tests-monitor \
     system-upgrade \
+    system-config-cluster \
 "
 
 COMPATIBLE_MACHINE = "votp-monitor"
