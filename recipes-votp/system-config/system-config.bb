@@ -8,15 +8,15 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 SRCREV = "${AUTOREV}"
 RDEPENDS:${PN}-efi = "bash"
 RDEPENDS:${PN}-security = "bash"
-RDEPENDS:${PN}-host = "python3-setup-ovs openvswitch"
+RDEPENDS:${PN}-cluster= "python3-setup-ovs openvswitch"
 
 SRC_URI = " \
     file://common/90-sysctl-hardening.conf \
     file://common/99-sysctl-network.conf \
     file://common/terminal_idle.sh \
     file://common/var-log.mount \
-    file://host/openvswitch.conf \
-    file://host/votp-config_ovs.service \
+    file://cluster/openvswitch.conf \
+    file://cluster/votp-config_ovs.service \
     file://host/hugetlb-gigantic-pages.service \
     file://host/hugetlb-reserve-pages.sh \
     file://efi/swupdate_hawkbit.conf \
@@ -54,14 +54,17 @@ do_install () {
         echo '#!/bin/sh\nexec /sbin/init $@' > ${D}/${base_sbindir}/init.sh
         chmod 755 ${D}/${base_sbindir}/init.sh
     fi
-# Host
-    install -m 0644 ${WORKDIR}/host/votp-config_ovs.service \
+
+# Cluster
+    install -d ${D}${sysconfdir}/modules-load.d
+    install -m 0644 ${WORKDIR}/cluster/openvswitch.conf \
+        ${D}${sysconfdir}/modules-load.d
+    install -m 0644 ${WORKDIR}/cluster/votp-config_ovs.service \
         ${D}${systemd_unitdir}/system
+
+# Host
     install -m 0644 ${WORKDIR}/host/hugetlb-gigantic-pages.service \
         ${D}${systemd_unitdir}/system
-    install -d ${D}${sysconfdir}/modules-load.d
-    install -m 0644 ${WORKDIR}/host/openvswitch.conf \
-        ${D}${sysconfdir}/modules-load.d
     install -m 0755 ${WORKDIR}/host/hugetlb-reserve-pages.sh \
         ${D}/${sbindir}
 
@@ -85,19 +88,24 @@ PACKAGES =+ " \
     ${PN}-host \
     ${PN}-efi \
     ${PN}-security \
+    ${PN}-cluster \
 "
 SYSTEMD_PACKAGES += " \
     ${PN}-common \
     ${PN}-host \
     ${PN}-efi \
+    ${PN}-cluster \
 "
 
 SYSTEMD_SERVICE:${PN}-common = " \
     var-log.mount \
 "
 
-SYSTEMD_SERVICE:${PN}-host = " \
+SYSTEMD_SERVICE:${PN}-cluster = " \
     votp-config_ovs.service \
+"
+
+SYSTEMD_SERVICE:${PN}-host = " \
     hugetlb-gigantic-pages.service \
 "
 
@@ -117,10 +125,14 @@ FILES:${PN}-common = " \
     ${sysconfdir}/vconsole.conf \
 "
 
+FILES:${PN}-cluster = " \
+    ${sysconfdir}/modules-load.d/openvswitch.conf \
+    ${systemd_unitdir}/system/votp-config_ovs.service \
+"
+
 FILES:${PN}-host = " \
     ${systemd_unitdir}/system/votp-config_ovs.service \
     ${systemd_unitdir}/system/hugetlb-gigantic-pages.service \
-    ${sysconfdir}/modules-load.d/openvswitch.conf \
     ${sbindir}/hugetlb-reserve-pages.sh \
 "
 
