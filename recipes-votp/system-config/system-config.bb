@@ -118,7 +118,6 @@ FILES:${PN}-common = " \
 "
 
 FILES:${PN}-host = " \
-    ${systemd_unitdir}/system/votp-config_ovs.service \
     ${systemd_unitdir}/system/hugetlb-gigantic-pages.service \
     ${sysconfdir}/modules-load.d/openvswitch.conf \
     ${sbindir}/hugetlb-reserve-pages.sh \

@@ -6,6 +6,8 @@ Description="Configure OVS bridges and ports"
 After=ovs-vswitchd.service
 Before=libvirtd.service
 Before=systemd-networkd.service
+Requires=ovsdb-server.service
+Requires=ovs-vswitchd.service
 
 [Service]
 Type=oneshot
