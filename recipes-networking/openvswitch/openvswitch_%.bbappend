@@ -28,6 +28,7 @@ SRC_URI += " \
     file://openvswitch.conf \
     file://openvswitch.service \
     file://ovs-vswitchd.service \
+    file://configure_vm_sockets.sh \
     file://ovsdb-server.service \
     file://set-hugepages-permissions.service \
 "
@@ -42,6 +43,9 @@ do_install:append()  {
         ${D}/${systemd_unitdir}/system/openvswitch.service
     install -m 644 ${WORKDIR}/ovs-vswitchd.service \
         ${D}/${systemd_unitdir}/system/ovs-vswitchd.service
+    install -d ${D}/${libexecdir}
+    install -m 755 ${WORKDIR}/configure_vm_sockets.sh \
+        ${D}/${libexecdir}/configure_vm_sockets.sh
     install -m 644 ${WORKDIR}/ovsdb-server.service \
         ${D}/${systemd_unitdir}/system/ovsdb-server.service
     install -m 644 ${WORKDIR}/set-hugepages-permissions.service \
@@ -54,4 +58,5 @@ SYSTEMD_SERVICE:${PN} += " \
 
 FILES:${PN} += " \
     ${systemd_unitdir}/system/set-hugepages-permissions.service \
+    ${libexecdir}/configure_vm_sockets.sh \
 "
