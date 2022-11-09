@@ -131,7 +131,6 @@ FILES:${PN}-cluster = " \
 "
 
 FILES:${PN}-host = " \
-    ${systemd_unitdir}/system/votp-config_ovs.service \
     ${systemd_unitdir}/system/hugetlb-gigantic-pages.service \
     ${sbindir}/hugetlb-reserve-pages.sh \
 "
