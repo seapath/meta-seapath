@@ -8,6 +8,7 @@ IMAGE_INSTALL_append = " \
     libvirt-libvirtd \
     libvirt-virsh \
     libvirt-python \
+    net-snmp-configuration-virtualization \
     openvswitch \
     qemu \
 "

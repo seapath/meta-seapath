@@ -14,7 +14,7 @@ USERS_LIST_SUDOERS[doc] = "List of users that will have a 'user' sudoers entry c
 USERS_LIST_REMOVED ?= "mail"
 USERS_LIST_REMOVED[doc] = "List of users to remove"
 USERS_LIST_LOCKED ?= "daemon sync qemu systemd-bus-proxy systemd-timesync \
-    systemd-resolve systemd-network ceph sshd coroqnetd messagebus hacluster nobody"
+    systemd-resolve systemd-network ceph sshd coroqnetd messagebus hacluster nobody snmp"
 USERS_LIST_LOCKED[doc] = "List of users to lock"
 
 # Configure users with the ansible key enabled
