@@ -14,6 +14,7 @@ IMAGE_INSTALL_append = " \
     net-snmp-server \
     net-snmp-client \
     net-snmp-dev \
+    net-snmp-configuration \
     linuxptp \
 "
 #add docker

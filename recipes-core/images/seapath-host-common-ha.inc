@@ -12,6 +12,7 @@ IMAGE_INSTALL_append = " \
     cluster-glue-plugin-raexec \
     crmsh \
     ceph \
+    net-snmp-configuration-cluster \
     pacemaker \
     resource-agents \
     mailx \
