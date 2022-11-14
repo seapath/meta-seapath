@@ -2,6 +2,7 @@
 Description=System Logger Daemon "%i" instance
 Documentation=man:syslog-ng(8)
 Conflicts=emergency.service emergency.target
+After=network-online.target
 After=create-syslog-ng-log-dir.service
 Wants=create-syslog-ng-log-dir.service
 
