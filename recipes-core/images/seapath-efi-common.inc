@@ -11,5 +11,3 @@ IMAGE_INSTALL_append = " \
     efibootmgr           \
     cukinia-tests-efi    \
 "
-
-IMAGE_FSTYPES += "tar.gz"
