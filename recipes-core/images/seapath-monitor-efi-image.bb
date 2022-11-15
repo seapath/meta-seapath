@@ -3,6 +3,7 @@
 
 DESCRIPTION = "A monitor image for Seapath cluster"
 require seapath-common.inc
+require seapath-efi-common.inc
 require seapath-host-common-ha.inc
 require seapath-monitor-common.inc
 require seapath-swupdate-common.inc
