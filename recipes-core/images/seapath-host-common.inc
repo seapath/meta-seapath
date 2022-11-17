@@ -24,6 +24,7 @@ IMAGE_INSTALL_append = " \
     python3-vm-manager \
     linuxptp \
     tuna \
+    irqbalance \
 "
 
 IMAGE_INSTALL_append = " cukinia-tests-hypervisor-iommu"
