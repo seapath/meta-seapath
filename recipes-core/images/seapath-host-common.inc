@@ -23,6 +23,7 @@ IMAGE_INSTALL_append = " \
     net-snmp-dev \
     python3-vm-manager \
     linuxptp \
+    tuna \
 "
 
 IMAGE_INSTALL_append = " cukinia-tests-hypervisor-iommu"
@@ -48,3 +49,4 @@ def get_seapath_kernel_parameters(d):
 
 
 APPEND += "${@get_seapath_kernel_parameters(d)}"
+
