@@ -26,6 +26,9 @@ SYSTEMD_PACKAGES = "irqbalance"
 SYSTEMD_SERVICE_irqbalance = "irqbalance.service"
 
 do_install_append () {
-        install -d ${D}${systemd_unitdir}/system
-        install -m 0644 ${WORKDIR}/irqbalance.service ${D}${systemd_unitdir}/system
+    install -d ${D}${systemd_unitdir}/system
+    install -m 0644 ${WORKDIR}/irqbalance.service \
+        ${D}${systemd_unitdir}/system/irqbalance.service
+    sed -i -e 's/@RT_CORE_LIST@/${@d.getVar("SEAPATH_RT_CORES", "")}/g' \
+        ${D}${systemd_unitdir}/system/irqbalance.service
 }
