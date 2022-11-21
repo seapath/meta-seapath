@@ -3,6 +3,7 @@ Description=irqbalance daemon
 After=syslog.target
 
 [Service]
+ExecStartPre=mkdir -p /run/irqbalance
 Environment="IRQBALANCE_BANNED_CPULIST=@RT_CORE_LIST@"
 ExecStart=/usr/sbin/irqbalance --foreground
 
