@@ -22,7 +22,6 @@ IMAGE_INSTALL_append = " \
     net-snmp-client \
     net-snmp-dev \
     python3-vm-manager \
-    linuxptp \
     tuna \
     irqbalance \
 "
