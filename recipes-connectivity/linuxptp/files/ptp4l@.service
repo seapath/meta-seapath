@@ -1,0 +1,11 @@
+[Unit]
+Description=Precision Time Protocol (PTP) service for %I
+Documentation=man:ptp4l
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ptp4l -q -m -i %I
+
+[Install]
+WantedBy=multi-user.target
