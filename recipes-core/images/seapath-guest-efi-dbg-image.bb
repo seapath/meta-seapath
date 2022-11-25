@@ -4,6 +4,4 @@
 DESCRIPTION = "A debug guest image for Seapath"
 require seapath-guest-common.inc
 require seapath-dbg-common.inc
-
-# Tests
-IMAGE_INSTALL += "test-sync-storage"
+require seapath-guest-test-common.inc
