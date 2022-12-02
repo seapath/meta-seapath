@@ -38,8 +38,10 @@ do_install_append() {
     rm ${D}${datadir}/cluster/lvm.metadata
     rm ${D}${datadir}/cluster/lvm*.sh
 
+    install -d ${D}${libdir}/ocf/resource.d/seapath
+
     install -m 755 ${WORKDIR}/VirtualDomain \
-        ${D}${libdir}/ocf/resource.d/heartbeat/VirtualDomain
+        ${D}${libdir}/ocf/resource.d/seapath/VirtualDomain
 
     # Remove unused heartbeat modules not declared in REQUIRED_HEARTBEAT_SCRIPTS
     for i in $(find ${D}${libdir}/ocf/resource.d/heartbeat/* -type f); do
@@ -55,4 +57,5 @@ do_install_append() {
     sed -i "s%${HOSTTOOLS_DIR}/rm%/bin/rm%g" ${D}${base_libdir}/systemd/system/ldirectord.service
 }
 
+FILES_${PN} += "${libdir}/ocf/resource.d/seapath/VirtualDomain"
 RDEPENDS_${PN}_remove = "lvm2 nfs-utils"
