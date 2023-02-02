@@ -48,7 +48,7 @@ python do_configure_users() {
                 %(user))
             continue
 
-        extrausersparams += " passwd-expire "+user+";"
+        extrausersparams += "usermod -e -1 "+user+";"
 
     # add in sudoers for users in USERS_LIST_SUDOERS
     for user in userslistsudoers:
