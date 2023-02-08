@@ -4,8 +4,8 @@
 require linux-mainline-rt.inc
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-LINUX_VERSION = "5.15.36"
-RT_REVISION = "rt41"
+LINUX_VERSION = "5.15.92"
+RT_REVISION = "rt57"
 PV = "${LINUX_VERSION}-${RT_REVISION}"
 KBRANCH = "v${PV}"
 
