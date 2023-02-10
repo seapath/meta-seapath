@@ -27,3 +27,10 @@ inherit kernel
 inherit kernel-yocto
 inherit security/deploy-kernelconfig
 
+LINUX_VERSION_EXTENSION_append = "-mainline-rt"
+
+S = "${WORKDIR}/git"
+
+EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
+
+COMPATIBLE_MACHINE = "(votp|votp-no-iommu)"
