@@ -18,6 +18,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;
         file://megaraid.cfg \
         file://gcc-plugin.cfg \
         file://gcc-plugin_6.cfg \
+        file://sched.cfg \
 "
 
 SRC_URI:append_votp-no-iommu = " \
