@@ -14,7 +14,6 @@ SRC_URI:append = " \
     file://phc2sys@.service \
 "
 do_install:append() {
-  install -p ${S}/phc_ctl  ${D}${bindir}
   install -d ${D}${systemd_system_unitdir}
   install -m 0644 ${WORKDIR}/ptp4l@.service ${D}${systemd_system_unitdir}/
   install -m 0644 ${WORKDIR}/phc2sys@.service ${D}${systemd_system_unitdir}/
