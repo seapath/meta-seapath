@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/ptp4l -q -m -i %I
+ExecStart=/usr/sbin/ptp4l -q -m -i %I
 
 [Install]
 WantedBy=multi-user.target
