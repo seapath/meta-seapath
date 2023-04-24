@@ -34,8 +34,8 @@ DISTRO_FEATURES_append = " kvm"
 # Enable dpdk for openvswitch
 PACKAGECONFIG_append_pn-openvswitch = " dpdk"
 COMPATIBLE_MACHINE_pn-dpdk = "(votp)"
-PREFERRED_VERSION_openvswitch = "2.15%"
-PREFERRED_VERSION_dpdk = "20.11.%"
+REQUIRED_VERSION_openvswitch = "2.15%"
+REQUIRED_VERSION_dpdk = "20.11.%"
 
 # Disable and blacklist busybox
 PREFERRED_PROVIDER_virtual/base-utils = "packagegroup-core-base-utils"
@@ -84,7 +84,7 @@ DISTRO_FEATURES_append = " seapath-overlay"
 DISTRO_FEATURES_append = " seapath-clustering"
 
 # Set version of Libvirt to 6.3.0 (solves GH issue #22)
-PREFERRED_VERSION_libvirt = "6.3.0"
+REQUIRED_VERSION_libvirt = "6.3.0"
 
 # Set persistent /var/log
 VOLATILE_LOG_DIR = "no"
@@ -99,5 +99,5 @@ DISTROOVERRIDES =. "seapath."
 IMAGE_FEATURES[validitems] += "unsafe-pam-policy"
 
 # Set version of linuxptp to 3.1.1
-PREFERRED_VERSION_linuxptp = "3.1.1"
+REQUIRED_VERSION_linuxptp = "3.1.1"
 
