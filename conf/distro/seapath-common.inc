@@ -99,5 +99,5 @@ DISTROOVERRIDES =. "seapath."
 IMAGE_FEATURES[validitems] += "unsafe-pam-policy"
 
 # Set version of linuxptp to 3.1.1
-PREFERRED_VERSION_libvirt = "3.1.1"
+PREFERRED_VERSION_linuxptp = "3.1.1"
 
