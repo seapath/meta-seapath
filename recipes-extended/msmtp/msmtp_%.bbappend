@@ -5,7 +5,7 @@ inherit useradd
 
 USERADD_PACKAGES = "${PN}"
 GROUPADD_PACKAGES = "${PN}"
-GROUPADD_PARAM_${PN} = "-g 2000 msmtp"
+GROUPADD_PARAM:${PN} = "-g 2000 msmtp"
 
 do_install:append() {
   install -d ${D}${sysconfdir}/tmpfiles.d

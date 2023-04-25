@@ -1,17 +1,17 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
     file://0001-probe-Support-probing-for-partition-UUID-with-part-u.patch \
 "
 
-SRC_URI_append_class-target = " \
+SRC_URI:append:class-target = " \
     file://grub-efi.cfg.in   \
 "
 
-do_compile_append_class-target() {
+do_compile:append:class-target() {
     grub_timeout=0
     grub_password='grub.pbkdf2.sha512.65536.93A962261977428CADFAF1C7EAD6339B40F422991C7F86FECC8E44411686C9E36FE7B5E7352DE3F2E29042CD7A95FDFFF9998C6A6EF80F98F05C763D754AFF2F6B9A321C8FB452F93DE72457B8E89C0DD46ACDE0C7598DD67E9D730931624CD29F972EE568248DC4734A42E127316CAB87C2EC05C538BFC65B7BF6A3581582BEFD596551B383567BE95DF1B498F93867FF074E4FBF09C5BCA266E484EC22A0BD6AD2EA9E1D8DAF67FDCCEEFA4614A65BC8EB857903A012DA4FFBC0161E8F775FF173031913437567AC42E7C015A851DABD0BAF2ECBF01F3A4C38F024A74ABC3E07ABD697E5AB63EFCC0C7A91725FBB86D71A1CBE84893A876B8BD225F928581F.4E8A15EEAFD2AEFC1338A1F31B26D1B7C2ABA9C5FCE0858A05C8456D24EF994974883825900241959B8B35B73AC913437FC24AF80B6DBFF1FBD32770CF118DDD'
     if [ -n "${SEAPATH_GRUB_TIMEOUT}" ] ; then
@@ -41,7 +41,7 @@ do_compile_append_class-target() {
     cat "${WORKDIR}/grub-efi.cfg.in" >> "${B}/grub-efi.cfg"
 }
 
-do_install_prepend_class-target_votp-host() {
+do_install:prepend:class-target_votp-host() {
     extra_append=""
     if [ -n "${SEAPATH_RT_CORES}" ] ; then
         extra_append="isolcpus=${SEAPATH_RT_CORES} nohz_full=${SEAPATH_RT_CORES} rcu_nocbs=${SEAPATH_RT_CORES}"
@@ -51,7 +51,7 @@ do_install_prepend_class-target_votp-host() {
 
 }
 
-do_install_append_class-target() {
+do_install:append:class-target() {
     if [ "${UEFI_SB}" != "1" ]; then
         install -D -m 0600 "${B}/grub-efi.cfg" "${D}${EFI_FILES_PATH}/grub.cfg"
     fi
@@ -63,15 +63,15 @@ do_install_append_class-target() {
 # also enabled.
 # "grub-efi" actually depends on MOK2Verify protocol being installed by
 # SELoader before its execution.
-RDEPENDS_${PN}_class-target_append = "${@' seloader' if (d.getVar('UEFI_SELOADER') == '1' and d.getVar('UEFI_SB') == '1') else ''}"
+RDEPENDS:${PN}:class-target:append = "${@' seloader' if (d.getVar('UEFI_SELOADER') == '1' and d.getVar('UEFI_SB') == '1') else ''}"
 
 # Remove dependency to grub-bootconf as the configuration is installed
 # in grub-efi
-RDEPENDS_${PN}_class-target_remove = "virtual/grub-bootconf"
+RDEPENDS:${PN}:class-target:remove = "virtual/grub-bootconf"
 
-FILES_${PN}_remove = "${libdir}/grub"
+FILES:${PN}:remove = "${libdir}/grub"
 
-FILES_${PN}_append = " ${EFI_FILES_PATH}"
+FILES:${PN}:append = " ${EFI_FILES_PATH}"
 
 GRUB_BUILDIN += " password_pbkdf2 probe regexp chain"
 

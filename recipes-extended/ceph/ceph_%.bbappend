@@ -1,7 +1,7 @@
 inherit useradd
 
 USERADD_PACKAGES= "${PN}"
-USERADD_PARAM_${PN} = "--system --no-create-home --home-dir /var/lib/ceph \
+USERADD_PARAM:${PN} = "--system --no-create-home --home-dir /var/lib/ceph \
     --shell /bin/nologin --user-group -c 'Ceph daemons' ceph"
 
 EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
@@ -28,7 +28,7 @@ def limit_parallel(d):
 
 PARALLEL_MAKE = "${@limit_parallel(d)}"
 
-do_install_append () {
+do_install:append () {
 	for directory in / mon osd mds tmp radosgw bootstrap-rgw bootstrap-mgr \
 		bootstrap-mds bootstrap-osd bootstrap-rbd bootstrap-rbd-mirror
 	do
@@ -43,7 +43,7 @@ do_install_append () {
         done
 }
 
-do_install_append_class-target () {
+do_install:append:class-target () {
         if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
                 install -d ${D}${sysconfdir}/tmpfiles.d
                 echo "d /var/lib/ceph/crash/ 0750 ceph ceph - -" > ${D}${sysconfdir}/tmpfiles.d/ceph-placeholder.conf
@@ -59,7 +59,7 @@ do_install_append_class-target () {
         fi
 }
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
 		python3-dateutil \
 		python3-requests \
 		lvm2 \

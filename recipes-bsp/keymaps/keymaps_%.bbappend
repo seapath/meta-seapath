@@ -1,7 +1,7 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
-do_configure_prepend () {
+do_configure:prepend () {
     if [ -z "${SEAPATH_KEYMAP}" ] ; then
          SEAPATH_KEYMAP=us
     fi

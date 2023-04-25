@@ -7,7 +7,7 @@ require seapath-common.inc
 
 inherit ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'security/qa-guest-images', '', d)}
 
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
     cukinia-tests-vm \
     syslog-ng-client \
     system-config-security \
@@ -29,7 +29,7 @@ COMPATIBLE_MACHINE = "votp-guest"
 
 # Remove users that do not exist in
 # guest images
-USERS_LIST_LOCKED_remove = "qemu ceph"
+USERS_LIST_LOCKED:remove = "qemu ceph"
 
 def get_seapath_kernel_parameters(d):
     disable_ipv6 = d.getVar("SEAPATH_GUEST_DISABLE_IPV6", "")

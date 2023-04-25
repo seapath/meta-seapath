@@ -8,7 +8,7 @@ require conf/distro/poky.conf
 MAINTAINER = "support@savoirfairelinux.com"
 
 # Use systemd as default
-DISTRO_FEATURES_append = " systemd"
+DISTRO_FEATURES:append = " systemd"
 VIRTUAL-RUNTIME_init_manager = "systemd"
 VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
 
@@ -16,11 +16,11 @@ VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
 DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
 
 # No need for x11 and wayland
-DISTRO_FEATURES_remove = " x11"
-DISTRO_FEATURES_remove = " wayland"
+DISTRO_FEATURES:remove = " x11"
+DISTRO_FEATURES:remove = " wayland"
 
 # Remove unneeded distribution features
-DISTRO_FEATURES_remove = " 3g alsa bluetooth nfc nfs opengl pcmcia vulkan wifi zeroconf"
+DISTRO_FEATURES:remove = " 3g alsa bluetooth nfc nfs opengl pcmcia vulkan wifi zeroconf"
 DISTRO_FEATURES_BACKFILL_CONSIDERED += "pulseaudio gobject-introspection-data"
 
 # Active buildhistory
@@ -28,12 +28,12 @@ INHERIT += "buildhistory"
 BUILDHISTORY_COMMIT = "1"
 
 # Use virtualization features
-DISTRO_FEATURES_append = " virtualization"
-DISTRO_FEATURES_append = " kvm"
+DISTRO_FEATURES:append = " virtualization"
+DISTRO_FEATURES:append = " kvm"
 
 # Enable dpdk for openvswitch
-PACKAGECONFIG_append_pn-openvswitch = " dpdk"
-COMPATIBLE_MACHINE_pn-dpdk = "(votp)"
+PACKAGECONFIG:append:pn-openvswitch = " dpdk"
+COMPATIBLE_MACHINE:pn-dpdk = "(votp)"
 REQUIRED_VERSION_openvswitch = "2.15%"
 REQUIRED_VERSION_dpdk = "20.11.%"
 
@@ -48,11 +48,11 @@ VIRTUAL-RUNTIME_login_manager = "shadow-base"
 PNBLACKLIST[busybox] = "Don't build this"
 
 # Disable and blacklist cups
-PACKAGECONFIG_remove_pn-samba = "cups"
+PACKAGECONFIG:remove:pn-samba = "cups"
 PNBLACKLIST[cups] = "Don't build this"
 
 # Disable snapper module to remove unneeded dependency on dbus
-SAMBA4_MODULES_append_pn-samba = ",!vfs-snapper"
+SAMBA4_MODULES:append:pn-samba = ",!vfs-snapper"
 
 # Blacklist dtc
 PNBLACKLIST[dtc] = "Don't build this"
@@ -60,28 +60,28 @@ PNBLACKLIST[dtc] = "Don't build this"
 # Configure QEMU to:
 #     * disable audio support
 #     * only support x86 targets
-QEMU_TARGETS_pn-qemu = "i386 x86_64"
-PACKAGECONFIG_remove_pn-qemu = "fdt"
-EXTRA_OECONF_append_pn-qemu = " --audio-drv-list=''"
+QEMU_TARGETS:pn-qemu = "i386 x86_64"
+PACKAGECONFIG:remove:pn-qemu = "fdt"
+EXTRA_OECONF:append:pn-qemu = " --audio-drv-list=''"
 
 # Enable ptest
-DISTRO_FEATURES_append = " ptest"
+DISTRO_FEATURES:append = " ptest"
 
 # Enable pam
-DISTRO_FEATURES_append = " pam"
+DISTRO_FEATURES:append = " pam"
 
 # Enable security hardening
-DISTRO_FEATURES_append = " seapath-security"
+DISTRO_FEATURES:append = " seapath-security"
 
 # Enable Ansible SSH key copy
-DISTRO_FEATURES_append = " ansible"
+DISTRO_FEATURES:append = " ansible"
 
 # Enable readonly
-DISTRO_FEATURES_append = " seapath-readonly"
-DISTRO_FEATURES_append = " seapath-overlay"
+DISTRO_FEATURES:append = " seapath-readonly"
+DISTRO_FEATURES:append = " seapath-overlay"
 
 # Enable clustering
-DISTRO_FEATURES_append = " seapath-clustering"
+DISTRO_FEATURES:append = " seapath-clustering"
 
 # Set version of Libvirt to 6.3.0 (solves GH issue #22)
 REQUIRED_VERSION_libvirt = "6.3.0"

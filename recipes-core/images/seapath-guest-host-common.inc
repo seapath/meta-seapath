@@ -5,7 +5,7 @@ DESCRIPTION = "A common base for host and guest image"
 
 require seapath-host-common.inc
 
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
    pacemaker-remote \
 "
 IMAGE_FSTYPES = "wic.qcow2 wic.vmdk"

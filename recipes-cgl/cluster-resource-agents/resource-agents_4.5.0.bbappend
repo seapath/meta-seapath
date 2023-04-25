@@ -1,15 +1,15 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += "file://VirtualDomain"
-SRC_URI_remove = "git://github.com/ClusterLabs/resource-agents"
+SRC_URI:remove = "git://github.com/ClusterLabs/resource-agents"
 SRC_URI += "git://github.com/ClusterLabs/resource-agents;nobranch=1"
 
 REQUIRED_HEARTBEAT_SCRIPTS = "VirtualDomain"
 
-do_install_append() {
+do_install:append() {
     # Remove tools and libraries used for NFS filesystem manipulations
     #
     # Note: resource-agents detects if "svclib_nfslock" is installed
@@ -59,5 +59,5 @@ do_install_append() {
     sed -i "s%${HOSTTOOLS_DIR}/rm%/bin/rm%g" ${D}${base_libdir}/systemd/system/ldirectord.service
 }
 
-FILES_${PN} += "${libdir}/ocf/resource.d/seapath/VirtualDomain"
-RDEPENDS_${PN}_remove = "lvm2 nfs-utils"
+FILES:${PN} += "${libdir}/ocf/resource.d/seapath/VirtualDomain"
+RDEPENDS:${PN}:remove = "lvm2 nfs-utils"

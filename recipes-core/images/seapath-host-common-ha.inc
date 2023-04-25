@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # HA
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
     cluster-glue \
     cluster-glue-plugin-stonith2 \
     cluster-glue-plugin-stonith2-ribcl \

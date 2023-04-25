@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Virtualization
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
     dpdk-tools \
     libvirt \
     libvirt-libvirtd \

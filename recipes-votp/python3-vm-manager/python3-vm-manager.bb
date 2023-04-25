@@ -4,14 +4,14 @@
 DESCRIPTION = "A Python3 module to manage VMs in a SEAPATH cluster"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
-RDEPENDS_${PN} = "python3 libvirt"
-RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', "pacemaker ceph", '', d)}"
+RDEPENDS:${PN} = "python3 libvirt"
+RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', "pacemaker ceph", '', d)}"
 SRC_URI = "file://src/"
 S = "${WORKDIR}/src"
-FILESEXTRAPATHS_prepend := "${THISDIR}/.:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/.:"
 inherit setuptools3
 
-do_install_append() {
+do_install:append() {
     # Create testdata directory
     install -d ${D}/${datadir}/testdata
 
@@ -26,4 +26,4 @@ do_install_append() {
     install -D -m 750 ${S}/vm_manager_cmd.py ${D}/${sbindir}/vm-mgr
 }
 
-FILES_${PN} += "${datadir}/testdata/*"
+FILES:${PN} += "${datadir}/testdata/*"

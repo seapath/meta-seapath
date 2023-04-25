@@ -27,7 +27,7 @@ inherit kernel
 inherit kernel-yocto
 inherit security/deploy-kernelconfig
 
-LINUX_VERSION_EXTENSION_append = "-mainline-rt"
+LINUX_VERSION_EXTENSION:append = "-mainline-rt"
 
 S = "${WORKDIR}/git"
 

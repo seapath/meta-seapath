@@ -6,9 +6,9 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
 SRCREV = "${AUTOREV}"
-RDEPENDS_${PN}-efi = "bash"
-RDEPENDS_${PN}-security = "bash"
-RDEPENDS_${PN}-host = "python3-setup-ovs openvswitch"
+RDEPENDS:${PN}-efi = "bash"
+RDEPENDS:${PN}-security = "bash"
+RDEPENDS:${PN}-host = "python3-setup-ovs openvswitch"
 
 SRC_URI = " \
     file://common/90-sysctl-hardening.conf \
@@ -92,16 +92,16 @@ SYSTEMD_PACKAGES += " \
     ${PN}-efi \
 "
 
-SYSTEMD_SERVICE_${PN}-common = " \
+SYSTEMD_SERVICE:${PN}-common = " \
     var-log.mount \
 "
 
-SYSTEMD_SERVICE_${PN}-host = " \
+SYSTEMD_SERVICE:${PN}-host = " \
     votp-config_ovs.service \
     hugetlb-gigantic-pages.service \
 "
 
-SYSTEMD_SERVICE_${PN}-efi = " \
+SYSTEMD_SERVICE:${PN}-efi = " \
     swupdate_hawkbit.service \
 "
 
@@ -109,7 +109,7 @@ REQUIRED_DISTRO_FEATURES = "systemd"
 
 inherit allarch systemd features_check
 
-FILES_${PN}-common = " \
+FILES:${PN}-common = " \
     "${@bb.utils.contains('DISTRO_FEATURES','seapath-security',"${sysconfdir}/sysctl.d/90-sysctl-hardening.conf","",d)}" \
     ${sysconfdir}/sysctl.d/99-sysctl-network.conf \
     ${sysconfdir}/profile.d/terminal_idle.sh \
@@ -117,22 +117,22 @@ FILES_${PN}-common = " \
     ${sysconfdir}/vconsole.conf \
 "
 
-FILES_${PN}-host = " \
+FILES:${PN}-host = " \
     ${systemd_unitdir}/system/votp-config_ovs.service \
     ${systemd_unitdir}/system/hugetlb-gigantic-pages.service \
     ${sysconfdir}/modules-load.d/openvswitch.conf \
     ${sbindir}/hugetlb-reserve-pages.sh \
 "
 
-FILES_${PN}-efi = " \
+FILES:${PN}-efi = " \
     ${sysconfdir}/sysconfig/swupdate_hawkbit.conf \
     ${sbindir}/swupdate_hawkbit.sh \
     ${system_unitdir}/system/swupdate_hawkbit.service \
     ${sbindir}/check-health \
 "
 
-FILES_${PN}-security = " \
+FILES:${PN}-security = " \
     ${sbindir}/disable-local-login.sh \
 "
 
-FILES_${PN}-common_append = "${@bb.utils.contains('DISTRO_FEATURES','seapath-readonly', "", " ${base_sbindir}/init.sh", d)}"
+FILES:${PN}-common:append = "${@bb.utils.contains('DISTRO_FEATURES','seapath-readonly', "", " ${base_sbindir}/init.sh", d)}"

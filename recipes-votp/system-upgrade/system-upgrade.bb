@@ -6,7 +6,7 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
 SRCREV = "${AUTOREV}"
-RDEPENDS_${PN} = "bash udev"
+RDEPENDS:${PN} = "bash udev"
 
 SRC_URI = " \
     file://is_from_inactive_bank.sh \
@@ -25,7 +25,7 @@ do_install () {
         ${D}${bindir}/switch_bootloader
 }
 
-FILES_${PN} = " \
+FILES:${PN} = " \
     ${sysconfdir}/udev/rules.d/partition_symlinks.rules \
     ${bindir}/is_from_inactive_bank \
     ${bindir}/switch_bootloader \

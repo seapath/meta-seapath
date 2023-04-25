@@ -6,14 +6,14 @@ inherit create-dirs
 SERVICE_DIRS_LIST = "corosync"
 SERVICE_DIRS_PREFIX = "{lib,log}"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
     file://corosync.service \
     file://create-corosync-pid.service \
 "
 
-do_install_append() {
+do_install:append() {
     install -d ${D}/${systemd_unitdir}/system/
     install -m 644 ${WORKDIR}/corosync.service \
         ${D}/${systemd_unitdir}/system/corosync.service
@@ -21,11 +21,11 @@ do_install_append() {
         ${D}/${systemd_unitdir}/system/create-corosync-pid.service
 }
 
-SYSTEMD_SERVICE_${PN} += " \
+SYSTEMD_SERVICE:${PN} += " \
     create-corosync-pid.service \
 "
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     ${systemd_unitdir}/system/corosync.service \
     ${systemd_unitdir}/system/create-corosync-pid.service \
 "

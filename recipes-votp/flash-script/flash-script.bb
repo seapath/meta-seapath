@@ -5,7 +5,7 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
 SRCREV = "${AUTOREV}"
-RDEPENDS_${PN} = "bash"
+RDEPENDS:${PN} = "bash"
 
 SRC_URI = " \
     file://flash.sh \
@@ -20,5 +20,5 @@ do_install () {
 
 }
 
-FILES_${PN} = "${bindir}/flash"
-FILES_${PN} += "${ROOT_HOME}/.profile"
+FILES:${PN} = "${bindir}/flash"
+FILES:${PN} += "${ROOT_HOME}/.profile"

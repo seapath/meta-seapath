@@ -4,7 +4,7 @@
 inherit deploy
 inherit boot-partition
 
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
     swupdate             \
     dosfstools           \
     localedef            \

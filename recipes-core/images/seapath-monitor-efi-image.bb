@@ -8,4 +8,4 @@ require seapath-host-common-ha.inc
 require seapath-monitor-common.inc
 require seapath-swupdate-common.inc
 
-IMAGE_INSTALL_append = " syslog-ng-server"
+IMAGE_INSTALL:append = " syslog-ng-server"

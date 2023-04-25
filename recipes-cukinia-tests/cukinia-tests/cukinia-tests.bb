@@ -76,8 +76,8 @@ SRC_URI = "\
     file://hypervisor_iommu_tests.d/kernel.conf \
 "
 
-RDEPENDS_${PN} += "cukinia"
-RDEPENDS_${PN} += "bash coreutils pciutils"
+RDEPENDS:${PN} += "cukinia"
+RDEPENDS:${PN} += "bash coreutils pciutils"
 
 do_install () {
     install -m 0755 -d ${D}${sysconfdir}/cukinia/
@@ -253,74 +253,74 @@ PACKAGES =+ " \
     ${PN}-efi \
 "
 
-RDEPENDS_${PN}-realtime += "rt-tests"
-RDEPENDS_${PN}-vm += "${PN}-common"
+RDEPENDS:${PN}-realtime += "rt-tests"
+RDEPENDS:${PN}-vm += "${PN}-common"
 
-FILES_${PN} = " \
+FILES:${PN} = " \
     ${sysconfdir}/cukinia/cukinia.conf \
     ${datadir}/cukinia/includes \
 "
 
-FILES_${PN}-cluster = " \
+FILES:${PN}-cluster = " \
     ${sysconfdir}/cukinia/cukinia-cluster.conf \
     ${sysconfdir}/cukinia/configurations/cukinia-cluster-common.conf \
     ${sysconfdir}/cukinia/cluster_tests.d/* \
 "
 
-FILES_${PN}-cluster-security = " \
+FILES:${PN}-cluster-security = " \
     ${sysconfdir}/cukinia/configurations/cukinia-cluster-security.conf \
     ${sysconfdir}/cukinia/cluster_security_tests.d/* \
 "
 
-FILES_${PN}-common = " \
+FILES:${PN}-common = " \
     ${sysconfdir}/cukinia/cukinia-common.conf \
     ${sysconfdir}/cukinia/configurations/cukinia-common.conf \
     ${sysconfdir}/cukinia/common_tests.d/* \
 "
 
-FILES_${PN}-common-security = " \
+FILES:${PN}-common-security = " \
     ${sysconfdir}/cukinia/cukinia-sec.conf \
     ${sysconfdir}/cukinia/configurations/cukinia-common-security.conf \
     ${sysconfdir}/cukinia/common_security_tests.d/* \
 "
 
-FILES_${PN}-hypervisor = " \
+FILES:${PN}-hypervisor = " \
     ${sysconfdir}/cukinia/cukinia-hypervisor.conf \
     ${sysconfdir}/cukinia/configurations/cukinia-hypervisor-common.conf \
     ${sysconfdir}/cukinia/hypervisor_tests.d/* \
 "
 
-FILES_${PN}-hypervisor-readonly = " \
+FILES:${PN}-hypervisor-readonly = " \
     ${sysconfdir}/cukinia/configurations/cukinia-hypervisor-readonly.conf \
     ${sysconfdir}/cukinia/hypervisor_readonly_tests.d/* \
 "
 
-FILES_${PN}-hypervisor-security = " \
+FILES:${PN}-hypervisor-security = " \
     ${sysconfdir}/cukinia/configurations/cukinia-hypervisor-security.conf \
     ${sysconfdir}/cukinia/hypervisor_security_tests.d/* \
 "
 
-FILES_${PN}-hypervisor-iommu = " \
+FILES:${PN}-hypervisor-iommu = " \
     ${sysconfdir}/cukinia/configurations/cukinia-hypervisor-iommu.conf \
     ${sysconfdir}/cukinia/hypervisor_iommu_tests.d/* \
 "
 
-FILES_${PN}-monitor = " \
+FILES:${PN}-monitor = " \
     ${sysconfdir}/cukinia/cukinia-monitor.conf \
     ${sysconfdir}/cukinia/monitor_tests.d/* \
 "
 
-FILES_${PN}-realtime = " \
+FILES:${PN}-realtime = " \
     ${sysconfdir}/cukinia/cukinia-realtime.conf \
     ${sysconfdir}/cukinia/realtime_tests.d/* \
 "
 
-FILES_${PN}-vm = " \
+FILES:${PN}-vm = " \
     ${sysconfdir}/cukinia/cukinia-vm.conf \
     ${sysconfdir}/cukinia/vm_tests.d/* \
 "
 
-FILES_${PN}-efi = " \
+FILES:${PN}-efi = " \
     ${sysconfdir}/cukinia/cukinia-efi.conf \
     ${sysconfdir}/cukinia/efi_tests.d/* \
 "

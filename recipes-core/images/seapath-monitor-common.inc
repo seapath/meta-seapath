@@ -1,9 +1,9 @@
 # Copyright (C) 2022, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
-USERS_LIST_LOCKED_remove = "qemu"
+USERS_LIST_LOCKED:remove = "qemu"
 
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
     cukinia-tests-monitor \
     system-upgrade \
 "
