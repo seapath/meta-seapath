@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 #to add hacluster to the msmtp group, so that it can write to msmtp log file
-RDEPENDS_${PN} += "msmtp"
+RDEPENDS:${PN} += "msmtp"
 DEPENDS += "msmtp"
-USERADD_PARAM_${PN}:prepend = " -G msmtp "
+USERADD_PARAM:${PN}:prepend = " -G msmtp "
 
-do_install_append() {
+do_install:append() {
     for file in $(find ${D}${libdir}/stonith/plugins/external -type f); do
         sed -i "s%${HOSTTOOLS_DIR}/%%g" "${file}"
     done

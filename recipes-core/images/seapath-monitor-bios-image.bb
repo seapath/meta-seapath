@@ -8,4 +8,4 @@ require seapath-monitor-common.inc
 
 WKS_FILE = "mkbiosdisk.wks.in"
 
-IMAGE_INSTALL_append = " syslog-ng-server"
+IMAGE_INSTALL:append = " syslog-ng-server"

@@ -7,7 +7,7 @@ SERVICE_DIRS_LIST = "libvirt"
 SERVICE_DIRS_PREFIX = "{cache,lib,log,run}"
 SERVICE_DIRS_OWNER = "root:root"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
     file://libvirtd \
@@ -17,7 +17,7 @@ SRC_URI += " \
     file://qemu.conf \
 "
 
-do_install_append() {
+do_install:append() {
     install -d ${D}/${sysconfdir}/sysconfig/
     install -m 0644 ${WORKDIR}/libvirtd \
         ${D}${sysconfdir}/sysconfig/libvirtd
@@ -40,7 +40,7 @@ do_install_append() {
     rm -f ${D}${sysconfdir}/libvirt/qemu/networks/default.xml
 }
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     ${sysconfdir}/sysconfig/libvirtd \
     ${sysconfdir}/libvirt/libvirtd.conf \
     ${sysconfdir}/libvirt/qemu.conf \

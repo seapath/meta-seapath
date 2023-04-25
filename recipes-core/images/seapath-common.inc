@@ -4,7 +4,7 @@
 DESCRIPTION = "A common base for Seapath images"
 LICENSE = "Apache-2.0"
 require recipes-core/images/core-image-minimal.bb
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
     cukinia-tests \
     cukinia-tests-common \
     ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','cukinia-tests-common-security','',d)} \
@@ -12,25 +12,25 @@ IMAGE_INSTALL_append = " \
     system-config-common \
 "
 # Add kernel-modules
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
     kernel-modules \
 "
 
 # Ansible required modules
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
     python3-json \
     python3-modules \
 "
 
-IMAGE_INSTALL_append = " less"
+IMAGE_INSTALL:append = " less"
 
 IMAGE_FEATURES += "ssh-server-openssh"
-IMAGE_INSTALL_append = " openssh-sftp-server"
+IMAGE_INSTALL:append = " openssh-sftp-server"
 
-IMAGE_INSTALL_append = " syslog-ng"
+IMAGE_INSTALL:append = " syslog-ng"
 
 # AMD micro-codes
-IMAGE_INSTALL_append = " amd-ucode"
+IMAGE_INSTALL:append = " amd-ucode"
 
 GLIBC_GENERATE_LOCALES = "en_US.UTF-8"
 IMAGE_LINGUAS = "en-us"

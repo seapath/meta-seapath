@@ -23,9 +23,9 @@ DEPENDS = "glib-2.0"
 inherit autotools pkgconfig systemd
 
 SYSTEMD_PACKAGES = "irqbalance"
-SYSTEMD_SERVICE_irqbalance = "irqbalance.service"
+SYSTEMD_SERVICE:irqbalance = "irqbalance.service"
 
-do_install_append () {
+do_install:append () {
     install -d ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/irqbalance.service \
         ${D}${systemd_unitdir}/system/irqbalance.service

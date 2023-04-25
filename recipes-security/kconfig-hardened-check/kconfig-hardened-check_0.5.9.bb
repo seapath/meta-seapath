@@ -13,6 +13,6 @@ S = "${WORKDIR}/git"
 
 BBCLASSEXTEND = "native"
 
-RDEPENDS_${PN} += "python3"
+RDEPENDS:${PN} += "python3"
 
 inherit python3native setuptools3

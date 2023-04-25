@@ -4,7 +4,7 @@
 LICENSE = "GPL-2.0 & LGPL-2.0+"
 LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=8a44f57fb36dd391ae65e11a6d370615"
 HOMEPAGE = "https://www.linux-kvm.org/page/KVM-unit-tests"
-RDEPENDS_${PN} += "bash coreutils glibc-utils python3"
+RDEPENDS:${PN} += "bash coreutils glibc-utils python3"
 
 SRC_URI = " \
 	git://git.kernel.org/pub/scm/virt/kvm/kvm-unit-tests.git \
@@ -41,9 +41,9 @@ do_install () {
 }
 
 
-INSANE_SKIP_${PN} = "arch textrel"
-FILES_${PN} += "${sbindir}/kvm-unit-tests/*"
-FILES_${PN} += "${sbindir}/run_tests.sh"
-FILES_${PN} += "${sbindir}/config.mak"
-FILES_${PN} += "${sbindir}/scripts"
-FILES_${PN} += "${sbindir}/x86"
+INSANE_SKIP:${PN} = "arch textrel"
+FILES:${PN} += "${sbindir}/kvm-unit-tests/*"
+FILES:${PN} += "${sbindir}/run_tests.sh"
+FILES:${PN} += "${sbindir}/config.mak"
+FILES:${PN} += "${sbindir}/scripts"
+FILES:${PN} += "${sbindir}/x86"

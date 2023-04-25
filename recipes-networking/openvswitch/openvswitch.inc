@@ -16,18 +16,18 @@ LICENSE = "Apache-2"
 
 DEPENDS += "bridge-utils openssl python3 perl python3-six-native coreutils-native"
 
-RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid coreutils \
+RDEPENDS:${PN} += "util-linux-uuidgen util-linux-libuuid coreutils \
         python3 perl perl-module-strict ${PN}-switch \
         bash python3-twisted python3-six"
-RDEPENDS_${PN}-testcontroller = "${PN} ${PN}-pki"
-RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
-RDEPENDS_${PN}-pki = "${PN}"
-RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
+RDEPENDS:${PN}-testcontroller = "${PN} ${PN}-pki"
+RDEPENDS:${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
+RDEPENDS:${PN}-pki = "${PN}"
+RDEPENDS:${PN}-brcompat = "${PN} ${PN}-switch"
 
 # Some installers will fail because of an install order based on
 # rdeps.  E.g. ovs-pki calls sed in the postinstall.  sed may be
 # queued for install later.
-RDEPENDS_${PN} += "sed gawk grep"
+RDEPENDS:${PN} += "sed gawk grep"
 
 SRC_URI = "\
 	file://openvswitch-switch \
@@ -48,19 +48,19 @@ CONFIGUREOPT_DEPTRACK = ""
 # distro layers can enable with EXTRA_OECONF_pn_openvswitch += ""
 # EXTRA_OECONF = "--with-linux=${STAGING_KERNEL_DIR} KARCH=${TARGET_ARCH}"
 
-ALLOW_EMPTY_${PN}-pki = "1"
+ALLOW_EMPTY:${PN}-pki = "1"
 PACKAGES =+ "${PN}-testcontroller ${PN}-switch ${PN}-brcompat ${PN}-pki"
 
-FILES_${PN}-testcontroller = "\
+FILES:${PN}-testcontroller = "\
 	${sysconfdir}/init.d/openvswitch-testcontroller \
 	${sysconfdir}/default/openvswitch-testcontroller \
 	${sysconfdir}/openvswitch-testcontroller \
 	${bindir}/ovs-testcontroller \
 	"
 
-FILES_${PN}-brcompat = "${sbindir}/ovs-brcompatd"
+FILES:${PN}-brcompat = "${sbindir}/ovs-brcompatd"
 
-FILES_${PN}-switch = "\
+FILES:${PN}-switch = "\
 	${sysconfdir}/init.d/openvswitch-switch \
 	${sysconfdir}/default/openvswitch-switch \
 	${systemd_unitdir}/system/ovs-vswitchd.service \
@@ -71,33 +71,33 @@ FILES_${PN}-switch = "\
 	"
 
 # silence a warning
-FILES_${PN} += "${datadir}/ovsdbmonitor"
-FILES_${PN} += "/run"
+FILES:${PN} += "${datadir}/ovsdbmonitor"
+FILES:${PN} += "/run"
 
-FILES_${PN} += "${libdir}/python${PYTHON_BASEVERSION}/"
+FILES:${PN} += "${libdir}/python${PYTHON_BASEVERSION}/"
 inherit autotools update-rc.d systemd python3native
 
 SYSTEMD_PACKAGES = "${PN}-switch"
-SYSTEMD_SERVICE_${PN}-switch = " \
+SYSTEMD_SERVICE:${PN}-switch = " \
     ovsdb-server.service \
     ovs-vswitchd.service \
     openvswitch.service \
 "
 
 INITSCRIPT_PACKAGES = "${PN}-switch ${PN}-testcontroller"
-INITSCRIPT_NAME_${PN}-switch = "openvswitch-switch"
-INITSCRIPT_PARAMS_${PN}-switch = "defaults 71"
+INITSCRIPT_NAME:${PN}-switch = "openvswitch-switch"
+INITSCRIPT_PARAMS:${PN}-switch = "defaults 71"
 
-INITSCRIPT_NAME_${PN}-testcontroller = "openvswitch-testcontroller"
-INITSCRIPT_PARAMS_${PN}-testcontroller = "defaults 72"
+INITSCRIPT_NAME:${PN}-testcontroller = "openvswitch-testcontroller"
+INITSCRIPT_PARAMS:${PN}-testcontroller = "defaults 72"
 
-do_configure_prepend() {
+do_configure:prepend() {
 	# Work around the for Makefile CC=$(if ....) by swapping out any
 	# "-Wa," assembly directives with "-Xassembler
 	CC=`echo '${CC}' | sed 's/-Wa,/-Xassembler /g'`
 }
 
-do_install_prepend() {
+do_install:prepend() {
 	SERVICE_FILE="${S}/rhel/usr_lib_systemd_system_ovs-vswitchd.service"
 	${S}/build-aux/dpdkstrip.py \
 	    ${@bb.utils.contains('PACKAGECONFIG','dpdk','--dpdk','--nodpdk',d)} \
@@ -105,7 +105,7 @@ do_install_prepend() {
 	    > ${SERVICE_FILE}
 }
 
-do_install_append() {
+do_install:append() {
 	install -d ${D}/${sysconfdir}/default/
 	install -m 660 ${WORKDIR}/openvswitch-switch-setup ${D}/${sysconfdir}/default/openvswitch-switch
 	install -d ${D}/${sysconfdir}/openvswitch-testcontroller
@@ -140,13 +140,13 @@ do_install_append() {
 	cp -r ${S}/python/ovstest/ ${D}${libdir}/python${PYTHON_BASEVERSION}/site-packages/
 }
 
-pkg_postinst_ontarget_${PN}-pki () {
+pkg_postinst_ontarget:${PN}-pki () {
 	if test ! -d $D/${datadir}/${PN}/pki; then
 		ovs-pki init --dir=$D/${datadir}/${PN}/pki
 	fi
 }
 
-pkg_postinst_ontarget_${PN}-testcontroller () {
+pkg_postinst_ontarget:${PN}-testcontroller () {
 	if test ! -d $D/${datadir}/${PN}/pki; then
 		ovs-pki init --dir=$D/${datadir}/${PN}/pki
 	fi

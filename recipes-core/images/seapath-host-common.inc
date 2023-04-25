@@ -9,7 +9,7 @@ require seapath-host-common-virtu.inc
 inherit ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'security/qa-host-images', '', d)}
 
 # Hypervisor and cluster tests
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'cukinia-tests-cluster', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', \
             bb.utils.contains('DISTRO_FEATURES', 'seapath-security', \
@@ -29,8 +29,8 @@ IMAGE_INSTALL_append = " \
     irqbalance \
 "
 
-IMAGE_INSTALL_append = " cukinia-tests-hypervisor-iommu"
-IMAGE_INSTALL_remove_votp-no-iommu = "cukinia-tests-hypervisor-iommu"
+IMAGE_INSTALL:append = " cukinia-tests-hypervisor-iommu"
+IMAGE_INSTALL:remove_votp-no-iommu = "cukinia-tests-hypervisor-iommu"
 
 # Host images are compatible with votp-host only
 # GRUB static configuration for host machines

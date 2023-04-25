@@ -5,7 +5,7 @@
 # to implement UEFI SecureBoot.
 
 # Set the UEFI SecureBoot feature
-DISTRO_FEATURES_append = " efi-secure-boot"
+DISTRO_FEATURES:append = " efi-secure-boot"
 
 # Controls whether the signing is using samples or real keys
 SIGNING_MODEL = "user"
@@ -38,5 +38,5 @@ EFI_BOOT_PATH = "/boot/EFI/BOOT"
 
 # Set correct ESP partition target path for SELoader and
 # OVMF DXE drivers
-EFI_TARGET_pn-seloader = "${EFI_BOOT_PATH}"
-EFI_TARGET_pn-ovmf = "${EFI_BOOT_PATH}"
+EFI_TARGET:pn-seloader = "${EFI_BOOT_PATH}"
+EFI_TARGET:pn-ovmf = "${EFI_BOOT_PATH}"

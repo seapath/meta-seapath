@@ -5,9 +5,9 @@ DESCRIPTION = "Server configuratioin for syslog-ng"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
-RCONFLICTS_${PN} = "syslog-ng-client"
+RCONFLICTS:${PN} = "syslog-ng-client"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
     file://servercert.pem \
@@ -27,7 +27,7 @@ do_install() {
         ${D}${sysconfdir}/syslog-ng/cert.d
 }
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     ${sysconfdir}/syslog-ng/cert.d/servercert.pem \
     ${sysconfdir}/syslog-ng/cert.d/serverkey.pem \
     ${sysconfdir}/syslog-ng/syslog-ng.conf \

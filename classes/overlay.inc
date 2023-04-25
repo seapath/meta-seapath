@@ -3,7 +3,7 @@
 
 #
 
-VOLATILE_BINDS_pn-volatile-binds ?= "\
+VOLATILE_BINDS:pn-volatile-binds ?= "\
     /mnt/persistent/home /home\n\
     /var/volatile/usr/lib/python3.8/site-packages/__pycache__ /usr/lib/python3.8/site-packages/__pycache__\n\
     /mnt/persistent/var/lib /var/lib\n\

@@ -3,7 +3,7 @@
 DESCRIPTION = "A common base for image used to flash Seapath images"
 LICENSE = "Apache-2.0"
 require recipes-core/images/core-image-minimal.bb
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
     bmap-tools \
     e2fsprogs-mke2fs \
     flash-script \
@@ -13,13 +13,13 @@ IMAGE_INSTALL_append = " \
     kbd-keymaps \
 "
 # Add kernel-modules
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
     kernel-modules \
 "
 
-IMAGE_INSTALL_append = " openssh-sshd openssh-sftp-server"
+IMAGE_INSTALL:append = " openssh-sshd openssh-sftp-server"
 
-IMAGE_INSTALL_append = " less"
+IMAGE_INSTALL:append = " less"
 
 GLIBC_GENERATE_LOCALES = "en_US.UTF-8 fr_FR.UTF-8"
 IMAGE_LINGUAS ?= "en_US fr_FR"

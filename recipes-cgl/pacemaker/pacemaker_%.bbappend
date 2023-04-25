@@ -7,9 +7,9 @@ SERVICE_DIRS_LIST = "pacemaker"
 SERVICE_DIRS_PREFIX = "{log,lib}"
 SERVICE_DIRS_OWNER = "hacluster:haclient"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI_remove = "git://github.com/ClusterLabs/${BPN}.git"
+SRC_URI:remove = "git://github.com/ClusterLabs/${BPN}.git"
 
 SRC_URI += " \
     git://github.com/ClusterLabs/${BPN}.git;nobranch=1 \
@@ -19,7 +19,7 @@ SRC_URI += " \
     file://alert_snmp.sh \
 "
 
-do_install_append() {
+do_install:append() {
     install -d ${D}/${systemd_unitdir}/system/
     install -m 644 ${WORKDIR}/create-var-run-resource-agents.service \
         ${D}/${systemd_unitdir}/system/create-var-run-resource-agents.service
@@ -31,7 +31,7 @@ do_install_append() {
     install --mode=0755 ${WORKDIR}/alert_snmp.sh ${D}${localstatedir}/lib/pacemaker/alert_snmp.sh
 }
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     ${systemd_unitdir}/system/create-var-run-resource-agents.service \
     ${systemd_unitdir}/system/pacemaker.service \
 "

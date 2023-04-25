@@ -14,11 +14,11 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;
         file://megaraid.cfg \
 "
 
-SRC_URI_append_votp-no-iommu = " \
+SRC_URI:append_votp-no-iommu = " \
         file://no-iommu.cfg \
 "
 
 # Uncomment this line to unaible debug traces in Kernel and tracing tools
 # support (like LTTng or perf).
-#SRC_URI_append = " file://traces.cfg"
+#SRC_URI:append = " file://traces.cfg"
 

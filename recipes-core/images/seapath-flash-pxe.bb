@@ -13,7 +13,7 @@ INITRAMFS_MAXSIZE = "262144"
 
 
 # Install EFI tools
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
     efitools             \
     efibootmgr           \
 "

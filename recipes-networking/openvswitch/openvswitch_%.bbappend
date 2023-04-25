@@ -3,7 +3,7 @@
 
 
 DEPENDS += " votp-groups"
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     votp-groups-hugepages \
     votp-groups-vfio-net \
 "
@@ -12,7 +12,7 @@ inherit useradd
 inherit create-dirs
 
 USERADD_PACKAGES = "${PN}"
-USERADD_PARAM_${PN} = " \
+USERADD_PARAM:${PN} = " \
     --system \
     -G hugepages,vfio-net \
     -U openvswitch \
@@ -22,7 +22,7 @@ SERVICE_DIRS_LIST = " openvswitch"
 SERVICE_DIRS_PREFIX = "{log,lib,run}"
 SERVICE_DIRS_OWNER = "openvswitch:openvswitch"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
     file://openvswitch.conf \
@@ -32,7 +32,7 @@ SRC_URI += " \
     file://set-hugepages-permissions.service \
 "
 
-do_install_append()  {
+do_install:append()  {
     install -d ${D}/${sysconfdir}/sysconfig/
     install -m 0644 ${WORKDIR}/openvswitch.conf \
         ${D}${sysconfdir}/sysconfig/openvswitch
@@ -48,10 +48,10 @@ do_install_append()  {
         ${D}/${systemd_unitdir}/system/set-hugepages-permissions.service
 }
 
-SYSTEMD_SERVICE_${PN} += " \
+SYSTEMD_SERVICE:${PN} += " \
     set-hugepages-permissions.service \
 "
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     ${systemd_unitdir}/system/set-hugepages-permissions.service \
 "

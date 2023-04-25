@@ -11,13 +11,13 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425
 SRCREV="0681906e75e1c8166126bbfc2f3055e7507bfcb5"
 S="${WORKDIR}/git"
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     python3-linux-procfs \
     python3-schedutils \
     python3-inet-diag \
     "
 
-do_install_append() {
+do_install:append() {
     install -m 0755 -d ${D}/${bindir}
     install -m 0755 ${S}/tuna-cmd.py ${D}/${bindir}/tuna
 }

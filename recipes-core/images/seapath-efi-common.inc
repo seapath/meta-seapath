@@ -4,8 +4,8 @@
 inherit deploy
 inherit boot-partition
 
-IMAGE_INSTALL_remove = "grub"
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:remove = "grub"
+IMAGE_INSTALL:append = " \
     grub-efi             \
     efitools             \
     efibootmgr           \
