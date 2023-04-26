@@ -1,4 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 #
@@ -9,7 +10,7 @@ SERVICE_DIRS_LIST ?= ""
 SERVICE_DIRS_PREFIX ?= ""
 SERVICE_DIRS_OWNER ?= "root:root"
 
-do_install_append() {
+do_install:append() {
   for dir in ${SERVICE_DIRS_LIST}; do
     cat << EOF > ${D}${systemd_unitdir}/system/create-$dir-log-dir.service
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
@@ -37,7 +38,7 @@ python() {
   for dir in dir_list:
     service_name = " create-" + str(dir) + "-log-dir.service"
     service_file = " ${systemd_unitdir}/system/" + service_name[1:]
-    d.appendVar("SYSTEMD_SERVICE_" + d.getVar('PN'), service_name)
-    d.appendVar("FILES_" + d.getVar('PN'), service_file)
+    d.appendVar("SYSTEMD_SERVICE:" + d.getVar('PN'), service_name)
+    d.appendVar("FILES:" + d.getVar('PN'), service_file)
 }
 
