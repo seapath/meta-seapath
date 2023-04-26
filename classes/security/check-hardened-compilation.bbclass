@@ -1,4 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 #
@@ -6,7 +7,7 @@
 # hardened compilation and linking options.
 #
 
-DEPENDS_append_class-target = " binutils-native"
+DEPENDS:append:class-target = " binutils-native"
 
 SECCOMPILE_MANIFEST = "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}_disabled_opts.csv"
 SECCOMPILE_MANIFEST_TMP = "${TMPDIR}/disabled_compile_opts"
@@ -103,7 +104,7 @@ do_check_compile_options() {
     :
 }
 
-do_check_compile_options_class-target() {
+do_check_compile_options:class-target() {
     echo "Package name, Package version, binary, missing option" > "${SECCOMPILE_MANIFEST_TMP}"
 
     bbplain "Starting binary compile and linking options analysis..."
