@@ -1,3 +1,7 @@
+# Copyright (C) 2022, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
 SUMMARY = "AMD processors micro-code files"
 HOMEPAGE = "https://www.kernel.org/"
 DESCRIPTION = "AMD processors micro-code take from linux-firmware"
@@ -26,7 +30,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.amd-ucode;md5=3c5399dc9148d7f0e1f41e34b69cf14
 NO_GENERIC_LICENSE[Firmware-amd-ucode] = "LICENSE.amd-ucode"
 PE = "1"
 
-S = "${WORKDIR}/"
+S = "${WORKDIR}"
 
 inherit allarch
 CLEANBROKEN = "1"

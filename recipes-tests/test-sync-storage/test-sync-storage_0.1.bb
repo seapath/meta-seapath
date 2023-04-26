@@ -1,4 +1,5 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 DESCRIPTION = "Test distributed files storage"
@@ -10,7 +11,7 @@ DEPENDS = "glib-2.0"
 RDEPENDS:${PN} += "bash netcat-openbsd"
 
 PR = "r0"
-S = "${WORKDIR}/"
+S = "${WORKDIR}"
 
 SRC_URI = "file://CMakeLists.txt;md5=a832ee3d5087929bd31746f7ff06dcad \
            file://test_sync_storage_result.c;md5=04731f6b41f6215b5287f86e6840335c \
