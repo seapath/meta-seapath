@@ -1,4 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 #
@@ -20,7 +21,7 @@ GROUPS_LIST_NOPASSWD ?= ""
 GROUPS_LIST_EXEC ?= ""
 SUDO_GROUP_OWNER ?= ""
 
-IMAGE_INSTALL_append = " sudo"
+IMAGE_INSTALL:append = " sudo"
 
 python do_configure_users() {
     import crypt
