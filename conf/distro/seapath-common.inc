@@ -1,4 +1,5 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 # Distro based on poky
@@ -45,17 +46,17 @@ VIRTUAL-RUNTIME_base-utils-syslog = ""
 VIRTUAL-RUNTIME_vim = "vim-tiny"
 VIRTUAL-RUNTIME_syslog = ""
 VIRTUAL-RUNTIME_login_manager = "shadow-base"
-PNBLACKLIST[busybox] = "Don't build this"
+SKIP_RECIPE[busybox] = "Don't build this"
 
 # Disable and blacklist cups
 PACKAGECONFIG:remove:pn-samba = "cups"
-PNBLACKLIST[cups] = "Don't build this"
+SKIP_RECIPE[cups] = "Don't build this"
 
 # Disable snapper module to remove unneeded dependency on dbus
 SAMBA4_MODULES:append:pn-samba = ",!vfs-snapper"
 
 # Blacklist dtc
-PNBLACKLIST[dtc] = "Don't build this"
+SKIP_RECIPE[dtc] = "Don't build this"
 
 # Configure QEMU to:
 #     * disable audio support
