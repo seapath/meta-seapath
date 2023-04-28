@@ -4,12 +4,16 @@
 require linux-mainline-rt.inc
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-LINUX_VERSION = "6.0.5"
+LINUX_MAJOR_VERSION = "6.0"
+LINUX_REVISION_VERSION = "5"
+LINUX_VERSION = "${LINUX_MAJOR_VERSION}.${LINUX_REVISION_VERSION}"
 RT_REVISION = "rt14"
-PV = "${LINUX_VERSION}-${RT_REVISION}"
-KBRANCH = "v${PV}"
+KBRANCH = "v${LINUX_MAJOR_VERSION}.y-rt"
+LINUX_FULL_VERSION = "${LINUX_VERSION}-${RT_REVISION}"
+KTAG = "v${LINUX_FULL_VERSION}"
+PV = "${LINUX_FULL_VERSION}+git${SRCPV}"
 
-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git;protocol=https;name=machine;tag=${KBRANCH};nobranch=1; \
+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git;protocol=https;name=machine;tag=${KTAG};branch=${KBRANCH} \
         file://defconfig \
         file://megaraid.cfg \
 "
