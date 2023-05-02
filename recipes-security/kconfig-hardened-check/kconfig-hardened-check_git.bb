@@ -4,7 +4,7 @@
 SUMMARY = "Kernel configuration hardening check tool"
 DESCRIPTION = "Audit the kernel configuration and check against hardening recommandations made by several actors of the Linux security community"
 
-LICENSE = "GPL-3.0"
+LICENSE = "GPL-3.0-or-later"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=d32239bcb673463ab874e80d47fae504"
 
 SRC_URI = "git://github.com/a13xp0p0v/${BPN};protocol=https;branch=v0.6.1-fixes"
