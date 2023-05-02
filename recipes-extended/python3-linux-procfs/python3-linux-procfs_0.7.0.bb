@@ -9,6 +9,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
 SRCREV="96ca9b85a00d0206acbca4ab643b252df721a220"
 S="${WORKDIR}/git"
 
-SRC_URI = "git://git.kernel.org/pub/scm/libs/python/python-linux-procfs/python-linux-procfs.git;branch=main"
+SRC_URI = "git://git.kernel.org/pub/scm/libs/python/python-linux-procfs/python-linux-procfs.git;branch=main;protocol=https"
 
 inherit setuptools3

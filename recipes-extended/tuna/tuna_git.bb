@@ -1,4 +1,5 @@
 # Copyright (C) 2022, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 SUMMARY = "Tuna"
@@ -22,6 +23,6 @@ do_install:append() {
     install -m 0755 ${S}/tuna-cmd.py ${D}/${bindir}/tuna
 }
 
-SRC_URI = "git://git.kernel.org/pub/scm/utils/tuna/tuna.git;branch=main"
+SRC_URI = "git://git.kernel.org/pub/scm/utils/tuna/tuna.git;branch=main;protocol=https"
 
 inherit distutils3

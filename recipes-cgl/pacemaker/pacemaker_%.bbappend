@@ -1,4 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 inherit create-dirs
@@ -12,7 +13,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 SRC_URI:remove = "git://github.com/ClusterLabs/${BPN}.git"
 
 SRC_URI += " \
-    git://github.com/ClusterLabs/${BPN}.git;nobranch=1 \
+    git://github.com/ClusterLabs/${BPN}.git;nobranch=1;protocol=https \
     file://create-var-run-resource-agents.service \
     file://pacemaker.service \
     file://alert_smtp.sh \

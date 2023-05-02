@@ -1,4 +1,5 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 LICENSE = "GPL-2.0 & LGPL-2.0+"
@@ -7,7 +8,7 @@ HOMEPAGE = "https://www.linux-kvm.org/page/KVM-unit-tests"
 RDEPENDS:${PN} += "bash coreutils glibc-utils python3"
 
 SRC_URI = " \
-	git://git.kernel.org/pub/scm/virt/kvm/kvm-unit-tests.git \
+	git://git.kernel.org/pub/scm/virt/kvm/kvm-unit-tests.git;branch=master;protocol=https \
 	file://0001-run_tests.sh-make-it-called-from-any-directory.patch \
 	"
 

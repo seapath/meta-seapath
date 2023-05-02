@@ -52,7 +52,7 @@ python do_package:prepend() {
 BBCLASSEXTEND = "devupstream:target"
 LIC_FILES_CHKSUM:class-devupstream = "file://LICENSE;md5=3f882d431dc0f32f1f44c0707aa41128"
 DEFAULT_PREFERENCE:class-devupstream = "-1"
-SRC_URI:class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.11 \
+SRC_URI:class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.11;protocol=https \
            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
            "
