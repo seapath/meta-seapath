@@ -80,9 +80,6 @@ DISTRO_FEATURES:append = " seapath-overlay"
 # Enable clustering
 DISTRO_FEATURES:append = " seapath-clustering"
 
-# Set version of Libvirt to 6.3.0 (solves GH issue #22)
-REQUIRED_VERSION_libvirt = "6.3.0"
-
 # Set persistent /var/log
 VOLATILE_LOG_DIR = "no"
 
