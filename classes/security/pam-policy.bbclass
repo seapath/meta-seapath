@@ -48,5 +48,5 @@ python() {
                                               "or remove 'debug-tweaks / allow-empty-password / empty-root-password'")
 
             d.appendVar("ROOTFS_POSTPROCESS_COMMAND", "install_pam_policy; clear_securetty; install_pam_environment; install_pam_access;")
-            d.appendVar("IMAGE_INSTALL", " pam-plugin-cracklib pam-plugin-access")
+            d.appendVar("IMAGE_INSTALL", " pam-plugin-access")
 }
