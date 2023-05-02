@@ -1,4 +1,5 @@
 # Copyright (C) 2022, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 do_install:append() {
