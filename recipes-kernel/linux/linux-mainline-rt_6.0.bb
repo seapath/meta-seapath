@@ -9,7 +9,7 @@ RT_REVISION = "rt14"
 PV = "${LINUX_VERSION}-${RT_REVISION}"
 KBRANCH = "v${PV}"
 
-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git;protocol=git;name=machine;tag=${KBRANCH};nobranch=1; \
+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git;protocol=https;name=machine;tag=${KBRANCH};nobranch=1; \
         file://defconfig \
         file://megaraid.cfg \
 "
