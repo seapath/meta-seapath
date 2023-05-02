@@ -1,11 +1,8 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
-
-SRC_URI += " \
-    file://0001-probe-Support-probing-for-partition-UUID-with-part-u.patch \
-"
 
 SRC_URI:append:class-target = " \
     file://grub-efi.cfg.in   \
