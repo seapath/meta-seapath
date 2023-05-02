@@ -55,14 +55,10 @@ SKIP_RECIPE[cups] = "Don't build this"
 # Disable snapper module to remove unneeded dependency on dbus
 SAMBA4_MODULES:append:pn-samba = ",!vfs-snapper"
 
-# Blacklist dtc
-SKIP_RECIPE[dtc] = "Don't build this"
-
 # Configure QEMU to:
 #     * disable audio support
 #     * only support x86 targets
 QEMU_TARGETS:pn-qemu = "i386 x86_64"
-PACKAGECONFIG:remove:pn-qemu = "fdt"
 EXTRA_OECONF:append:pn-qemu = " --audio-drv-list=''"
 
 # Enable ptest
