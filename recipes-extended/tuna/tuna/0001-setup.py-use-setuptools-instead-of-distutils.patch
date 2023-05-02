@@ -1,0 +1,40 @@
+From e1d29b1e9665417799e2da194386c87328d4cb83 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mathieu=20Dupr=C3=A9?= <mathieu.dupre@savoirfairelinux.com>
+Date: Tue, 2 May 2023 12:03:24 +0200
+Subject: [PATCH] setup.py: use setuptools instead of distutils
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+distutils is deprecated and is replace by setuptools.
+
+Signed-off-by: Mathieu Dupré <mathieu.dupre@savoirfairelinux.com>
+---
+ setup.py | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/setup.py b/setup.py
+index f3e3652..4b1fd52 100755
+--- a/setup.py
++++ b/setup.py
+@@ -1,6 +1,5 @@
+ #!/usr/bin/python3
+-from distutils.sysconfig import get_python_lib
+-from distutils.core import setup
++from setuptools import setup
+ from os.path import isfile, join
+ import glob
+ import os
+@@ -8,9 +7,6 @@ import os
+ if isfile("MANIFEST"):
+ 	os.unlink("MANIFEST")
+ 
+-# Get PYTHONLIB with no prefix so --prefix installs work.
+-PYTHONLIB = join(get_python_lib(standard_lib=1, prefix=''), 'site-packages')
+-
+ setup(name="tuna",
+       version = "0.18",
+       description = "Application tuning GUI",
+-- 
+2.25.1
+

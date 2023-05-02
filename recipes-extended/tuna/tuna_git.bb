@@ -23,6 +23,9 @@ do_install:append() {
     install -m 0755 ${S}/tuna-cmd.py ${D}/${bindir}/tuna
 }
 
-SRC_URI = "git://git.kernel.org/pub/scm/utils/tuna/tuna.git;branch=main;protocol=https"
+SRC_URI = " \
+  git://git.kernel.org/pub/scm/utils/tuna/tuna.git;branch=main;protocol=https \
+  file://0001-setup.py-use-setuptools-instead-of-distutils.patch \
+"
 
-inherit distutils3
+inherit setuptools3
