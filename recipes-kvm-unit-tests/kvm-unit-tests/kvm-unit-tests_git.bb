@@ -2,7 +2,7 @@
 # Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-LICENSE = "GPL-2.0 & LGPL-2.0+"
+LICENSE = "GPL-2.0-only & LGPL-2.0-or-later"
 LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=8a44f57fb36dd391ae65e11a6d370615"
 HOMEPAGE = "https://www.linux-kvm.org/page/KVM-unit-tests"
 RDEPENDS:${PN} += "bash coreutils glibc-utils python3"

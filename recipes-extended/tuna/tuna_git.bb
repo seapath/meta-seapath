@@ -6,8 +6,8 @@ SUMMARY = "Tuna"
 HOMEPAGE = "https://rt.wiki.kernel.org/index.php/Tuna"
 DESCRIPTION = "cui/gui tool for tuning of running processes"
 
-LICENSE = "GPL-2.0"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+LICENSE = "GPL-2.0-only"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
 
 SRCREV="0681906e75e1c8166126bbfc2f3055e7507bfcb5"
 S="${WORKDIR}/git"

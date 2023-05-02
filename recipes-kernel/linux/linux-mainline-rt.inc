@@ -4,7 +4,7 @@
 
 SUMMARY = "Linux kernel"
 SECTION = "kernel"
-LICENSE = "GPL-2.0"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM ?= "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 
 # Set firmware path in kernel configuration
