@@ -1,4 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 #
@@ -36,13 +37,15 @@ python() {
                                   bb.utils.contains('IMAGE_FEATURES', 'empty-root-password', True, False, d)
 
             if has_unsafe_policy:
-                bb.warn("Image uses an unsafe PAM policy. DO NOT use in production.")
+                if not has_unsafe_features and not has_debug_tweaks:
+                    bb.warn("Image uses an unsafe PAM policy. DO NOT use in production.")
                 return
 
             if has_unsafe_features or has_debug_tweaks:
-                raise bb.parse.SkipRecipe("Image uses features incompatible with SEAPATH PAM policy.\n" + \
-                                          "Consider adding 'unsafe-pam-policy' to IMAGE_FEATURES " + \
-                                          "or remove 'debug-tweaks / allow-empty-password / empty-root-password'")
+                if not has_unsafe_policy:
+                    raise bb.parse.SkipRecipe("Image uses features incompatible with SEAPATH PAM policy.\n" + \
+                                              "Consider adding 'unsafe-pam-policy' to IMAGE_FEATURES " + \
+                                              "or remove 'debug-tweaks / allow-empty-password / empty-root-password'")
 
             d.appendVar("ROOTFS_POSTPROCESS_COMMAND", "install_pam_policy; clear_securetty; install_pam_environment; install_pam_access;")
             d.appendVar("IMAGE_INSTALL", " pam-plugin-cracklib pam-plugin-access")
