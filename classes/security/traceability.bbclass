@@ -1,4 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 #
@@ -140,7 +141,7 @@ python generate_traceability_document() {
             except:
                 bb.error("Unsupported format: %s" % docformat)
         else:
-            bb.warn("No traceability to document '%s' found for image '%s'. Skipped" % (doc, d.getVar("IMAGE_BASENAME")))
+            bb.note("No traceability to document '%s' found for image '%s'. Skipped" % (doc, d.getVar("IMAGE_BASENAME")))
 }
 
 IMAGE_POSTPROCESS_COMMAND += "generate_traceability_document;"
