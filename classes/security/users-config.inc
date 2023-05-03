@@ -1,4 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 #
@@ -13,8 +14,19 @@ USERS_LIST_SUDOERS ?= "admin emergadmin"
 USERS_LIST_SUDOERS[doc] = "List of users that will have a 'user' sudoers entry created with ALL permissions"
 USERS_LIST_REMOVED ?= "mail"
 USERS_LIST_REMOVED[doc] = "List of users to remove"
-USERS_LIST_LOCKED ?= "daemon sync qemu systemd-bus-proxy systemd-timesync \
-    systemd-resolve systemd-network ceph sshd coroqnetd messagebus hacluster nobody snmp"
+USERS_LIST_LOCKED ?= "daemon \
+ sync \
+ ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', "qemu", '', d)} \
+ systemd-bus-proxy \
+ systemd-timesync \
+ systemd-resolve \
+ systemd-network \
+ sshd \
+ messagebus \
+ ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', "hacluster ceph", '', d)} \
+ nobody \
+ snmp \
+"
 USERS_LIST_LOCKED[doc] = "List of users to lock"
 
 # Configure users with the ansible key enabled
