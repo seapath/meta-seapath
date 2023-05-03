@@ -1,11 +1,13 @@
 # Copyright (C) 2022, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
-
 #
+
+inherit python3-dir
 
 VOLATILE_BINDS:pn-volatile-binds ?= "\
     /mnt/persistent/home /home\n\
-    /var/volatile/usr/lib/python3.8/site-packages/__pycache__ /usr/lib/python3.8/site-packages/__pycache__\n\
+    /var/volatile/pycache ${PYTHON_SITEPACKAGES_DIR}/__pycache__\n\
     /mnt/persistent/var/lib /var/lib\n\
     /var/volatile/cache /var/cache\n\
     /var/volatile/spool /var/spool\n\
@@ -26,6 +28,7 @@ change_init () {
 /bin/mount -t ext4 \$(blkid -L persistent) /mnt/persistent
 /bin/mkdir -p /mnt/persistent/etc
 /bin/mkdir -p /mnt/persistent/.etc-work
+/bin/mkdir -p /mnt/persistent/var
 /bin/mount -t overlay overlay -o lowerdir=/etc,upperdir=/mnt/persistent/etc,workdir=/mnt/persistent/.etc-work /etc
 exec /sbin/init \$@
 
