@@ -23,6 +23,10 @@ SUDO_GROUP_OWNER ?= ""
 IMAGE_INSTALL_append = " sudo"
 
 python do_configure_users() {
+    import crypt
+    def encrypt_user_password(user):
+        return crypt.crypt(user, crypt.mksalt(crypt.METHOD_SHA512)).replace("$","\$")
+
     userslist = d.getVar("USERS_LIST").split()
     userslistexpired = d.getVar("USERS_LIST_EXPIRED").split()
     userslistlocked = d.getVar("USERS_LIST_LOCKED").split()
@@ -35,11 +39,10 @@ python do_configure_users() {
     if not userslist:
         bb.warn("USERS_LIST empty, not creating any users")
         return
-
     # add users defined in USERS_LIST
     for user in userslist:
-        extrausersparams += " useradd "+user+";"
-        extrausersparams += " usermod -P '"+user+"' "+user+";"
+        extrausersparams += " useradd -p '{}' {} ;".format(
+           encrypt_user_password(user), user)
 
     # set expiration for users in USERS_LIST_EXPIRED
     for user in userslistexpired:
