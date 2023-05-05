@@ -1,4 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 #
@@ -60,3 +61,5 @@ python() {
             bb.warn("Unsupported architecture for kernel configuration \
                      hardening check : %s" % d.getVar("TUNE_ARCH"))
 }
+
+IMAGE_POSTPROCESS_COMMAND += "do_kconfig_hardened_check ;"

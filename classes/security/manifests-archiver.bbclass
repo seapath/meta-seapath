@@ -149,6 +149,7 @@ do_manifests_archiver[secdoc-compliance] = "ANSSI-NT28/R1"
 do_manifests_archiver[doc] = "Archives all the manifests generated when producing an image for cybersecurity purposes"
 
 do_manifests_archiver[depends] = " \
+  kconfig-hardened-check-native:do_populate_sysroot \
   virtual/kernel:do_shared_workdir \
 "
 
