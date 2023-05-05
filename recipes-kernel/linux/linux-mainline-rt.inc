@@ -1,4 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 SUMMARY = "Linux kernel"
@@ -25,7 +26,6 @@ KMACHINE ?= "${MACHINE}"
 DEPENDS += " linux-firmware "
 inherit kernel
 inherit kernel-yocto
-inherit security/deploy-kernelconfig
 
 LINUX_VERSION_EXTENSION:append = "-mainline-rt"
 

@@ -1,4 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 #
@@ -69,7 +70,14 @@ def copy_manifests_in_list_to_dir(manifestlist, destdir, d):
         manifestfile = d.getVar(var)
 
         try:
-            if not os.path.isfile(manifestfile):
+            if var == "KERNELCONFIG_FILE":
+                # Use the kernel config file stored in Linux kernel-build-artifacts
+                config_file = os.path.join(d.getVar("STAGING_KERNEL_BUILDDIR"), ".config")
+                if not os.path.isfile(config_file):
+                    bb.fatal("Kernel config file not found")
+                import shutil
+                shutil.copyfile(config_file, manifestfile)
+            elif not os.path.isfile(manifestfile):
                 bb.fatal("'%s' file is missing or not a regular file" % manifestfile)
         except TypeError as e:
             bb.fatal("Invalid content for variable %s.\nEnsure that MANIFESTS_LIST contains only variable names not paths and that those variables are valid" % var)
@@ -139,6 +147,10 @@ python do_symlink_image_manifests() {
 # to generate coverage documentation
 do_manifests_archiver[secdoc-compliance] = "ANSSI-NT28/R1"
 do_manifests_archiver[doc] = "Archives all the manifests generated when producing an image for cybersecurity purposes"
+
+do_manifests_archiver[depends] = " \
+  virtual/kernel:do_shared_workdir \
+"
 
 # Exclude this function from the variable dependency computation as it
 # relies on DATETIME
