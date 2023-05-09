@@ -47,7 +47,7 @@ def create_archive_from_path(srcpath, archivepath, d):
     #    * Bitbake received SIGINT
     #    * Bitbake faced an exception that does not raise a catchable Event
     if not os.path.isdir(srcpath):
-        bb.warn("Path %s does not exist. Archiving is skipped" % srcpath)
+        bb.note("Path %s does not exist. Archiving is skipped" % srcpath)
         return
 
     with tarfile.open(archivepath, "w:gz") as tar:
