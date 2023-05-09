@@ -1,4 +1,5 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 DESCRIPTION = "A common base for Seapath images"
@@ -45,3 +46,5 @@ inherit ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'security/us
 inherit ansible-ssh
 
 require ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','','recipes-core/images/seapath-common-no-security.inc',d)}
+
+DEPENDS += "kconfig-hardened-check-native"
