@@ -14,15 +14,15 @@ Signed-off-by: Eloi Bail <eloi.bail@savoirfairelinux.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/units/systemd-networkd-wait-online.service.in b/units/systemd-networkd-wait-online.service.in
-index 7666e16669..0d4f09ef1e 100644
+index 10d8b08c8e..6dd5f79377 100644
 --- a/units/systemd-networkd-wait-online.service.in
 +++ b/units/systemd-networkd-wait-online.service.in
 @@ -18,7 +18,7 @@ Before=network-online.target shutdown.target
  
  [Service]
  Type=oneshot
--ExecStart=@rootlibexecdir@/systemd-networkd-wait-online
-+ExecStart=@rootlibexecdir@/systemd-networkd-wait-online --any
+-ExecStart={{ROOTLIBEXECDIR}}/systemd-networkd-wait-online
++ExecStart={{ROOTLIBEXECDIR}}/systemd-networkd-wait-online --any
  RemainAfterExit=yes
  
  [Install]
