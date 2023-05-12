@@ -7,6 +7,11 @@ SECTION = "kernel"
 LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM ?= "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 
+require ${@bb.utils.contains('DISTRO_FEATURES', 'efi-secure-boot', 'linux-yocto-efi-secure-boot.inc', '', d)}
+
+# EFI configured through defconfig rather than config fragments
+KERNEL_FEATURES:remove = "${efi_secure_boot_sccs}"
+
 # Set firmware path in kernel configuration
 do_firmware_path () {
     # Will be used only if CONFIG_EXTRA_FIRMWARE="xxx"
