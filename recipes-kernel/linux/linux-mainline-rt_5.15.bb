@@ -17,6 +17,7 @@ PV = "${LINUX_FULL_VERSION}+git${SRCPV}"
 SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;protocol=https;name=machine;tag=${KTAG};branch=${KBRANCH} \
         file://defconfig \
         file://megaraid.cfg \
+        file://gcc-plugin.cfg \
 "
 
 SRC_URI:append_votp-no-iommu = " \
