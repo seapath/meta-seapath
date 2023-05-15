@@ -13,7 +13,7 @@ LINUX_FULL_VERSION = "${LINUX_VERSION}-${RT_REVISION}"
 KTAG = "v${LINUX_FULL_VERSION}"
 PV = "${LINUX_FULL_VERSION}+git${SRCPV}"
 
-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git;protocol=https;name=machine;tag=${KTAG};branch=${KBRANCH} \
+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;protocol=https;name=machine;tag=${KTAG};branch=${KBRANCH} \
         file://defconfig \
         file://megaraid.cfg \
         file://gcc-plugin.cfg \
