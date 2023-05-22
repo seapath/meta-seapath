@@ -70,14 +70,7 @@ def copy_manifests_in_list_to_dir(manifestlist, destdir, d):
         manifestfile = d.getVar(var)
 
         try:
-            if var == "KERNELCONFIG_FILE":
-                # Use the kernel config file stored in Linux kernel-build-artifacts
-                config_file = os.path.join(d.getVar("STAGING_KERNEL_BUILDDIR"), ".config")
-                if not os.path.isfile(config_file):
-                    bb.fatal("Kernel config file not found")
-                import shutil
-                shutil.copyfile(config_file, manifestfile)
-            elif not os.path.isfile(manifestfile):
+            if not os.path.isfile(manifestfile):
                 bb.fatal("'%s' file is missing or not a regular file" % manifestfile)
         except TypeError as e:
             bb.fatal("Invalid content for variable %s.\nEnsure that MANIFESTS_LIST contains only variable names not paths and that those variables are valid" % var)
@@ -150,7 +143,7 @@ do_manifests_archiver[doc] = "Archives all the manifests generated when producin
 
 do_manifests_archiver[depends] = " \
   kconfig-hardened-check-native:do_populate_sysroot \
-  virtual/kernel:do_shared_workdir \
+  virtual/kernel:do_deploy \
 "
 
 # Exclude this function from the variable dependency computation as it
