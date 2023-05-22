@@ -22,11 +22,14 @@ KCONFIG_HARDENED_CHECK_MODE[doc] = \
 KCONFIG_HARDENED_CHECK_SUPPORTED_ARCHS = "x86_64 i586 arm aarch64"
 KCONFIG_HARDENED_CHECK_REPORT_DIR ?= "${DEPLOY_DIR_IMAGE}"
 
-do_kconfig_hardened_check[depends] = \
-    "kconfig-hardened-check-native:do_populate_sysroot virtual/kernel:do_shared_workdir"
+do_kconfig_hardened_check[depends] = " \
+    kconfig-hardened-check-native:do_populate_sysroot \
+    virtual/kernel:do_deploy \
+    virtual/kernel:do_populate_sysroot \
+"
 
 exec_kconfig_hardened_check() {
-    local kernel_config="${STAGING_KERNEL_BUILDDIR}/.config"
+    local kernel_config="${DEPLOY_DIR_IMAGE}/config_kernel"
 
     if [ ! -f "${kernel_config}" ]; then
         bbwarn "Kernel configuration not found in '${kernel_config}'! Unable to analyze it"
