@@ -32,12 +32,6 @@ BUILDHISTORY_COMMIT = "1"
 DISTRO_FEATURES:append = " virtualization"
 DISTRO_FEATURES:append = " kvm"
 
-# Enable dpdk for openvswitch
-PACKAGECONFIG:append:pn-openvswitch = " dpdk"
-COMPATIBLE_MACHINE:pn-dpdk = "(votp)"
-REQUIRED_VERSION_openvswitch = "2.15%"
-REQUIRED_VERSION_dpdk = "20.11.%"
-
 # Disable and blacklist busybox
 PREFERRED_PROVIDER_virtual/base-utils = "packagegroup-core-base-utils"
 VIRTUAL-RUNTIME_base-utils = "packagegroup-core-base-utils"
