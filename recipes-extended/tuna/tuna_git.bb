@@ -13,9 +13,11 @@ SRCREV="0681906e75e1c8166126bbfc2f3055e7507bfcb5"
 S="${WORKDIR}/git"
 
 RDEPENDS:${PN} += " \
+    python3-io \
     python3-linux-procfs \
+    python3-logging \
     python3-schedutils \
-    python3-inet-diag \
+    python3-six \
     "
 
 do_install:append() {
