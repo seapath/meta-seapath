@@ -82,7 +82,7 @@ INHERIT += "security/hardening"
 INHERIT += "security/readonly"
 INHERIT += "overlay"
 
-DISTROOVERRIDES =. "seapath."
+DISTROOVERRIDES =. "seapath:"
 
 IMAGE_FEATURES[validitems] += "unsafe-pam-policy"
 

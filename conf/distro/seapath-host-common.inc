@@ -7,3 +7,5 @@ require conf/distro/seapath-common.inc
 PACKAGECONFIG:append:pn-openvswitch = " dpdk"
 COMPATIBLE_MACHINE:pn-dpdk = "(votp)"
 REQUIERED_VERSION_dpdk = "21.11.%"
+
+DISTROOVERRIDES =. "seapath-host:"
