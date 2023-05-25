@@ -1,0 +1,45 @@
+#!/bin/sh
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+### BEGIN INIT INFO
+# Provides:          auto-flash.sh
+# Default-Start:     2 3 4 5
+# Short-Description: Auto flash disk
+# Description:       Flash seapath.wic.gz on @@SEAPATH_AUTO_FLASH@@
+### END INIT INFO
+
+set -e
+
+case "$1" in
+  start)
+    echo "Auto flashing"
+    disk="@@SEAPATH_AUTO_FLASH@@"
+
+    if [ -z "${disk}" ] ; then
+        echo "Auto flash disabled"
+        exit 0
+    fi
+
+    echo "Mounting the flash partition and flashing seapath.wic.gz on ${disk}"
+    mount /dev/disk/by-label/flasher_data -o ro /mnt/
+    flash -i /mnt/seapath.wic.gz -d "/dev/${disk}"
+
+    echo "Moving the current boot entry (USB boot) at the end of the bootorder"
+    current_boot=$(efibootmgr |grep BootCurrent |grep -Eo '[0-9]+')
+    boot_order=$(efibootmgr |grep BootOrder | grep -Eo [0-9,]+)
+    new_boot_order="$(echo "$boot_order" | sed -E "s/${current_boot},?//"),${current_boot}"
+    efibootmgr -o "${new_boot_order}"
+
+    echo "Rebooting..."
+    reboot
+    ;;
+  stop)
+    ;;
+
+  restart)
+    ;;
+  *)
+    echo "Usage: /etc/init.d/auto-flash {start}"
+    exit 1
+esac
