@@ -9,6 +9,7 @@ IMAGE_INSTALL:append = " \
     bmap-tools \
     e2fsprogs-mke2fs \
     flash-script \
+    flash-script-auto \
     python3-json \
     python3-modules \
     os-release \
