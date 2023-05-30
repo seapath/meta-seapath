@@ -2,6 +2,8 @@
 # Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
+DISTROOVERRIDES =. "seapath:"
+
 # Distro based on poky
 require conf/distro/poky.conf
 
@@ -81,8 +83,6 @@ VOLATILE_LOG_DIR = "no"
 INHERIT += "security/hardening"
 INHERIT += "security/readonly"
 INHERIT += "overlay"
-
-DISTROOVERRIDES =. "seapath:"
 
 IMAGE_FEATURES[validitems] += "unsafe-pam-policy"
 
