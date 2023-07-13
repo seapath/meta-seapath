@@ -14,6 +14,12 @@ require hardening-config.inc
 # Community / 3rd-party classes to be included
 inherit cve-check
 inherit image-buildinfo
+inherit create-spdx
+
+SPDX_PRETTY = "1"
+SPDX_INCLUDE_SOURCES = "1"
+SPDX_ARCHIVE_SOURCES = "1"
+SPDX_ARCHIVE_PACKAGED = "1"
 
 # Hardening framework classes
 inherit security/kconfig-hardened-check
