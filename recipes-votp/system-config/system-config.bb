@@ -17,8 +17,10 @@ SRC_URI = " \
     file://common/var-log.mount \
     file://cluster/openvswitch.conf \
     file://cluster/votp-config_ovs.service \
+    file://host/enable-rt-runtime-share.sh \
     file://host/hugetlb-gigantic-pages.service \
     file://host/hugetlb-reserve-pages.sh \
+    file://host/rt-runtime-share.service \
     file://efi/swupdate_hawkbit.conf \
     file://efi/swupdate_hawkbit.service \
     file://efi/swupdate_hawkbit.sh \
@@ -68,6 +70,11 @@ do_install () {
     install -m 0755 ${WORKDIR}/host/hugetlb-reserve-pages.sh \
         ${D}/${sbindir}
 
+    install -m 0644 ${WORKDIR}/host/rt-runtime-share.service \
+        ${D}${systemd_unitdir}/system
+    install -m 0755 ${WORKDIR}/host/enable-rt-runtime-share.sh \
+        ${D}/${sbindir}/
+
 # EFI
     install -m 0644 ${WORKDIR}/efi/swupdate_hawkbit.conf \
         ${D}${sysconfdir}/sysconfig
@@ -107,6 +114,7 @@ SYSTEMD_SERVICE:${PN}-cluster = " \
 
 SYSTEMD_SERVICE:${PN}-host = " \
     hugetlb-gigantic-pages.service \
+    rt-runtime-share.service \
 "
 
 SYSTEMD_SERVICE:${PN}-efi = " \
@@ -132,7 +140,9 @@ FILES:${PN}-cluster = " \
 
 FILES:${PN}-host = " \
     ${systemd_unitdir}/system/hugetlb-gigantic-pages.service \
+    ${systemd_unitdir}/system/rt-runtime-share.service \
     ${sbindir}/hugetlb-reserve-pages.sh \
+    ${sbindir}/enable-rt-runtime-share.sh \
 "
 
 FILES:${PN}-efi = " \

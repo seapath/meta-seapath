@@ -1,0 +1,14 @@
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+[Unit]
+Description=Enable RT_RUNTIME_SHARE
+Before=libvirtd.service
+Before=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/enable-rt-runtime-share.sh
+
+[Install]
+WantedBy=multi-user.target
