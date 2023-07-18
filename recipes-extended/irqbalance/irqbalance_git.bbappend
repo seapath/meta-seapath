@@ -13,6 +13,8 @@ SRC_URI = " \
 "
 
 do_install:append () {
+    install -m 0644 ${WORKDIR}/irqbalanced.service \
+         ${D}${systemd_unitdir}/system/irqbalanced.service
     sed -i -e 's/@RT_CORE_LIST@/${@d.getVar("SEAPATH_RT_CORES", "")}/g' \
         ${D}${systemd_unitdir}/system/irqbalanced.service
 }
