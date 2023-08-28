@@ -1,5 +1,5 @@
-root:*:0:0:root:/root:/bin/bash
-daemon:*:1:1:daemon:/usr/sbin:/bin/sh
+root::0:0:root:/root:/bin/bash
+daemon:*:1:1:daemon:/usr/sbin:/sbin/nologin
 sync:*:4:65534:sync:/bin:/bin/sync
-mail:*:8:8:mail:/var/mail:/bin/sh
-nobody:*:65534:65534:nobody:/nonexistent:/bin/sh
+mail:*:8:8:mail:/var/mail:/sbin/nologin
+nobody:*:65534:65534:nobody:/nonexistent:/sbin/nologin
