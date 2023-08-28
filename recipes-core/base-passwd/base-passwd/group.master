@@ -6,6 +6,7 @@ mail:*:8:
 shadow:*:42:
 utmp:*:43:
 video:*:44:
+kvm:*:47:
 shutdown:*:61
 users:*:100:
 nogroup:*:65534:
