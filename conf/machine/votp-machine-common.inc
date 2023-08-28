@@ -16,7 +16,6 @@ APPEND += " \
     systemd.unified_cgroup_hierarchy=0 \
     audit=0 \
     slab_nomerge \
-    pti=on \
     slub_debug=ZF \
     rootwait \
     rootfstype=ext4 \
