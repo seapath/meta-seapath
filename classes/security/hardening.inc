@@ -13,6 +13,7 @@ require hardening-config.inc
 
 # Community / 3rd-party classes to be included
 inherit cve-check
+include conf/distro/include/cve-extra-exclusions.inc
 inherit image-buildinfo
 inherit create-spdx
 
