@@ -19,7 +19,7 @@ Restart=on-failure
 TimeoutSec=300
 Environment=XDG_RUNTIME_DIR=/run/openvswitch
 LimitSTACK=2M
-ExecStartPre=/usr/libexec/configure_vm_sockets.sh
+ExecStartPre=+/usr/libexec/configure_vm_sockets.sh
 ExecStart=ovs-vswitchd \
     unix:/run/openvswitch/db.sock \
     --mlockall \
