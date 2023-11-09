@@ -1,4 +1,5 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 DESCRIPTION = "Votp System configuration"
@@ -6,7 +7,6 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
 SRCREV = "${AUTOREV}"
-RDEPENDS:${PN}-efi = "bash"
 RDEPENDS:${PN}-security = "bash"
 RDEPENDS:${PN}-cluster= "python3-setup-ovs openvswitch"
 
@@ -21,10 +21,6 @@ SRC_URI = " \
     file://host/hugetlb-gigantic-pages.service \
     file://host/hugetlb-reserve-pages.sh \
     file://host/rt-runtime-share.service \
-    file://efi/swupdate_hawkbit.conf \
-    file://efi/swupdate_hawkbit.service \
-    file://efi/swupdate_hawkbit.sh \
-    file://efi/check-health.sh \
     file://security/disable-local-login.sh \
 "
 
@@ -75,18 +71,6 @@ do_install () {
     install -m 0755 ${WORKDIR}/host/enable-rt-runtime-share.sh \
         ${D}/${sbindir}/
 
-# EFI
-    install -m 0644 ${WORKDIR}/efi/swupdate_hawkbit.conf \
-        ${D}${sysconfdir}/sysconfig
-    sed -i "s|@SEAPATH_HAWKBIT_SERVER_URL@|${SEAPATH_HAWKBIT_SERVER_URL}|" \
-        ${D}${sysconfdir}/sysconfig/swupdate_hawkbit.conf
-    install -m 0755 ${WORKDIR}/efi/swupdate_hawkbit.sh \
-        ${D}/${sbindir}
-    install -m 0644 ${WORKDIR}/efi/swupdate_hawkbit.service \
-        ${D}${systemd_unitdir}/system
-    install -m 0755 ${WORKDIR}/efi/check-health.sh \
-        ${D}/${sbindir}/check-health
-
 # Security
     install -m 0755 ${WORKDIR}/security/disable-local-login.sh \
         ${D}/${sbindir}
@@ -95,14 +79,12 @@ do_install () {
 PACKAGES =+ " \
     ${PN}-common \
     ${PN}-host \
-    ${PN}-efi \
     ${PN}-security \
     ${PN}-cluster \
 "
 SYSTEMD_PACKAGES += " \
     ${PN}-common \
     ${PN}-host \
-    ${PN}-efi \
     ${PN}-cluster \
 "
 
@@ -117,10 +99,6 @@ SYSTEMD_SERVICE:${PN}-cluster = " \
 SYSTEMD_SERVICE:${PN}-host = " \
     hugetlb-gigantic-pages.service \
     rt-runtime-share.service \
-"
-
-SYSTEMD_SERVICE:${PN}-efi = " \
-    swupdate_hawkbit.service \
 "
 
 REQUIRED_DISTRO_FEATURES = "systemd"
@@ -145,13 +123,6 @@ FILES:${PN}-host = " \
     ${systemd_unitdir}/system/rt-runtime-share.service \
     ${sbindir}/hugetlb-reserve-pages.sh \
     ${sbindir}/enable-rt-runtime-share.sh \
-"
-
-FILES:${PN}-efi = " \
-    ${sysconfdir}/sysconfig/swupdate_hawkbit.conf \
-    ${sbindir}/swupdate_hawkbit.sh \
-    ${system_unitdir}/system/swupdate_hawkbit.service \
-    ${sbindir}/check-health \
 "
 
 FILES:${PN}-security = " \

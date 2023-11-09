@@ -1,0 +1,12 @@
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+[Unit]
+Description="Check the update status"
+
+[Service]
+Type=oneshot
+ExecStart=/usr/share/update/swupdate_check.sh
+
+[Install]
+WantedBy=boot-complete.target

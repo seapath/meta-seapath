@@ -1,2 +1,2 @@
-ENV{ID_FS_LABEL}=="efi*", PROGRAM="/usr/bin/is_from_inactive_bank 'bootloader' '/dev/%k'", RESULT=="1", SYMLINK+="upgradable_bootloader"
-ENV{ID_FS_LABEL}=="rootfs*", PROGRAM="/usr/bin/is_from_inactive_bank 'rootfs' '/dev/%k'", RESULT=="1", SYMLINK+="upgradable_rootfs"
+ENV{ID_FS_LABEL}=="efi*", PROGRAM="/usr/share/update/is_from_inactive_bank.sh 'bootloader' '/dev/%k'", RESULT=="1", SYMLINK+="upgradable_bootloader"
+ENV{ID_FS_LABEL}=="rootfs*", PROGRAM="/usr/share/update/is_from_inactive_bank.sh 'rootfs' '/dev/%k'", RESULT=="1", SYMLINK+="upgradable_rootfs"
