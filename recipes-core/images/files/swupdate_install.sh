@@ -75,7 +75,7 @@ do_postinst()
 
     touch /var/log/update_marker
 
-    switch_bootloader || echo "Switch bootloader did not succeed" 1>&2
+    /usr/share/update/switch_bootloader.sh || echo "Switch bootloader did not succeed" 1>&2
 
     echo "Rebooting system"
     reboot

@@ -6,12 +6,11 @@ inherit deploy
 inherit boot-partition
 
 IMAGE_INSTALL:append = " \
-    swupdate             \
-    dosfstools           \
+    cukinia-tests-update \
     localedef            \
     glibc-utils          \
-    system-config-efi    \
-    grub-efi-editenv     \
+    system-upgrade       \
+    ${@bb.utils.contains('DISTRO_FEATURES','seapath-hawkbit','system-upgrade-hawkbit','',d)} \
 "
 
 IMAGE_FSTYPES += "tar.xz"

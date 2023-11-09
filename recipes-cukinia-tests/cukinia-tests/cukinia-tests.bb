@@ -26,7 +26,7 @@ SRC_URI = "\
     file://cukinia-monitor.conf \
     file://cukinia-realtime.conf \
     file://cukinia-vm.conf \
-    file://cukinia-efi.conf \
+    file://cukinia-update.conf \
     file://common_tests.d/sw-versions.conf \
     file://common_tests.d/preempt-rt.conf \
     file://common_tests.d/container.conf \
@@ -71,7 +71,7 @@ SRC_URI = "\
     file://vm_tests.d/files.conf \
     file://includes/kernel_config_functions \
     file://realtime_tests.d/cyclictest.conf \
-    file://efi_tests.d/partition-symlinks.conf \
+    file://update_tests.d/partition-symlinks.conf \
     file://hypervisor_iommu_tests.d/iommu.conf \
     file://hypervisor_iommu_tests.d/kernel.conf \
 "
@@ -231,11 +231,11 @@ do_install () {
     install -m 0644 ${WORKDIR}/vm_tests.d/files.conf \
         ${D}${sysconfdir}/cukinia/vm_tests.d
 
-# efi
-    install -m 0644 ${WORKDIR}/cukinia-efi.conf ${D}${sysconfdir}/cukinia
-    install -m 0755 -d ${D}${sysconfdir}/cukinia/efi_tests.d/
-    install -m 0644 ${WORKDIR}/efi_tests.d/partition-symlinks.conf \
-        ${D}${sysconfdir}/cukinia/efi_tests.d
+# update
+    install -m 0644 ${WORKDIR}/cukinia-update.conf ${D}${sysconfdir}/cukinia
+    install -m 0755 -d ${D}${sysconfdir}/cukinia/update_tests.d/
+    install -m 0644 ${WORKDIR}/update_tests.d/partition-symlinks.conf \
+        ${D}${sysconfdir}/cukinia/update_tests.d
 }
 
 PACKAGES =+ " \
@@ -250,7 +250,7 @@ PACKAGES =+ " \
     ${PN}-monitor \
     ${PN}-realtime \
     ${PN}-vm \
-    ${PN}-efi \
+    ${PN}-update \
 "
 
 RDEPENDS:${PN}-realtime += "rt-tests"
@@ -320,7 +320,7 @@ FILES:${PN}-vm = " \
     ${sysconfdir}/cukinia/vm_tests.d/* \
 "
 
-FILES:${PN}-efi = " \
-    ${sysconfdir}/cukinia/cukinia-efi.conf \
-    ${sysconfdir}/cukinia/efi_tests.d/* \
+FILES:${PN}-update = " \
+    ${sysconfdir}/cukinia/cukinia-update.conf \
+    ${sysconfdir}/cukinia/update_tests.d/* \
 "

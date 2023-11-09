@@ -7,3 +7,6 @@ do_install:append() {
     sed '/\[Service\]/a Environment="LC_ALL=en_US.UTF-8"' -i \
         ${D}${systemd_system_unitdir}/swupdate.service
 }
+
+# Disable swupdate service by default because we have our own service
+SYSTEMD_AUTO_ENABLE = "disable"
