@@ -89,3 +89,5 @@ IMAGE_FEATURES[validitems] += "unsafe-pam-policy"
 # Set version of linuxptp to 3.1.1
 REQUIRED_VERSION_linuxptp = "3.1.1"
 
+# Create /etc/build
+INHERIT += "image-buildinfo"
