@@ -1,5 +1,6 @@
 #!/bin/bash
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 die() {
@@ -41,15 +42,15 @@ if [ -f /boot/EFI/BOOT/grubenv ] ; then
         echo "Update success"
         suricatta_extra_args="-c 2"
         rm -f /boot/EFI/BOOT/grubenv
-        rm -f /mnt/persistent/update_marker
+        rm -f /var/log/update_marker
         switch_bootloader disable
     fi
 fi
 umount /boot
-if [ -f /mnt/persistent/update_marker ] ; then
+if [ -f /var/log/update_marker ] ; then
     # The update have failed
     suricatta_extra_args="-c 3"
-    rm -f /mnt/persistent/update_marker
+    rm -f /var/log/update_marker
     switch_bootloader
     switch_bootloader disable
     echo "Update have failed" 1>&2

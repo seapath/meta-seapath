@@ -73,7 +73,7 @@ do_postinst()
         die "Could not unmount /boot"
     fi
 
-    touch /mnt/persistent/update_marker
+    touch /var/log/update_marker
 
     switch_bootloader || echo "Switch bootloader did not succeed" 1>&2
 
