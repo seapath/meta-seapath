@@ -1,5 +1,6 @@
 #!/bin/bash
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 die()
@@ -23,8 +24,11 @@ do_preinst()
     rootfs_part=$(readlink -f /dev/upgradable_rootfs)
 
     # Make sure partitions are unmounted
-    umount -f "$bootloader_part"
-    umount -f "$rootfs_part"
+    for part in "$bootloader_part" "$rootfs_part" ; do
+        if grep -q "$part" /proc/mounts ; then
+            umount -f "$part" || die "Error when umounting $part"
+        fi
+    done
 
     # Labels can be deduced from static partitioning
     # - Slot A: /dev/<disk>1 (bootloader) + /dev/<disk>3 (rootfs)
