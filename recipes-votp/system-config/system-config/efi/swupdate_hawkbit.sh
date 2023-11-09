@@ -56,5 +56,7 @@ if [ -f /var/log/update_marker ] ; then
     echo "Update have failed" 1>&2
 fi
 
-swupdate -u "-u http://$HAWKBIT_SERVER_URL:$HAWKBIT_SERVER_PORT \
-    -i $HAWKBIT_DEVICE_ID -t default $suricatta_extra_args"
+swupdate -u "-u $HAWKBIT_SERVER_URL \
+    -i $HAWKBIT_DEVICE_ID \
+    -t default \
+    $suricatta_extra_args"
