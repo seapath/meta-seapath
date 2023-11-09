@@ -13,6 +13,11 @@ die()
     exit 1
 }
 
+# Check if efivarfs is mounted
+if ! grep -q /sys/firmware/efi/efivars /proc/mounts ; then
+    mount -t efivarfs efivarfs /sys/firmware/efi/efivars
+fi
+
 boot0=$(efibootmgr | \
     awk '/SEAPATH slot 0/{ gsub("Boot", ""); gsub("*", ""); print $1 }')
 boot1=$(efibootmgr | \
