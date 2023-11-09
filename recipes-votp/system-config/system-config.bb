@@ -78,6 +78,8 @@ do_install () {
 # EFI
     install -m 0644 ${WORKDIR}/efi/swupdate_hawkbit.conf \
         ${D}${sysconfdir}/sysconfig
+    sed -i "s|@SEAPATH_HAWKBIT_SERVER_URL@|${SEAPATH_HAWKBIT_SERVER_URL}|" \
+        ${D}${sysconfdir}/sysconfig/swupdate_hawkbit.conf
     install -m 0755 ${WORKDIR}/efi/swupdate_hawkbit.sh \
         ${D}/${sbindir}
     install -m 0644 ${WORKDIR}/efi/swupdate_hawkbit.service \
