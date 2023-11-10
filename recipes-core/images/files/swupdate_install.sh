@@ -44,10 +44,10 @@ do_preinst()
         rootfs_label="rootfs1"
     fi
 
-    if ! mkfs.vfat -n "$bootloader_label" "$bootloader_part" ; then
+    if ! mkfs.vfat -n "$bootloader_label" "$bootloader_part" 2>&1 ; then
         die "Error when formating the boot partition"
     fi
-    if ! mkfs.ext4 -F "$rootfs_part" -L "$rootfs_label" ; then
+    if ! mkfs.ext4 -q -F "$rootfs_part" -L "$rootfs_label" ; then
         die "Error when formating the root partition"
     fi
 }
