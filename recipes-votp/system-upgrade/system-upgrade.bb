@@ -23,7 +23,9 @@ SRC_URI = "\
     file://check-health.sh \
 "
 
-SRCREV = "1.1"
+SRCREV = "1.2"
+inherit allarch systemd
+
 PACKAGES =+ "${PN}-hawkbit"
 
 do_install () {
