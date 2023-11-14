@@ -15,8 +15,8 @@ SRC_URI = "\
     file://cukinia-common.conf \
     file://configurations/cukinia-common-security.conf \
     file://configurations/cukinia-common.conf \
-    file://configurations/cukinia-cluster-common.conf \
-    file://configurations/cukinia-cluster-security.conf \
+    file://configurations-cluster/cukinia-cluster-common.conf \
+    file://configurations-cluster/cukinia-cluster-security.conf \
     file://cukinia-hypervisor.conf \
     file://configurations/cukinia-hypervisor-common.conf \
     file://configurations/cukinia-hypervisor-readonly.conf \
@@ -192,6 +192,7 @@ do_install () {
 
 # cluster
     install -m 0755 -d ${D}${sysconfdir}/cukinia/cluster_tests.d/
+    install -m 0755 -d ${D}${sysconfdir}/cukinia/configurations-cluster
     install -m 0644 ${WORKDIR}/cukinia-cluster.conf \
         ${D}${sysconfdir}/cukinia/cukinia-cluster.conf
     install -m 0644 ${WORKDIR}/cluster_tests.d/pacemaker.conf \
@@ -206,8 +207,8 @@ do_install () {
         ${D}${sysconfdir}/cukinia/cluster_tests.d
     install -m 0644 ${WORKDIR}/cluster_tests.d/corosync.conf \
         ${D}${sysconfdir}/cukinia/cluster_tests.d
-    install -m 0644 ${WORKDIR}/configurations/cukinia-cluster-common.conf \
-        ${D}${sysconfdir}/cukinia/configurations/cukinia-cluster-common.conf
+    install -m 0644 ${WORKDIR}/configurations-cluster/cukinia-cluster-common.conf \
+        ${D}${sysconfdir}/cukinia/configurations-cluster/cukinia-cluster-common.conf
 
 # cluster security
     install -m 0755 -d ${D}${sysconfdir}/cukinia/cluster_security_tests.d
@@ -217,8 +218,8 @@ do_install () {
         ${D}${sysconfdir}/cukinia/cluster_security_tests.d
     install -m 0644 ${WORKDIR}/cluster_security_tests.d/pacemaker.conf \
         ${D}${sysconfdir}/cukinia/cluster_security_tests.d
-    install -m 0644 ${WORKDIR}/configurations/cukinia-cluster-security.conf \
-        ${D}${sysconfdir}/cukinia/configurations/cukinia-cluster-security.conf
+    install -m 0644 ${WORKDIR}/configurations-cluster/cukinia-cluster-security.conf \
+        ${D}${sysconfdir}/cukinia/configurations-cluster/cukinia-cluster-security.conf
 
 # realtime
     install -m 0755 -d ${D}${sysconfdir}/cukinia/realtime_tests.d/
@@ -266,12 +267,12 @@ FILES:${PN} = " \
 
 FILES:${PN}-cluster = " \
     ${sysconfdir}/cukinia/cukinia-cluster.conf \
-    ${sysconfdir}/cukinia/configurations/cukinia-cluster-common.conf \
+    ${sysconfdir}/cukinia/configurations-cluster/cukinia-cluster-common.conf \
     ${sysconfdir}/cukinia/cluster_tests.d/* \
 "
 
 FILES:${PN}-cluster-security = " \
-    ${sysconfdir}/cukinia/configurations/cukinia-cluster-security.conf \
+    ${sysconfdir}/cukinia/configurations-cluster/cukinia-cluster-security.conf \
     ${sysconfdir}/cukinia/cluster_security_tests.d/* \
 "
 
