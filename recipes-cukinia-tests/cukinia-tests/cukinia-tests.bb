@@ -22,6 +22,7 @@ SRC_URI = "\
     file://configurations/cukinia-hypervisor-readonly.conf \
     file://configurations/cukinia-hypervisor-security.conf \
     file://configurations/cukinia-hypervisor-iommu.conf \
+    file://configurations/cukinia-update.conf \
     file://cukinia-sec.conf \
     file://cukinia-monitor.conf \
     file://cukinia-realtime.conf \
@@ -236,6 +237,8 @@ do_install () {
     install -m 0755 -d ${D}${sysconfdir}/cukinia/update_tests.d/
     install -m 0644 ${WORKDIR}/update_tests.d/partition-symlinks.conf \
         ${D}${sysconfdir}/cukinia/update_tests.d
+    install -m 0644 ${WORKDIR}/configurations/cukinia-update.conf \
+        ${D}${sysconfdir}/cukinia/configurations/cukinia-update.conf
 }
 
 PACKAGES =+ " \
@@ -323,4 +326,5 @@ FILES:${PN}-vm = " \
 FILES:${PN}-update = " \
     ${sysconfdir}/cukinia/cukinia-update.conf \
     ${sysconfdir}/cukinia/update_tests.d/* \
+    ${sysconfdir}/cukinia/configurations/cukinia-update.conf \
 "
