@@ -24,7 +24,13 @@ boot1=$(efibootmgr | \
     awk '/SEAPATH slot 1/{ gsub("Boot", ""); gsub("*", ""); print $1 }')
 
 [ -n "${boot0}" ] || die "Could not retrieve boot0 entry in EFI boot order"
-[ -n "${boot1}" ] || die "Could not retrieve boot1 entry in EFI boot order"
+if [ -z "${boot1}" ] ;then
+    echo "Recreate SEAPATH slot 1 entry"
+    upgradable_bootloader=$(readlink -f /dev/upgradable_bootloader)
+    disk=${upgradable_bootloader:0:-1}
+    efibootmgr -q -c -d "$disk" -p 2 -L "SEAPATH slot 1" -l /EFI/BOOT/bootx64.efi
+    exit 0
+fi
 
 bootorder=$(efibootmgr |grep "BootOrder:")
 bootorder="${bootorder:11}"
