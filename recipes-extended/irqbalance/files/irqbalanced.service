@@ -3,8 +3,9 @@ Description=irqbalance daemon
 After=syslog.target
 
 [Service]
+EnvironmentFile=/etc/irqbalance.env
 ExecStartPre=mkdir -p /run/irqbalance
-Environment="IRQBALANCE_BANNED_CPULIST=@RT_CORE_LIST@"
+ExecStartPre=/usr/libexec/set_irq_max_core.sh
 ExecStart=/usr/sbin/irqbalance --foreground
 
 [Install]
