@@ -145,10 +145,10 @@ if command -v efibootmgr &> /dev/null && efibootmgr &> /dev/null ; then
     fi
 
     active_boot=$(efibootmgr | awk '/SEAPATH slot 0/{ gsub("Boot", ""); gsub("*", ""); print $1 }')
-    echo "Move SEAPATH boot at the end of the boot order"
+    echo "Move SEAPATH boot at the top of the boot order"
     echo "Disable all unwanted boot entry in UEFI setup or with the efibootmgr"
     echo "command"
-    # Set top boot order priority for USB and PXE entries
+    # Keep other boot entries
     boot_order=$(efibootmgr | grep "BootOrder" | awk '{ print $2}')
     # Remove SEAPATH entries from bootOrder
     boot_order=$(echo "$boot_order" | sed "s/$active_boot//")
@@ -158,7 +158,7 @@ if command -v efibootmgr &> /dev/null && efibootmgr &> /dev/null ; then
     boot_order=$(echo "$boot_order" | sed 's/,$//')
     boot_order=$(echo "$boot_order" | sed 's/^,//')
     # Add SEAPATH entries add the end
-    boot_order="$boot_order,$active_boot,$passive_boot"
+    boot_order="$active_boot,$passive_boot,$boot_order"
 
     # Change boot order
     if efibootmgr -q -o "$boot_order" ; then
