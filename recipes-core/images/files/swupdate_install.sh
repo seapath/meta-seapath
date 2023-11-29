@@ -77,8 +77,6 @@ do_postinst()
 
     /usr/share/update/switch_bootloader.sh || echo "Switch bootloader did not succeed" 1>&2
 
-    echo "Rebooting system"
-    reboot
 }
 
 case "$1" in
