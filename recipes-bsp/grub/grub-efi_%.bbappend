@@ -38,7 +38,7 @@ do_compile:append:class-target() {
     cat "${WORKDIR}/grub-efi.cfg.in" >> "${B}/grub-efi.cfg"
 }
 
-do_install:prepend:class-target_votp-host() {
+do_install:prepend:class-target:votp-host() {
     extra_append=""
     if [ -n "${SEAPATH_RT_CORES}" ] ; then
         extra_append="isolcpus=${SEAPATH_RT_CORES} nohz_full=${SEAPATH_RT_CORES} rcu_nocbs=${SEAPATH_RT_CORES}"
