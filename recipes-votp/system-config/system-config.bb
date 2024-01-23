@@ -1,5 +1,5 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
-# Copyright (C) 2023 Savoir-faire Linux, Inc.
+# Copyright (C) 2023-2024 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 DESCRIPTION = "Votp System configuration"
@@ -35,23 +35,10 @@ do_install () {
     fi
     echo "KEYMAP=\"${SEAPATH_KEYMAP}\"" > ${D}${sysconfdir}/vconsole.conf
     install -d ${D}${sysconfdir}/sysctl.d
-    if ! ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','true','false', d)}; then
-        install -m 0644 ${WORKDIR}/common/90-sysctl-hardening.conf \
-            ${D}${sysconfdir}/sysctl.d
-    fi
     install -m 0644 ${WORKDIR}/common/99-sysctl-network.conf \
         ${D}${sysconfdir}/sysctl.d
-    install -d ${D}${sysconfdir}/profile.d
-    install -m 0644 ${WORKDIR}/common/terminal_idle.sh \
-        ${D}${sysconfdir}/profile.d
     install -m 0644 ${WORKDIR}/common/var-log.mount \
         ${D}${systemd_unitdir}/system
-
-    if ! ${@bb.utils.contains('PACKAGECONFIG','seapath-readonly','true','false', d)}; then
-        install -d ${D}/${base_sbindir}
-        echo '#!/bin/sh\nexec /sbin/init $@' > ${D}/${base_sbindir}/init.sh
-        chmod 755 ${D}/${base_sbindir}/init.sh
-    fi
 
 # Cluster
     install -d ${D}${sysconfdir}/modules-load.d
@@ -74,6 +61,17 @@ do_install () {
 # Security
     install -m 0755 ${WORKDIR}/security/disable-local-login.sh \
         ${D}/${sbindir}
+    install -d ${D}${sysconfdir}/profile.d
+    install -m 0644 ${WORKDIR}/common/terminal_idle.sh \
+        ${D}${sysconfdir}/profile.d
+    install -m 0644 ${WORKDIR}/common/90-sysctl-hardening.conf \
+        ${D}${sysconfdir}/sysctl.d
+
+# Read-only
+    install -d ${D}/${base_sbindir}
+    echo '#!/bin/sh\nexec /sbin/init $@' > ${D}/${base_sbindir}/init.sh
+    chmod 755 ${D}/${base_sbindir}/init.sh
+
 }
 
 PACKAGES =+ " \
@@ -81,6 +79,7 @@ PACKAGES =+ " \
     ${PN}-host \
     ${PN}-security \
     ${PN}-cluster \
+    ${PN}-ro \
 "
 SYSTEMD_PACKAGES += " \
     ${PN}-common \
@@ -106,9 +105,7 @@ REQUIRED_DISTRO_FEATURES = "systemd"
 inherit allarch systemd features_check
 
 FILES:${PN}-common = " \
-    "${@bb.utils.contains('DISTRO_FEATURES','seapath-security',"${sysconfdir}/sysctl.d/90-sysctl-hardening.conf","",d)}" \
     ${sysconfdir}/sysctl.d/99-sysctl-network.conf \
-    ${sysconfdir}/profile.d/terminal_idle.sh \
     ${systemd_unitdir}/system/var-log.mount \
     ${sysconfdir}/vconsole.conf \
 "
@@ -127,6 +124,8 @@ FILES:${PN}-host = " \
 
 FILES:${PN}-security = " \
     ${sbindir}/disable-local-login.sh \
+    ${sysconfdir}/sysctl.d/90-sysctl-hardening.conf \
+    ${sysconfdir}/profile.d/terminal_idle.sh \
 "
 
-FILES:${PN}-common:append = "${@bb.utils.contains('DISTRO_FEATURES','seapath-readonly', "", " ${base_sbindir}/init.sh", d)}"
+FILES:${PN}-ro = "${base_sbindir}/init.sh"

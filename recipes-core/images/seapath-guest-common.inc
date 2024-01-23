@@ -1,4 +1,5 @@
 # Copyright (C) 2022, RTE (http://www.rte-france.com)
+# Copyright (C) 2024 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 DESCRIPTION = "A common base for guest image"
@@ -10,7 +11,8 @@ inherit ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'security/qa
 IMAGE_INSTALL:append = " \
     cukinia-tests-vm \
     syslog-ng-client \
-    system-config-security \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-readonly', 'system-config-ro', '', d)} \
     net-snmp-server \
     net-snmp-client \
     net-snmp-dev \
