@@ -1,4 +1,5 @@
 # Copyright (C) 2022, RTE (http://www.rte-france.com)
+# Copyright (C) 2024 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 USERS_LIST_LOCKED:remove = "qemu"
@@ -7,6 +8,8 @@ IMAGE_INSTALL:append = " \
     cukinia-tests-monitor \
     system-upgrade \
     system-config-cluster \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-readonly', 'system-config-ro', '', d)} \
 "
 
 COMPATIBLE_MACHINE = "votp-monitor"
