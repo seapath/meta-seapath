@@ -17,6 +17,5 @@ APPEND += " \
     audit=0 \
     slab_nomerge \
     slub_debug=ZF \
-    rootwait \
     rootfstype=ext4 \
 "
