@@ -28,6 +28,8 @@ IMAGE_INSTALL:append = " \
     python3-vm-manager \
     tuna \
     irqbalance \
+    chrony \
+    chronyc \
 "
 
 IMAGE_INSTALL:append = " cukinia-tests-hypervisor-iommu"
