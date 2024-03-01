@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
 
 SRC_URI = "git://github.com/savoirfairelinux/cukinia.git;protocol=https;branch=master"
 
-SRCREV = "a290f2dbb813ce12ba407962655a5d8b57322221"
+SRCREV = "b3f67efe73637f6c5bc4133d154e612855349310"
 
 S = "${WORKDIR}/git"
 
