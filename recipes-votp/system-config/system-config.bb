@@ -16,7 +16,7 @@ SRC_URI = " \
     file://common/terminal_idle.sh \
     file://common/var-log.mount \
     file://cluster/openvswitch.conf \
-    file://cluster/votp-config_ovs.service \
+    file://cluster/seapath-config_ovs.service \
     file://host/enable-rt-runtime-share.sh \
     file://host/hugetlb-gigantic-pages.service \
     file://host/hugetlb-reserve-pages.sh \
@@ -44,7 +44,7 @@ do_install () {
     install -d ${D}${sysconfdir}/modules-load.d
     install -m 0644 ${WORKDIR}/cluster/openvswitch.conf \
         ${D}${sysconfdir}/modules-load.d
-    install -m 0644 ${WORKDIR}/cluster/votp-config_ovs.service \
+    install -m 0644 ${WORKDIR}/cluster/seapath-config_ovs.service \
         ${D}${systemd_unitdir}/system
 
 # Host
@@ -92,7 +92,7 @@ SYSTEMD_SERVICE:${PN}-common = " \
 "
 
 SYSTEMD_SERVICE:${PN}-cluster = " \
-    votp-config_ovs.service \
+    seapath-config_ovs.service \
 "
 
 SYSTEMD_SERVICE:${PN}-host = " \
@@ -112,7 +112,7 @@ FILES:${PN}-common = " \
 
 FILES:${PN}-cluster = " \
     ${sysconfdir}/modules-load.d/openvswitch.conf \
-    ${systemd_unitdir}/system/votp-config_ovs.service \
+    ${systemd_unitdir}/system/seapath-config_ovs.service \
 "
 
 FILES:${PN}-host = " \
