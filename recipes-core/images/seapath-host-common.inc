@@ -57,4 +57,3 @@ def get_seapath_kernel_parameters(d):
 
 
 APPEND += "${@get_seapath_kernel_parameters(d)}"
-
