@@ -1,13 +1,13 @@
-# Copyright (C) 2023 Savoir-faire Linux, Inc.
+# Copyright (C) 2023-2024 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 require linux-mainline-rt.inc
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 LINUX_MAJOR_VERSION = "6.1"
-LINUX_REVISION_VERSION = "27"
+LINUX_REVISION_VERSION = "80"
 LINUX_VERSION = "${LINUX_MAJOR_VERSION}.${LINUX_REVISION_VERSION}"
-RT_REVISION = "rt9"
+RT_REVISION = "rt26"
 KBRANCH = "v${LINUX_MAJOR_VERSION}-rt"
 LINUX_FULL_VERSION = "${LINUX_VERSION}-${RT_REVISION}"
 KTAG = "v${LINUX_FULL_VERSION}"
