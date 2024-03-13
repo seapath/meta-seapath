@@ -60,7 +60,6 @@ PACKAGES =+ " \
     ${PN}-sosreport \
     ${PN}-storaged \
     ${PN}-networkmanager \
-    ${PN}-machines \
     ${PN}-selinux \
     ${PN}-playground \
     ${PN}-docker \
@@ -103,10 +102,6 @@ FILES:${PN}-networkmanager = " \
 "
 RDEPENDS:${PN}-networkmanager = "networkmanager"
 
-FILES:${PN}-machines = " \
-    ${datadir}/cockpit/machines \
-    ${datadir}/metainfo/org.cockpit-project.cockpit-machines.metainfo.xml \
-"
 FILES:${PN}-selinux = " \
     ${datadir}/cockpit/selinux \
     ${datadir}/metainfo/org.cockpit-project.cockpit-selinux.metainfo.xml \
