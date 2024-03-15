@@ -2,7 +2,7 @@
 # Copyright (C) 2023-2024 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-DESCRIPTION = "Votp System configuration"
+DESCRIPTION = "Seapath System configuration"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
