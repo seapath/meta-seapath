@@ -26,7 +26,7 @@ EXCLUDE_FROM_WORLD = "1"
 
 EXTRA_IMAGE_FEATURES = ""
 
-COMPATIBLE_MACHINE = "votp-flash"
+COMPATIBLE_MACHINE = "seapath-installer"
 
 WKS_FILE = "flasher.wks.in"
 

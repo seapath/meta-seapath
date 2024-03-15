@@ -22,7 +22,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;
         file://drm.cfg \
 "
 
-SRC_URI:append_votp-no-iommu = " \
+SRC_URI:append_seapath-no-iommu = " \
         file://no-iommu.cfg \
 "
 

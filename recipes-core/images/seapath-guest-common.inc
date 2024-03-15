@@ -24,10 +24,10 @@ IMAGE_INSTALL += " docker-ce docker-ce-contrib python3-docker-compose"
 IMAGE_FSTYPES = "wic.qcow2 wic.vmdk"
 WKS_FILE = "mkefidisk-guest.wks.in"
 
-# Guest images are compatible with votp-vm only
+# Guest images are compatible with seapath-vm only
 # GRUB static configuration for guest machines
-# depends on votp-guest
-COMPATIBLE_MACHINE = "votp-guest"
+# depends on seapath-vm
+COMPATIBLE_MACHINE = "seapath-vm"
 
 # Remove users that do not exist in
 # guest images

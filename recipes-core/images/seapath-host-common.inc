@@ -35,12 +35,12 @@ IMAGE_INSTALL:append = " \
 "
 
 IMAGE_INSTALL:append = " cukinia-tests-hypervisor-iommu"
-IMAGE_INSTALL:remove_votp-no-iommu = "cukinia-tests-hypervisor-iommu"
+IMAGE_INSTALL:remove_seapath-no-iommu = "cukinia-tests-hypervisor-iommu"
 
-# Host images are compatible with votp-host only
+# Host images are compatible with seapath-hypervisor only
 # GRUB static configuration for host machines
-# depends on votp-host
-COMPATIBLE_MACHINE = "votp-host"
+# depends on seapath-hypervisor
+COMPATIBLE_MACHINE = "seapath-hypervisor"
 
 def get_seapath_kernel_parameters(d):
     kernel_parameters = ""

@@ -38,7 +38,7 @@ S = "${WORKDIR}/git"
 
 EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
 
-COMPATIBLE_MACHINE = "(votp|votp-no-iommu)"
+COMPATIBLE_MACHINE = "(seapath|seapath-no-iommu)"
 
 do_deploy:append() {
    install -m 0644 .config $deployDir/config_kernel

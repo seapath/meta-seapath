@@ -41,7 +41,7 @@ EXTRA_IMAGE_FEATURES = ""
 USERS_SSH_ANSIBLE = "root"
 
 inherit ansible-ssh
-COMPATIBLE_MACHINE = "votp-flash"
+COMPATIBLE_MACHINE = "seapath-installer"
 
 # 256MB
 INITRAMFS_MAXSIZE = "262144"
