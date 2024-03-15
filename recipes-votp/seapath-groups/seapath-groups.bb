@@ -1,7 +1,7 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
 # SPDX-License-Identifier: Apache-2.0
 
-DESCRIPTION = "Votp shared groups"
+DESCRIPTION = "Seapath shared groups"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
