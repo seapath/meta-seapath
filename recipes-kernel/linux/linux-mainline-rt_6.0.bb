@@ -21,12 +21,11 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;
         file://sched.cfg \
 "
 
-SRC_URI:append_votp-no-iommu = " \
+SRC_URI:append_seapath-no-iommu = " \
         file://no-iommu.cfg \
 "
 
 # Uncomment this line to enable debug traces in Kernel and tracing tools
 # support (like LTTng or perf).
 #SRC_URI:append = " file://traces.cfg"
-
 

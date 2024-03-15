@@ -11,4 +11,4 @@ IMAGE_INSTALL:append = " \
 IMAGE_FSTYPES = "wic.qcow2 wic.vmdk"
 WKS_FILE = "mkbiosdisk.wks.in"
 
-COMPATIBLE_MACHINE = "votp-host"
+COMPATIBLE_MACHINE = "seapath-hypervisor"

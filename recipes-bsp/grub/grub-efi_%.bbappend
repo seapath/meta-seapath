@@ -38,7 +38,7 @@ do_compile:append:class-target() {
     cat "${WORKDIR}/grub-efi.cfg.in" >> "${B}/grub-efi.cfg"
 }
 
-do_install:prepend:class-target:votp-host() {
+do_install:prepend:class-target:seapath-hypervisor() {
     extra_append=""
     if [ -n "${SEAPATH_RT_CORES}" ] ; then
         extra_append="isolcpus=${SEAPATH_RT_CORES} nohz_full=${SEAPATH_RT_CORES} rcu_nocbs=${SEAPATH_RT_CORES}"
@@ -72,4 +72,4 @@ FILES:${PN}:append = " ${EFI_FILES_PATH}"
 
 GRUB_BUILDIN += " password_pbkdf2 probe regexp chain"
 
-COMPATIBLE_MACHINE_${PN}= "votp"
+COMPATIBLE_MACHINE_${PN}= "seapath"

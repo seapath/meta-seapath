@@ -12,7 +12,7 @@ IMAGE_INSTALL:append = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-readonly', 'system-config-ro', '', d)} \
 "
 
-COMPATIBLE_MACHINE = "votp-monitor"
+COMPATIBLE_MACHINE = "seapath-monitor"
 
 def get_seapath_kernel_parameters(d):
     disable_ipv6 = d.getVar("SEAPATH_DISABLE_IPV6", "")
