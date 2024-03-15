@@ -12,12 +12,12 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 SRC_URI += " \
     file://servercert.pem \
     file://serverkey.pem \
-    file://syslog-server-votp.conf.systemd \
+    file://syslog-server-seapath.conf.systemd \
 "
 
 do_install() {
     install -d ${D}${sysconfdir}/syslog-ng
-    install -m 0644 ${WORKDIR}/syslog-server-votp.conf.systemd \
+    install -m 0644 ${WORKDIR}/syslog-server-seapath.conf.systemd \
        ${D}${sysconfdir}/syslog-ng/syslog-ng.conf
 
     install -d ${D}${sysconfdir}/syslog-ng/cert.d
