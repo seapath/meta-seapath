@@ -8,8 +8,8 @@ After=network-online.target
 
 [Service]
 Type=simple
-EnvironmentFile=-/etc/sysconfig/votp-test-sync.conf
-ExecStart=/usr/bin/launch_votp_test.sh
+EnvironmentFile=-/etc/sysconfig/seapath-test-sync.conf
+ExecStart=/usr/bin/launch_seapath_test.sh
 
 [Install]
 WantedBy=multi-user.target
