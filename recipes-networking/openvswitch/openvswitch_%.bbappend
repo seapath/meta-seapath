@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 
-DEPENDS += " votp-groups"
+DEPENDS += " seapath-groups"
 RDEPENDS:${PN} += " \
-    votp-groups-hugepages \
-    votp-groups-vfio-net \
+    seapath-groups-hugepages \
+    seapath-groups-vfio-net \
 "
 
 inherit useradd
