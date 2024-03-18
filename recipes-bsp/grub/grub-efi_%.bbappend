@@ -72,4 +72,4 @@ FILES:${PN}:append = " ${EFI_FILES_PATH}"
 
 GRUB_BUILDIN += " password_pbkdf2 probe regexp chain"
 
-COMPATIBLE_MACHINE_${PN}= "seapath"
+COMPATIBLE_MACHINE:${PN}= "seapath"
