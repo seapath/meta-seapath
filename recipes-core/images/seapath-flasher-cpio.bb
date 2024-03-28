@@ -16,6 +16,7 @@ IMAGE_INSTALL:append = " \
     kbd-keymaps \
     efitools \
     efibootmgr \
+    linux-firmware-amdgpu \
 "
 # Add kernel-modules
 IMAGE_INSTALL:append = " \
@@ -44,4 +45,4 @@ inherit ansible-ssh
 COMPATIBLE_MACHINE = "votp-flash"
 
 # 256MB
-INITRAMFS_MAXSIZE = "262144"
+INITRAMFS_MAXSIZE = "400000"
