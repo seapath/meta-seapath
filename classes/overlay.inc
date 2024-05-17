@@ -1,9 +1,12 @@
 # Copyright (C) 2022, RTE (http://www.rte-france.com)
-# Copyright (C) 2023 Savoir-faire Linux, Inc.
+# Copyright (C) 2023-2024 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 #
 
-inherit python3-dir
+PYTHON_BASEVERSION = "3.12"
+PYTHON_DIR = "python${PYTHON_BASEVERSION}"
+PYTHON_SITEPACKAGES_DIR = "${libdir}/${PYTHON_DIR}/site-packages"
+
 
 VOLATILE_BINDS:pn-volatile-binds ?= "\
     /mnt/persistent/home /home\n\
