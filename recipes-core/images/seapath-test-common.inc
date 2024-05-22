@@ -7,3 +7,14 @@ require seapath-host-common.inc
 # Real time Tools
 IMAGE_INSTALL += "cukinia-tests-realtime"
 
+# Cockpit web GUI
+IMAGE_INSTALL:append = " \
+    cockpit-dashboard \
+    cockpit-ws \
+    cockpit-bridge \
+    cockpit-shell \
+    cockpit-users \
+    cockpit-systemd \
+    cockpit-machines \
+    cockpit \
+"
