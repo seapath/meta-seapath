@@ -13,6 +13,14 @@ do_preinst()
 {
     echo "Pre-Install:"
 
+    if [ -f /var/log/update_success ]; then
+        rm -f /var/log/update_success
+    fi
+
+    if [ -f /var/log/update_failure ]; then
+        rm -f /var/log/update_failure
+    fi
+
     if [ ! -L "/dev/upgradable_bootloader" ] ; then
         die "Could not find symbolic link /dev/upgradable_bootloader"
     fi
