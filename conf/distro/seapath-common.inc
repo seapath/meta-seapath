@@ -95,6 +95,10 @@ REQUIRED_VERSION_linuxptp = "3.1.1"
 # Create /etc/build
 INHERIT += "image-buildinfo"
 
+# Set the root home directory
+# By default, it is set to /home/root, but it is not well supported by systemd
+ROOT_HOME = "/root"
+
 # Enable UID and GID static allocation
 USERADD_UID_TABLES = "conf/distro/include/passwd.uid"
 GROUPADD_GID_TABLES = "conf/distro/include/group.gid"
