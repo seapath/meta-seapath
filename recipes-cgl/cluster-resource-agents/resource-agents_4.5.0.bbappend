@@ -5,8 +5,6 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += "file://VirtualDomain"
-SRC_URI:remove = "git://github.com/ClusterLabs/resource-agents"
-SRC_URI += "git://github.com/ClusterLabs/resource-agents;nobranch=1;protocol=https"
 
 REQUIRED_HEARTBEAT_SCRIPTS = "VirtualDomain"
 

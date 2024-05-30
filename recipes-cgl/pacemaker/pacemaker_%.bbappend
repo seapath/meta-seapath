@@ -10,10 +10,7 @@ SERVICE_DIRS_OWNER = "hacluster:haclient"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI:remove = "git://github.com/ClusterLabs/${BPN}.git"
-
 SRC_URI += " \
-    git://github.com/ClusterLabs/${BPN}.git;nobranch=1;protocol=https \
     file://create-var-run-resource-agents.service \
     file://pacemaker.service \
     file://alert_smtp.sh \
