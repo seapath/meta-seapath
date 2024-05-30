@@ -54,7 +54,7 @@ def handle_traceability_cukinia(testid, d):
         bb.warn("Path '%s' for accessing cukinia tests not found. Indicated as 'missing'.")
     else:
         try:
-            output = subprocess.run(["grep", "-RhoP", "as \"%s - \K([^\"]+)" % testid, cukinia_tests_path], check=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            output = subprocess.run(["grep", "-RhoP", "id \"%s\"" % testid, cukinia_tests_path], check=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             description = output.stdout.decode('utf-8')
             status = "check test results"
         except Exception as e:
