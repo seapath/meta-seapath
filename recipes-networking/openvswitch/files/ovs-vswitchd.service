@@ -1,6 +1,7 @@
 # Based on Open vSwitch source:
 # https://github.com/openvswitch/ovs/blob/94e1e8be3187a4824ac27ed843396dde5cc02d13/rhel/usr_lib_systemd_system_ovs-vswitchd.service.in
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2024 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 [Unit]
@@ -23,7 +24,9 @@ ExecStartPre=+/usr/libexec/configure_vm_sockets.sh
 ExecStart=ovs-vswitchd \
     unix:/run/openvswitch/db.sock \
     --mlockall \
-    --no-chdir
+    --no-chdir \
+    --log-file=/dev/null \
+    --syslog-method=libc
 Nice=-10
 
 
