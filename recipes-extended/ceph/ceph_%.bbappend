@@ -4,22 +4,9 @@ USERADD_PACKAGES= "${PN}"
 USERADD_PARAM:${PN} = "--system --no-create-home --home-dir /var/lib/ceph \
     --shell /bin/nologin --user-group -c 'Ceph daemons' ceph"
 
-EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
-                 -DWITH_FUSE=OFF \
-                 -DWITH_SPDK=OFF \
-                 -DWITH_LEVELDB=OFF \
-                 -DWITH_LTTNG=OFF \
-                 -DWITH_BABELTRACE=OFF \
-                 -DWITH_TESTS=OFF \
+EXTRA_OECMAKE += " \
                  -DWITH_MGR=ON \
                  -DWITH_MGR_DASHBOARD_FRONTEND=OFF \
-                 -DWITH_SYSTEM_BOOST=ON \
-                 -DWITH_SYSTEM_ROCKSDB=ON \
-                 -DWITH_RDMA=OFF \
-                 -DWITH_RADOSGW_AMQP_ENDPOINT=OFF \
-                 -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3 \
-                 -DPython3_EXECUTABLE=${PYTHON} \
-                 -DWITH_RADOSGW_KAFKA_ENDPOINT=OFF \
 "
 
 def limit_parallel(d):
