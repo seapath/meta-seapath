@@ -3,7 +3,6 @@
 
 FILESEXTRAPATHS:prepend :="${THISDIR}/files:"
 SRC_URI:append = " \
-    file://0001-networkd-wait-online-add-any-option.patch \
     file://basic.conf \
     file://boot-complete.target \
     file://journald.conf \
