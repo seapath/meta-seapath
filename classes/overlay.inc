@@ -15,6 +15,7 @@ VOLATILE_BINDS:pn-volatile-binds ?= "\
     /var/volatile/cache /var/cache\n\
     /var/volatile/spool /var/spool\n\
     /var/volatile/srv /srv\n\
+    /mnt/persistent/root /root\n\
 "
 
 # Create empty /mnt/persistent directory
