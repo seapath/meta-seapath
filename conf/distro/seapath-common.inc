@@ -11,7 +11,7 @@ require conf/distro/poky.conf
 MAINTAINER = "support@savoirfairelinux.com"
 
 # Use systemd as default
-DISTRO_FEATURES:append = " systemd"
+DISTRO_FEATURES:append = " systemd usrmerge"
 VIRTUAL-RUNTIME_init_manager = "systemd"
 VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
 
