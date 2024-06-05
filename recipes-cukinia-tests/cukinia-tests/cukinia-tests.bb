@@ -30,7 +30,6 @@ SRC_URI = "\
     file://cukinia-update.conf \
     file://common_tests.d/sw-versions.conf \
     file://common_tests.d/preempt-rt.conf \
-    file://common_tests.d/container.conf \
     file://common_tests.d/systemd.conf \
     file://common_tests.d/kernel.conf \
     file://common_tests.d/kernel_errors.conf \
