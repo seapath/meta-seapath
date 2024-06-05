@@ -54,6 +54,7 @@ SRC_URI = "\
     file://hypervisor_tests.d/virtualization.conf \
     file://hypervisor_tests.d/ovs.conf \
     file://hypervisor_tests.d/ceph.conf \
+    file://hypervisor_tests.d/cpu.conf \
     file://hypervisor_tests.d/kernel.conf \
     file://hypervisor_tests.d/auditd.conf \
     file://hypervisor_tests.d/libvirt.conf \
@@ -120,6 +121,8 @@ do_install () {
         ${D}${sysconfdir}/cukinia/common_security_tests.d
     install -m 0644 ${WORKDIR}/common_security_tests.d/sudo.conf \
         ${D}${sysconfdir}/cukinia/common_security_tests.d
+    install -m 0644 ${WORKDIR}/common_security_tests.d/sysctl.conf \
+        ${D}${sysconfdir}/cukinia/common_security_tests.d
     install -m 0644 ${WORKDIR}/common_security_tests.d/policies.conf \
         ${D}${sysconfdir}/cukinia/common_security_tests.d
     install -m 0644 ${WORKDIR}/common_security_tests.d/kernel.conf \
@@ -143,6 +146,8 @@ do_install () {
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/libvirt.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/files.conf \
+        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
+    install -m 0644 ${WORKDIR}/hypervisor_tests.d/cpu.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
 
 # hypervisor readonly
