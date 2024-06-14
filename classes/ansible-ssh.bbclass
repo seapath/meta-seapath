@@ -9,6 +9,8 @@
 AUTHORIZED_KEYS_DIR := "${THISDIR}/ansible"
 USERS_SSH_ANSIBLE ?= ""
 USERS_SSH_ANSIBLE[doc] = "List of the users allowed to connect through SSH using Ansible keys"
+# Newer Ansible dependencies
+IMAGE_INSTALL:append = " python3-lxml"
 
 do_add_ansible_ssh_key() {
     export PSEUDO="${FAKEROOTENV} ${STAGING_DIR_NATIVE}${bindir}/pseudo"
