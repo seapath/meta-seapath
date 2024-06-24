@@ -25,7 +25,6 @@ SRC_URI = "\
     file://configurations/cukinia-update.conf \
     file://cukinia-sec.conf \
     file://cukinia-monitor.conf \
-    file://cukinia-realtime.conf \
     file://cukinia-vm.conf \
     file://cukinia-update.conf \
     file://common_tests.d/sw-versions.conf \
@@ -71,7 +70,6 @@ SRC_URI = "\
     file://monitor_tests.d/files.conf \
     file://vm_tests.d/files.conf \
     file://includes/kernel_config_functions \
-    file://realtime_tests.d/cyclictest.conf \
     file://update_tests.d/partition-symlinks.conf \
     file://hypervisor_iommu_tests.d/iommu.conf \
     file://hypervisor_iommu_tests.d/kernel.conf \
@@ -225,12 +223,6 @@ do_install () {
     install -m 0644 ${WORKDIR}/configurations-cluster/cukinia-cluster-security.conf \
         ${D}${sysconfdir}/cukinia/configurations-cluster/cukinia-cluster-security.conf
 
-# realtime
-    install -m 0755 -d ${D}${sysconfdir}/cukinia/realtime_tests.d/
-    install -m 0644 ${WORKDIR}/cukinia-realtime.conf ${D}${sysconfdir}/cukinia
-    install -m 0644 ${WORKDIR}/realtime_tests.d/cyclictest.conf \
-        ${D}${sysconfdir}/cukinia/realtime_tests.d
-
 # vm
     install -m 0644 ${WORKDIR}/cukinia-vm.conf ${D}${sysconfdir}/cukinia
     install -m 0755 -d ${D}${sysconfdir}/cukinia/vm_tests.d/
@@ -256,12 +248,10 @@ PACKAGES =+ " \
     ${PN}-hypervisor-security \
     ${PN}-hypervisor-iommu \
     ${PN}-monitor \
-    ${PN}-realtime \
     ${PN}-vm \
     ${PN}-update \
 "
 
-RDEPENDS:${PN}-realtime += "rt-tests"
 RDEPENDS:${PN}-vm += "${PN}-common"
 
 FILES:${PN} = " \
@@ -316,11 +306,6 @@ FILES:${PN}-hypervisor-iommu = " \
 FILES:${PN}-monitor = " \
     ${sysconfdir}/cukinia/cukinia-monitor.conf \
     ${sysconfdir}/cukinia/monitor_tests.d/* \
-"
-
-FILES:${PN}-realtime = " \
-    ${sysconfdir}/cukinia/cukinia-realtime.conf \
-    ${sysconfdir}/cukinia/realtime_tests.d/* \
 "
 
 FILES:${PN}-vm = " \
