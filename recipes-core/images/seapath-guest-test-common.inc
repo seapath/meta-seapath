@@ -3,6 +3,3 @@
 
 # Tests
 IMAGE_INSTALL += "test-sync-storage"
-
-# RT Tests
-IMAGE_INSTALL += "cukinia-tests-realtime"
