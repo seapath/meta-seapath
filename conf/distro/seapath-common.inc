@@ -92,3 +92,7 @@ INHERIT += "image-buildinfo"
 # Set the root home directory
 # By default, it is set to /home/root, but it is not well supported by systemd
 ROOT_HOME = "/root"
+
+# Ceph do not support the rocksdb version 9 provide by meta-oe
+# So we need to use a earlier version
+REQUIERED_VERSION_rocksdb = "7.%"
