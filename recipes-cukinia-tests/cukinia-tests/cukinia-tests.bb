@@ -19,9 +19,7 @@ SRC_URI = "\
     file://configurations-cluster/cukinia-cluster-security.conf \
     file://cukinia-hypervisor.conf \
     file://configurations/cukinia-hypervisor-common.conf \
-    file://configurations/cukinia-hypervisor-readonly.conf \
     file://configurations/cukinia-hypervisor-security.conf \
-    file://configurations/cukinia-hypervisor-iommu.conf \
     file://configurations/cukinia-update.conf \
     file://cukinia-sec.conf \
     file://cukinia-monitor.conf \
@@ -57,7 +55,8 @@ SRC_URI = "\
     file://hypervisor_tests.d/auditd.conf \
     file://hypervisor_tests.d/libvirt.conf \
     file://hypervisor_tests.d/files.conf \
-    file://hypervisor_readonly_tests.d/readonly.conf \
+    file://hypervisor_tests.d/iommu.conf \
+    file://hypervisor_tests.d/readonly.conf \
     file://hypervisor_security_tests.d/users.conf \
     file://hypervisor_security_tests.d/groups.conf \
     file://hypervisor_security_tests.d/spectre_mitigations.conf \
@@ -71,8 +70,6 @@ SRC_URI = "\
     file://vm_tests.d/files.conf \
     file://includes/kernel_config_functions \
     file://update_tests.d/partition-symlinks.conf \
-    file://hypervisor_iommu_tests.d/iommu.conf \
-    file://hypervisor_iommu_tests.d/kernel.conf \
 "
 
 RDEPENDS:${PN} += "cukinia"
@@ -146,14 +143,11 @@ do_install () {
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/cpu.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
-
-# hypervisor readonly
-    install -m 0755 -d ${D}${sysconfdir}/cukinia/hypervisor_readonly_tests.d
-    install -m 0644 ${WORKDIR}/configurations/cukinia-hypervisor-readonly.conf \
-        ${D}${sysconfdir}/cukinia/configurations/
-    install -m 0644 ${WORKDIR}/hypervisor_readonly_tests.d/readonly.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_readonly_tests.d
-
+    install -m 0644 ${WORKDIR}/hypervisor_tests.d/readonly.conf \
+        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
+    install -m 0644 ${WORKDIR}/hypervisor_tests.d/iommu.conf \
+        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
+    
 # hypervisor security
     install -m 0755 -d ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d/
     install -m 0644 ${WORKDIR}/configurations/cukinia-hypervisor-security.conf \
@@ -176,15 +170,6 @@ do_install () {
         ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_security_tests.d/virtualization.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
-
-# hypervisor IOMMU
-    install -m 0755 -d ${D}${sysconfdir}/cukinia/hypervisor_iommu_tests.d/
-    install -m 0644 ${WORKDIR}/configurations/cukinia-hypervisor-iommu.conf \
-        ${D}${sysconfdir}/cukinia/configurations/
-    install -m 0644 ${WORKDIR}/hypervisor_iommu_tests.d/iommu.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_iommu_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_iommu_tests.d/kernel.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_iommu_tests.d
 
 # monitor
     install -m 0755 -d ${D}${sysconfdir}/cukinia/monitor_tests.d/
@@ -288,19 +273,9 @@ FILES:${PN}-hypervisor = " \
     ${sysconfdir}/cukinia/hypervisor_tests.d/* \
 "
 
-FILES:${PN}-hypervisor-readonly = " \
-    ${sysconfdir}/cukinia/configurations/cukinia-hypervisor-readonly.conf \
-    ${sysconfdir}/cukinia/hypervisor_readonly_tests.d/* \
-"
-
 FILES:${PN}-hypervisor-security = " \
     ${sysconfdir}/cukinia/configurations/cukinia-hypervisor-security.conf \
     ${sysconfdir}/cukinia/hypervisor_security_tests.d/* \
-"
-
-FILES:${PN}-hypervisor-iommu = " \
-    ${sysconfdir}/cukinia/configurations/cukinia-hypervisor-iommu.conf \
-    ${sysconfdir}/cukinia/hypervisor_iommu_tests.d/* \
 "
 
 FILES:${PN}-monitor = " \

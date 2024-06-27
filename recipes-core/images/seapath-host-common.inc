@@ -16,13 +16,11 @@ IMAGE_INSTALL:append = " \
             bb.utils.contains('DISTRO_FEATURES', 'seapath-security', \
                     'cukinia-tests-cluster-security', '', d), '', d)} \
     cukinia-tests-hypervisor \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-readonly', 'cukinia-tests-hypervisor-readonly', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'cukinia-tests-hypervisor-security', '', d)} \
     syslog-ng-client \
     system-config-host \
     system-config-cluster \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-readonly', 'system-config-ro', '', d)} \
     system-upgrade \
     net-snmp-server \
     net-snmp-client \
@@ -33,9 +31,6 @@ IMAGE_INSTALL:append = " \
     chrony \
     chronyc \
 "
-
-IMAGE_INSTALL:append = " cukinia-tests-hypervisor-iommu"
-IMAGE_INSTALL:remove_seapath-no-iommu = "cukinia-tests-hypervisor-iommu"
 
 # Host images are compatible with seapath-hypervisor only
 # GRUB static configuration for host machines
