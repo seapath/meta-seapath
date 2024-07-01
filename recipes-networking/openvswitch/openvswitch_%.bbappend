@@ -19,7 +19,7 @@ USERADD_PARAM:${PN} = " \
 "
 
 SERVICE_DIRS_LIST = " openvswitch"
-SERVICE_DIRS_PREFIX = "{log,lib,run}"
+SERVICE_DIRS_PREFIX = "{lib,run}"
 SERVICE_DIRS_OWNER = "openvswitch:openvswitch"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
@@ -31,6 +31,7 @@ SRC_URI += " \
     file://configure_vm_sockets.sh \
     file://ovsdb-server.service \
     file://set-hugepages-permissions.service \
+    file://0001-utilities-ovs-lib.in-do-not-hardcode-the-log-file.patch \
 "
 
 do_install:append()  {
