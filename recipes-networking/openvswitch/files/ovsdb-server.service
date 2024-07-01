@@ -6,9 +6,9 @@
 
 [Unit]
 Description=Open vSwitch Database Unit
-After=create-openvswitch-log-dir.service syslog.target network-pre.target
+After=syslog.target network-pre.target
 Before=network.target network.service
-Wants=create-openvswitch-log-dir.service ovs-delete-transient-ports.service
+Wants=ovs-delete-transient-ports.service
 PartOf=openvswitch.service
 
 [Service]
