@@ -26,6 +26,7 @@ ExecStart=ovs-vswitchd \
     --mlockall \
     --no-chdir \
     --log-file=/dev/null \
+    -vconsole:off -vsyslog:warn -vfile:off \
     --syslog-method=libc
 Nice=-10
 
