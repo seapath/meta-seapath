@@ -3,24 +3,19 @@
 
 
 DEPENDS += " seapath-groups"
-RDEPENDS:${PN} += " \
+RDEPENDS:${PN}-switch += " \
     seapath-groups-hugepages \
     seapath-groups-vfio-net \
 "
 
 inherit useradd
-inherit create-dirs
 
-USERADD_PACKAGES = "${PN}"
-USERADD_PARAM:${PN} = " \
+USERADD_PACKAGES = "${PN}-switch"
+USERADD_PARAM:${PN}-switch = " \
     --system \
     -G hugepages,vfio-net \
     -U openvswitch \
 "
-
-SERVICE_DIRS_LIST = " openvswitch"
-SERVICE_DIRS_PREFIX = "{log,lib,run}"
-SERVICE_DIRS_OWNER = "openvswitch:openvswitch"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
@@ -31,6 +26,8 @@ SRC_URI += " \
     file://configure_vm_sockets.sh \
     file://ovsdb-server.service \
     file://set-hugepages-permissions.service \
+    file://0001-utilities-ovs-lib.in-do-not-hardcode-the-log-file.patch \
+    file://tmpfile-openvswitch.conf \
 "
 
 do_install:append()  {
@@ -50,13 +47,29 @@ do_install:append()  {
         ${D}/${systemd_unitdir}/system/ovsdb-server.service
     install -m 644 ${WORKDIR}/set-hugepages-permissions.service \
         ${D}/${systemd_unitdir}/system/set-hugepages-permissions.service
+
+    chown openvswitch:openvswitch ${D}/${sysconfdir}/openvswitch
+
+    # Remove /var/lib/openvswitch directory and it contents. Subdirectories
+    # will be created by Openv Switch at runtime with the correct permissions
+    # (but not the parent directory).
+    rm -rf ${D}/${localstatedir}/lib/openvswitch
+    install -o openvswitch -g openvswitch \
+        -d ${D}/${localstatedir}/lib/openvswitch
+
+    # Create /run/openvswitch volatile directory each time the machine boots
+    install -d ${D}/${sysconfdir}/tmpfiles.d
+    install -m 0644 ${WORKDIR}/tmpfile-openvswitch.conf \
+        ${D}/${sysconfdir}/tmpfiles.d/openvswitch.conf
 }
 
-SYSTEMD_SERVICE:${PN} += " \
+SYSTEMD_SERVICE:${PN}-switch += " \
     set-hugepages-permissions.service \
 "
 
-FILES:${PN} += " \
+FILES:${PN}-switch += " \
     ${systemd_unitdir}/system/set-hugepages-permissions.service \
     ${libexecdir}/configure_vm_sockets.sh \
+    ${sysconfdir}/tmpfiles.d/openvswitch.conf \
+    ${localstatedir}/lib/openvswitch \
 "

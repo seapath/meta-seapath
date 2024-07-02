@@ -1,13 +1,14 @@
 # Based on Open vSwitch source:
 # https://github.com/openvswitch/ovs/blob/94e1e8be3187a4824ac27ed843396dde5cc02d13/rhel/usr_lib_systemd_system_ovsdb-server.service
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2024 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 [Unit]
 Description=Open vSwitch Database Unit
-After=create-openvswitch-log-dir.service syslog.target network-pre.target
+After=syslog.target network-pre.target
 Before=network.target network.service
-Wants=create-openvswitch-log-dir.service ovs-delete-transient-ports.service
+Wants=ovs-delete-transient-ports.service
 PartOf=openvswitch.service
 
 [Service]
@@ -35,7 +36,7 @@ ExecReload=/usr/share/openvswitch/scripts/ovs-ctl --no-ovs-vswitchd \
 PrivateTmp=yes
 NoNewPrivileges=true
 ProtectSystem=strict
-ReadWritePaths=/run/openvswitch /var/log/openvswitch /var/lib/openvswitch
+ReadWritePaths=/run/openvswitch /var/lib/openvswitch /etc/openvswitch
 ProtectKernelModules=yes
 ProtectKernelTunables=yes
 ProtectControlGroups=yes

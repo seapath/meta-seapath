@@ -1,0 +1,34 @@
+From 8cde197093810d612d3178e5278c4d5c47a4afef Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mathieu=20Dupr=C3=A9?= <mathieu.dupre@savoirfairelinux.com>
+Date: Mon, 1 Jul 2024 10:51:52 +0000
+Subject: [PATCH] utilities/ovs-lib.in: do not hardcode the log file
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Remove the hardcoded log file inside ovs-lib to allow changing
+the log file.
+
+Signed-off-by: Mathieu Dupré <mathieu.dupre@savoirfairelinux.com>
+---
+ utilities/ovs-lib.in | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/utilities/ovs-lib.in b/utilities/ovs-lib.in
+index 13477a6a9..127e899af 100644
+--- a/utilities/ovs-lib.in
++++ b/utilities/ovs-lib.in
+@@ -176,10 +176,6 @@ start_daemon () {
+     set "$@" --no-chdir
+     cd "$DAEMON_CWD"
+ 
+-    # log file
+-    install_dir "$logdir" "750"
+-    set "$@" --log-file="$logdir/$daemon.log"
+-
+     # pidfile and monitoring
+     install_dir "$rundir"
+     set "$@" --pidfile="$rundir/$daemon.pid"
+-- 
+2.34.1
+
