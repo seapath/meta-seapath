@@ -10,6 +10,8 @@ IMAGE_INSTALL:append = " \
     system-config-cluster \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-readonly', 'system-config-ro', '', d)} \
+    chrony \
+    chronyc \
 "
 
 COMPATIBLE_MACHINE = "seapath-monitor"
