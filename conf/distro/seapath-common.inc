@@ -48,6 +48,9 @@ SKIP_RECIPE[busybox] = "Don't build this"
 PACKAGECONFIG:remove:pn-samba = "cups"
 SKIP_RECIPE[cups] = "Don't build this"
 
+# Disable GUI on virt-manager
+PACKAGECONFIG:remove:pn-virt-manager = "gui"
+
 # Disable snapper module to remove unneeded dependency on dbus
 SAMBA4_MODULES:append:pn-samba = ",!vfs-snapper"
 
