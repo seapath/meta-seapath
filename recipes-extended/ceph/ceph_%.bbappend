@@ -1,8 +1,16 @@
+# Copyright (C) 2022-2024 Savoir-faire Linux, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
+
 inherit useradd
 
 USERADD_PACKAGES= "${PN}"
 USERADD_PARAM:${PN} = "--system --no-create-home --home-dir /var/lib/ceph \
     --shell /bin/nologin --user-group -c 'Ceph daemons' ceph"
+
+
+SRC_URI += "file://0001-mgr-Define-PY_SSIZE_T_CLEAN-ahead-of-every-Python.h.patch"
 
 EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
                  -DWITH_FUSE=OFF \
