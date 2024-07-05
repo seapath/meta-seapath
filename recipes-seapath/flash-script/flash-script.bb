@@ -30,7 +30,7 @@ do_install () {
     install -d ${D}${sysconfdir}/init.d
     install -m 0755 ${WORKDIR}/auto-flash.sh.in \
         ${D}${sysconfdir}/init.d/auto-flash.sh
-    sed "s/@@SEAPATH_AUTO_FLASH@@/${SEAPATH_AUTO_FLASH}/" -i \
+    sed "s|@@SEAPATH_AUTO_FLASH@@|${SEAPATH_AUTO_FLASH}|" -i \
         ${D}${sysconfdir}/init.d/auto-flash.sh
 }
 
