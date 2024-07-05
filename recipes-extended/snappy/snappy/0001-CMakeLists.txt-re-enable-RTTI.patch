@@ -1,0 +1,46 @@
+From 375599a5134898da51845b208f5dd006c2ef639f Mon Sep 17 00:00:00 2001
+From: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+Date: Fri, 5 Jul 2024 14:57:13 +0200
+Subject: [PATCH] CMakeLists.txt: re-enable RTTI
+
+Commit [1] disabled RTTI when compiling snappy. This means any program
+using libsnappy won't be able to inherit classes defined by the library.
+Especially, this broke snappy support in Ceph. [2]
+As the snappy team refused to re-enable RTTI, most distributions are
+patching snappy downstream to maintain support with applications
+using it.
+
+This patch re-enables building snappy with RTTI.
+
+[1]: https://github.com/google/snappy/commit/c98344f6260d24d921e5e04006d4bedb528f404a
+[2]: https://tracker.ceph.com/issues/53060
+
+Signed-off-by: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+---
+ CMakeLists.txt | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 672561e..a4b2cc7 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -52,9 +52,6 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHs-c-")
+   add_definitions(-D_HAS_EXCEPTIONS=0)
+ 
+-  # Disable RTTI.
+-  string(REGEX REPLACE "/GR" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /GR-")
+ else(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+   # Use -Wall for clang and gcc.
+   if(NOT CMAKE_CXX_FLAGS MATCHES "-Wall")
+@@ -77,9 +74,6 @@ else(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+   string(REGEX REPLACE "-fexceptions" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions")
+ 
+-  # Disable RTTI.
+-  string(REGEX REPLACE "-frtti" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
+ endif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+ 
+ # BUILD_SHARED_LIBS is a standard CMake variable, but we declare it here to make
