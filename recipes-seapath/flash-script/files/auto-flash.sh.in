@@ -23,7 +23,7 @@ case "$1" in
 
     echo "Mounting the flash partition and flashing seapath.wic.gz on ${disk}"
     mount /dev/disk/by-label/flasher_data -o ro /mnt/
-    flash -i /mnt/seapath.wic.gz -d "/dev/${disk}"
+    flash -i /mnt/seapath.wic.gz -d "${disk}"
 
     echo "Moving the current boot entry (USB boot) at the end of the bootorder"
     current_boot=$(efibootmgr |grep BootCurrent |grep -Eo '[0-9]+')
