@@ -13,5 +13,8 @@ IMAGE_INSTALL:append = " \
     cockpit-users \
     cockpit-systemd \
     cockpit-machines \
+    cockpit-cluster-dashboard \
+    cockpit-cluster-vm-management \
+    cockpit-update \
     cockpit \
 "
