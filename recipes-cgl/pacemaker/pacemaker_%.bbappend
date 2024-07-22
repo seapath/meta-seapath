@@ -36,3 +36,10 @@ FILES:${PN} += " \
     ${systemd_unitdir}/system/create-var-run-resource-agents.service \
     ${systemd_unitdir}/system/pacemaker.service \
 "
+
+# The remote ressource agent should be packaged in pacemaker package with the
+# other resource agents
+FILES:${PN}-remote:remove = "${libdir}/ocf/resource.d/pacemaker/remote"
+FILES:${PN}:append = "${libdir}/ocf/resource.d/pacemaker/remote"
+
+
