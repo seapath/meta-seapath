@@ -22,6 +22,7 @@ SRC_URI = " \
     file://host/hugetlb-reserve-pages.sh \
     file://host/rt-runtime-share.service \
     file://security/disable-local-login.sh \
+    file://test/usb-cdc-acm.conf \
 "
 
 do_install () {
@@ -72,6 +73,9 @@ do_install () {
     echo '#!/bin/sh\nexec /sbin/init $@' > ${D}/${base_sbindir}/init.sh
     chmod 755 ${D}/${base_sbindir}/init.sh
 
+# Tests
+    install -d ${D}${sysconfdir}/modules-load.d
+    install -m 0644 ${WORKDIR}/test/usb-cdc-acm.conf ${D}/${sysconfdir}/modules-load.d/
 }
 
 PACKAGES =+ " \
@@ -129,3 +133,5 @@ FILES:${PN}-security = " \
 "
 
 FILES:${PN}-ro = "${base_sbindir}/init.sh"
+
+FILES:${PN}-test = "${sysconfdir}/modules-load.d/usb-cdc-acm.conf"

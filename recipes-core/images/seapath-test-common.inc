@@ -18,3 +18,7 @@ IMAGE_INSTALL:append = " \
     cockpit-update \
     cockpit \
 "
+
+IMAGE_INSTALL:append = " \
+    system-config-test \
+"
