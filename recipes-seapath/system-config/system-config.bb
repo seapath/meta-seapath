@@ -84,6 +84,7 @@ PACKAGES =+ " \
     ${PN}-security \
     ${PN}-cluster \
     ${PN}-ro \
+    ${PN}-test \
 "
 SYSTEMD_PACKAGES += " \
     ${PN}-common \
