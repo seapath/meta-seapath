@@ -6,7 +6,7 @@
 # short-description: Create a flasher image
 # long-description: Creates a partitioned disk image that the user
 # can directly dd to boot media.
-part /boot --source bootimg-efi --sourceparams="loader=${EFI_PROVIDER},title=seapath-flash,label=seapath-flash,initrd=microcode.cpio;${IMAGE_BASENAME}-cpio-${MACHINE}.${INITRAMFS_FSTYPES}" --ondisk sda --label flasher --active --align 1024 --use-uuid --fsoptions="defaults,ro"
+part /boot --source bootimg-biosplusefi --sourceparams="loader=${EFI_PROVIDER},title=seapath-flash,label=seapath-flash,initrd=microcode.cpio;${IMAGE_BASENAME}-cpio-${MACHINE}.rootfs.${INITRAMFS_FSTYPES}" --ondisk sda --label flasher --active --align 1024 --use-uuid --fsoptions="defaults,ro"
 
 part /media --ondisk sda --fstype=ext4 --label flasher_data --align 1024 --use-uuid --size 7G --fsoptions="defaults,ro"
 
