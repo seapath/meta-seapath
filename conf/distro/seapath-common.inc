@@ -24,7 +24,7 @@ DISTRO_FEATURES:remove = " wayland"
 
 # Remove unneeded distribution features
 DISTRO_FEATURES:remove = " 3g alsa bluetooth nfc nfs opengl pcmcia vulkan wifi zeroconf"
-DISTRO_FEATURES_BACKFILL_CONSIDERED += "pulseaudio gobject-introspection-data"
+DISTRO_FEATURES_BACKFILL_CONSIDERED += "pulseaudio"
 
 # Active buildhistory
 INHERIT += "buildhistory"
