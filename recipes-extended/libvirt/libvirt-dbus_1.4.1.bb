@@ -20,6 +20,8 @@ S = "${WORKDIR}/git"
 
 inherit meson pkgconfig
 
+EXTRA_OEMESON += "-Dsystem_user=root -Dunix_socket_group=qemu"
+
 FILES:${PN} += "\
     ${datadir}/dbus-1/* \
     ${datadir}/polkit-1/* \
