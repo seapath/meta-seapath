@@ -12,6 +12,7 @@ IMAGE_INSTALL:append = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-readonly', 'system-config-ro', '', d)} \
     chrony \
     chronyc \
+    corosync-qnetd \
 "
 
 COMPATIBLE_MACHINE = "seapath-monitor"
