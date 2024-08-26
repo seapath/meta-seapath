@@ -1,0 +1,32 @@
+From 7bf86a82ddd31c53c9dbb17e0fbb513fdbe3d73a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mathieu=20Dupr=C3=A9?= <mathieu.dupre@savoirfairelinux.com>
+Date: Mon, 26 Aug 2024 10:33:31 +0200
+Subject: [PATCH] init/corosync-qnetd.service: run as unprivileged user
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This patch sets the User directive in the corosync-qnetd.service file to
+coroqnetd. This is the user that the qnetd daemon should run as.
+
+Signed-off-by: Mathieu Dupré <mathieu.dupre@savoirfairelinux.com>
+---
+ init/corosync-qnetd.service.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/init/corosync-qnetd.service.in b/init/corosync-qnetd.service.in
+index a8d6a7e..8b59110 100644
+--- a/init/corosync-qnetd.service.in
++++ b/init/corosync-qnetd.service.in
+@@ -12,7 +12,7 @@ Type=notify
+ StandardError=null
+ Restart=on-abnormal
+ # Uncomment and set user who should be used for executing qnetd
+-#User=coroqnetd
++User=coroqnetd
+ RuntimeDirectory=corosync-qnetd
+ RuntimeDirectoryMode=0770
+ 
+-- 
+2.34.1
+

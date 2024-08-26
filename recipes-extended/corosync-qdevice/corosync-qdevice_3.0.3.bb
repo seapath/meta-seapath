@@ -20,7 +20,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=269da6ee9fc3cec5265effe22b48e187"
 
 DEPENDS += "corosync nss"
 
-SRC_URI = "https://github.com/corosync/${BPN}/releases/download/v${PV}/${BP}.tar.gz"
+SRC_URI = "\
+    https://github.com/corosync/${BPN}/releases/download/v${PV}/${BP}.tar.gz \
+    file://0001-init-corosync-qnetd.service-run-as-unprivileged-user.patch \
+"
 
 SRC_URI[sha256sum] = "0a4705abd17af795287ad3bb18c0abacf3c0027222e45f149cb9bebeb6056926"
 
@@ -36,6 +39,17 @@ PACKAGECONFIG[systemd] = "--enable-systemd --with-systemddir=${systemd_system_un
 EXTRA_OECONF = "ac_cv_path_BASHPATH=${base_bindir}/bash --enable-user-flags"
 
 PACKAGES =+ "corosync-qnetd corosync-qnetd-doc"
+
+USERADD_PACKAGES = "corosync-qnetd"
+USERADD_PARAM:corosync-qnetd = " \
+    --system \
+    --no-create-home \
+    --home-dir ${runtimedir}/corosync-qnetd \
+    --shell ${base_sbindir}/nologin \
+    --user-group \
+    --comment 'User for corosync-qnetd' \
+    coroqnetd \
+"
 
 do_install:append() {
     rm -rf ${D}${localstatedir}/run
