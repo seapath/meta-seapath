@@ -16,6 +16,7 @@ IMAGE_INSTALL:append = " \
     net-snmp-configuration-cluster \
     pacemaker \
     resource-agents \
+    corosync-qdevice \
 "
 
 # Install ipmitool for fencing
