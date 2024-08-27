@@ -13,7 +13,7 @@ CVE_PRODUCT = "corosync-qdevice corosync:corosync-qdevice"
 
 SECTION = "base"
 
-inherit autotools pkgconfig systemd
+inherit autotools pkgconfig systemd useradd
 
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=269da6ee9fc3cec5265effe22b48e187"
@@ -53,6 +53,7 @@ USERADD_PARAM:corosync-qnetd = " \
 
 do_install:append() {
     rm -rf ${D}${localstatedir}/run
+    chown coroqnetd:coroqnetd ${D}/${sysconfdir}/corosync/qnetd
 }
 
 FILES:corosync-qnetd = "\
