@@ -5,7 +5,7 @@
 USERS_LIST_LOCKED:remove = "qemu"
 
 IMAGE_INSTALL:append = " \
-    cukinia-tests-monitor \
+    cukinia-tests-observer \
     system-upgrade \
     system-config-cluster \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
@@ -15,7 +15,7 @@ IMAGE_INSTALL:append = " \
     corosync-qnetd \
 "
 
-COMPATIBLE_MACHINE = "seapath-monitor"
+COMPATIBLE_MACHINE = "seapath-observer"
 
 def get_seapath_kernel_parameters(d):
     disable_ipv6 = d.getVar("SEAPATH_DISABLE_IPV6", "")
