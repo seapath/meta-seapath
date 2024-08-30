@@ -16,7 +16,7 @@ VIRTUAL-RUNTIME_init_manager = "systemd"
 VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
 
 # Use sysvinit for rescue system
-DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
+DISTRO_FEATURES:remove = "sysvinit"
 
 # No need for x11 and wayland
 DISTRO_FEATURES:remove = " x11"
