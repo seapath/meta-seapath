@@ -20,5 +20,5 @@ IMAGE_DEPENDS = "seapath-host-efi-test-image"
 # Images and files that will be included in the .swu image
 SWUPDATE_IMAGES = "seapath-host-efi-test-image seapath-host-efi-test-image-boot"
 
-SWUPDATE_IMAGES_FSTYPES[seapath-host-efi-test-image] = ".tar.xz"
+SWUPDATE_IMAGES_FSTYPES[seapath-host-efi-test-image] = ".rootfs.tar.xz"
 SWUPDATE_IMAGES_FSTYPES[seapath-host-efi-test-image-boot] = ".tar.xz"
