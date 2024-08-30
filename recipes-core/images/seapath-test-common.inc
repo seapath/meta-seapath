@@ -15,9 +15,9 @@ IMAGE_INSTALL += "ptest-runner"
 
 # Active Directory tools
 IMAGE_INSTALL += " \
-    docker-ce \
-    docker-ce-contrib \
-    python3-docker-compose \
+    docker-moby \
+    docker-moby-contrib \
+    docker-compose \
 "
 
 # Add extra space for testing
