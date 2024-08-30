@@ -19,7 +19,11 @@ IMAGE_INSTALL:append = " \
     net-snmp-configuration \
 "
 #add docker
-IMAGE_INSTALL += " docker-ce docker-ce-contrib python3-docker-compose"
+IMAGE_INSTALL += " \
+    docker-moby \
+    docker-moby-contrib \
+    docker-compose \
+"
 
 IMAGE_FSTYPES = "wic.qcow2 wic.vmdk"
 WKS_FILE = "mkefidisk-guest.wks.in"
