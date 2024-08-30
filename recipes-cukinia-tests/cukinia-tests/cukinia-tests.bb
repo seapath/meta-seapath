@@ -22,7 +22,7 @@ SRC_URI = "\
     file://configurations/cukinia-hypervisor-security.conf \
     file://configurations/cukinia-update.conf \
     file://cukinia-sec.conf \
-    file://cukinia-monitor.conf \
+    file://cukinia-observer.conf \
     file://cukinia-vm.conf \
     file://cukinia-update.conf \
     file://common_tests.d/sw-versions.conf \
@@ -55,7 +55,6 @@ SRC_URI = "\
     file://hypervisor_tests.d/auditd.conf \
     file://hypervisor_tests.d/libvirt.conf \
     file://hypervisor_tests.d/files.conf \
-    file://hypervisor_tests.d/iommu.conf \
     file://hypervisor_tests.d/readonly.conf \
     file://hypervisor_security_tests.d/users.conf \
     file://hypervisor_security_tests.d/groups.conf \
@@ -66,7 +65,7 @@ SRC_URI = "\
     file://hypervisor_security_tests.d/libvirt.conf \
     file://hypervisor_security_tests.d/ovs.conf \
     file://hypervisor_security_tests.d/virtualization.conf \
-    file://monitor_tests.d/files.conf \
+    file://observer_tests.d/files.conf \
     file://vm_tests.d/files.conf \
     file://includes/kernel_config_functions \
     file://update_tests.d/partition-symlinks.conf \
@@ -145,9 +144,7 @@ do_install () {
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/readonly.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_tests.d/iommu.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
-    
+
 # hypervisor security
     install -m 0755 -d ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d/
     install -m 0644 ${WORKDIR}/configurations/cukinia-hypervisor-security.conf \
@@ -171,11 +168,11 @@ do_install () {
     install -m 0644 ${WORKDIR}/hypervisor_security_tests.d/virtualization.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
 
-# monitor
-    install -m 0755 -d ${D}${sysconfdir}/cukinia/monitor_tests.d/
-    install -m 0644 ${WORKDIR}/cukinia-monitor.conf ${D}${sysconfdir}/cukinia
-    install -m 0644 ${WORKDIR}/monitor_tests.d/files.conf \
-        ${D}${sysconfdir}/cukinia/monitor_tests.d
+# observer
+    install -m 0755 -d ${D}${sysconfdir}/cukinia/observer_tests.d/
+    install -m 0644 ${WORKDIR}/cukinia-observer.conf ${D}${sysconfdir}/cukinia
+    install -m 0644 ${WORKDIR}/observer_tests.d/files.conf \
+        ${D}${sysconfdir}/cukinia/observer_tests.d
 
 # cluster
     install -m 0755 -d ${D}${sysconfdir}/cukinia/cluster_tests.d/
@@ -231,8 +228,7 @@ PACKAGES =+ " \
     ${PN}-hypervisor \
     ${PN}-hypervisor-readonly \
     ${PN}-hypervisor-security \
-    ${PN}-hypervisor-iommu \
-    ${PN}-monitor \
+    ${PN}-observer \
     ${PN}-vm \
     ${PN}-update \
 "
@@ -278,9 +274,9 @@ FILES:${PN}-hypervisor-security = " \
     ${sysconfdir}/cukinia/hypervisor_security_tests.d/* \
 "
 
-FILES:${PN}-monitor = " \
-    ${sysconfdir}/cukinia/cukinia-monitor.conf \
-    ${sysconfdir}/cukinia/monitor_tests.d/* \
+FILES:${PN}-observer = " \
+    ${sysconfdir}/cukinia/cukinia-observer.conf \
+    ${sysconfdir}/cukinia/observer_tests.d/* \
 "
 
 FILES:${PN}-vm = " \
