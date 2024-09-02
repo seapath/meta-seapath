@@ -19,6 +19,7 @@ do_install:append() {
   install -m 0644 ${WORKDIR}/ptp4l@.service ${D}${systemd_system_unitdir}/
   install -m 0644 ${WORKDIR}/phc2sys@.service ${D}${systemd_system_unitdir}/
   install -m 0644 ${WORKDIR}/timemaster.service ${D}${systemd_system_unitdir}/
+  install -d ${D}/etc/linuxptp
 }
 
 FILES:${PN} += "${systemd_system_unitdir}/ptp4l@.service"
