@@ -9,7 +9,7 @@ bootloader --ptable gpt
 part /boot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/boot --ondisk sda --label efi0 --active --align 1024  --part-type C12A7328-F81F-11D2-BA4B-00A0C93EC93B --size 128M
 part /boot --ondisk sda --label efi1 --active --align 1024  --part-type C12A7328-F81F-11D2-BA4B-00A0C93EC93B --size 128M
 
-part / --source rootfs --exclude-path boot/ --ondisk sda --fstype=ext4 --label rootfs0 --align 1024 --size 3G
-part / --ondisk sda --fstype=ext4 --label rootfs1 --align 1024 --size 3G
+part / --source rootfs --exclude-path boot/ --ondisk sda --fstype=ext4 --label rootfs0 --align 1024 --size 8G
+part / --ondisk sda --fstype=ext4 --label rootfs1 --align 1024 --size 8G
 part /var/log --size 4096 --ondisk sda --fstype=ext4 --label log --align 1024 --use-label
 part /mnt/persistent --size 256 --ondisk sda --fstype=ext4 --label persistent --align 1024
