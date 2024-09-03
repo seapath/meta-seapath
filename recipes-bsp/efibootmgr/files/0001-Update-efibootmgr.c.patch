@@ -1,0 +1,29 @@
+From 3eac27c5fccf93d2d6e634d6fe2a76d06708ec6e Mon Sep 17 00:00:00 2001
+From: kmicki <1463619+kmicki@users.noreply.github.com>
+Date: Tue, 15 Nov 2022 14:37:25 +0100
+Subject: [PATCH] Update efibootmgr.c
+
+get_entry: return entry if it was found before reaching the end of the list
+
+Signed-off-by: kmicki <1463619+kmicki@users.noreply.github.com>
+
+Upstream-Status: Backport [hhttps://github.com/rhboot/efibootmgr/commit/3eac27c5fccf93d2d6e634d6fe2a76d06708ec6e]
+
+---
+ src/efibootmgr.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/efibootmgr.c b/src/efibootmgr.c
+index b980bcd..4b15d6d 100644
+--- a/src/efibootmgr.c
++++ b/src/efibootmgr.c
+@@ -1192,6 +1192,7 @@ get_entry(list_t *entries, uint16_t num)
+ 			entry = NULL;
+ 			continue;
+ 		}
++		return entry;
+ 	}
+
+ 	return entry;
+--
+2.34.1
