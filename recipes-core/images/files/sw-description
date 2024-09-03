@@ -11,7 +11,7 @@ software =
             path = "/";
         },
         {
-            filename = "@@IMAGE_DEPENDS@@-@@MACHINE@@.tar.xz";
+            filename = "@@IMAGE_DEPENDS@@-@@MACHINE@@.rootfs.tar.xz";
             filesystem = "ext4";
             type = "archive";
             device = "/dev/upgradable_rootfs";
