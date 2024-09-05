@@ -170,11 +170,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327 \
                     file://node_modules/rxjs/LICENSE.txt;md5=80ca6de0630df9d3c3faee86819caa57 \
                     file://node_modules/safe-array-concat/LICENSE;md5=06aae85028f50ba69e6f83b6c9402b26 \
                     file://node_modules/safe-regex-test/LICENSE;md5=8478c87d16770f6d32a4578c475d3930 \
-                    file://node_modules/sass-embedded-linux-musl-x64/dart-sass/src/LICENSE;md5=4c151434938b50596016c6abc33f6c7d \
-                    file://node_modules/sass-embedded-linux-x64/dart-sass/src/LICENSE;md5=4c151434938b50596016c6abc33f6c7d \
+                    file://node_modules/sass-embedded-linux-musl-x64/dart-sass/src/LICENSE;md5=684667912e296d6685fe50e22410e29a \
+                    file://node_modules/sass-embedded-linux-x64/dart-sass/src/LICENSE;md5=684667912e296d6685fe50e22410e29a \
                     file://node_modules/sass-embedded/LICENSE;md5=ae39313ff5797235eac0faf1bb98e514 \
                     file://node_modules/sass-embedded/node_modules/supports-color/license;md5=d5f2a6dd0192dcc7c833e50bb9017337 \
-                    file://node_modules/sass/LICENSE;md5=4c151434938b50596016c6abc33f6c7d \
+                    file://node_modules/sass/LICENSE;md5=684667912e296d6685fe50e22410e29a \
                     file://node_modules/scheduler/LICENSE;md5=901f6cd9846257b3a9c69dbd0a49caf1 \
                     file://node_modules/semver/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
                     file://node_modules/set-function-length/LICENSE;md5=19283ee92f78c91154834571c1f05a94 \
@@ -441,7 +441,7 @@ SRC_URI = " \
     npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json;dev=1 \
     "
 
-SRCREV = "087d541094b2be2ae8661238954ee43e2a58ea66"
+SRCREV = "2924c08c502a425d6ab37e951d186927dc559cf1"
 
 S = "${WORKDIR}/git"
 
