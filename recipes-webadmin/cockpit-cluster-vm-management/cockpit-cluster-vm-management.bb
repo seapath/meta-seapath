@@ -16,6 +16,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327 \
                     file://node_modules/@patternfly/react-styles/LICENSE;md5=39ed6d8640fd0499baa65f5f2aa88f56 \
                     file://node_modules/@patternfly/react-table/LICENSE;md5=39ed6d8640fd0499baa65f5f2aa88f56 \
                     file://node_modules/@patternfly/react-tokens/LICENSE;md5=39ed6d8640fd0499baa65f5f2aa88f56 \
+                    file://node_modules/@xterm/addon-canvas/LICENSE;md5=f26090141cc8b051033a6868211602d3 \
+                    file://node_modules/@xterm/xterm/LICENSE;md5=a6f7d231a2745fd8aaa465e2dd7c7c04 \
                     file://node_modules/ansi-styles/license;md5=915042b5df33c31a6db2b37eadaa00e3 \
                     file://node_modules/anymatch/LICENSE;md5=12cd52ddd05803f07238d49743e68e37 \
                     file://node_modules/argparse/LICENSE;md5=a2f2590d8d82b0fa2b3e2fc5c69d2b81 \
@@ -170,11 +172,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327 \
                     file://node_modules/rxjs/LICENSE.txt;md5=80ca6de0630df9d3c3faee86819caa57 \
                     file://node_modules/safe-array-concat/LICENSE;md5=06aae85028f50ba69e6f83b6c9402b26 \
                     file://node_modules/safe-regex-test/LICENSE;md5=8478c87d16770f6d32a4578c475d3930 \
-                    file://node_modules/sass-embedded-linux-musl-x64/dart-sass/src/LICENSE;md5=4c151434938b50596016c6abc33f6c7d \
-                    file://node_modules/sass-embedded-linux-x64/dart-sass/src/LICENSE;md5=4c151434938b50596016c6abc33f6c7d \
+                    file://node_modules/sass-embedded-linux-musl-x64/dart-sass/src/LICENSE;md5=684667912e296d6685fe50e22410e29a \
+                    file://node_modules/sass-embedded-linux-x64/dart-sass/src/LICENSE;md5=684667912e296d6685fe50e22410e29a \
                     file://node_modules/sass-embedded/LICENSE;md5=ae39313ff5797235eac0faf1bb98e514 \
                     file://node_modules/sass-embedded/node_modules/supports-color/license;md5=d5f2a6dd0192dcc7c833e50bb9017337 \
-                    file://node_modules/sass/LICENSE;md5=4c151434938b50596016c6abc33f6c7d \
+                    file://node_modules/sass/LICENSE;md5=684667912e296d6685fe50e22410e29a \
                     file://node_modules/scheduler/LICENSE;md5=901f6cd9846257b3a9c69dbd0a49caf1 \
                     file://node_modules/semver/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
                     file://node_modules/set-function-length/LICENSE;md5=19283ee92f78c91154834571c1f05a94 \
@@ -235,6 +237,8 @@ LICENSE:${PN}-patternfly-react-icons = "MIT"
 LICENSE:${PN}-patternfly-react-styles = "MIT"
 LICENSE:${PN}-patternfly-react-table = "MIT"
 LICENSE:${PN}-patternfly-react-tokens = "MIT"
+LICENSE:${PN}-xterm-addon-canvas = "MIT"
+LICENSE:${PN}-xterm-xterm = "MIT"
 LICENSE:${PN}-ansi-styles = "MIT"
 LICENSE:${PN}-anymatch = "ISC"
 LICENSE:${PN}-argparse = "MIT"
@@ -441,7 +445,7 @@ SRC_URI = " \
     npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json;dev=1 \
     "
 
-SRCREV = "1acfe88e35704e335144e087f13f85a5b4af1de6"
+SRCREV = "48d94185cd6059591a1b67c188532169c604e6a7"
 
 S = "${WORKDIR}/git"
 
