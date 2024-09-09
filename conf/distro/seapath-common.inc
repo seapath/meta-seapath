@@ -92,6 +92,9 @@ IMAGE_FEATURES[validitems] += "unsafe-pam-policy"
 # Set version of linuxptp to 3.1.1
 REQUIRED_VERSION_linuxptp = "3.1.1"
 
+# Set version of ceph to 16.x.y
+REQUIRED_VERSION_ceph = "16.%"
+
 # Create /etc/build
 INHERIT += "image-buildinfo"
 
