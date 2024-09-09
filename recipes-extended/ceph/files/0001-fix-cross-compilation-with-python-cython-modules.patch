@@ -1,0 +1,657 @@
+From ecc6fe9cc1f0677b6c640a755d1414993b5d0410 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mathieu=20Dupr=C3=A9?= <mathieu.dupre@savoirfairelinux.com>
+Date: Tue, 1 Oct 2024 16:27:25 +0200
+Subject: [PATCH] fix cross-compilation with python cython modules
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Inappropriate [oe specific]
+
+Signed-off-by: Mathieu Dupré <mathieu.dupre@savoirfairelinux.com>
+
+---
+ cmake/modules/Distutils.cmake | 14 +++---
+ src/pybind/cephfs/setup.py    | 95 ++++++++---------------------------
+ src/pybind/rados/setup.py     | 91 ++++++++-------------------------
+ src/pybind/rbd/setup.py       | 93 ++++++++--------------------------
+ src/pybind/rgw/setup.py       | 93 ++++++++--------------------------
+ 5 files changed, 96 insertions(+), 290 deletions(-)
+
+diff --git a/cmake/modules/Distutils.cmake b/cmake/modules/Distutils.cmake
+index 7071a2dc7..7c19937b6 100644
+--- a/cmake/modules/Distutils.cmake
++++ b/cmake/modules/Distutils.cmake
+@@ -37,6 +37,7 @@ function(distutils_install_module name)
+     if(NOT \"${DU_INSTALL_SCRIPT}\" STREQUAL \"\")
+       list(APPEND options --install-script=${DU_INSTALL_SCRIPT})
+     endif()
++    list(APPEND options --install-lib=${PYTHON_SITEPACKAGES_DIR})
+     execute_process(
+     COMMAND ${Python3_EXECUTABLE}
+         setup.py install \${options}
+@@ -57,14 +58,14 @@ function(distutils_add_cython_module target name src)
+   string(STRIP "${CMAKE_CXX_COMPILER_ARG1}" cxx_compiler_arg1)
+   # Note: no quotes, otherwise distutils will execute "/usr/bin/ccache gcc"
+   # CMake's implicit conversion between strings and lists is wonderful, isn't it?
+-  set(cflags ${COMPILE_OPTIONS})
++  set(cflags  ${COMPILE_OPTIONS})
+   list(APPEND cflags -iquote${CMAKE_SOURCE_DIR}/src/include -w)
+   # This little bit of magic wipes out __Pyx_check_single_interpreter()
+   # Note: this is reproduced in distutils_install_cython_module
+   list(APPEND cflags -D'void0=dead_function\(void\)')
+   list(APPEND cflags -D'__Pyx_check_single_interpreter\(ARG\)=ARG\#\#0')
+-  set(PY_CC ${compiler_launcher} ${CMAKE_C_COMPILER} ${c_compiler_arg1} ${cflags})
+-  set(PY_CXX ${compiler_launcher} ${CMAKE_CXX_COMPILER} ${cxx_compiler_arg1})
++  set(PY_CC ${compiler_launcher} ${CMAKE_C_COMPILER} ${c_compiler_arg1} ${cflags} ${CMAKE_C_FLAGS})
++  set(PY_CXX ${compiler_launcher} ${CMAKE_CXX_COMPILER} ${cxx_compiler_arg1} ${cflags} ${CMAKE_CXX_FLAGS})
+   set(PY_LDSHARED ${link_launcher} ${CMAKE_C_COMPILER} ${c_compiler_arg1} "-shared")
+ 
+   execute_process(COMMAND "${Python3_EXECUTABLE}" -c
+@@ -86,7 +87,7 @@ function(distutils_add_cython_module target name src)
+     CXX="${PY_CXX}"
+     LDSHARED="${PY_LDSHARED}"
+     OPT=\"-DNDEBUG -g -fwrapv -O2 -w\"
+-    LDFLAGS=-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
++    LDFLAGS="-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
+     CYTHON_BUILD_DIR=${CMAKE_CURRENT_BINARY_DIR}
+     CEPH_LIBDIR=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+     ${Python3_EXECUTABLE} ${setup_py}
+@@ -102,7 +103,7 @@ endfunction(distutils_add_cython_module)
+ function(distutils_install_cython_module name)
+   get_property(compiler_launcher GLOBAL PROPERTY RULE_LAUNCH_COMPILE)
+   get_property(link_launcher GLOBAL PROPERTY RULE_LAUNCH_LINK)
+-  set(PY_CC "${compiler_launcher} ${CMAKE_C_COMPILER}")
++  set(PY_CC "${compiler_launcher} ${CMAKE_C_COMPILER} ${CMAKE_C_FLAGS}")
+   set(PY_LDSHARED "${link_launcher} ${CMAKE_C_COMPILER} -shared")
+   install(CODE "
+     set(ENV{CC} \"${PY_CC}\")
+@@ -110,7 +111,7 @@ function(distutils_install_cython_module name)
+     set(ENV{CPPFLAGS} \"-iquote${CMAKE_SOURCE_DIR}/src/include
+                         -D'void0=dead_function\(void\)' \
+                         -D'__Pyx_check_single_interpreter\(ARG\)=ARG\#\#0'\")
+-    set(ENV{LDFLAGS} \"-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY}\")
++    set(ENV{LDFLAGS} \"-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY} ${CMAKE_C_LINK_FLAGS}\")
+     set(ENV{CYTHON_BUILD_DIR} \"${CMAKE_CURRENT_BINARY_DIR}\")
+     set(ENV{CEPH_LIBDIR} \"${CMAKE_LIBRARY_OUTPUT_DIRECTORY}\")
+ 
+@@ -120,6 +121,7 @@ function(distutils_install_cython_module name)
+     else()
+       list(APPEND options --root=/)
+     endif()
++    list(APPEND options --install-lib=${PYTHON_SITEPACKAGES_DIR})
+     execute_process(
+        COMMAND
+            ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/setup.py
+diff --git a/src/pybind/cephfs/setup.py b/src/pybind/cephfs/setup.py
+index c3d40df05..5e70da6ba 100755
+--- a/src/pybind/cephfs/setup.py
++++ b/src/pybind/cephfs/setup.py
+@@ -1,24 +1,25 @@
+ from __future__ import print_function
+ 
+ import os
+-import pkgutil
+ import shutil
+ import subprocess
+ import sys
+ import tempfile
+ import textwrap
+-if not pkgutil.find_loader('setuptools'):
+-    from distutils.core import setup
+-    from distutils.extension import Extension
+-else:
+-    from setuptools import setup
+-    from setuptools.extension import Extension
++from setuptools import setup
++from Cython.Distutils.extension import Extension
+ from distutils.ccompiler import new_compiler
+ from distutils.errors import CompileError, LinkError
+ from itertools import filterfalse, takewhile
+ import distutils.sysconfig
+ 
+ 
++for envname in "CC", "CXX", "LDSHARED":
++    envname_value = os.environ.get(envname)
++    if envname_value:
++        os.environ[envname] = envname_value.replace('\\', '')
++
++
+ def filter_unsupported_flags(compiler, flags):
+     args = takewhile(lambda argv: not argv.startswith('-'), [compiler] + flags)
+     if any('clang' in arg for arg in args):
+@@ -65,9 +66,19 @@ def get_python_flags(libs):
+                filter(lambda lib: lib.startswith('-l'), py_libs)]
+     compiler = new_compiler()
+     distutils.sysconfig.customize_compiler(compiler)
++    library_dirs = [distutils.sysconfig.get_config_var('LIBDIR')]
++    libpl = distutils.sysconfig.get_config_var('LIBPL')
++    if libpl:
++        sysroot = os.environ.get('STAGING_DIR_HOST')
++        if not sysroot:
++            sysroot = os.environ.get('PKG_CONFIG_SYSROOT_DIR')
++        if not libpl.startswith(sysroot):
++            libpl = sysroot + libpl
++        library_dirs.append(libpl)
++
+     return dict(
+         include_dirs=[distutils.sysconfig.get_python_inc()],
+-        library_dirs=distutils.sysconfig.get_config_vars('LIBDIR', 'LIBPL'),
++        library_dirs=library_dirs,
+         libraries=libs + py_libs,
+         extra_compile_args=filter_unsupported_flags(
+             compiler.compiler[0],
+@@ -76,80 +87,16 @@ def get_python_flags(libs):
+                          ldflags))
+ 
+ 
+-def check_sanity():
+-    """
+-    Test if development headers and library for cephfs is available by compiling a dummy C program.
+-    """
+-    CEPH_SRC_DIR = os.path.join(
+-        os.path.dirname(os.path.abspath(__file__)),
+-        '..',
+-        '..'
+-    )
+-
+-    tmp_dir = tempfile.mkdtemp(dir=os.environ.get('TMPDIR', os.path.dirname(__file__)))
+-    tmp_file = os.path.join(tmp_dir, 'cephfs_dummy.c')
+-
+-    with open(tmp_file, 'w') as fp:
+-        dummy_prog = textwrap.dedent("""
+-        #include <stddef.h>
+-        #include "cephfs/libcephfs.h"
+-
+-        int main(void) {
+-            struct ceph_mount_info *cmount = NULL;
+-            ceph_init(cmount);
+-            return 0;
+-        }
+-        """)
+-        fp.write(dummy_prog)
+-
+-    compiler = new_compiler()
+-    distutils.sysconfig.customize_compiler(compiler)
+-
+-    if 'CEPH_LIBDIR' in os.environ:
+-        # The setup.py has been invoked by a top-level Ceph make.
+-        # Set the appropriate CFLAGS and LDFLAGS
+-        compiler.set_library_dirs([os.environ.get('CEPH_LIBDIR')])
+-
+-    try:
+-        compiler.define_macro('_FILE_OFFSET_BITS', '64')
+-
+-        link_objects = compiler.compile(
+-            sources=[tmp_file],
+-            output_dir=tmp_dir,
+-            extra_preargs=['-iquote{path}'.format(path=os.path.join(CEPH_SRC_DIR, 'include'))]
+-        )
+-
+-        compiler.link_executable(
+-            objects=link_objects,
+-            output_progname=os.path.join(tmp_dir, 'cephfs_dummy'),
+-            libraries=['cephfs'],
+-            output_dir=tmp_dir,
+-        )
+-
+-    except CompileError:
+-        print('\nCompile Error: Ceph FS development headers not found', file=sys.stderr)
+-        return False
+-    except LinkError:
+-        print('\nLink Error: Ceph FS library not found', file=sys.stderr)
+-        return False
+-    else:
+-        return True
+-    finally:
+-        shutil.rmtree(tmp_dir)
+-
+-
+ if 'BUILD_DOC' in os.environ or 'READTHEDOCS' in os.environ:
+     ext_args = {}
+     cython_constants = dict(BUILD_DOC=True)
+     cythonize_args = dict(compile_time_env=cython_constants)
+-elif check_sanity():
++else:
+     ext_args = get_python_flags(['cephfs'])
+     cython_constants = dict(BUILD_DOC=False)
+     include_path = [os.path.join(os.path.dirname(__file__), "..", "rados")]
+     cythonize_args = dict(compile_time_env=cython_constants,
+                           include_path=include_path)
+-else:
+-    sys.exit(1)
+ 
+ cmdclass = {}
+ try:
+@@ -198,6 +145,8 @@ setup(
+             Extension(
+                 "cephfs",
+                 [source],
++                cython_compile_time_env=cython_constants,
++                cython_directives={'language_level': sys.version_info.major},
+                 **ext_args
+             )
+         ],
+diff --git a/src/pybind/rados/setup.py b/src/pybind/rados/setup.py
+index 0d1047825..443d4abb4 100755
+--- a/src/pybind/rados/setup.py
++++ b/src/pybind/rados/setup.py
+@@ -1,11 +1,6 @@
+ from __future__ import print_function
+-import pkgutil
+-if not pkgutil.find_loader('setuptools'):
+-    from distutils.core import setup
+-    from distutils.extension import Extension
+-else:
+-    from setuptools import setup
+-    from setuptools.extension import Extension
++from setuptools import setup
++from Cython.Distutils.extension import Extension
+ import distutils.sysconfig
+ from distutils.errors import CompileError, LinkError
+ from distutils.ccompiler import new_compiler
+@@ -18,6 +13,12 @@ import tempfile
+ import textwrap
+ 
+ 
++for envname in "CC", "CXX", "LDSHARED":
++    envname_value = os.environ.get(envname)
++    if envname_value:
++        os.environ[envname] = envname_value.replace('\\', '')
++
++
+ def filter_unsupported_flags(compiler, flags):
+     args = takewhile(lambda argv: not argv.startswith('-'), [compiler] + flags)
+     if any('clang' in arg for arg in args):
+@@ -63,9 +64,19 @@ def get_python_flags(libs):
+                filter(lambda lib: lib.startswith('-l'), py_libs)]
+     compiler = new_compiler()
+     distutils.sysconfig.customize_compiler(compiler)
++    library_dirs = [distutils.sysconfig.get_config_var('LIBDIR')]
++    libpl = distutils.sysconfig.get_config_var('LIBPL')
++    if libpl:
++        sysroot = os.environ.get('STAGING_DIR_HOST')
++        if not sysroot:
++            sysroot = os.environ.get('PKG_CONFIG_SYSROOT_DIR')
++        if not libpl.startswith(sysroot):
++            libpl = sysroot + libpl
++        library_dirs.append(libpl)
++
+     return dict(
+         include_dirs=[distutils.sysconfig.get_python_inc()],
+-        library_dirs=distutils.sysconfig.get_config_vars('LIBDIR', 'LIBPL'),
++        library_dirs=library_dirs,
+         libraries=libs + py_libs,
+         extra_compile_args=filter_unsupported_flags(
+             compiler.compiler[0],
+@@ -74,72 +85,12 @@ def get_python_flags(libs):
+                          ldflags))
+ 
+ 
+-def check_sanity():
+-    """
+-    Test if development headers and library for rados is available by compiling a dummy C program.
+-    """
+-    CEPH_SRC_DIR = os.path.join(
+-        os.path.dirname(os.path.abspath(__file__)),
+-        '..',
+-        '..'
+-    )
+-
+-    tmp_dir = tempfile.mkdtemp(dir=os.environ.get('TMPDIR', os.path.dirname(__file__)))
+-    tmp_file = os.path.join(tmp_dir, 'rados_dummy.c')
+-
+-    with open(tmp_file, 'w') as fp:
+-        dummy_prog = textwrap.dedent("""
+-        #include <rados/librados.h>
+-
+-        int main(void) {
+-            rados_t cluster;
+-            rados_create(&cluster, NULL);
+-            return 0;
+-        }
+-        """)
+-        fp.write(dummy_prog)
+-
+-    compiler = new_compiler()
+-    distutils.sysconfig.customize_compiler(compiler)
+-
+-    if 'CEPH_LIBDIR' in os.environ:
+-        # The setup.py has been invoked by a top-level Ceph make.
+-        # Set the appropriate CFLAGS and LDFLAGS
+-        compiler.set_include_dirs([os.path.join(CEPH_SRC_DIR, 'include')])
+-        compiler.set_library_dirs([os.environ.get('CEPH_LIBDIR')])
+-
+-    try:
+-        link_objects = compiler.compile(
+-            sources=[tmp_file],
+-            output_dir=tmp_dir
+-        )
+-        compiler.link_executable(
+-            objects=link_objects,
+-            output_progname=os.path.join(tmp_dir, 'rados_dummy'),
+-            libraries=['rados'],
+-            output_dir=tmp_dir,
+-        )
+-
+-    except CompileError:
+-        print('\nCompile Error: RADOS development headers not found', file=sys.stderr)
+-        return False
+-    except LinkError:
+-        print('\nLink Error: RADOS library not found', file=sys.stderr)
+-        return False
+-    else:
+-        return True
+-    finally:
+-        shutil.rmtree(tmp_dir)
+-
+-
+ if 'BUILD_DOC' in os.environ or 'READTHEDOCS' in os.environ:
+     ext_args = {}
+     cython_constants = dict(BUILD_DOC=True)
+-elif check_sanity():
++else:
+     ext_args = get_python_flags(['rados'])
+     cython_constants = dict(BUILD_DOC=False)
+-else:
+-    sys.exit(1)
+ 
+ cmdclass = {}
+ try:
+@@ -187,6 +138,8 @@ setup(
+             Extension(
+                 "rados",
+                 [source],
++                cython_compile_time_env=cython_constants,
++                cython_directives={'language_level': sys.version_info.major},
+                 **ext_args
+             )
+         ],
+diff --git a/src/pybind/rbd/setup.py b/src/pybind/rbd/setup.py
+index 73ea4555f..50aa7fac5 100755
+--- a/src/pybind/rbd/setup.py
++++ b/src/pybind/rbd/setup.py
+@@ -1,24 +1,25 @@
+ from __future__ import print_function
+ 
+ import os
+-import pkgutil
+ import shutil
+ import subprocess
+ import sys
+ import tempfile
+ import textwrap
+-if not pkgutil.find_loader('setuptools'):
+-    from distutils.core import setup
+-    from distutils.extension import Extension
+-else:
+-    from setuptools import setup
+-    from setuptools.extension import Extension
++from setuptools import setup
++from Cython.Distutils.extension import Extension
+ from distutils.ccompiler import new_compiler
+ from distutils.errors import CompileError, LinkError
+ from itertools import filterfalse, takewhile
+ import distutils.sysconfig
+ 
+ 
++for envname in "CC", "CXX", "LDSHARED":
++    envname_value = os.environ.get(envname)
++    if envname_value:
++        os.environ[envname] = envname_value.replace('\\', '')
++
++
+ def filter_unsupported_flags(compiler, flags):
+     args = takewhile(lambda argv: not argv.startswith('-'), [compiler] + flags)
+     if any('clang' in arg for arg in args):
+@@ -65,9 +66,19 @@ def get_python_flags(libs):
+                filter(lambda lib: lib.startswith('-l'), py_libs)]
+     compiler = new_compiler()
+     distutils.sysconfig.customize_compiler(compiler)
++    library_dirs = [distutils.sysconfig.get_config_var('LIBDIR')]
++    libpl = distutils.sysconfig.get_config_var('LIBPL')
++    if libpl:
++        sysroot = os.environ.get('STAGING_DIR_HOST')
++        if not sysroot:
++            sysroot = os.environ.get('PKG_CONFIG_SYSROOT_DIR')
++        if not libpl.startswith(sysroot):
++            libpl = sysroot + libpl
++        library_dirs.append(libpl)
++
+     return dict(
+         include_dirs=[distutils.sysconfig.get_python_inc()],
+-        library_dirs=distutils.sysconfig.get_config_vars('LIBDIR', 'LIBPL'),
++        library_dirs=library_dirs,
+         libraries=libs + py_libs,
+         extra_compile_args=filter_unsupported_flags(
+             compiler.compiler[0],
+@@ -76,78 +87,16 @@ def get_python_flags(libs):
+                          ldflags))
+ 
+ 
+-def check_sanity():
+-    """
+-    Test if development headers and library for rbd is available by compiling a dummy C program.
+-    """
+-    CEPH_SRC_DIR = os.path.join(
+-        os.path.dirname(os.path.abspath(__file__)),
+-        '..',
+-        '..'
+-    )
+-
+-    tmp_dir = tempfile.mkdtemp(dir=os.environ.get('TMPDIR', os.path.dirname(__file__)))
+-    tmp_file = os.path.join(tmp_dir, 'rbd_dummy.c')
+-
+-    with open(tmp_file, 'w') as fp:
+-        dummy_prog = textwrap.dedent("""
+-        #include <stddef.h>
+-        #include <rbd/librbd.h>
+-        int main(void) {
+-            rados_t cluster;
+-            rados_create(&cluster, NULL);
+-            return 0;
+-        }
+-        """)
+-        fp.write(dummy_prog)
+-
+-    compiler = new_compiler()
+-    distutils.sysconfig.customize_compiler(compiler)
+-
+-    if 'CEPH_LIBDIR' in os.environ:
+-        # The setup.py has been invoked by a top-level Ceph make.
+-        # Set the appropriate CFLAGS and LDFLAGS
+-        compiler.set_include_dirs([os.path.join(CEPH_SRC_DIR, 'include')])
+-        compiler.set_library_dirs([os.environ.get('CEPH_LIBDIR')])
+-    try:
+-        compiler.define_macro('_FILE_OFFSET_BITS', '64')
+-
+-        link_objects = compiler.compile(
+-            sources=[tmp_file],
+-            output_dir=tmp_dir
+-        )
+-
+-        compiler.link_executable(
+-            objects=link_objects,
+-            output_progname=os.path.join(tmp_dir, 'rbd_dummy'),
+-            libraries=['rbd', 'rados'],
+-            output_dir=tmp_dir,
+-        )
+-
+-    except CompileError:
+-        print('\nCompile Error: RBD development headers not found', file=sys.stderr)
+-        return False
+-    except LinkError:
+-        print('\nLink Error: RBD library not found', file=sys.stderr)
+-        return False
+-    else:
+-        return True
+-    finally:
+-        shutil.rmtree(tmp_dir)
+-
+-
+ if 'BUILD_DOC' in os.environ or 'READTHEDOCS' in os.environ:
+     ext_args = {}
+     cython_constants = dict(BUILD_DOC=True)
+     cythonize_args = dict(compile_time_env=cython_constants)
+-elif check_sanity():
++else:
+     ext_args = get_python_flags(['rados', 'rbd'])
+     cython_constants = dict(BUILD_DOC=False)
+     include_path = [os.path.join(os.path.dirname(__file__), "..", "rados")]
+     cythonize_args = dict(compile_time_env=cython_constants,
+                           include_path=include_path)
+-else:
+-    sys.exit(1)
+ 
+ cmdclass = {}
+ try:
+@@ -196,6 +145,8 @@ setup(
+             Extension(
+                 "rbd",
+                 [source],
++                cython_compile_time_env=cython_constants,
++                cython_directives={'language_level': sys.version_info.major},
+                 **ext_args
+             )
+         ],
+diff --git a/src/pybind/rgw/setup.py b/src/pybind/rgw/setup.py
+index 663604e8f..660c80a57 100755
+--- a/src/pybind/rgw/setup.py
++++ b/src/pybind/rgw/setup.py
+@@ -1,11 +1,6 @@
+ from __future__ import print_function
+-import pkgutil
+-if not pkgutil.find_loader('setuptools'):
+-    from distutils.core import setup
+-    from distutils.extension import Extension
+-else:
+-    from setuptools import setup
+-    from setuptools.extension import Extension
++from setuptools import setup
++from Cython.Distutils.extension import Extension
+ import distutils.core
+ 
+ import os
+@@ -19,6 +14,12 @@ from itertools import filterfalse, takewhile
+ import distutils.sysconfig
+ 
+ 
++for envname in "CC", "CXX", "LDSHARED":
++    envname_value = os.environ.get(envname)
++    if envname_value:
++        os.environ[envname] = envname_value.replace('\\', '')
++
++
+ def filter_unsupported_flags(compiler, flags):
+     args = takewhile(lambda argv: not argv.startswith('-'), [compiler] + flags)
+     if any('clang' in arg for arg in args):
+@@ -65,9 +66,19 @@ def get_python_flags(libs):
+                filter(lambda lib: lib.startswith('-l'), py_libs)]
+     compiler = new_compiler()
+     distutils.sysconfig.customize_compiler(compiler)
++    library_dirs = [distutils.sysconfig.get_config_var('LIBDIR')]
++    libpl = distutils.sysconfig.get_config_var('LIBPL')
++    if libpl:
++        sysroot = os.environ.get('STAGING_DIR_HOST')
++        if not sysroot:
++            sysroot = os.environ.get('PKG_CONFIG_SYSROOT_DIR')
++        if not libpl.startswith(sysroot):
++            libpl = sysroot + libpl
++        library_dirs.append(libpl)
++
+     return dict(
+         include_dirs=[distutils.sysconfig.get_python_inc()],
+-        library_dirs=distutils.sysconfig.get_config_vars('LIBDIR', 'LIBPL'),
++        library_dirs=library_dirs,
+         libraries=libs + py_libs,
+         extra_compile_args=filter_unsupported_flags(
+             compiler.compiler[0],
+@@ -76,78 +87,16 @@ def get_python_flags(libs):
+                          ldflags))
+ 
+ 
+-def check_sanity():
+-    """
+-    Test if development headers and library for rgw is available by compiling a dummy C program.
+-    """
+-    CEPH_SRC_DIR = os.path.join(
+-        os.path.dirname(os.path.abspath(__file__)),
+-        '..',
+-        '..'
+-    )
+-
+-    tmp_dir = tempfile.mkdtemp(dir=os.environ.get('TMPDIR', os.path.dirname(__file__)))
+-    tmp_file = os.path.join(tmp_dir, 'rgw_dummy.c')
+-
+-    with open(tmp_file, 'w') as fp:
+-        dummy_prog = textwrap.dedent("""
+-        #include <stddef.h>
+-        #include "rados/rgw_file.h"
+-
+-        int main(void) {
+-            rgwfile_version(NULL, NULL, NULL);
+-            return 0;
+-        }
+-        """)
+-        fp.write(dummy_prog)
+-
+-    compiler = new_compiler()
+-    distutils.sysconfig.customize_compiler(compiler)
+-
+-    if 'CEPH_LIBDIR' in os.environ:
+-        # The setup.py has been invoked by a top-level Ceph make.
+-        # Set the appropriate CFLAGS and LDFLAGS
+-        compiler.set_include_dirs([os.path.join(CEPH_SRC_DIR, 'include')])
+-        compiler.set_library_dirs([os.environ.get('CEPH_LIBDIR')])
+-    try:
+-        compiler.define_macro('_FILE_OFFSET_BITS', '64')
+-
+-        link_objects = compiler.compile(
+-            sources=[tmp_file],
+-            output_dir=tmp_dir,
+-        )
+-
+-        compiler.link_executable(
+-            objects=link_objects,
+-            output_progname=os.path.join(tmp_dir, 'rgw_dummy'),
+-            libraries=['rgw', 'rados'],
+-            output_dir=tmp_dir,
+-        )
+-
+-    except CompileError:
+-        print('\nCompile Error: RGW development headers not found', file=sys.stderr)
+-        return False
+-    except LinkError:
+-        print('\nLink Error: RGW library not found', file=sys.stderr)
+-        return False
+-    else:
+-        return True
+-    finally:
+-        shutil.rmtree(tmp_dir)
+-
+-
+ if 'BUILD_DOC' in os.environ or 'READTHEDOCS' in os.environ:
+     ext_args = {}
+     cython_constants = dict(BUILD_DOC=True)
+     cythonize_args = dict(compile_time_env=cython_constants)
+-elif check_sanity():
++else:
+     ext_args = get_python_flags(['rados', 'rgw'])
+     cython_constants = dict(BUILD_DOC=False)
+     include_path = [os.path.join(os.path.dirname(__file__), "..", "rados")]
+     cythonize_args = dict(compile_time_env=cython_constants,
+                           include_path=include_path)
+-else:
+-    sys.exit(1)
+ 
+ cmdclass = {}
+ try:
+@@ -195,6 +144,8 @@ setup(
+             Extension(
+                 "rgw",
+                 [source],
++                cython_compile_time_env=cython_constants,
++                cython_directives={'language_level': sys.version_info.major},
+                 **ext_args
+             )
+         ],
