@@ -89,6 +89,9 @@ INHERIT += "overlay"
 
 IMAGE_FEATURES[validitems] += "unsafe-pam-policy"
 
+# Set version of linuxptp to 3.1.1
+REQUIRED_VERSION_linuxptp = "3.1.1"
+
 # Create /etc/build
 INHERIT += "image-buildinfo"
 
@@ -99,3 +102,6 @@ ROOT_HOME = "/root"
 # Ceph do not support the rocksdb version 9 provide by meta-oe
 # So we need to use a earlier version
 REQUIERED_VERSION_rocksdb = "7.%"
+
+# Set version of ceph to 16.x.y
+REQUIRED_VERSION_ceph = "16.%"
