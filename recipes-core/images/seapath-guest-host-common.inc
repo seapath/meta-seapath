@@ -4,6 +4,7 @@
 DESCRIPTION = "A common base for host and guest image"
 
 require seapath-host-common.inc
+require seapath-host-common-virtu.inc
 
 IMAGE_INSTALL:append = " \
    pacemaker-remote \

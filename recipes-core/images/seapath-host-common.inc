@@ -5,7 +5,6 @@
 DESCRIPTION = "A production image for Seapath"
 require seapath-common.inc
 require ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'seapath-host-common-ha.inc', '', d)}
-require seapath-host-common-virtu.inc
 
 inherit ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'security/qa-host-images', '', d)}
 
