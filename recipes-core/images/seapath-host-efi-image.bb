@@ -3,6 +3,7 @@
 
 DESCRIPTION = "A production image for Seapath"
 require seapath-host-common.inc
+require seapath-host-common-virtu.inc
 require seapath-efi-common.inc
 require seapath-swupdate-common.inc
 
