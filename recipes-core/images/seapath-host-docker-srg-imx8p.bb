@@ -1,0 +1,31 @@
+# Copyright (C) 2024 Savoir-faire Linux, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+LICENSE = "Apache-2.0"
+
+DESCRIPTION = "A production image for host with docker installed compatible with AAEON srg-imx8p machine"
+
+require recipes-core/images/core-image-minimal.bb
+
+# Add docker
+IMAGE_INSTALL += " \
+    docker-ce \
+    docker-ce-contrib \
+    python3-docker-compose \
+"
+
+# Add AAEON recommended software
+IMAGE_INSTALL += " \
+    kirkstone-tools \
+    libgpiod \
+    libgpiod-dev \
+    libgpiod-tools \
+    linuxptp \
+    service-tools \
+"
+
+IMAGE_FEATURES += "ssh-server-openssh"
+
+COMPATIBLE_MACHINE = "(srg-imx8p-2g|srg-imx8p-4g)"
+
+IMAGE_ROOTFS_EXTRA_SPACE += " + 8000000"
