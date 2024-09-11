@@ -28,5 +28,7 @@ EXTRA_IMAGE_FEATURES = ""
 
 COMPATIBLE_MACHINE = "seapath-installer"
 
-WKS_FILE = "flasher.wks.in"
+PACKAGE_INSTALL += "ovmf-shell-efi"
+IMAGE_EFI_BOOT_FILES = "${KERNEL_IMAGETYPE} microcode.cpio shellx64.efi;efi/boot/shellx64.efi"
 
+WKS_FILE = "flasher.wks.in"
