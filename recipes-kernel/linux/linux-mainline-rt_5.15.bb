@@ -21,9 +21,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;
         file://sched.cfg \
 "
 
-SRC_URI:append_seapath-no-iommu = " \
-        file://no-iommu.cfg \
-"
+SRC_URI:append:seapath-installer = " file://exfat.cfg"
 
 # Uncomment this line to unaible debug traces in Kernel and tracing tools
 # support (like LTTng or perf).
