@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 SRCREV = "${AUTOREV}"
 RDEPENDS:${PN}-security = "bash"
 RDEPENDS:${PN}-cluster= "python3-setup-ovs openvswitch"
+RDEPENDS:${PN}-common= "${PN}-keymap"
 
 SRC_URI = " \
     file://common/90-sysctl-hardening.conf \
@@ -31,15 +32,17 @@ do_install () {
     install -d ${D}${sysconfdir}/sysconfig
 
 # Common
-    if [ -z "${SEAPATH_KEYMAP}" ] ; then
-         SEAPATH_KEYMAP=us
-    fi
-    echo "KEYMAP=\"${SEAPATH_KEYMAP}\"" > ${D}${sysconfdir}/vconsole.conf
     install -d ${D}${sysconfdir}/sysctl.d
     install -m 0644 ${WORKDIR}/common/99-sysctl-network.conf \
         ${D}${sysconfdir}/sysctl.d
     install -m 0644 ${WORKDIR}/common/var-log.mount \
         ${D}${systemd_unitdir}/system
+
+# keymap
+    if [ -z "${SEAPATH_KEYMAP}" ] ; then
+         SEAPATH_KEYMAP=us
+    fi
+    echo "KEYMAP=\"${SEAPATH_KEYMAP}\"" > ${D}${sysconfdir}/vconsole.conf
 
 # Cluster
     install -d ${D}${sysconfdir}/modules-load.d
@@ -85,6 +88,7 @@ PACKAGES =+ " \
     ${PN}-cluster \
     ${PN}-ro \
     ${PN}-test \
+    ${PN}-keymap \
 "
 SYSTEMD_PACKAGES += " \
     ${PN}-common \
@@ -112,6 +116,9 @@ inherit allarch systemd features_check
 FILES:${PN}-common = " \
     ${sysconfdir}/sysctl.d/99-sysctl-network.conf \
     ${systemd_unitdir}/system/var-log.mount \
+"
+
+FILES:${PN}-keymap = " \
     ${sysconfdir}/vconsole.conf \
 "
 
