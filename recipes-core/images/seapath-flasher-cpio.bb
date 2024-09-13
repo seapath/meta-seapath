@@ -17,6 +17,7 @@ IMAGE_INSTALL:append = " \
     efitools \
     efibootmgr \
     linux-firmware-amdgpu \
+    system-config-keymap \
 "
 # Add kernel-modules
 IMAGE_INSTALL:append = " \
