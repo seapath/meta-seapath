@@ -103,12 +103,13 @@ fi
 # Extend persistent partition to fit all the available space
 echo "Extend data partition to remaining free space"
 END=$(parted "$disk" -s unit s print free | grep 'Free Space' | tail -n1 | awk '{print $2}')
-LAST_PART=$(fdisk -l ${disk} | grep '^/dev' | tail -n1 | awk -F' ' '{print $1}' | grep -o '[0-9]*$')
+OVERLAY=$(fdisk -l ${disk} | grep '^/dev' | tail -n1 | awk -F' ' '{print $1}')
+LAST_PART=$(echo "${OVERLAY}" | grep -o '[0-9]*$')
 parted -s -- "${disk}" resizepart "${LAST_PART}" "${END}"
 
 # Update file system
 echo "Update file system to the new partition size"
-resize2fs "${disk}""${LAST_PART}"
+resize2fs "${OVERLAY}"
 
 # If EFI image create boot entries
 if command -v efibootmgr &> /dev/null && efibootmgr &> /dev/null ; then
