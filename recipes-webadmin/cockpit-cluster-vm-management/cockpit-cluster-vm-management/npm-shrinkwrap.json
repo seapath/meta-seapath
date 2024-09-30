@@ -13,10 +13,10 @@
         "@patternfly/react-core": "5.3.0",
         "@patternfly/react-icons": "5.3.0",
         "@patternfly/react-styles": "5.3.0",
-        "@xterm/addon-canvas": "0.7.0",
-        "@xterm/xterm": "5.5.0",
         "react": "18.2.0",
-        "react-dom": "18.2.0"
+        "react-dom": "18.2.0",
+        "xterm": "5.1.0",
+        "xterm-addon-canvas": "0.5.0"
       },
       "devDependencies": {
         "@patternfly/react-table": "^5.3.3",
@@ -29,9 +29,9 @@
       }
     },
     "node_modules/@bufbuild/protobuf": {
-      "version": "1.10.0",
-      "resolved": "https://registry.npmjs.org/@bufbuild/protobuf/-/protobuf-1.10.0.tgz",
-      "integrity": "sha512-QDdVFLoN93Zjg36NoQPZfsVH9tZew7wKDKyV5qRdj8ntT4wQCOradQjRaTdwMhWUYsgKsvCINKKm87FdEk96Ag==",
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/@bufbuild/protobuf/-/protobuf-2.1.0.tgz",
+      "integrity": "sha512-+2Mx67Y3skJ4NCD/qNSdBJNWtu6x6Qr53jeNg+QcwiL6mt0wK+3jwHH2x1p7xaYH6Ve2JKOVn0OxU35WsmqI9A==",
       "dev": true,
       "peer": true
     },
@@ -187,19 +187,6 @@
       "version": "5.4.0",
       "resolved": "https://registry.npmjs.org/@patternfly/react-tokens/-/react-tokens-5.4.0.tgz",
       "integrity": "sha512-KONkwCVOMyklhuuaYeYgcAsGtCBQXnsBGZeolhOdSzr2Mj0RVSW0oMrQPgZuPVzhhC/kbqgClHJJl6xuG9xheA=="
-    },
-    "node_modules/@xterm/addon-canvas": {
-      "version": "0.7.0",
-      "resolved": "https://registry.npmjs.org/@xterm/addon-canvas/-/addon-canvas-0.7.0.tgz",
-      "integrity": "sha512-LF5LYcfvefJuJ7QotNRdRSPc9YASAVDeoT5uyXS/nZshZXjYplGXRECBGiznwvhNL2I8bq1Lf5MzRwstsYQ2Iw==",
-      "peerDependencies": {
-        "@xterm/xterm": "^5.0.0"
-      }
-    },
-    "node_modules/@xterm/xterm": {
-      "version": "5.5.0",
-      "resolved": "https://registry.npmjs.org/@xterm/xterm/-/xterm-5.5.0.tgz",
-      "integrity": "sha512-hqJHYaQb5OptNunnyAnkHyM8aCjZ1MEIDTQu1iIbbTD/xops91NB5yq1ZK/dC2JDbVWtF23zUtl9JE2NqwT87A=="
     },
     "node_modules/ansi-styles": {
       "version": "4.3.0",
@@ -514,6 +501,13 @@
       "integrity": "sha512-8GYz/jnJTGAWUJt5eRAW5dtyiHPKETeFJBPGHaUQnvi/t1ZAkoy8i4Kd/RlHsDC7ktiu813SKCmlzwBwldAHKg==",
       "dev": true
     },
+    "node_modules/cockpit-repo/node_modules/xterm": {
+      "version": "5.3.0",
+      "resolved": "https://registry.npmjs.org/xterm/-/xterm-5.3.0.tgz",
+      "integrity": "sha512-8QqjlekLUFTrU6x7xck1MsPzPA571K5zNqWm0M0oroYEWVOptZ0+ubQSkQ3uxIEhcIHRujJy6emDWX4A7qyFzg==",
+      "deprecated": "This package is now deprecated. Move to @xterm/xterm instead.",
+      "dev": true
+    },
     "node_modules/color-convert": {
       "version": "2.0.1",
       "resolved": "https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz",
@@ -531,6 +525,13 @@
       "resolved": "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz",
       "integrity": "sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==",
       "dev": true
+    },
+    "node_modules/colorjs.io": {
+      "version": "0.5.2",
+      "resolved": "https://registry.npmjs.org/colorjs.io/-/colorjs.io-0.5.2.tgz",
+      "integrity": "sha512-twmVoizEW7ylZSN32OgKdXRmo1qg+wT5/6C3xu5b9QsWzSFAhHLn2xd8ro0diCsKfCj1RdaTP/nrcW+vAoQPIw==",
+      "dev": true,
+      "peer": true
     },
     "node_modules/concat-map": {
       "version": "0.0.1",
@@ -2231,12 +2232,12 @@
       }
     },
     "node_modules/sass": {
-      "version": "1.78.0",
-      "resolved": "https://registry.npmjs.org/sass/-/sass-1.78.0.tgz",
-      "integrity": "sha512-AaIqGSrjo5lA2Yg7RvFZrlXDBCp3nV4XP73GrLGvdRWWwk+8H3l0SDvq/5bA4eF+0RFPLuWUk3E+P1U/YqnpsQ==",
+      "version": "1.79.3",
+      "resolved": "https://registry.npmjs.org/sass/-/sass-1.79.3.tgz",
+      "integrity": "sha512-m7dZxh0W9EZ3cw50Me5GOuYm/tVAJAn91SUnohLRo9cXBixGUOdvmryN+dXpwR831bhoY3Zv7rEFt85PUwTmzA==",
       "dev": true,
       "dependencies": {
-        "chokidar": ">=3.0.0 <4.0.0",
+        "chokidar": "^4.0.0",
         "immutable": "^4.0.0",
         "source-map-js": ">=0.6.2 <2.0.0"
       },
@@ -2248,14 +2249,15 @@
       }
     },
     "node_modules/sass-embedded": {
-      "version": "1.78.0",
-      "resolved": "https://registry.npmjs.org/sass-embedded/-/sass-embedded-1.78.0.tgz",
-      "integrity": "sha512-NR2kvhWVFABmBm0AqgFw9OweQycs0Qs+/teJ9Su+BUY7up+f8S5F/Zi+7QtAqJlewsQyUNfzm1vRuM+20lBwRQ==",
+      "version": "1.79.3",
+      "resolved": "https://registry.npmjs.org/sass-embedded/-/sass-embedded-1.79.3.tgz",
+      "integrity": "sha512-zUve2qCn6uSOMZnZazLzrDWq//OQWFle5G45vJjv3B/ADIA3TXVgqHqN3u7D2vGajOGREz0HN5nhliSoKmQqZA==",
       "dev": true,
       "peer": true,
       "dependencies": {
-        "@bufbuild/protobuf": "^1.0.0",
+        "@bufbuild/protobuf": "^2.0.0",
         "buffer-builder": "^0.2.0",
+        "colorjs.io": "^0.5.0",
         "immutable": "^4.0.0",
         "rxjs": "^7.4.0",
         "supports-color": "^8.1.1",
@@ -2268,32 +2270,32 @@
         "node": ">=16.0.0"
       },
       "optionalDependencies": {
-        "sass-embedded-android-arm": "1.78.0",
-        "sass-embedded-android-arm64": "1.78.0",
-        "sass-embedded-android-ia32": "1.78.0",
-        "sass-embedded-android-riscv64": "1.78.0",
-        "sass-embedded-android-x64": "1.78.0",
-        "sass-embedded-darwin-arm64": "1.78.0",
-        "sass-embedded-darwin-x64": "1.78.0",
-        "sass-embedded-linux-arm": "1.78.0",
-        "sass-embedded-linux-arm64": "1.78.0",
-        "sass-embedded-linux-ia32": "1.78.0",
-        "sass-embedded-linux-musl-arm": "1.78.0",
-        "sass-embedded-linux-musl-arm64": "1.78.0",
-        "sass-embedded-linux-musl-ia32": "1.78.0",
-        "sass-embedded-linux-musl-riscv64": "1.78.0",
-        "sass-embedded-linux-musl-x64": "1.78.0",
-        "sass-embedded-linux-riscv64": "1.78.0",
-        "sass-embedded-linux-x64": "1.78.0",
-        "sass-embedded-win32-arm64": "1.78.0",
-        "sass-embedded-win32-ia32": "1.78.0",
-        "sass-embedded-win32-x64": "1.78.0"
+        "sass-embedded-android-arm": "1.79.3",
+        "sass-embedded-android-arm64": "1.79.3",
+        "sass-embedded-android-ia32": "1.79.3",
+        "sass-embedded-android-riscv64": "1.79.3",
+        "sass-embedded-android-x64": "1.79.3",
+        "sass-embedded-darwin-arm64": "1.79.3",
+        "sass-embedded-darwin-x64": "1.79.3",
+        "sass-embedded-linux-arm": "1.79.3",
+        "sass-embedded-linux-arm64": "1.79.3",
+        "sass-embedded-linux-ia32": "1.79.3",
+        "sass-embedded-linux-musl-arm": "1.79.3",
+        "sass-embedded-linux-musl-arm64": "1.79.3",
+        "sass-embedded-linux-musl-ia32": "1.79.3",
+        "sass-embedded-linux-musl-riscv64": "1.79.3",
+        "sass-embedded-linux-musl-x64": "1.79.3",
+        "sass-embedded-linux-riscv64": "1.79.3",
+        "sass-embedded-linux-x64": "1.79.3",
+        "sass-embedded-win32-arm64": "1.79.3",
+        "sass-embedded-win32-ia32": "1.79.3",
+        "sass-embedded-win32-x64": "1.79.3"
       }
     },
     "node_modules/sass-embedded-linux-musl-x64": {
-      "version": "1.78.0",
-      "resolved": "https://registry.npmjs.org/sass-embedded-linux-musl-x64/-/sass-embedded-linux-musl-x64-1.78.0.tgz",
-      "integrity": "sha512-azdUcZZvZmtUBslIKr2/l4aQrTX7BvO96TD0GLdWz9vuXZrokYm09AJZEnb5j6Pk5I4Xr0yM6BG1Vgcbzqi5Zg==",
+      "version": "1.79.3",
+      "resolved": "https://registry.npmjs.org/sass-embedded-linux-musl-x64/-/sass-embedded-linux-musl-x64-1.79.3.tgz",
+      "integrity": "sha512-gDHfaPlxT/XQTMbfb2y+U6zDMuI8pfapVXTYlUrgYhKH2KoICclIvahhjFii5i5+1dHpfGzjgYKBqI3nvZsYFg==",
       "cpu": [
         "x64"
       ],
@@ -2308,9 +2310,9 @@
       }
     },
     "node_modules/sass-embedded-linux-x64": {
-      "version": "1.78.0",
-      "resolved": "https://registry.npmjs.org/sass-embedded-linux-x64/-/sass-embedded-linux-x64-1.78.0.tgz",
-      "integrity": "sha512-m997ThzpMwql4u6LzZCoHPIQkgK6bbLPLc7ydemo2Wusqzh6j8XAGxVT5oANp6s2Dmj+yh49pKDozal+tzEX9w==",
+      "version": "1.79.3",
+      "resolved": "https://registry.npmjs.org/sass-embedded-linux-x64/-/sass-embedded-linux-x64-1.79.3.tgz",
+      "integrity": "sha512-drlUqMMw222+f/T5sNrIAv+z0vQwLkO4zAlDmf4biLdWIloPP/3plTodAkMyfagNcvA8jG2jN414pJXBI3zK6w==",
       "cpu": [
         "x64"
       ],
@@ -2338,6 +2340,34 @@
       },
       "funding": {
         "url": "https://github.com/chalk/supports-color?sponsor=1"
+      }
+    },
+    "node_modules/sass/node_modules/chokidar": {
+      "version": "4.0.1",
+      "resolved": "https://registry.npmjs.org/chokidar/-/chokidar-4.0.1.tgz",
+      "integrity": "sha512-n8enUVCED/KVRQlab1hr3MVpcVMvxtZjmEa956u+4YijlmQED223XMSYj2tLuKvr4jcCTzNNMpQDUer72MMmzA==",
+      "dev": true,
+      "dependencies": {
+        "readdirp": "^4.0.1"
+      },
+      "engines": {
+        "node": ">= 14.16.0"
+      },
+      "funding": {
+        "url": "https://paulmillr.com/funding/"
+      }
+    },
+    "node_modules/sass/node_modules/readdirp": {
+      "version": "4.0.1",
+      "resolved": "https://registry.npmjs.org/readdirp/-/readdirp-4.0.1.tgz",
+      "integrity": "sha512-GkMg9uOTpIWWKbSsgwb5fA4EavTR+SG/PMPoAY8hkhHfEEY0/vqljY+XHqtDf2cr2IJtoNRDbrrEpZUiZCkYRw==",
+      "dev": true,
+      "engines": {
+        "node": ">= 14.16.0"
+      },
+      "funding": {
+        "type": "individual",
+        "url": "https://paulmillr.com/funding/"
       }
     },
     "node_modules/scheduler": {
@@ -2447,9 +2477,9 @@
       }
     },
     "node_modules/source-map-js": {
-      "version": "1.2.0",
-      "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.0.tgz",
-      "integrity": "sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==",
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz",
+      "integrity": "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==",
       "dev": true,
       "engines": {
         "node": ">=0.10.0"
@@ -2836,18 +2866,16 @@
       }
     },
     "node_modules/xterm": {
-      "version": "5.3.0",
-      "resolved": "https://registry.npmjs.org/xterm/-/xterm-5.3.0.tgz",
-      "integrity": "sha512-8QqjlekLUFTrU6x7xck1MsPzPA571K5zNqWm0M0oroYEWVOptZ0+ubQSkQ3uxIEhcIHRujJy6emDWX4A7qyFzg==",
-      "deprecated": "This package is now deprecated. Move to @xterm/xterm instead.",
-      "dev": true
+      "version": "5.1.0",
+      "resolved": "https://registry.npmjs.org/xterm/-/xterm-5.1.0.tgz",
+      "integrity": "sha512-LovENH4WDzpwynj+OTkLyZgJPeDom9Gra4DMlGAgz6pZhIDCQ+YuO7yfwanY+gVbn/mmZIStNOnVRU/ikQuAEQ==",
+      "deprecated": "This package is now deprecated. Move to @xterm/xterm instead."
     },
     "node_modules/xterm-addon-canvas": {
       "version": "0.5.0",
       "resolved": "https://registry.npmjs.org/xterm-addon-canvas/-/xterm-addon-canvas-0.5.0.tgz",
       "integrity": "sha512-QOo/eZCMrCleAgMimfdbaZCgmQRWOml63Ued6RwQ+UTPvQj3Av9QKx3xksmyYrDGRO/AVRXa9oNuzlYvLdmoLQ==",
       "deprecated": "This package is now deprecated. Move to @xterm/addon-canvas instead.",
-      "dev": true,
       "peerDependencies": {
         "xterm": "^5.0.0"
       }
@@ -2855,9 +2883,9 @@
   },
   "dependencies": {
     "@bufbuild/protobuf": {
-      "version": "1.10.0",
-      "resolved": "https://registry.npmjs.org/@bufbuild/protobuf/-/protobuf-1.10.0.tgz",
-      "integrity": "sha512-QDdVFLoN93Zjg36NoQPZfsVH9tZew7wKDKyV5qRdj8ntT4wQCOradQjRaTdwMhWUYsgKsvCINKKm87FdEk96Ag==",
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/@bufbuild/protobuf/-/protobuf-2.1.0.tgz",
+      "integrity": "sha512-+2Mx67Y3skJ4NCD/qNSdBJNWtu6x6Qr53jeNg+QcwiL6mt0wK+3jwHH2x1p7xaYH6Ve2JKOVn0OxU35WsmqI9A==",
       "dev": true,
       "peer": true
     },
@@ -2979,17 +3007,6 @@
       "version": "5.4.0",
       "resolved": "https://registry.npmjs.org/@patternfly/react-tokens/-/react-tokens-5.4.0.tgz",
       "integrity": "sha512-KONkwCVOMyklhuuaYeYgcAsGtCBQXnsBGZeolhOdSzr2Mj0RVSW0oMrQPgZuPVzhhC/kbqgClHJJl6xuG9xheA=="
-    },
-    "@xterm/addon-canvas": {
-      "version": "0.7.0",
-      "resolved": "https://registry.npmjs.org/@xterm/addon-canvas/-/addon-canvas-0.7.0.tgz",
-      "integrity": "sha512-LF5LYcfvefJuJ7QotNRdRSPc9YASAVDeoT5uyXS/nZshZXjYplGXRECBGiznwvhNL2I8bq1Lf5MzRwstsYQ2Iw==",
-      "requires": {}
-    },
-    "@xterm/xterm": {
-      "version": "5.5.0",
-      "resolved": "https://registry.npmjs.org/@xterm/xterm/-/xterm-5.5.0.tgz",
-      "integrity": "sha512-hqJHYaQb5OptNunnyAnkHyM8aCjZ1MEIDTQu1iIbbTD/xops91NB5yq1ZK/dC2JDbVWtF23zUtl9JE2NqwT87A=="
     },
     "ansi-styles": {
       "version": "4.3.0",
@@ -3230,6 +3247,12 @@
           "resolved": "https://registry.npmjs.org/@patternfly/react-tokens/-/react-tokens-5.2.1.tgz",
           "integrity": "sha512-8GYz/jnJTGAWUJt5eRAW5dtyiHPKETeFJBPGHaUQnvi/t1ZAkoy8i4Kd/RlHsDC7ktiu813SKCmlzwBwldAHKg==",
           "dev": true
+        },
+        "xterm": {
+          "version": "5.3.0",
+          "resolved": "https://registry.npmjs.org/xterm/-/xterm-5.3.0.tgz",
+          "integrity": "sha512-8QqjlekLUFTrU6x7xck1MsPzPA571K5zNqWm0M0oroYEWVOptZ0+ubQSkQ3uxIEhcIHRujJy6emDWX4A7qyFzg==",
+          "dev": true
         }
       }
     },
@@ -3247,6 +3270,13 @@
       "resolved": "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz",
       "integrity": "sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==",
       "dev": true
+    },
+    "colorjs.io": {
+      "version": "0.5.2",
+      "resolved": "https://registry.npmjs.org/colorjs.io/-/colorjs.io-0.5.2.tgz",
+      "integrity": "sha512-twmVoizEW7ylZSN32OgKdXRmo1qg+wT5/6C3xu5b9QsWzSFAhHLn2xd8ro0diCsKfCj1RdaTP/nrcW+vAoQPIw==",
+      "dev": true,
+      "peer": true
     },
     "concat-map": {
       "version": "0.0.1",
@@ -4468,47 +4498,65 @@
       }
     },
     "sass": {
-      "version": "1.78.0",
-      "resolved": "https://registry.npmjs.org/sass/-/sass-1.78.0.tgz",
-      "integrity": "sha512-AaIqGSrjo5lA2Yg7RvFZrlXDBCp3nV4XP73GrLGvdRWWwk+8H3l0SDvq/5bA4eF+0RFPLuWUk3E+P1U/YqnpsQ==",
+      "version": "1.79.3",
+      "resolved": "https://registry.npmjs.org/sass/-/sass-1.79.3.tgz",
+      "integrity": "sha512-m7dZxh0W9EZ3cw50Me5GOuYm/tVAJAn91SUnohLRo9cXBixGUOdvmryN+dXpwR831bhoY3Zv7rEFt85PUwTmzA==",
       "dev": true,
       "requires": {
-        "chokidar": ">=3.0.0 <4.0.0",
+        "chokidar": "^4.0.0",
         "immutable": "^4.0.0",
         "source-map-js": ">=0.6.2 <2.0.0"
+      },
+      "dependencies": {
+        "chokidar": {
+          "version": "4.0.1",
+          "resolved": "https://registry.npmjs.org/chokidar/-/chokidar-4.0.1.tgz",
+          "integrity": "sha512-n8enUVCED/KVRQlab1hr3MVpcVMvxtZjmEa956u+4YijlmQED223XMSYj2tLuKvr4jcCTzNNMpQDUer72MMmzA==",
+          "dev": true,
+          "requires": {
+            "readdirp": "^4.0.1"
+          }
+        },
+        "readdirp": {
+          "version": "4.0.1",
+          "resolved": "https://registry.npmjs.org/readdirp/-/readdirp-4.0.1.tgz",
+          "integrity": "sha512-GkMg9uOTpIWWKbSsgwb5fA4EavTR+SG/PMPoAY8hkhHfEEY0/vqljY+XHqtDf2cr2IJtoNRDbrrEpZUiZCkYRw==",
+          "dev": true
+        }
       }
     },
     "sass-embedded": {
-      "version": "1.78.0",
-      "resolved": "https://registry.npmjs.org/sass-embedded/-/sass-embedded-1.78.0.tgz",
-      "integrity": "sha512-NR2kvhWVFABmBm0AqgFw9OweQycs0Qs+/teJ9Su+BUY7up+f8S5F/Zi+7QtAqJlewsQyUNfzm1vRuM+20lBwRQ==",
+      "version": "1.79.3",
+      "resolved": "https://registry.npmjs.org/sass-embedded/-/sass-embedded-1.79.3.tgz",
+      "integrity": "sha512-zUve2qCn6uSOMZnZazLzrDWq//OQWFle5G45vJjv3B/ADIA3TXVgqHqN3u7D2vGajOGREz0HN5nhliSoKmQqZA==",
       "dev": true,
       "peer": true,
       "requires": {
-        "@bufbuild/protobuf": "^1.0.0",
+        "@bufbuild/protobuf": "^2.0.0",
         "buffer-builder": "^0.2.0",
+        "colorjs.io": "^0.5.0",
         "immutable": "^4.0.0",
         "rxjs": "^7.4.0",
-        "sass-embedded-android-arm": "1.78.0",
-        "sass-embedded-android-arm64": "1.78.0",
-        "sass-embedded-android-ia32": "1.78.0",
-        "sass-embedded-android-riscv64": "1.78.0",
-        "sass-embedded-android-x64": "1.78.0",
-        "sass-embedded-darwin-arm64": "1.78.0",
-        "sass-embedded-darwin-x64": "1.78.0",
-        "sass-embedded-linux-arm": "1.78.0",
-        "sass-embedded-linux-arm64": "1.78.0",
-        "sass-embedded-linux-ia32": "1.78.0",
-        "sass-embedded-linux-musl-arm": "1.78.0",
-        "sass-embedded-linux-musl-arm64": "1.78.0",
-        "sass-embedded-linux-musl-ia32": "1.78.0",
-        "sass-embedded-linux-musl-riscv64": "1.78.0",
-        "sass-embedded-linux-musl-x64": "1.78.0",
-        "sass-embedded-linux-riscv64": "1.78.0",
-        "sass-embedded-linux-x64": "1.78.0",
-        "sass-embedded-win32-arm64": "1.78.0",
-        "sass-embedded-win32-ia32": "1.78.0",
-        "sass-embedded-win32-x64": "1.78.0",
+        "sass-embedded-android-arm": "1.79.3",
+        "sass-embedded-android-arm64": "1.79.3",
+        "sass-embedded-android-ia32": "1.79.3",
+        "sass-embedded-android-riscv64": "1.79.3",
+        "sass-embedded-android-x64": "1.79.3",
+        "sass-embedded-darwin-arm64": "1.79.3",
+        "sass-embedded-darwin-x64": "1.79.3",
+        "sass-embedded-linux-arm": "1.79.3",
+        "sass-embedded-linux-arm64": "1.79.3",
+        "sass-embedded-linux-ia32": "1.79.3",
+        "sass-embedded-linux-musl-arm": "1.79.3",
+        "sass-embedded-linux-musl-arm64": "1.79.3",
+        "sass-embedded-linux-musl-ia32": "1.79.3",
+        "sass-embedded-linux-musl-riscv64": "1.79.3",
+        "sass-embedded-linux-musl-x64": "1.79.3",
+        "sass-embedded-linux-riscv64": "1.79.3",
+        "sass-embedded-linux-x64": "1.79.3",
+        "sass-embedded-win32-arm64": "1.79.3",
+        "sass-embedded-win32-ia32": "1.79.3",
+        "sass-embedded-win32-x64": "1.79.3",
         "supports-color": "^8.1.1",
         "varint": "^6.0.0"
       },
@@ -4526,17 +4574,17 @@
       }
     },
     "sass-embedded-linux-musl-x64": {
-      "version": "1.78.0",
-      "resolved": "https://registry.npmjs.org/sass-embedded-linux-musl-x64/-/sass-embedded-linux-musl-x64-1.78.0.tgz",
-      "integrity": "sha512-azdUcZZvZmtUBslIKr2/l4aQrTX7BvO96TD0GLdWz9vuXZrokYm09AJZEnb5j6Pk5I4Xr0yM6BG1Vgcbzqi5Zg==",
+      "version": "1.79.3",
+      "resolved": "https://registry.npmjs.org/sass-embedded-linux-musl-x64/-/sass-embedded-linux-musl-x64-1.79.3.tgz",
+      "integrity": "sha512-gDHfaPlxT/XQTMbfb2y+U6zDMuI8pfapVXTYlUrgYhKH2KoICclIvahhjFii5i5+1dHpfGzjgYKBqI3nvZsYFg==",
       "dev": true,
       "optional": true,
       "peer": true
     },
     "sass-embedded-linux-x64": {
-      "version": "1.78.0",
-      "resolved": "https://registry.npmjs.org/sass-embedded-linux-x64/-/sass-embedded-linux-x64-1.78.0.tgz",
-      "integrity": "sha512-m997ThzpMwql4u6LzZCoHPIQkgK6bbLPLc7ydemo2Wusqzh6j8XAGxVT5oANp6s2Dmj+yh49pKDozal+tzEX9w==",
+      "version": "1.79.3",
+      "resolved": "https://registry.npmjs.org/sass-embedded-linux-x64/-/sass-embedded-linux-x64-1.79.3.tgz",
+      "integrity": "sha512-drlUqMMw222+f/T5sNrIAv+z0vQwLkO4zAlDmf4biLdWIloPP/3plTodAkMyfagNcvA8jG2jN414pJXBI3zK6w==",
       "dev": true,
       "optional": true,
       "peer": true
@@ -4621,9 +4669,9 @@
       "dev": true
     },
     "source-map-js": {
-      "version": "1.2.0",
-      "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.0.tgz",
-      "integrity": "sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==",
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz",
+      "integrity": "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==",
       "dev": true
     },
     "sourcemap-codec": {
@@ -4912,16 +4960,14 @@
       }
     },
     "xterm": {
-      "version": "5.3.0",
-      "resolved": "https://registry.npmjs.org/xterm/-/xterm-5.3.0.tgz",
-      "integrity": "sha512-8QqjlekLUFTrU6x7xck1MsPzPA571K5zNqWm0M0oroYEWVOptZ0+ubQSkQ3uxIEhcIHRujJy6emDWX4A7qyFzg==",
-      "dev": true
+      "version": "5.1.0",
+      "resolved": "https://registry.npmjs.org/xterm/-/xterm-5.1.0.tgz",
+      "integrity": "sha512-LovENH4WDzpwynj+OTkLyZgJPeDom9Gra4DMlGAgz6pZhIDCQ+YuO7yfwanY+gVbn/mmZIStNOnVRU/ikQuAEQ=="
     },
     "xterm-addon-canvas": {
       "version": "0.5.0",
       "resolved": "https://registry.npmjs.org/xterm-addon-canvas/-/xterm-addon-canvas-0.5.0.tgz",
       "integrity": "sha512-QOo/eZCMrCleAgMimfdbaZCgmQRWOml63Ued6RwQ+UTPvQj3Av9QKx3xksmyYrDGRO/AVRXa9oNuzlYvLdmoLQ==",
-      "dev": true,
       "requires": {}
     }
   }
