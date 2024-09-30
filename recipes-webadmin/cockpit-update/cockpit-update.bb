@@ -449,7 +449,7 @@ SRC_URI = " \
     npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json;dev=1 \
     "
 
-SRCREV = "3c111260d1d51315a1ca1296ac9e23f0bb035f5c"
+SRCREV = "526f8dff0c6c9d270d2f0d6000e76709eba54a6d"
 
 S = "${WORKDIR}/git"
 
