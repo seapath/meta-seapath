@@ -1,4 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2024, Savoir-faire Linux, Inc
 # SPDX-License-Identifier: Apache-2.0
 
 DESCRIPTION = "A Python3 module to manage VMs in a SEAPATH cluster"
