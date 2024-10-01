@@ -12,3 +12,5 @@ do_deploy:class-target:append () {
         cp  "${D}/efi/boot/shellx64.efi" "${DEPLOYDIR}/shellx64.efi"
     fi
 }
+
+addtask do_deploy after do_install before do_build
