@@ -3,7 +3,7 @@
 
 DESCRIPTION = "A Python3 module to apply an OVS configuration from a JSON file"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
 
 SRC_URI = "git://github.com/seapath/python3-setup-ovs.git;protocol=https;branch=main"
 SRCREV = "9a4462360e070b80142c7def1f0906a64cc56931"
