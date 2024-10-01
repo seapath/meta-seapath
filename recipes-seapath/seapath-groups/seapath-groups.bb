@@ -1,4 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2024 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 DESCRIPTION = "Seapath shared groups"
@@ -14,16 +15,20 @@ PACKAGES =+ " \
     ${PN}-vfio-net \
 "
 
+ALLOW_EMPTY:${PN} = "1"
+ALLOW_EMPTY:${PN}-dbg = "1"
+ALLOW_EMPTY:${PN}-dev = "1"
+ALLOW_EMPTY:${PN}-hugepages = "1"
+ALLOW_EMPTY:${PN}-vfio-net = "1"
+
 USERADD_PACKAGES= " \
     ${PN}-hugepages \
     ${PN}-vfio-net \
 "
 
 GROUPADD_PARAM:${PN}-hugepages = "-r hugepages"
-ALLOW_EMPTY:${PN}-hugepages = "1"
 
 GROUPADD_PARAM:${PN}-vfio-net = "-r vfio-net"
-ALLOW_EMPTY:${PN}-vfio-net = "1"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
