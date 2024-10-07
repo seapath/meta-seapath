@@ -16,6 +16,7 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
            file://0001-avoid-to_string-error.patch \
            file://0001-delete-install-layout-deb.patch \
            file://0002-cmake-allow-use-libzstd-in-system.patch \
+           file://0001-ceph-fix-missing-fix-missing-headers.patch \
 "
 
 SRC_URI[sha256sum] = "8c480ecbae9b8231de4abf49b14fac4c4f727459c53034c5682fe6125680a4cc"
@@ -76,7 +77,7 @@ EXTRA_OECMAKE += "-DWITH_MANPAGE=OFF \
                  -DWITH_RADOSGW_AMQP_ENDPOINT=OFF \
                  -DWITH_RADOSGW_KAFKA_ENDPOINT=OFF \
                  -DWITH_REENTRANT_STRSIGNAL=ON \
-                 -DWITH_PYTHON3=3.10 \
+                 -DWITH_PYTHON3=3.12 \
                  -DPYTHON_DESIRED=3 \
                  -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${WORKDIR}/toolchain.cmake \
 "
