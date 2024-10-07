@@ -1,0 +1,48 @@
+From 7e8f52f4877c13cb2a6f3658d8359c05c0f9f4fd Mon Sep 17 00:00:00 2001
+From: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+Date: Fri, 4 Oct 2024 16:40:10 +0200
+Subject: [PATCH] ceph: fix missing fix missing headers
+
+Since Yocto Scarthgap, error appeared where type from C headers can not
+be found. To fix this, add them is the needed files.
+
+Signed-off-by: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+---
+ src/common/subsys_types.h           | 2 +-
+ src/librbd/api/PoolMetadata.h       | 1 +
+ src/os/bluestore/bluestore_common.h | 0
+ 3 files changed, 2 insertions(+), 1 deletion(-)
+ mode change 100755 => 100644 src/os/bluestore/bluestore_common.h
+
+diff --git a/src/common/subsys_types.h b/src/common/subsys_types.h
+index 52171809b..c41f56793 100644
+--- a/src/common/subsys_types.h
++++ b/src/common/subsys_types.h
+@@ -17,6 +17,7 @@
+ 
+ #include <algorithm>
+ #include <array>
++#include <cstdint>
+ 
+ enum ceph_subsys_id_t {
+   ceph_subsys_,   // default
+@@ -83,4 +84,3 @@ constexpr static std::size_t ceph_subsys_max_name_length() {
+ }
+ 
+ #endif // CEPH_SUBSYS_TYPES_H
+-
+diff --git a/src/librbd/api/PoolMetadata.h b/src/librbd/api/PoolMetadata.h
+index c0a817359..f448bdfed 100644
+--- a/src/librbd/api/PoolMetadata.h
++++ b/src/librbd/api/PoolMetadata.h
+@@ -9,6 +9,7 @@
+ 
+ #include <map>
+ #include <string>
++#include "stdint.h"
+ 
+ namespace librbd {
+ 
+diff --git a/src/os/bluestore/bluestore_common.h b/src/os/bluestore/bluestore_common.h
+old mode 100755
+new mode 100644
