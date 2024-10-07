@@ -1,0 +1,92 @@
+From fe1e8632a356cb187c4b82710358ec2fe0bb6fee Mon Sep 17 00:00:00 2001
+From: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+Date: Fri, 4 Oct 2024 13:11:20 +0200
+Subject: [PATCH] rocksdb: fix missing headers
+
+Since Yocto Scarthgap, error appeared where type from C headers can not
+be found. To fix this, add them is the needed files.
+
+Signed-off-by: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+---
+ db/compaction/compaction_iteration_stats.h                      | 2 +-
+ include/rocksdb/utilities/checkpoint.h                          | 1 +
+ table/block_based/data_block_hash_index.cc                      | 1 +
+ table/block_based/data_block_hash_index.h                       | 2 +-
+ .../folly/folly/synchronization/detail/ProxyLockable-inl.h      | 1 +
+ util/string_util.h                                              | 1 +
+ 6 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/db/compaction/compaction_iteration_stats.h b/db/compaction/compaction_iteration_stats.h
+index cb7b82c65..4d437d71a 100644
+--- a/db/compaction/compaction_iteration_stats.h
++++ b/db/compaction/compaction_iteration_stats.h
+@@ -6,7 +6,7 @@
+ #pragma once
+ 
+ #include "rocksdb/rocksdb_namespace.h"
+-
++#include <stdint.h>
+ struct CompactionIterationStats {
+   // Compaction statistics
+ 
+diff --git a/include/rocksdb/utilities/checkpoint.h b/include/rocksdb/utilities/checkpoint.h
+index df2a74403..daf85d945 100644
+--- a/include/rocksdb/utilities/checkpoint.h
++++ b/include/rocksdb/utilities/checkpoint.h
+@@ -11,6 +11,7 @@
+ #include <string>
+ #include <vector>
+ #include "rocksdb/status.h"
++#include <stdint.h>
+ 
+ namespace ROCKSDB_NAMESPACE {
+ 
+diff --git a/table/block_based/data_block_hash_index.cc b/table/block_based/data_block_hash_index.cc
+index 222475834..616648d27 100644
+--- a/table/block_based/data_block_hash_index.cc
++++ b/table/block_based/data_block_hash_index.cc
+@@ -9,6 +9,7 @@
+ #include "table/block_based/data_block_hash_index.h"
+ #include "util/coding.h"
+ #include "util/hash.h"
++#include <stdint.h>
+ 
+ namespace ROCKSDB_NAMESPACE {
+ 
+diff --git a/table/block_based/data_block_hash_index.h b/table/block_based/data_block_hash_index.h
+index f356395f3..60c92b705 100644
+--- a/table/block_based/data_block_hash_index.h
++++ b/table/block_based/data_block_hash_index.h
+@@ -7,7 +7,7 @@
+ 
+ #include <string>
+ #include <vector>
+-
++#include <stdint.h>
+ #include "rocksdb/slice.h"
+ 
+ namespace ROCKSDB_NAMESPACE {
+diff --git a/third-party/folly/folly/synchronization/detail/ProxyLockable-inl.h b/third-party/folly/folly/synchronization/detail/ProxyLockable-inl.h
+index 573330ceb..ada1e63d4 100644
+--- a/third-party/folly/folly/synchronization/detail/ProxyLockable-inl.h
++++ b/third-party/folly/folly/synchronization/detail/ProxyLockable-inl.h
+@@ -14,6 +14,7 @@
+ #include <mutex>
+ #include <stdexcept>
+ #include <utility>
++#include <system_error>
+ 
+ namespace folly {
+ namespace detail {
+diff --git a/util/string_util.h b/util/string_util.h
+index 83fa5781d..64cb8a778 100644
+--- a/util/string_util.h
++++ b/util/string_util.h
+@@ -12,6 +12,7 @@
+ #include <vector>
+ 
+ #include "rocksdb/rocksdb_namespace.h"
++#include <stdint.h>
+ 
+ namespace ROCKSDB_NAMESPACE {
+ 
