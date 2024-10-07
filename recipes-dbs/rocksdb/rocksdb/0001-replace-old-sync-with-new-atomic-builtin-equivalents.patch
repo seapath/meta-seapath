@@ -1,4 +1,4 @@
-From 114c42fba3fc86119710e8dd1bb2b7a9e39e3064 Mon Sep 17 00:00:00 2001
+From 129abee8f3b9850b33480e607f618bc04ce4ccdf Mon Sep 17 00:00:00 2001
 From: Khem Raj <raj.khem@gmail.com>
 Date: Thu, 17 Jun 2021 19:35:01 -0700
 Subject: [PATCH] replace old sync with new atomic builtin equivalents
@@ -11,6 +11,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  .../range/range_tree/lib/portability/toku_atomic.h   | 12 ++++++------
  1 file changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/utilities/transactions/lock/range/range_tree/lib/portability/toku_atomic.h b/utilities/transactions/lock/range/range_tree/lib/portability/toku_atomic.h
+index aaa2298fa..938590280 100644
 --- a/utilities/transactions/lock/range/range_tree/lib/portability/toku_atomic.h
 +++ b/utilities/transactions/lock/range/range_tree/lib/portability/toku_atomic.h
 @@ -77,37 +77,37 @@ template <typename T, typename U>
