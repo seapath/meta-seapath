@@ -111,6 +111,9 @@ parted -s -- "${disk}" resizepart "${LAST_PART}" "${END}"
 echo "Update file system to the new partition size"
 resize2fs "${OVERLAY}"
 
+# Sanity check
+e2fsck -fp "${OVERLAY}"
+
 # Check if efivarfs is mounted
 if ! grep -q /sys/firmware/efi/efivars /proc/mounts ; then
     mount -t efivarfs efivarfs /sys/firmware/efi/efivars
