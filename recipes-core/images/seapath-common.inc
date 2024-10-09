@@ -22,6 +22,7 @@ IMAGE_INSTALL:append = " \
 IMAGE_INSTALL:append = " \
     python3-json \
     python3-modules \
+    python3-setuptools \
 "
 
 IMAGE_INSTALL:append = " less"
