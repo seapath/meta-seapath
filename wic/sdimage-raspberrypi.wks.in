@@ -1,0 +1,15 @@
+# Copyright (C) 2024 Savoir-faire Linux, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+# short-description: Create Raspberry Pi SD card image
+# long-description: Creates a partitioned SD card image for use with
+# Raspberry Pi boot files are located in the first vfat partition.
+# The third partition is empty. This is necessary to match the seapath fstab.
+bootloader --ptable gpt
+
+part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4096 --size 20
+
+part / --source rootfs --exclude-path boot/ --ondisk mmcblk0 --fstype=ext4 --label rootfs0 --align 1024 --size 3G
+part / --ondisk mmcblk0 --fstype=ext4 --label rootfs1 --align 1024 --size 3G
+part /var/log --size 4096 --ondisk mmcblk0 --fstype=ext4 --label log --align 1024 --use-label
+part /mnt/persistent --size 256 --ondisk mmcblk0 --fstype=ext4 --label persistent --align 1024
