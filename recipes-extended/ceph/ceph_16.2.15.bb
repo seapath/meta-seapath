@@ -100,7 +100,6 @@ do_install:append () {
 	install -d ${D}${sysconfdir}/ceph
 	install -d ${D}${systemd_unitdir}
 	mv ${D}${libexecdir}/systemd/system ${D}${systemd_unitdir}
-	mv ${D}${libexecdir}/ceph/ceph-osd-prestart.sh ${D}${libdir}/ceph
 	mv ${D}${libexecdir}/ceph/ceph_common.sh ${D}${libdir}/ceph
 	# WITH_FUSE is set to OFF, remove ceph-fuse related units
 	rm ${D}${systemd_unitdir}/system/ceph-fuse.target ${D}${systemd_unitdir}/system/ceph-fuse@.service

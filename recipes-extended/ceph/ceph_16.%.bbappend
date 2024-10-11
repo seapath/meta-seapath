@@ -41,8 +41,6 @@ do_install:append () {
     install -m 0755 -d ${D}${localstatedir}/log/ceph
     chown ceph:ceph ${D}${localstatedir}/log/ceph ${D}${localstatedir}/lib/ceph
 
-    sed -i 's/sbin/bin/' ${D}${systemd_system_unitdir}/ceph-volume@.service
-
     for ceph_service in crash "mon@" "osd@" "mgr@" ; do
         echo '[Service]\nSystemCallFilter=@system-service' \
             >> ${D}${systemd_system_unitdir}/ceph-${ceph_service}.service
