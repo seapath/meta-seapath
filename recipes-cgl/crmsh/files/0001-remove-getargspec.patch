@@ -1,0 +1,33 @@
+From 8d0fa04f52f4734e7b4fdcd5524bba55301b81ad Mon Sep 17 00:00:00 2001
+From: Bas Couwenberg <sebastic@debian.org>
+Date: Thu, 12 Jan 2023 07:19:25 +0100
+Subject: [PATCH] Don't use inspect.getargspec, removed in Python 3.11.
+
+Upstream-Status: Backport[https://github.com/ClusterLabs/crmsh/commit/8d0fa04f52f4734e7b4fdcd5524bba55301b81ad]
+
+---
+ crmsh/ui_utils.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/crmsh/ui_utils.py b/crmsh/ui_utils.py
+index cc60cca5f..252f0c385 100644
+--- a/crmsh/ui_utils.py
++++ b/crmsh/ui_utils.py
+@@ -113,7 +113,7 @@ def pretty_arguments(f, nskip=0):
+     Returns a prettified representation
+     of the command arguments
+     '''
+-    specs = inspect.getargspec(f)
++    specs = inspect.getfullargspec(f)
+     named_args = []
+     if specs.defaults is None:
+         named_args += specs.args
+@@ -140,7 +140,7 @@ def validate_arguments(f, args, nskip=0):
+
+     Note: Does not support keyword arguments.
+     '''
+-    specs = inspect.getargspec(f)
++    specs = inspect.getfullargspec(f)
+     min_args = len(specs.args)
+     if specs.defaults is not None:
+         min_args -= len(specs.defaults)
