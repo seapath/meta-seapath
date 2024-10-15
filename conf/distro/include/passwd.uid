@@ -1,0 +1,33 @@
+root:x:0:0:root:/home/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/sbin/nologin
+bin:x:2:2:bin:/bin:/sbin/nologin
+sys:x:3:3:sys:/dev:/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/sbin/nologin
+man:x:6:12:man:/var/cache/man:/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/sbin/nologin
+mail:x:8:8:mail:/var/mail:/sbin/nologin
+news:x:9:9:news:/var/spool/news:/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/sbin/nologin
+proxy:x:13:13:proxy:/bin:/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/sbin/nologin
+backup:x:34:34:backup:/var/backups:/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/sbin/nologin
+qemu:x:989:984::/home/qemu:/bin/sh
+systemd-timesync:x:990:985::/:/sbin/nologin
+systemd-resolve:x:991:986::/:/sbin/nologin
+systemd-network:x:992:987::/:/sbin/nologin
+openvswitch:x:993:989::/home/openvswitch:/bin/sh
+ceph:x:994:990:Ceph daemons:/var/lib/ceph:/bin/nologin
+snmp:x:995:991:SNMP server daemon:/var/lib/snmp:/sbin/nologin
+systemd-bus-proxy:x:996:992::/:/sbin/nologin
+sshd:x:997:995::/var/run/sshd:/bin/false
+hacluster:x:998:996:cluster user:/var/lib/heartbeat/cores/hacluster:/usr/sbin/nologin
+messagebus:x:999:997::/var/lib/dbus:/bin/false
+admin:x:1000:1000::/home/admin:/bin/sh
+emergadmin:x:1001:1001::/home/emergadmin:/bin/sh
+virtu:x:1002:1002::/home/virtu:/bin/sh
+livemigration:x:300:300::/:/bin/sh
+nobody:x:65534:65534:nobody:/nonexistent:/sbin/nologin

@@ -94,3 +94,7 @@ REQUIRED_VERSION_linuxptp = "3.1.1"
 
 # Create /etc/build
 INHERIT += "image-buildinfo"
+
+# Enable UID and GID static allocation
+USERADD_UID_TABLES = "conf/distro/include/passwd.uid"
+GROUPADD_GID_TABLES = "conf/distro/include/group.gid"
