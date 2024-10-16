@@ -1,0 +1,29 @@
+From 709cbe4584a25971fe8ef3c95f64b4dc88f1f8a2 Mon Sep 17 00:00:00 2001
+From: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+Date: Wed, 16 Oct 2024 13:02:47 +0200
+Subject: [PATCH] virtlogd.service.in: remove syscall filter
+
+Since v9.10.0, security recommendation from `systemd-analyze security`
+have been applied on Libvirt services. In particular, one of the
+recommendation is to prohibit the use of syscall that needs privileges
+to be run. This recommendation makes the Libvirt logging service
+crashing.
+To fix this, this commit removes it.
+
+Signed-off-by: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+---
+ src/logging/virtlogd.service.in | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/src/logging/virtlogd.service.in b/src/logging/virtlogd.service.in
+index bcc356f..d7ddddd 100644
+--- a/src/logging/virtlogd.service.in
++++ b/src/logging/virtlogd.service.in
+@@ -99,7 +99,6 @@ SystemCallFilter=~@mount
+ SystemCallFilter=~@raw-io
+ SystemCallFilter=~@reboot
+ SystemCallFilter=~@swap
+-SystemCallFilter=~@privileged
+ # Unfortunately we link to libnuma via libvirt.so which
+ # has a constructor that runs unconditionally that invokes
+ # set_mempolicy()
