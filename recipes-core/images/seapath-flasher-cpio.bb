@@ -46,4 +46,4 @@ inherit ansible-ssh
 COMPATIBLE_MACHINE = "seapath-installer"
 
 # 256MB
-INITRAMFS_MAXSIZE = "400000"
+INITRAMFS_MAXSIZE = "512000"
