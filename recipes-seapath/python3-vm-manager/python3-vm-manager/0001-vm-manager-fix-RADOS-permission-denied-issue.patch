@@ -1,0 +1,304 @@
+From 03b2726db03de34cc7e9b4977c8cc4dc12c47670 Mon Sep 17 00:00:00 2001
+From: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+Date: Mon, 14 Oct 2024 15:08:21 +0200
+Subject: [PATCH] vm-manager: fix RADOS permission denied issue
+
+This commit fixes a permission denied issue when trying to connect to
+the cluster with vm-manager.
+
+Upstream-Status: Inappropriate [oe specific]
+
+Signed-off-by: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+---
+ vm_manager/__init__.py            |  4 +++
+ vm_manager/helpers/rbd_manager.py | 26 +++++++++++------
+ vm_manager/vm_manager_cluster.py  | 46 +++++++++++++++----------------
+ 3 files changed, 45 insertions(+), 31 deletions(-)
+
+diff --git a/vm_manager/__init__.py b/vm_manager/__init__.py
+index 3f846a3..56014f8 100644
+--- a/vm_manager/__init__.py
++++ b/vm_manager/__init__.py
+@@ -1,6 +1,10 @@
+ # Copyright (C) 2021, RTE (http://www.rte-france.com)
+ # SPDX-License-Identifier: Apache-2.0
+ 
++
++from  .helpers.rbd_manager import get_or_create_rados_context
++get_or_create_rados_context()
++
+ try:
+     from .helpers.rbd_manager import RbdManager
+     from .helpers.pacemaker import Pacemaker
+diff --git a/vm_manager/helpers/rbd_manager.py b/vm_manager/helpers/rbd_manager.py
+index de259d4..cca720e 100644
+--- a/vm_manager/helpers/rbd_manager.py
++++ b/vm_manager/helpers/rbd_manager.py
+@@ -15,36 +15,46 @@ from rbd import RBD, Group, Image
+ 
+ logger = logging.getLogger(__name__)
+ 
++rados_cluster = None
++
++def get_or_create_rados_context(ceph_conf="/etc/ceph/ceph.conf"):
++    """
++    Return a Rados context.
++    """
++    if not os.path.isfile(ceph_conf):
++        raise IOError(ENOENT, "Could not find file", ceph_conf)
++
++    global rados_cluster
++
++    if not rados_cluster:
++        rados_cluster = Rados(conffile=ceph_conf, conf = dict (keyring = '/etc/ceph/ceph.client.admin.keyring'))
++        rados_cluster.connect()
++    return rados_cluster
++
+ 
+ class RbdException(Exception):
+     """
+     To be used to raise exceptions from this module.
+     """
+ 
+-
+ class RbdManager:
+     """
+     Helper class to manipulate RBD.
+     """
+ 
+     def __init__(
+-        self, ceph_conf="/etc/ceph/ceph.conf", pool="rbd", namespace=""
++        self, pool="rbd", namespace=""
+     ):
+         """
+         Class constructor.
+         """
+-
+-        if not os.path.isfile(ceph_conf):
+-            raise IOError(ENOENT, "Could not find file", ceph_conf)
+-
+-        self._cluster = Rados(conffile=ceph_conf)
++        self._cluster = get_or_create_rados_context()
+         self._rbd_inst = RBD()
+ 
+         self._namespace = namespace
+         self._pool = pool
+ 
+         try:
+-            self._cluster.connect()
+             self._ioctx = self._cluster.open_ioctx(self._pool)
+             self.set_namespace(self._namespace)
+             logger.info("Module has been successfully initialized")
+diff --git a/vm_manager/vm_manager_cluster.py b/vm_manager/vm_manager_cluster.py
+index 6ead02f..59ab1ef 100644
+--- a/vm_manager/vm_manager_cluster.py
++++ b/vm_manager/vm_manager_cluster.py
+@@ -18,9 +18,9 @@ from .helpers.libvirt import LibVirtManager
+ 
+ XML_PACEMAKER_PATH = "/etc/pacemaker"
+ 
+-CEPH_CONF = "/etc/ceph/ceph.conf"
+ POOL_NAME = "rbd"
+ NAMESPACE = ""
++CEPH_CONF = "/etc/ceph/ceph.conf"
+ 
+ RESERVED_NAMES = ["xml"]
+ OS_DISK_PREFIX = "system_"
+@@ -52,7 +52,7 @@ def _create_vm_group(vm_name, force=False):
+     Create vm_name group and check its creation. Group can be
+     overwritten if force is set to True.
+     """
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+ 
+         # Check if VM already exists and overwrite it if force is enabled
+         if rbd.group_exists(vm_name):
+@@ -120,7 +120,7 @@ def _configure_vm(vm_options):
+     xml = _create_xml(vm_options["base_xml"], vm_options["name"])
+ 
+     # Add to group and set initial metadata
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+         disk_name = OS_DISK_PREFIX + vm_options["name"]
+         rbd.add_image_to_group(disk_name, vm_options["name"])
+         logger.info(
+@@ -227,7 +227,7 @@ def list_vms(enabled=False):
+     if enabled:
+         return Pacemaker.list_resources()
+     else:
+-        with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++        with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+             return rbd.list_groups()
+ 
+ 
+@@ -274,7 +274,7 @@ def create(vm_options_with_nones):
+         vm_options["force"] = False
+     _create_vm_group(vm_options["name"], vm_options["force"])
+ 
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+ 
+         try:
+             # Overwrite image if necessary
+@@ -316,7 +316,7 @@ def remove(vm_name):
+             lvm.undefine(vm_name)
+ 
+     # Remove group and image from RBD cluster
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+ 
+         disk_name = OS_DISK_PREFIX + vm_name
+         if rbd.group_exists(vm_name):
+@@ -359,7 +359,7 @@ def enable_vm(vm_name):
+             remote_node_port = None
+             remote_node_timeout = None
+ 
+-            with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++            with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+                 try:
+                     preferred_host = rbd.get_image_metadata(
+                         disk_name, "_preferred_host"
+@@ -563,7 +563,7 @@ def status(vm_name):
+     :return: the status of the VM, among Starting, Started, Paused,
+              Stopped, Stopping, Disabled, Undefined and FAILED
+     """
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+         if not rbd.group_exists(vm_name):
+             return "Undefined"
+ 
+@@ -627,7 +627,7 @@ def clone(vm_options_with_nones):
+     dst_disk = OS_DISK_PREFIX + dst_vm_name
+ 
+     if "base_xml" not in vm_options:
+-        with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++        with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+             vm_options["base_xml"] = rbd.get_image_metadata(
+                 src_disk, "_base_xml"
+             )
+@@ -638,7 +638,7 @@ def clone(vm_options_with_nones):
+         and "preferred_host" not in vm_options
+         and "pinned_host" not in vm_options
+     ):
+-        with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++        with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+             try:
+                 vm_options["preferred_host"] = rbd.get_image_metadata(
+                     src_disk, "_preferred_host"
+@@ -663,7 +663,7 @@ def clone(vm_options_with_nones):
+         vm_options["force"] = False
+     _create_vm_group(dst_vm_name, vm_options["force"])
+ 
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+         try:
+             # Overwrite image if necessary
+             if rbd.image_exists(dst_disk):
+@@ -710,7 +710,7 @@ def create_snapshot(vm_name, snapshot_name):
+ 
+     _check_name(snapshot_name)
+ 
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+ 
+         disk_name = OS_DISK_PREFIX + vm_name
+         if rbd.image_snapshot_exists(disk_name, snapshot_name):
+@@ -736,7 +736,7 @@ def remove_snapshot(vm_name, snapshot_name):
+     :param vm_name: the VM from which the snapshot must be removed
+     :param snapshot_name: the name of the snapshot to be removed
+     """
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+         disk_name = OS_DISK_PREFIX + vm_name
+         rbd.remove_image_snapshot(disk_name, snapshot_name)
+         logger.info(
+@@ -754,7 +754,7 @@ def list_snapshots(vm_name):
+     :param vm_name: the VM name from which to list the snapshots
+     :return: the snapshot list
+     """
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+         disk_name = OS_DISK_PREFIX + vm_name
+         return rbd.list_image_snapshots(disk_name)
+ 
+@@ -775,7 +775,7 @@ def purge_image(vm_name, date=None, number=None):
+             raise ValueError("Parameter date is not datetime")
+ 
+         disk_name = OS_DISK_PREFIX + vm_name
+-        with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++        with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+ 
+             # snapshot list is sorted by creation date
+             for snap in rbd.list_image_snapshots(disk_name, flat=False):
+@@ -798,7 +798,7 @@ def purge_image(vm_name, date=None, number=None):
+             raise ValueError("Parameter number must be a positive integer")
+ 
+         disk_name = OS_DISK_PREFIX + vm_name
+-        with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++        with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+ 
+             # snapshot list is sorted by creation date
+             snap_list = rbd.list_image_snapshots(disk_name)
+@@ -821,7 +821,7 @@ def purge_image(vm_name, date=None, number=None):
+                 )
+     else:
+ 
+-        with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++        with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+             disk_name = OS_DISK_PREFIX + vm_name
+             rbd.purge_image(disk_name)
+             logger.info("Image " + disk_name + " successfully purged")
+@@ -834,7 +834,7 @@ def rollback_snapshot(vm_name, snapshot_name):
+     :param snapshot_name: the snapshot name to be used for rollback
+     """
+ 
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+ 
+         disk_name = OS_DISK_PREFIX + vm_name
+         if not rbd.image_snapshot_exists(disk_name, snapshot_name):
+@@ -867,7 +867,7 @@ def list_metadata(vm_name):
+     :param vm_name: the VM name from which the metadata will be listed
+     :return: the metadata list
+     """
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+         disk_name = OS_DISK_PREFIX + vm_name
+         return rbd.list_image_metadata(disk_name)
+ 
+@@ -879,7 +879,7 @@ def get_metadata(vm_name, metadata_name):
+     :param metadata_name: the metadata name to get
+     :return: the metadata value (a str)
+     """
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+         disk_name = OS_DISK_PREFIX + vm_name
+         return rbd.get_image_metadata(disk_name, metadata_name)
+ 
+@@ -894,7 +894,7 @@ def set_metadata(vm_name, metadata_name, metadata_value):
+     """
+ 
+     _check_name(metadata_name)
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+         disk_name = OS_DISK_PREFIX + vm_name
+         rbd.set_image_metadata(disk_name, metadata_name, metadata_value)
+ 
+@@ -930,7 +930,7 @@ def remove_pacemaker_remote(vm_name):
+     Remove the pacemaker remote configuration from the VM.
+     :param vm_name: the VM name to remove the pacemaker remote configuration
+     """
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+         disk_name = OS_DISK_PREFIX + vm_name
+         try:
+             rbd.remove_image_metadata(disk_name, "_remote_node")
+@@ -963,7 +963,7 @@ def add_pacemaker_remote(
+     """
+ 
+     _check_name(remote_node)
+-    with RbdManager(CEPH_CONF, POOL_NAME, NAMESPACE) as rbd:
++    with RbdManager(POOL_NAME, NAMESPACE) as rbd:
+         disk_name = OS_DISK_PREFIX + vm_name
+         rbd.set_image_metadata(disk_name, "_remote_node", remote_node)
+         rbd.set_image_metadata(
