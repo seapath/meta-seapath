@@ -17,7 +17,6 @@ USERS_LIST_REMOVED[doc] = "List of users to remove"
 USERS_LIST_LOCKED ?= "daemon \
  sync \
  ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', "qemu", '', d)} \
- systemd-bus-proxy \
  systemd-timesync \
  systemd-resolve \
  systemd-network \
