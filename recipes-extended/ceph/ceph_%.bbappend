@@ -11,6 +11,7 @@ USERADD_PARAM:${PN} = "--system --no-create-home --home-dir /var/lib/ceph \
 
 
 SRC_URI += "file://0001-mgr-Define-PY_SSIZE_T_CLEAN-ahead-of-every-Python.h.patch"
+SRC_URI += "file://0001-systemd-ceph-volume-do-not-block-indefinitely-on-cep.patch"
 
 EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
                  -DWITH_FUSE=OFF \
