@@ -1,0 +1,39 @@
+From 2856a105a41560de4e91072e7178d8dd88774a48 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mathieu=20Dupr=C3=A9?= <mathieu.dupre@savoirfairelinux.com>
+Date: Mon, 14 Oct 2024 17:04:01 +0200
+Subject: [PATCH] systemd/ceph-volume: do not block indefinitely on ceph-volume
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The ceph-volume systemd service was blocking indefinitely on the
+ceph-volume command.
+
+Remove the infinite systemd timeout.
+Configure the ceph-volume internal timeout to 10 seconds.
+Remove the KillMode=none directive which was used to prevent systemd
+from killing the ceph-volume command.
+
+Upstream-Status: Inappropriate [oe specific]
+
+Signed-off-by: Mathieu Dupré <mathieu.dupre@savoirfairelinux.com>
+---
+ systemd/ceph-volume@.service | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/systemd/ceph-volume@.service b/systemd/ceph-volume@.service
+index c21002cec..7b19108e1 100644
+--- a/systemd/ceph-volume@.service
++++ b/systemd/ceph-volume@.service
+@@ -5,10 +5,8 @@ Wants=local-fs.target
+ 
+ [Service]
+ Type=oneshot
+-KillMode=none
+-Environment=CEPH_VOLUME_TIMEOUT=10000
++Environment=CEPH_VOLUME_TIMEOUT=10
+ ExecStart=/bin/sh -c 'timeout $CEPH_VOLUME_TIMEOUT /usr/sbin/ceph-volume-systemd %i'
+-TimeoutSec=0
+ 
+ [Install]
+ WantedBy=multi-user.target
