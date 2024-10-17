@@ -1,0 +1,110 @@
+From eaf1cac4ba05991b1e0e395e899b004e5b106264 Mon Sep 17 00:00:00 2001
+From: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+Date: Thu, 17 Oct 2024 10:53:28 +0200
+Subject: [PATCH] vm_manager/tests: fix RADOS object not found
+
+This commit fix an issue when opening pool where CEPH_CONF object is
+not being found.
+
+Signed-off-by: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+---
+ vm_manager/helpers/tests/rbd_manager/clone_rbd.py            | 2 +-
+ vm_manager/helpers/tests/rbd_manager/create_rbd_group.py     | 2 +-
+ vm_manager/helpers/tests/rbd_manager/create_rbd_namespace.py | 2 +-
+ vm_manager/helpers/tests/rbd_manager/metadata_rbd.py         | 2 +-
+ vm_manager/helpers/tests/rbd_manager/purge_rbd.py            | 2 +-
+ vm_manager/helpers/tests/rbd_manager/rollback_rbd.py         | 2 +-
+ vm_manager/helpers/tests/rbd_manager/write_rbd.py            | 2 +-
+ 7 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/vm_manager/helpers/tests/rbd_manager/clone_rbd.py b/vm_manager/helpers/tests/rbd_manager/clone_rbd.py
+index e3511f4..82c5271 100644
+--- a/vm_manager/helpers/tests/rbd_manager/clone_rbd.py
++++ b/vm_manager/helpers/tests/rbd_manager/clone_rbd.py
+@@ -20,7 +20,7 @@ TEXT = "Hello world"
+ 
+ if __name__ == "__main__":
+ 
+-    with RbdManager(CEPH_CONF, POOL_NAME) as rbd:
++    with RbdManager(POOL_NAME) as rbd:
+ 
+         # Create image
+         print("Create image " + IMG1)
+diff --git a/vm_manager/helpers/tests/rbd_manager/create_rbd_group.py b/vm_manager/helpers/tests/rbd_manager/create_rbd_group.py
+index 26e9acf..569b66b 100644
+--- a/vm_manager/helpers/tests/rbd_manager/create_rbd_group.py
++++ b/vm_manager/helpers/tests/rbd_manager/create_rbd_group.py
+@@ -18,7 +18,7 @@ GROUP = "group1"
+ 
+ if __name__ == "__main__":
+ 
+-    with RbdManager(CEPH_CONF, POOL_NAME) as rbd:
++    with RbdManager(POOL_NAME) as rbd:
+ 
+         # Create image
+         print("Create image " + IMG_NAME)
+diff --git a/vm_manager/helpers/tests/rbd_manager/create_rbd_namespace.py b/vm_manager/helpers/tests/rbd_manager/create_rbd_namespace.py
+index 7b95bb7..d2ccab2 100644
+--- a/vm_manager/helpers/tests/rbd_manager/create_rbd_namespace.py
++++ b/vm_manager/helpers/tests/rbd_manager/create_rbd_namespace.py
+@@ -20,7 +20,7 @@ NS2 = "namespace2"
+ 
+ if __name__ == "__main__":
+ 
+-    with RbdManager(CEPH_CONF, POOL_NAME) as rbd:
++    with RbdManager(POOL_NAME) as rbd:
+ 
+         try:
+             # Create namespace
+diff --git a/vm_manager/helpers/tests/rbd_manager/metadata_rbd.py b/vm_manager/helpers/tests/rbd_manager/metadata_rbd.py
+index 87c5fbe..6d7f522 100644
+--- a/vm_manager/helpers/tests/rbd_manager/metadata_rbd.py
++++ b/vm_manager/helpers/tests/rbd_manager/metadata_rbd.py
+@@ -22,7 +22,7 @@ METADATA = {
+ 
+ if __name__ == "__main__":
+ 
+-    with RbdManager(CEPH_CONF, POOL_NAME) as rbd:
++    with RbdManager(POOL_NAME) as rbd:
+ 
+         # Create image
+         print("Create image " + IMG_NAME)
+diff --git a/vm_manager/helpers/tests/rbd_manager/purge_rbd.py b/vm_manager/helpers/tests/rbd_manager/purge_rbd.py
+index 4675257..c321841 100644
+--- a/vm_manager/helpers/tests/rbd_manager/purge_rbd.py
++++ b/vm_manager/helpers/tests/rbd_manager/purge_rbd.py
+@@ -21,7 +21,7 @@ GROUP = "group1"
+ 
+ if __name__ == "__main__":
+ 
+-    with RbdManager(CEPH_CONF, POOL_NAME) as rbd:
++    with RbdManager(POOL_NAME) as rbd:
+ 
+         # Create image
+         print("Create image " + IMG_NAME)
+diff --git a/vm_manager/helpers/tests/rbd_manager/rollback_rbd.py b/vm_manager/helpers/tests/rbd_manager/rollback_rbd.py
+index 04c1fa0..be8db91 100644
+--- a/vm_manager/helpers/tests/rbd_manager/rollback_rbd.py
++++ b/vm_manager/helpers/tests/rbd_manager/rollback_rbd.py
+@@ -56,7 +56,7 @@ def cleanup(rbd):
+ 
+ if __name__ == "__main__":
+ 
+-    with RbdManager(CEPH_CONF, POOL_NAME) as rbd:
++    with RbdManager(POOL_NAME) as rbd:
+ 
+         # Create image
+         print("Create image " + IMG_NAME)
+diff --git a/vm_manager/helpers/tests/rbd_manager/write_rbd.py b/vm_manager/helpers/tests/rbd_manager/write_rbd.py
+index 686b3d4..cb31459 100644
+--- a/vm_manager/helpers/tests/rbd_manager/write_rbd.py
++++ b/vm_manager/helpers/tests/rbd_manager/write_rbd.py
+@@ -18,7 +18,7 @@ TEXT = "Hello world"
+ 
+ if __name__ == "__main__":
+ 
+-    with RbdManager(CEPH_CONF, POOL_NAME) as rbd:
++    with RbdManager(POOL_NAME) as rbd:
+ 
+         # Create image
+         print("Create image " + IMG_NAME)
