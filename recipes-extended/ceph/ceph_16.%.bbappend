@@ -49,12 +49,13 @@ do_install:append () {
             >> ${D}${systemd_system_unitdir}/ceph-${ceph_service}.service
     done
 
-    # The ceph-ansible 16 search ceph scripts inside /usr/libexec/ceph directory
-    # only on Yocto. Moving the scripts to /usr/libexec/ceph directory result to
-    # other issues. So, we create a symlink to the scripts here because we do
-    # not have a way to patch ceph-ansible on SEAPATH.
+    # ceph-ansible 16 needs some scripts stored in /usr/lib/ceph directory, but
+    # look for them in /usr/libexec/ceph directory. Ceph tools also use these
+    # scripts but look for them in /usr/lib/ceph directory.So, we create a
+    # symlink to the scripts from /usr/lib/ceph to /usr/libexec/ceph.
+    install -m 0755 -d ${D}/${libexecdir}/ceph
     for ceph_script in ceph-osd-prestart.sh ceph_common.sh ; do
-        ln -sf /usr/lib/ceph/${ceph_script} ${D}/${libexecdir}/${ceph_script}
+        ln -sf /usr/lib/ceph/${ceph_script} ${D}/${libexecdir}/ceph/${ceph_script}
     done
 }
 
