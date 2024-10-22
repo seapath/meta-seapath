@@ -31,9 +31,6 @@ do_install:append() {
     install -d ${D}/${systemd_unitdir}/system/
     install -m 644 ${WORKDIR}/libvirtd.service \
         ${D}/${systemd_unitdir}/system/libvirtd.service
-
-    rm -f ${D}${sysconfdir}/libvirt/qemu/networks/autostart/default.xml
-    rm -f ${D}${sysconfdir}/libvirt/qemu/networks/default.xml
 }
 
 FILES:${PN} += " \
