@@ -13,7 +13,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 SRC_URI += " \
     file://libvirtd \
     file://libvirtd.conf \
-    file://libvirtd.service \
+    file://libvirtd.service.fragment \
     file://qemu.conf \
 "
 
@@ -28,14 +28,15 @@ do_install:append() {
     install -m 0644 ${WORKDIR}/qemu.conf \
         ${D}${sysconfdir}/libvirt/qemu.conf
 
-    install -d ${D}/${systemd_unitdir}/system/
-    install -m 644 ${WORKDIR}/libvirtd.service \
-        ${D}/${systemd_unitdir}/system/libvirtd.service
+    install -d ${D}/${systemd_system_unitdir}/libvirtd.service.d
+
+    install -m 644 ${WORKDIR}/libvirtd.service.fragment \
+        ${D}${systemd_system_unitdir}/libvirtd.service.d/hardening.conf
 }
 
 FILES:${PN} += " \
     ${sysconfdir}/sysconfig/libvirtd \
     ${sysconfdir}/libvirt/libvirtd.conf \
     ${sysconfdir}/libvirt/qemu.conf \
-    ${systemd_unitdir}/system/libvirtd.service \
+    ${systemd_system_unitdir}/libvirtd.service.d/hardening.conf \
 "

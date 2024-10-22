@@ -1,0 +1,17 @@
+# Copyright (C) 2024 Savoir-faire Linux, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+[Service]
+PIDFile=/run/libvirt/libvirtd.pid
+# Sandboxing
+PrivateTmp=yes
+NoNewPrivileges=true
+ProtectKernelModules=yes
+ProtectKernelTunables=no
+ProtectControlGroups=no
+RestrictSUIDSGID=true
+RestrictNamespaces=pid user cgroup
+CapabilityBoundingSet=CAP_CHOWN CAP_SYS_NICE CAP_SETUID CAP_SETGID CAP_KILL CAP_DAC_OVERRIDE CAP_NET_ADMIN CAP_FOWNER CAP_NET_BIND_SERVICE CAP_SYS_ADMIN CAP_NET_RAW CAP_SYS_RESOURCE
+ProtectKernelLogs=true
+SystemCallFilter=~@cpu-emulation @aio @clock @module @mount @obsolete @reboot @swap @debug
+
