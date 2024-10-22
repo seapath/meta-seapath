@@ -11,7 +11,7 @@ SRC_URI = " \
     file://0001-vm-manager-fix-RADOS-permission-denied-issue.patch \
 "
 
-SRCREV = "d26cc7f3b4710a476519b27c48b9055fc72870b5"
+SRCREV = "dc7d106c011b0458982a2ba3c6b38d26f9046b16"
 S = "${WORKDIR}/git"
 
 RDEPENDS:${PN} = "python3 libvirt"
