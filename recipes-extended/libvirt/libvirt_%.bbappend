@@ -1,4 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
+# Copyright (C) 2024 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 inherit create-dirs
@@ -13,7 +14,6 @@ SRC_URI += " \
     file://libvirtd \
     file://libvirtd.conf \
     file://libvirtd.service \
-    file://qemu-seapath \
     file://qemu.conf \
 "
 
@@ -32,10 +32,6 @@ do_install:append() {
     install -m 644 ${WORKDIR}/libvirtd.service \
         ${D}/${systemd_unitdir}/system/libvirtd.service
 
-    install -d ${D}/${sysconfdir}/libvirt/hooks/
-    install -m 0755 ${WORKDIR}/qemu-seapath \
-      ${D}${sysconfdir}/libvirt/hooks/qemu-seapath
-
     rm -f ${D}${sysconfdir}/libvirt/qemu/networks/autostart/default.xml
     rm -f ${D}${sysconfdir}/libvirt/qemu/networks/default.xml
 }
@@ -44,6 +40,5 @@ FILES:${PN} += " \
     ${sysconfdir}/sysconfig/libvirtd \
     ${sysconfdir}/libvirt/libvirtd.conf \
     ${sysconfdir}/libvirt/qemu.conf \
-    ${sysconfdir}/libvirt/hooks/qemu-seapath \
     ${systemd_unitdir}/system/libvirtd.service \
 "
