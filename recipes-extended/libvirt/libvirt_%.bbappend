@@ -10,6 +10,8 @@ SERVICE_DIRS_OWNER = "root:root"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
+GROUPADD_PARAM:${PN}:append = "; -r libvirt"
+
 SRC_URI += " \
     file://libvirtd \
     file://libvirtd.conf \
