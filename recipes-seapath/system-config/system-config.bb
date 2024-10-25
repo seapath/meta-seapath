@@ -11,6 +11,9 @@ RDEPENDS:${PN}-security = "bash"
 RDEPENDS:${PN}-cluster= "python3-setup-ovs openvswitch"
 RDEPENDS:${PN}-common= "${PN}-keymap"
 
+# Add DEPENDS required for create the livemigration user
+DEPENDS += "libvirt qemu pacemaker"
+
 SRC_URI = " \
     file://common/90-sysctl-hardening.conf \
     file://common/99-sysctl-network.conf \
@@ -24,6 +27,13 @@ SRC_URI = " \
     file://host/rt-runtime-share.service \
     file://security/disable-local-login.sh \
     file://test/usb-cdc-acm.conf \
+"
+
+USERADD_PACKAGES = "${PN}-cluster"
+USERADD_PARAM:${PN}-cluster = "\
+    --system \
+    -G haclient,libvirt \
+    -N livemigration \
 "
 
 do_install () {
@@ -111,7 +121,7 @@ SYSTEMD_SERVICE:${PN}-host = " \
 
 REQUIRED_DISTRO_FEATURES = "systemd"
 
-inherit allarch systemd features_check
+inherit allarch systemd features_check useradd
 
 FILES:${PN}-common = " \
     ${sysconfdir}/sysctl.d/99-sysctl-network.conf \
