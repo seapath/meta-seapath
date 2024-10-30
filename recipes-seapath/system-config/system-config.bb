@@ -12,7 +12,7 @@ RDEPENDS:${PN}-cluster= "python3-setup-ovs openvswitch libvirt pacemaker"
 RDEPENDS:${PN}-common= "${PN}-keymap"
 
 # Add DEPENDS required for create the livemigration user
-DEPENDS += "libvirt qemu pacemaker"
+DEPENDS += "libvirt pacemaker"
 
 SRC_URI = " \
     file://common/90-sysctl-hardening.conf \
