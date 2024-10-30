@@ -26,6 +26,8 @@ EXTRA_OECMAKE += "\
     -DWITH_ZLIB=ON \
 "
 
+COMPATIBLE_HOST = "(x86_64|aarch64).*"
+
 PACKAGE_BEFORE_PN = "\
     ${PN}-mgr-dashboard \
     ${PN}-mgr-restful \
