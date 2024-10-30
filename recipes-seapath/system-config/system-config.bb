@@ -33,7 +33,7 @@ USERADD_PACKAGES = "${PN}-cluster"
 USERADD_PARAM:${PN}-cluster = "\
     --system \
     -G haclient,libvirt \
-    -N livemigration \
+    -M livemigration \
 "
 
 do_install () {
