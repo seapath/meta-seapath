@@ -3,6 +3,7 @@
 
 DESCRIPTION = "An observer image for Raspberry Pi on Seapath cluster"
 require seapath-common.inc
+require seapath-host-common-ha.inc
 require seapath-monitor-common.inc
 
 IMAGE_INSTALL:append = " syslog-ng-server"
