@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 
 SRCREV = "${AUTOREV}"
 RDEPENDS:${PN}-security = "bash"
-RDEPENDS:${PN}-cluster= "python3-setup-ovs openvswitch"
+RDEPENDS:${PN}-cluster= "python3-setup-ovs openvswitch libvirt pacemaker"
 RDEPENDS:${PN}-common= "${PN}-keymap"
 
 # Add DEPENDS required for create the livemigration user
