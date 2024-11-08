@@ -31,6 +31,9 @@ IMAGE_INSTALL:append = " \
     chronyc \
 "
 
+# Docker
+IMAGE_INSTALL += " docker-ce docker-ce-contrib python3-docker-compose"
+
 # Host images are compatible with seapath-hypervisor only
 # GRUB static configuration for host machines
 # depends on seapath-hypervisor
