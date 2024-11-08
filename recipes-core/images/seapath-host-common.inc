@@ -30,6 +30,9 @@ IMAGE_INSTALL:append = " \
     chronyc \
 "
 
+# Docker
+IMAGE_INSTALL += " docker-moby docker-moby-contrib docker-compose"
+
 # Host images are compatible with seapath-hypervisor only
 # GRUB static configuration for host machines
 # depends on seapath-hypervisor
