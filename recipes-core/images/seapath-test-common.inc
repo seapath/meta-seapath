@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 require seapath-host-common.inc
-require seapath-host-common-virtu.inc
 
 # Cockpit web GUI
 IMAGE_INSTALL:append = " \
