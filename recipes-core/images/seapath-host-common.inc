@@ -18,7 +18,7 @@ IMAGE_INSTALL:append = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'cukinia-tests-hypervisor-security', '', d)} \
     syslog-ng-client \
     system-config-host \
-    system-config-cluster \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'system-config-cluster', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
     system-upgrade \
     net-snmp-server \
@@ -50,3 +50,5 @@ def get_seapath_kernel_parameters(d):
 
 
 APPEND += "${@get_seapath_kernel_parameters(d)}"
+
+require ${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'seapath-host-common-virtu.inc', '', d)}
