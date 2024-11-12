@@ -8,32 +8,19 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 
 SRCREV = "${AUTOREV}"
 RDEPENDS:${PN}-security = "bash"
-RDEPENDS:${PN}-cluster= "python3-setup-ovs openvswitch libvirt pacemaker"
 RDEPENDS:${PN}-common= "${PN}-keymap"
-
-# Add DEPENDS required for create the livemigration user
-DEPENDS += "libvirt pacemaker"
 
 SRC_URI = " \
     file://common/90-sysctl-hardening.conf \
     file://common/99-sysctl-network.conf \
     file://common/terminal_idle.sh \
     file://common/var-log.mount \
-    file://cluster/openvswitch.conf \
-    file://cluster/seapath-config_ovs.service \
     file://host/enable-rt-runtime-share.sh \
     file://host/hugetlb-gigantic-pages.service \
     file://host/hugetlb-reserve-pages.sh \
     file://host/rt-runtime-share.service \
     file://security/disable-local-login.sh \
     file://test/usb-cdc-acm.conf \
-"
-
-USERADD_PACKAGES = "${PN}-cluster"
-USERADD_PARAM:${PN}-cluster = "\
-    --system \
-    -G haclient,libvirt \
-    -M livemigration \
 "
 
 do_install () {
@@ -53,13 +40,6 @@ do_install () {
          SEAPATH_KEYMAP=us
     fi
     echo "KEYMAP=\"${SEAPATH_KEYMAP}\"" > ${D}${sysconfdir}/vconsole.conf
-
-# Cluster
-    install -d ${D}${sysconfdir}/modules-load.d
-    install -m 0644 ${WORKDIR}/cluster/openvswitch.conf \
-        ${D}${sysconfdir}/modules-load.d
-    install -m 0644 ${WORKDIR}/cluster/seapath-config_ovs.service \
-        ${D}${systemd_unitdir}/system
 
 # Host
     install -m 0644 ${WORKDIR}/host/hugetlb-gigantic-pages.service \
@@ -95,7 +75,6 @@ PACKAGES =+ " \
     ${PN}-common \
     ${PN}-host \
     ${PN}-security \
-    ${PN}-cluster \
     ${PN}-ro \
     ${PN}-test \
     ${PN}-keymap \
@@ -103,15 +82,10 @@ PACKAGES =+ " \
 SYSTEMD_PACKAGES += " \
     ${PN}-common \
     ${PN}-host \
-    ${PN}-cluster \
 "
 
 SYSTEMD_SERVICE:${PN}-common = " \
     var-log.mount \
-"
-
-SYSTEMD_SERVICE:${PN}-cluster = " \
-    seapath-config_ovs.service \
 "
 
 SYSTEMD_SERVICE:${PN}-host = " \
@@ -121,7 +95,7 @@ SYSTEMD_SERVICE:${PN}-host = " \
 
 REQUIRED_DISTRO_FEATURES = "systemd"
 
-inherit allarch systemd features_check useradd
+inherit allarch systemd features_check
 
 FILES:${PN}-common = " \
     ${sysconfdir}/sysctl.d/99-sysctl-network.conf \
@@ -130,11 +104,6 @@ FILES:${PN}-common = " \
 
 FILES:${PN}-keymap = " \
     ${sysconfdir}/vconsole.conf \
-"
-
-FILES:${PN}-cluster = " \
-    ${sysconfdir}/modules-load.d/openvswitch.conf \
-    ${systemd_unitdir}/system/seapath-config_ovs.service \
 "
 
 FILES:${PN}-host = " \
