@@ -30,11 +30,6 @@ verify_secureboot_signature() {
 check_grub_configuration(){
     [ ! -f "$1" ] && return 254
 
-    if is_bios_image; then
-        bbwarn "QA check skipped: BIOS image detected"
-        return 0
-    fi
-
     local _grub_passwd="$(grep "grub.pbkdf2" "$1")"
     local _passwd_alg="$(echo "${_grub_passwd}" | cut -d. -f3)"
     local _passwd_iterations="$(echo "${_grub_passwd}" | cut -d. -f4)"
@@ -63,10 +58,3 @@ check_grub_configuration(){
     }
 }
 
-is_bios_image() {
-    if [ "${WKS_FILE}" = "mkbiosdisk.wks.in" ]; then
-        return 0
-    fi
-
-    return 1
-}
