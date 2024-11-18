@@ -26,10 +26,6 @@ DISTRO_FEATURES:remove = " wayland"
 DISTRO_FEATURES:remove = " 3g alsa bluetooth nfc nfs opengl pcmcia vulkan wifi zeroconf"
 DISTRO_FEATURES_BACKFILL_CONSIDERED += "pulseaudio"
 
-# Active buildhistory
-INHERIT += "buildhistory"
-BUILDHISTORY_COMMIT = "1"
-
 # Use virtualization features
 DISTRO_FEATURES:append = " virtualization"
 DISTRO_FEATURES:append = " kvm"
