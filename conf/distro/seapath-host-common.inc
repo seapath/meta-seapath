@@ -8,4 +8,4 @@ require conf/distro/seapath-common.inc
 # Enable dpdk for openvswitch
 PACKAGECONFIG:append:pn-openvswitch = " dpdk"
 COMPATIBLE_MACHINE:pn-dpdk = "(seapath)"
-REQUIERED_VERSION_dpdk = "21.11.%"
+REQUIRED_VERSION_dpdk = "21.11.%"
