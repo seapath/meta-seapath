@@ -49,9 +49,7 @@ PACKAGE_BEFORE_PN = "\
 
 
 def limit_parallel(d):
-    import multiprocessing
-    return "-j{}".format(d.getVar("SEAPATH_PARALLEL_MAKE",
-                                  multiprocessing.cpu_count()))
+    return "-j{}".format(d.getVar("SEAPATH_PARALLEL_MAKE",8))
 
 PARALLEL_MAKE = "${@limit_parallel(d)}"
 
