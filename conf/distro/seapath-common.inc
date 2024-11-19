@@ -101,5 +101,5 @@ GROUPADD_GID_TABLES = "conf/distro/include/group.gid"
 
 # Ceph do not support the rocksdb version 9 provide by meta-oe
 # So we need to use a earlier version
-REQUIERED_VERSION_rocksdb = "6.20.%"
-REQUIERED_VERSION_python3-cython = "0.29.35"
+REQUIRED_VERSION_rocksdb = "6.20.%"
+REQUIRED_VERSION_python3-cython = "0.29.%"
