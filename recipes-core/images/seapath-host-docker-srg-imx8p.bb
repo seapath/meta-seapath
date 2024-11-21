@@ -20,8 +20,16 @@ IMAGE_INSTALL += " \
     libgpiod \
     libgpiod-dev \
     libgpiod-tools \
-    linuxptp \
     service-tools \
+"
+
+# Add test tools
+# multiprocessing module needs to be installed manually as it is not part of
+# python3-core in this version of yocto.
+IMAGE_INSTALL += " \
+    linuxptp \
+    python3-core \
+    python3-multiprocessing \
 "
 
 IMAGE_FEATURES += "ssh-server-openssh"
