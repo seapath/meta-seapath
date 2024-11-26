@@ -58,7 +58,7 @@ do_install:append () {
     for directory in mon osd mds tmp radosgw bootstrap-rgw bootstrap-mgr \
         bootstrap-mds bootstrap-osd bootstrap-rbd bootstrap-rbd-mirror
     do
-        install -m 0755 -d ${D}${localstatedir}/lib/ceph/${directory}
+        install -m 0755 -o ceph -g ceph -d ${D}${localstatedir}/lib/ceph/${directory}
     done
 
     install -m 0755 -d ${D}${localstatedir}/log/ceph
