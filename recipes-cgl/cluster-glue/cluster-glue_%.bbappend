@@ -3,7 +3,7 @@
 
 #to add hacluster to the msmtp group, so that it can write to msmtp log file
 RDEPENDS:${PN} += "msmtp"
-DEPENDS += "msmtp"
+USERADD_DEPENDS = "msmtp"
 USERADD_PARAM:${PN}:prepend = " -G msmtp "
 
 do_install:append() {

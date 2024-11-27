@@ -9,9 +9,6 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 SRCREV = "${AUTOREV}"
 RDEPENDS:${PN} = "python3-setup-ovs openvswitch libvirt pacemaker"
 
-# Add DEPENDS required for create the livemigration user
-DEPENDS += "libvirt pacemaker"
-
 SRC_URI = " \
     file://openvswitch.conf \
     file://seapath-config_ovs.service \
@@ -23,6 +20,7 @@ USERADD_PARAM:${PN} = "\
     -G haclient,libvirt \
     -M livemigration \
 "
+USERADD_DEPENDS = "libvirt pacemaker"
 
 do_install () {
 
