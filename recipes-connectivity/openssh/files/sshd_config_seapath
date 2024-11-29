@@ -30,7 +30,7 @@ PasswordAuthentication no
 KbdInteractiveAuthentication no
 ChallengeResponseAuthentication no
 AuthenticationMethods publickey
-AuthorizedKeysFile	/etc/ssh/%u/authorized_keys
+AuthorizedKeysFile	.ssh/authorized_keys
 PermitEmptyPasswords no
 AllowAgentForwarding no
 AllowTcpForwarding no

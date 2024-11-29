@@ -19,15 +19,11 @@ do_add_ansible_ssh_key() {
             bbwarn "User $user does not exist in destination image. Skipped"
             continue
         fi
-        install -m 0755 -d ${IMAGE_ROOTFS}/${sysconfdir}/ssh/$user
+        install -m 0700 -d ${IMAGE_ROOTFS}/home/${user}/.ssh
         install -m 0600 ${AUTHORIZED_KEYS_DIR}/ansible-authorized_keys \
-                        ${IMAGE_ROOTFS}/${sysconfdir}/ssh/$user/authorized_keys
+                       ${IMAGE_ROOTFS}/home/${user}/.ssh/authorized_keys
 
-        eval flock -x ${IMAGE_ROOTFS}/${sysconfdir} -c \"$PSEUDO chown -R $user:$user ${IMAGE_ROOTFS}/etc/ssh/$user \"
-        sed -i "s#AuthorizedKeysFile.*#AuthorizedKeysFile	/etc/ssh/%u/authorized_keys#" \
-                        ${IMAGE_ROOTFS}/${sysconfdir}/ssh/sshd_config
-        sed -i "s#AuthorizedKeysFile.*#AuthorizedKeysFile	/etc/ssh/%u/authorized_keys#" \
-                        ${IMAGE_ROOTFS}/${sysconfdir}/ssh/sshd_config_readonly
+        eval flock -x ${IMAGE_ROOTFS}/home/${user} -c \"$PSEUDO chown -R $user:$user ${IMAGE_ROOTFS}/home/${user}/.ssh \"
     done
     sed -i "s/^UsePAM*/#UsePAM/g" \
         ${IMAGE_ROOTFS}/${sysconfdir}/ssh/sshd_config_readonly
