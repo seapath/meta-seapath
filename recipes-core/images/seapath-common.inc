@@ -11,6 +11,7 @@ IMAGE_INSTALL:append = " \
     ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','cukinia-tests-common-security','',d)} \
     linuxptp \
     netplan \
+    os-release \
     system-config-common \
 "
 # Add kernel-modules
