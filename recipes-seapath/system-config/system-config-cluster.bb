@@ -20,8 +20,10 @@ SRC_URI = " \
 USERADD_PACKAGES = "${PN}"
 USERADD_PARAM:${PN} = "\
     --system \
+    -b /var/lib \
+    -m \
     -G haclient,libvirt \
-    -M livemigration \
+    livemigration \
 "
 
 do_install () {
