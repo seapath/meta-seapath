@@ -19,6 +19,7 @@ USERADD_PARAM:${PN} = "\
     --system \
     -b /var/lib \
     -m \
+    -p '*' \
     -G haclient,libvirt \
     livemigration \
 "
