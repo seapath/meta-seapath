@@ -6,6 +6,8 @@ USERS_LIST_LOCKED:remove = "qemu"
 
 IMAGE_INSTALL:append = " \
     cukinia-tests-observer \
+    net-snmp-server \
+    net-snmp-client \
     system-upgrade \
     system-config-cluster \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
