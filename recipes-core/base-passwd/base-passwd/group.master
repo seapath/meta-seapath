@@ -3,10 +3,13 @@ daemon:*:1:
 tty:*:5:
 disk:*:6:
 mail:*:8:
+input:*:19:
 shadow:*:42:
 utmp:*:43:
 video:*:44:
 kvm:*:47:
-shutdown:*:61
+shutdown:*:61:
 users:*:100:
+wheel:*:982:
+sgx:*:998:
 nogroup:*:65534:
