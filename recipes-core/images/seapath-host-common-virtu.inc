@@ -13,4 +13,5 @@ IMAGE_INSTALL:append = " \
     openvswitch \
     qemu \
     libxml2-utils \
+    iproute2-tc \
 "
