@@ -7,7 +7,6 @@ EnvironmentFile=/etc/sysconfig/libvirtd
 # Sandboxing
 PrivateTmp=yes
 NoNewPrivileges=true
-ProtectKernelModules=yes
 ProtectKernelTunables=no
 ProtectControlGroups=no
 RestrictSUIDSGID=true
