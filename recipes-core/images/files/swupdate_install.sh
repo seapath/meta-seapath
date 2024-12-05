@@ -64,11 +64,13 @@ do_postinst()
 {
     echo "Post-Install:"
 
+    # Make sure current slot's bootloader is not mounted
+    umount -fq /boot || true
+
     # Update grubenv
     if ! mount -t vfat /dev/upgradable_bootloader /boot ; then
         die "Could not mount /dev/upgradable_bootloader"
     fi
-
 
     if ! grub-editenv /boot/EFI/BOOT/grubenv create ; then
         die "Could not create grubenv"
