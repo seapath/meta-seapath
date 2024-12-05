@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 
 SRC_URI = "\
     file://is_from_inactive_bank.sh \
+    file://mount_boot.sh \
     file://partition_symlinks.rules \
     file://switch_bootloader.sh \
     file://swupdate_check.sh \
@@ -37,6 +38,8 @@ do_install () {
         ${D}${datadir}/update/is_from_inactive_bank.sh
     install -m 0644 ${WORKDIR}/partition_symlinks.rules \
         ${D}${sysconfdir}/udev/rules.d
+    install -m 0755 ${WORKDIR}/mount_boot.sh \
+        ${D}${datadir}/update/mount_boot.sh
     install -m 0755 ${WORKDIR}/switch_bootloader.sh \
         ${D}${datadir}/update/switch_bootloader.sh
     install -m 0755 ${WORKDIR}/check-health.sh \
@@ -60,6 +63,7 @@ do_install () {
 FILES:${PN}:append = " \
     ${sysconfdir}/udev/rules.d/partition_symlinks.rules \
     ${datadir}/update/is_from_inactive_bank.sh \
+    ${datadir}/update/mount_boot.sh \
     ${datadir}/update/switch_bootloader.sh \
     ${datadir}/update/check-health.sh \
     ${datadir}/update/swupdate_check.sh \
