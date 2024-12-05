@@ -11,6 +11,8 @@ RDEPENDS:${PN}-security = "bash"
 RDEPENDS:${PN}-common= "${PN}-keymap"
 
 SRC_URI = " \
+    file://common/10-erspan0.network \
+    file://common/10-gretap0.network \
     file://common/90-sysctl-hardening.conf \
     file://common/99-sysctl-network.conf \
     file://common/terminal_idle.sh \
@@ -61,6 +63,13 @@ do_install () {
     install -m 0644 ${WORKDIR}/common/90-sysctl-hardening.conf \
         ${D}${sysconfdir}/sysctl.d
 
+# Network
+    install -d ${D}${systemd_unitdir}/network
+    install -m 0644 ${WORKDIR}/common/10-erspan0.network \
+        ${D}${systemd_unitdir}/network
+    install -m 0644 ${WORKDIR}/common/10-gretap0.network \
+        ${D}${systemd_unitdir}/network
+
 # Read-only
     install -d ${D}/${base_sbindir}
     echo '#!/bin/sh\nexec /sbin/init $@' > ${D}/${base_sbindir}/init.sh
@@ -100,6 +109,8 @@ inherit allarch systemd features_check
 FILES:${PN}-common = " \
     ${sysconfdir}/sysctl.d/99-sysctl-network.conf \
     ${systemd_unitdir}/system/var-log.mount \
+    ${systemd_unitdir}/network/10-erspan0.network \
+    ${systemd_unitdir}/network/10-gretap0.network \
 "
 
 FILES:${PN}-keymap = " \
