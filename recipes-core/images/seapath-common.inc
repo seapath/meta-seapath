@@ -43,6 +43,9 @@ IMAGE_FSTYPES = "wic.gz wic.bmap"
 WKS_FILE = "mkefidisk.wks.in"
 # Do not update fstab file when using wic images
 WIC_CREATE_EXTRA_ARGS += "--no-fstab-update"
+# Just like the wic image, the rootfs tarball (goes in .swu) should not include
+# the boot directory to allow mounting the boot partition on the target
+IMAGE_CMD_TAR:append = " --exclude='boot/*'"
 EXTRA_IMAGE_FEATURES = ""
 
 inherit ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'security/users', '', d)}
