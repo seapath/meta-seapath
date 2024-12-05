@@ -3,9 +3,11 @@
 
 [Unit]
 Description="Check the update status"
+After=network-online.target
 
 [Service]
 Type=oneshot
+RemainAfterExit=true
 ExecStart=/usr/share/update/swupdate_check.sh
 
 [Install]
