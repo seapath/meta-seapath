@@ -1,0 +1,5 @@
+[Match]
+Name=erspan0
+
+[Link]
+Unmanaged=yes
