@@ -10,90 +10,48 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 inherit allarch
 
 SRC_URI = "\
-    file://cukinia.conf \
     file://cukinia-cluster.conf \
     file://cukinia-common.conf \
-    file://configurations/cukinia-common-security.conf \
-    file://configurations/cukinia-common.conf \
-    file://configurations-cluster/cukinia-cluster-common.conf \
-    file://configurations-cluster/cukinia-cluster-security.conf \
+    file://cukinia.conf \
     file://cukinia-hypervisor.conf \
-    file://configurations/cukinia-hypervisor-common.conf \
-    file://configurations/cukinia-hypervisor-security.conf \
-    file://configurations/cukinia-update.conf \
-    file://cukinia-sec.conf \
     file://cukinia-observer.conf \
-    file://cukinia-vm.conf \
+    file://cukinia-sec.conf \
     file://cukinia-update.conf \
-    file://common_tests.d/sw-versions.conf \
-    file://common_tests.d/preempt-rt.conf \
-    file://common_tests.d/systemd.conf \
-    file://common_tests.d/kernel.conf \
-    file://common_tests.d/kernel_errors.conf \
-    file://common_tests.d/syslog.conf \
-    file://common_security_tests.d/hardening.conf \
-    file://common_security_tests.d/sudo.conf \
-    file://common_security_tests.d/sysctl.conf \
-    file://common_security_tests.d/files.conf \
-    file://common_security_tests.d/policies.conf \
-    file://common_security_tests.d/kernel.conf \
-    file://common_security_tests.d/syslog.conf \
-    file://cluster_tests.d/pacemaker.conf \
-    file://cluster_tests.d/ceph.conf \
-    file://cluster_tests.d/vm_manager_libvirt.conf \
-    file://cluster_tests.d/vm_manager_pacemaker.conf \
-    file://cluster_tests.d/vm_manager_rbd.conf \
-    file://cluster_tests.d/corosync.conf \
-    file://cluster_security_tests.d/ceph.conf \
-    file://cluster_security_tests.d/corosync.conf \
-    file://cluster_security_tests.d/pacemaker.conf \
-    file://hypervisor_tests.d/virtualization.conf \
-    file://hypervisor_tests.d/ovs.conf \
-    file://hypervisor_tests.d/ceph.conf \
-    file://hypervisor_tests.d/cpu.conf \
-    file://hypervisor_tests.d/kernel.conf \
-    file://hypervisor_tests.d/auditd.conf \
-    file://hypervisor_tests.d/libvirt.conf \
-    file://hypervisor_tests.d/files.conf \
-    file://hypervisor_tests.d/iommu.conf \
-    file://hypervisor_tests.d/readonly.conf \
-    file://hypervisor_security_tests.d/users.conf \
-    file://hypervisor_security_tests.d/groups.conf \
-    file://hypervisor_security_tests.d/spectre_mitigations.conf \
-    file://hypervisor_security_tests.d/passwd.conf \
-    file://hypervisor_security_tests.d/shadow.conf \
-    file://hypervisor_security_tests.d/kernel.conf \
-    file://hypervisor_security_tests.d/libvirt.conf \
-    file://hypervisor_security_tests.d/ovs.conf \
-    file://hypervisor_security_tests.d/virtualization.conf \
-    file://observer_tests.d/files.conf \
-    file://vm_tests.d/files.conf \
-    file://includes/kernel_config_functions \
-    file://update_tests.d/partition-symlinks.conf \
+    file://cukinia-vm.conf \
+    file://cluster_security_tests.d \
+    file://cluster_tests.d \
+    file://common_security_tests.d \
+    file://common_tests.d \
+    file://configurations \
+    file://configurations-cluster \
+    file://hypervisor_security_tests.d \
+    file://hypervisor_tests.d \
+    file://includes \
+    file://observer_tests.d \
+    file://update_tests.d \
+    file://vm_tests.d \
 "
 
 RDEPENDS:${PN} += "cukinia"
 RDEPENDS:${PN} += "bash coreutils pciutils"
+
+install_dir () {
+    SRC_DIR=$1
+    DST_DIR=$2
+    install -m 0755 -d ${DST_DIR}
+    for file in ${SRC_DIR}/*; do
+        install -m 0644 ${file} ${DST_DIR}
+    done
+}
 
 do_install () {
     install -m 0755 -d ${D}${sysconfdir}/cukinia/
     install -m 0644 ${WORKDIR}/cukinia.conf ${D}${sysconfdir}/cukinia
 
 # common
-    install -m 0755 -d ${D}${sysconfdir}/cukinia/common_tests.d/
     install -m 0644 ${WORKDIR}/cukinia-common.conf \
         ${D}${sysconfdir}/cukinia/cukinia-common.conf
-    install -m 0644 ${WORKDIR}/common_tests.d/sw-versions.conf \
-        ${D}${sysconfdir}/cukinia/common_tests.d
-    install -m 0644 ${WORKDIR}/common_tests.d/preempt-rt.conf \
-        ${D}${sysconfdir}/cukinia/common_tests.d
-    install -m 0644 ${WORKDIR}/common_tests.d/systemd.conf \
-        ${D}${sysconfdir}/cukinia/common_tests.d
-    install -m 0644 ${WORKDIR}/common_tests.d/kernel_errors.conf \
-        ${D}${sysconfdir}/cukinia/common_tests.d
-    install -m 0644 ${WORKDIR}/common_tests.d/kernel.conf \
-        ${D}${sysconfdir}/cukinia/common_tests.d
-    install -m 0644 ${WORKDIR}/common_tests.d/syslog.conf \
+    install_dir ${WORKDIR}/common_tests.d \
         ${D}${sysconfdir}/cukinia/common_tests.d
 
     install -m 0755 -d ${D}${datadir}/cukinia/includes/
@@ -106,118 +64,52 @@ do_install () {
 # common security
     install -m 0644 ${WORKDIR}/cukinia-sec.conf \
         ${D}${sysconfdir}/cukinia/
-    install -m 0755 -d ${D}${sysconfdir}/cukinia/common_security_tests.d
     install -m 0644 ${WORKDIR}/configurations/cukinia-common-security.conf \
         ${D}${sysconfdir}/cukinia/configurations/
-    install -m 0644 ${WORKDIR}/common_security_tests.d/files.conf \
-        ${D}${sysconfdir}/cukinia/common_security_tests.d
-    install -m 0644 ${WORKDIR}/common_security_tests.d/hardening.conf \
-        ${D}${sysconfdir}/cukinia/common_security_tests.d
-    install -m 0644 ${WORKDIR}/common_security_tests.d/sudo.conf \
-        ${D}${sysconfdir}/cukinia/common_security_tests.d
-    install -m 0644 ${WORKDIR}/common_security_tests.d/sysctl.conf \
-        ${D}${sysconfdir}/cukinia/common_security_tests.d
-    install -m 0644 ${WORKDIR}/common_security_tests.d/policies.conf \
-        ${D}${sysconfdir}/cukinia/common_security_tests.d
-    install -m 0644 ${WORKDIR}/common_security_tests.d/kernel.conf \
-        ${D}${sysconfdir}/cukinia/common_security_tests.d
-    install -m 0644 ${WORKDIR}/common_security_tests.d/syslog.conf \
+    install_dir ${WORKDIR}/common_security_tests.d \
         ${D}${sysconfdir}/cukinia/common_security_tests.d
 
 # hypervisor
-    install -m 0755 -d ${D}${sysconfdir}/cukinia/hypervisor_tests.d/
     install -m 0644 ${WORKDIR}/cukinia-hypervisor.conf ${D}${sysconfdir}/cukinia
     install -m 0644 ${WORKDIR}/configurations/cukinia-hypervisor-common.conf \
         ${D}${sysconfdir}/cukinia/configurations/
-    install -m 0644 ${WORKDIR}/hypervisor_tests.d/virtualization.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_tests.d/ovs.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_tests.d/kernel.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_tests.d/auditd.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_tests.d/libvirt.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_tests.d/files.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_tests.d/cpu.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_tests.d/readonly.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_tests.d/iommu.conf \
+    install_dir ${WORKDIR}/hypervisor_tests.d \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
 
 # hypervisor security
-    install -m 0755 -d ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d/
     install -m 0644 ${WORKDIR}/configurations/cukinia-hypervisor-security.conf \
         ${D}${sysconfdir}/cukinia/configurations/
-    install -m 0644 ${WORKDIR}/hypervisor_security_tests.d/users.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_security_tests.d/groups.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_security_tests.d/spectre_mitigations.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_security_tests.d/passwd.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_security_tests.d/shadow.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_security_tests.d/kernel.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_security_tests.d/libvirt.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_security_tests.d/ovs.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_security_tests.d/virtualization.conf \
+    install_dir ${WORKDIR}/hypervisor_security_tests.d \
         ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
 
 # observer
-    install -m 0755 -d ${D}${sysconfdir}/cukinia/observer_tests.d/
     install -m 0644 ${WORKDIR}/cukinia-observer.conf ${D}${sysconfdir}/cukinia
-    install -m 0644 ${WORKDIR}/observer_tests.d/files.conf \
+    install_dir ${WORKDIR}/observer_tests.d \
         ${D}${sysconfdir}/cukinia/observer_tests.d
 
 # cluster
-    install -m 0755 -d ${D}${sysconfdir}/cukinia/cluster_tests.d/
     install -m 0755 -d ${D}${sysconfdir}/cukinia/configurations-cluster
     install -m 0644 ${WORKDIR}/cukinia-cluster.conf \
         ${D}${sysconfdir}/cukinia/cukinia-cluster.conf
-    install -m 0644 ${WORKDIR}/cluster_tests.d/pacemaker.conf \
-        ${D}${sysconfdir}/cukinia/cluster_tests.d
-    install -m 0644 ${WORKDIR}/cluster_tests.d/ceph.conf \
-        ${D}${sysconfdir}/cukinia/cluster_tests.d
-    install -m 0644 ${WORKDIR}/cluster_tests.d/vm_manager_libvirt.conf \
-        ${D}${sysconfdir}/cukinia/cluster_tests.d
-    install -m 0644 ${WORKDIR}/cluster_tests.d/vm_manager_rbd.conf \
-        ${D}${sysconfdir}/cukinia/cluster_tests.d
-    install -m 0644 ${WORKDIR}/cluster_tests.d/vm_manager_pacemaker.conf \
-        ${D}${sysconfdir}/cukinia/cluster_tests.d
-    install -m 0644 ${WORKDIR}/cluster_tests.d/corosync.conf \
+    install_dir ${WORKDIR}/cluster_tests.d \
         ${D}${sysconfdir}/cukinia/cluster_tests.d
     install -m 0644 ${WORKDIR}/configurations-cluster/cukinia-cluster-common.conf \
         ${D}${sysconfdir}/cukinia/configurations-cluster/cukinia-cluster-common.conf
 
 # cluster security
-    install -m 0755 -d ${D}${sysconfdir}/cukinia/cluster_security_tests.d
-    install -m 0644 ${WORKDIR}/cluster_security_tests.d/ceph.conf \
-        ${D}${sysconfdir}/cukinia/cluster_security_tests.d
-    install -m 0644 ${WORKDIR}/cluster_security_tests.d/corosync.conf \
-        ${D}${sysconfdir}/cukinia/cluster_security_tests.d
-    install -m 0644 ${WORKDIR}/cluster_security_tests.d/pacemaker.conf \
+    install_dir ${WORKDIR}/cluster_security_tests.d \
         ${D}${sysconfdir}/cukinia/cluster_security_tests.d
     install -m 0644 ${WORKDIR}/configurations-cluster/cukinia-cluster-security.conf \
         ${D}${sysconfdir}/cukinia/configurations-cluster/cukinia-cluster-security.conf
 
 # vm
     install -m 0644 ${WORKDIR}/cukinia-vm.conf ${D}${sysconfdir}/cukinia
-    install -m 0755 -d ${D}${sysconfdir}/cukinia/vm_tests.d/
-    install -m 0644 ${WORKDIR}/vm_tests.d/files.conf \
+    install_dir ${WORKDIR}/vm_tests.d \
         ${D}${sysconfdir}/cukinia/vm_tests.d
 
 # update
     install -m 0644 ${WORKDIR}/cukinia-update.conf ${D}${sysconfdir}/cukinia
-    install -m 0755 -d ${D}${sysconfdir}/cukinia/update_tests.d/
-    install -m 0644 ${WORKDIR}/update_tests.d/partition-symlinks.conf \
+    install_dir ${WORKDIR}/update_tests.d \
         ${D}${sysconfdir}/cukinia/update_tests.d
     install -m 0644 ${WORKDIR}/configurations/cukinia-update.conf \
         ${D}${sysconfdir}/cukinia/configurations/cukinia-update.conf
