@@ -28,6 +28,10 @@ install_pam_access() {
     install -D -m 0640 ${SEC_ARTIFACTS_DIR}/pam/config/etc/access.conf ${IMAGE_ROOTFS}/etc/security/access.conf
 }
 
+install_pam_namespace() {
+    install -D -m 0640 ${SEC_ARTIFACTS_DIR}/pam/config/etc/namespace.conf ${IMAGE_ROOTFS}/etc/security/namespace.conf
+}
+
 python() {
     if bb.data.inherits_class('image', d):
         if bb.utils.contains('DISTRO_FEATURES', 'pam', True, False, d):
@@ -47,6 +51,6 @@ python() {
                                               "Consider adding 'unsafe-pam-policy' to IMAGE_FEATURES " + \
                                               "or remove 'debug-tweaks / allow-empty-password / empty-root-password'")
 
-            d.appendVar("ROOTFS_POSTPROCESS_COMMAND", "install_pam_policy; clear_securetty; install_pam_environment; install_pam_access;")
-            d.appendVar("IMAGE_INSTALL", " pam-plugin-access")
+            d.appendVar("ROOTFS_POSTPROCESS_COMMAND", "install_pam_policy; clear_securetty; install_pam_environment; install_pam_access; install_pam_namespace;")
+            d.appendVar("IMAGE_INSTALL", " pam-plugin-access pam-plugin-namespace")
 }
