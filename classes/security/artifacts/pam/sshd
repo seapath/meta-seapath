@@ -14,4 +14,3 @@ account		requisite	pam_access.so
 session		requisite	pam_keyinit.so force revoke
 session		include		common-session-noninteractive
 session		required	pam_loginuid.so
-
