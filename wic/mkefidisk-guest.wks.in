@@ -1,4 +1,5 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
+# Copyright (C) 2024 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 # short-description: Create an EFI disk image
@@ -7,7 +8,7 @@
 bootloader --ptable gpt
 
 part /boot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/boot --ondisk sda --label efi --active --align 1024  --part-type C12A7328-F81F-11D2-BA4B-00A0C93EC93B --size 128M --use-uuid
-part / --source rootfs --exclude-path boot/ --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
+part / --source rootfs --exclude-path boot/ --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid --size 2G
 part /var/log --size 4096 --ondisk sda --fstype=ext4 --label log --align 1024
 part /var/data --size 1024 --ondisk sda --fstype=ext4 --label data --align 1024
 
