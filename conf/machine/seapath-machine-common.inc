@@ -13,7 +13,6 @@ EFI_PROVIDER = "grub-efi"
 
 # Kernel parameters
 APPEND += " \
-    systemd.unified_cgroup_hierarchy=0 \
     audit=0 \
     slab_nomerge \
     slub_debug=ZF \
