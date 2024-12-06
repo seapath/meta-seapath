@@ -28,7 +28,7 @@ case "$1" in
     echo "Moving the current boot entry (USB boot) at the end of the bootorder"
     current_boot=$(efibootmgr |grep BootCurrent |grep -Eo '[0-9]+')
     boot_order=$(efibootmgr |grep BootOrder | grep -Eo [0-9,]+)
-    new_boot_order="$(echo "$boot_order" | sed -E "s/${current_boot},?//"),${current_boot}"
+    new_boot_order="$(echo "$boot_order" | sed "s/${current_boot},?//"),${current_boot}"
     efibootmgr -o "${new_boot_order}"
 
     echo "Rebooting..."
