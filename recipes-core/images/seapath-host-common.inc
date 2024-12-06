@@ -47,6 +47,7 @@ def get_seapath_kernel_parameters(d):
             rt_cores,
             rt_cores,
             rt_cores)
+        kernel_parameters += " rcu_nocb_poll nohz=on kvm_intel.ple_gap=0 kvm_intel.ple_window=0"
     if disable_ipv6 == "true":
         kernel_parameters += " ipv6.disable=1"
     return kernel_parameters
