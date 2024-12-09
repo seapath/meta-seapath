@@ -29,3 +29,22 @@ function check_kernel_configuration() {
     done
 }
 
+function check_cmdline_configuration() {
+    local -n cmdline_options=$@ 2>/dev/null
+    local category option
+    for category in "${!cmdline_options[@]}"; do
+        for testcase in ${cmdline_options["${category}"]}; do
+            state=${testcase#*:}
+            option=${testcase%:*}
+            if [ -z "$state" ]; then
+                id "SEAPATH-00008" as "Linux cmdline '${category}' : \
+                    ${option} is enabled" \
+                    cukinia_cmdline "${option}"
+            else
+                id "SEAPATH-00008" as "Linux cmdline '${category}' : \
+                    ${option} is ${state}" \
+                    cukinia_cmdline "${option}=${state}"
+            fi
+        done
+    done
+}
