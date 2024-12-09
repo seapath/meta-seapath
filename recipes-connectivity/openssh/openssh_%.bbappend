@@ -6,6 +6,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 SRC_URI += " \
     file://sshd_config_seapath \
     file://sshd_config_seapath_flash \
+    file://sshd-private-tmp.conf \
 "
 
 do_install:append() {
@@ -21,6 +22,10 @@ do_install:append() {
         install -m 0644 ${WORKDIR}/sshd_config_seapath \
            ${D}${sysconfdir}/ssh/sshd_config
     fi
+
+    install -d ${D}${systemd_system_unitdir}/sshd@.service.d/
+    install -m 0644 ${WORKDIR}/sshd-private-tmp.conf \
+        ${D}${systemd_system_unitdir}/sshd@.service.d/
 }
 
 do_install:append_seapath-flash() {
@@ -28,4 +33,3 @@ do_install:append_seapath-flash() {
     install -m 0644 ${WORKDIR}/sshd_config_seapath_flash \
         ${D}${sysconfdir}/ssh/sshd_config
 }
-
