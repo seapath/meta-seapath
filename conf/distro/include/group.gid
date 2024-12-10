@@ -49,7 +49,6 @@ systemd-journal:x:988:
 openvswitch:x:989:
 ceph:x:990:
 snmp:x:991:
-systemd-bus-proxy:x:992:
 vfio-net:x:993:openvswitch
 hugepages:x:994:openvswitch
 sshd:x:995:

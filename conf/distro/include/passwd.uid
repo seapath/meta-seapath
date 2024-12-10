@@ -22,7 +22,6 @@ systemd-network:x:992:987::/:/sbin/nologin
 openvswitch:x:993:989::/home/openvswitch:/bin/sh
 ceph:x:994:990:Ceph daemons:/var/lib/ceph:/bin/nologin
 snmp:x:995:991:SNMP server daemon:/var/lib/snmp:/sbin/nologin
-systemd-bus-proxy:x:996:992::/:/sbin/nologin
 sshd:x:997:995::/var/run/sshd:/bin/false
 hacluster:x:998:996:cluster user:/var/lib/heartbeat/cores/hacluster:/usr/sbin/nologin
 messagebus:x:999:997::/var/lib/dbus:/bin/false
