@@ -27,7 +27,6 @@ inherit security/kconfig-hardened-check
 inherit security/manifests-archiver
 inherit security/pam-policy
 inherit security/rootfs-tweaks
-inherit security/traceability
 
 # Yocto security options for compilation and linking
 inherit security/check-hardened-compilation
