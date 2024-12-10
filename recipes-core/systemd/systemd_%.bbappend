@@ -7,6 +7,7 @@ SRC_URI:append = " \
     file://boot-complete.target \
     file://journald.conf \
     file://resolved.conf \
+    file://0001-networkd-wait-online-any.patch \
 "
 PACKAGECONFIG:append = " seccomp"
 do_install:append () {

@@ -1,0 +1,32 @@
+From 58ebe68526d5b8c58e9350b97ba116bc0952109b Mon Sep 17 00:00:00 2001
+From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+Date: Tue, 10 Dec 2024 15:01:31 +0100
+Subject: [PATCH] units: add --any option systemd-networkd-wait-online
+
+Add --any option to systemd-networkd-wait-online command so that
+even if several interfaces are in configuring state,
+systemd-networkd-wait-online exits with success when at least one
+interface becomes online.
+
+Upstream-Status: Inappropriate [Seapath specific]
+Signed-off-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+---
+ units/systemd-networkd-wait-online.service.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/units/systemd-networkd-wait-online.service.in b/units/systemd-networkd-wait-online.service.in
+index 7768121f5f..7d26e04fe3 100644
+--- a/units/systemd-networkd-wait-online.service.in
++++ b/units/systemd-networkd-wait-online.service.in
+@@ -19,7 +19,7 @@ Before=network-online.target shutdown.target
+ 
+ [Service]
+ Type=oneshot
+-ExecStart={{LIBEXECDIR}}/systemd-networkd-wait-online
++ExecStart={{LIBEXECDIR}}/systemd-networkd-wait-online --any
+ RemainAfterExit=yes
+ 
+ [Install]
+-- 
+2.34.1
+
