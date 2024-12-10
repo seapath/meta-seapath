@@ -1,0 +1,64 @@
+From f562938ef84b671e91ee5172a85d7b50ba59a889 Mon Sep 17 00:00:00 2001
+From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+Date: Tue, 10 Dec 2024 13:51:27 +0100
+Subject: [PATCH] mount: remove root suid/sgid
+
+Following ANSSI-BP28-R57, sudo is preferred to using mount with suid.
+
+Upstream-Status: Inappropriate [Seapath specific]
+Signed-off-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+---
+ Makefile.in             |  6 ------
+ sys-utils/Makemodule.am | 15 ---------------
+ 2 files changed, 21 deletions(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index 4c6f500..886cd71 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -683,7 +683,6 @@ check_PROGRAMS = test_blkdev$(EXEEXT) test_buffer$(EXEEXT) \
+ 
+ @BUILD_MOUNT_TRUE@@HAVE_STATIC_MOUNT_TRUE@am__append_358 = mount.static
+ @BUILD_MOUNT_TRUE@@HAVE_STATIC_UMOUNT_TRUE@am__append_359 = umount.static
+-@BUILD_MOUNT_TRUE@am__append_360 = install-exec-hook-mount
+ @BUILD_SWAPON_TRUE@am__append_361 = swapon swapoff
+ @BUILD_SWAPON_TRUE@am__append_362 = sys-utils/swapon.8
+ @BUILD_SWAPON_TRUE@am__append_363 = sys-utils/swapon.8.adoc
+@@ -17599,11 +17598,6 @@ install-exec-hook:
+ @BUILD_SETARCH_TRUE@		rm -f $(DESTDIR)$(usrbin_execdir)/$$I ; \
+ @BUILD_SETARCH_TRUE@	done
+ 
+-@BUILD_MOUNT_TRUE@install-exec-hook-mount:
+-@BUILD_MOUNT_TRUE@@MAKEINSTALL_DO_CHOWN_TRUE@	chown root:root $(DESTDIR)$(bindir)/mount
+-@BUILD_MOUNT_TRUE@@MAKEINSTALL_DO_SETUID_TRUE@	chmod 4755 $(DESTDIR)$(bindir)/mount
+-@BUILD_MOUNT_TRUE@@MAKEINSTALL_DO_CHOWN_TRUE@	chown root:root $(DESTDIR)$(bindir)/umount
+-@BUILD_MOUNT_TRUE@@MAKEINSTALL_DO_SETUID_TRUE@	chmod 4755 $(DESTDIR)$(bindir)/umount
+ @BUILD_BASH_COMPLETION_TRUE@@BUILD_LAST_TRUE@install-data-hook-bashcomp-lastb::
+ @BUILD_BASH_COMPLETION_TRUE@@BUILD_LAST_TRUE@	ln -sf last $(DESTDIR)$(bashcompletiondir)/lastb
+ 
+diff --git a/sys-utils/Makemodule.am b/sys-utils/Makemodule.am
+index 7c8d582..99d6364 100644
+--- a/sys-utils/Makemodule.am
++++ b/sys-utils/Makemodule.am
+@@ -382,21 +382,6 @@ umount_static_LDFLAGS = $(umount_LDFLAGS) -all-static
+ umount_static_LDADD = $(umount_LDADD)
+ endif
+ 
+-install-exec-hook-mount:
+-if MAKEINSTALL_DO_CHOWN
+-	chown root:root $(DESTDIR)$(bindir)/mount
+-endif
+-if MAKEINSTALL_DO_SETUID
+-	chmod 4755 $(DESTDIR)$(bindir)/mount
+-endif
+-if MAKEINSTALL_DO_CHOWN
+-	chown root:root $(DESTDIR)$(bindir)/umount
+-endif
+-if MAKEINSTALL_DO_SETUID
+-	chmod 4755 $(DESTDIR)$(bindir)/umount
+-endif
+-
+-INSTALL_EXEC_HOOKS += install-exec-hook-mount
+ endif # BUILD_MOUNT
+ 
+ 

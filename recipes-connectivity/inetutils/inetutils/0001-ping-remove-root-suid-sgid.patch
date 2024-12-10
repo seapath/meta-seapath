@@ -1,0 +1,24 @@
+From 1e23322e5827eca3516ec14c4ec7d462b757d1e7 Mon Sep 17 00:00:00 2001
+From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+Date: Tue, 10 Dec 2024 14:03:12 +0100
+Subject: [PATCH] ping: remove root suid/sgid
+
+Upstream-Status: Inappropriate [Seapath specific]
+Signed-off-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+---
+ ping/Makefile.am | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/ping/Makefile.am b/ping/Makefile.am
+index 40ab34d..1421adb 100644
+--- a/ping/Makefile.am
++++ b/ping/Makefile.am
+@@ -35,8 +35,6 @@ ping_SOURCES = ping.c ping_common.c ping_echo.c ping_address.c \
+   ping_router.c ping_timestamp.c ping_common.h  ping_impl.h ping.h libping.c
+ ping6_SOURCES = ping6.c ping_common.c ping_common.h ping6.h
+ 
+-SUIDMODE = -o root -m 4755
+-
+ install-ping-hook:
+ 	-@for x in $(bin_PROGRAMS); do \
+ 	$(INSTALL_PROGRAM) $(SUIDMODE) $(AM_INSTALL_PROGRAM_FLAGS) $$x $(DESTDIR)$(bindir)/`echo $$x|sed '$(transform)'` ; OUTCOME=$$?; \
