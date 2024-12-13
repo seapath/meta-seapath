@@ -16,7 +16,7 @@ IMAGE_INSTALL += " \
 
 # Add AAEON recommended software
 IMAGE_INSTALL += " \
-    kirkstone-tools \
+    aaeon-tools \
     libgpiod \
     libgpiod-dev \
     libgpiod-tools \
