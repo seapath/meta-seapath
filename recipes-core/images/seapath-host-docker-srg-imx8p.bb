@@ -14,6 +14,8 @@ IMAGE_INSTALL += " \
     python3-docker-compose \
 "
 
+WKS_FILE="sdimage-aaeon.wks.in"
+
 # Add AAEON recommended software
 IMAGE_INSTALL += " \
     aaeon-tools \
