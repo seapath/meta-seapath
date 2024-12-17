@@ -5,14 +5,7 @@ LICENSE = "Apache-2.0"
 
 DESCRIPTION = "A production image for host with docker installed compatible with AAEON srg-imx8p machine"
 
-require recipes-core/images/core-image-minimal.bb
-
-# Add docker
-IMAGE_INSTALL += " \
-    docker-ce \
-    docker-ce-contrib \
-    python3-docker-compose \
-"
+require recipes-core/images/seapath-host-common.inc
 
 WKS_FILE="sdimage-aaeon.wks.in"
 
@@ -34,8 +27,13 @@ IMAGE_INSTALL += " \
     python3-multiprocessing \
 "
 
+IMAGE_QA_COMMANDS:remove = " \
+    grub_file_is_setup_properly \
+    verify_secureboot_signature \
+    "
+
 IMAGE_FEATURES += "ssh-server-openssh"
 
-COMPATIBLE_MACHINE = "(srg-imx8p-2g|srg-imx8p-4g)"
+COMPATIBLE_MACHINE = "seapath-hypervisor-aaeon"
 
 IMAGE_ROOTFS_EXTRA_SPACE += " + 8000000"
