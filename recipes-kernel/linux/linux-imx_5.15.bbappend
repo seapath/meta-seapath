@@ -8,6 +8,7 @@ KBUILD_DEFCONFIG:mx8-nxp-bsp = "defconfig"
 
 do_copy_defconfig() {
   install -d ${B}
+  sed -i -e "s|@APPEND@|${APPEND}|" ${WORKDIR}/defconfig
   cp ${WORKDIR}/defconfig ${B}/.config
 }
 
