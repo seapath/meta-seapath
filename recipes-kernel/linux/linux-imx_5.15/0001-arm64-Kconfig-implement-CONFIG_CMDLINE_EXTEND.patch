@@ -1,0 +1,37 @@
+From 61a8db26f137de25a6b23806c595f2d343512915 Mon Sep 17 00:00:00 2001
+From: Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
+Date: Wed, 18 Dec 2024 17:58:32 +0100
+Subject: [PATCH] arm64/Kconfig: implement CONFIG_CMDLINE_EXTEND
+
+Patch [1] has been partially merged. The functional implementation of
+CONFIG_CMDLINE_EXTEND is already present in drivers/of/fdt.c, but the
+description of this option has not been added to the Kconfig.
+
+[1] https://patchwork.kernel.org/project/linux-arm-kernel/patch/1447838885-9888-1-git-send-email-p.fedin@samsung.com/
+
+Signed-off-by: Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
+Upstream-Status: Pending
+---
+ arch/arm64/Kconfig | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 5688854e1540..2b93b4c4fd76 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1899,6 +1899,12 @@ config CMDLINE_FROM_BOOTLOADER
+ 	  the boot loader doesn't provide any, the default kernel command
+ 	  string provided in CMDLINE will be used.
+ 
++config CMDLINE_EXTEND
++	bool "Extend bootloader kernel arguments"
++	help
++	  The command-line arguments provided by the boot loader will be
++	  appended to the default kernel command string.
++
+ config CMDLINE_FORCE
+ 	bool "Always use the default kernel command string"
+ 	help
+-- 
+2.47.1
+
