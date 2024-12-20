@@ -1,6 +1,8 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/linux-imx_5.15:"
 
-SRC_URI += "file://defconfig"
+SRC_URI += "file://defconfig \
+      file://0001-arm64-Kconfig-implement-CONFIG_CMDLINE_EXTEND.patch \
+      "
 
 KBUILD_DEFCONFIG:mx8-nxp-bsp = "defconfig"
 
