@@ -1,0 +1,30 @@
+From a5aa030c541b5f9b1d0e0c39f8e02f4e940aaca9 Mon Sep 17 00:00:00 2001
+From: Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
+Date: Fri, 20 Dec 2024 11:28:35 +0100
+Subject: [PATCH] imx8mp_evk.h: edit mmcroot variable to remove read-write
+
+This patch removed the rw option, which is not supposed to be set by
+u-boot.
+
+Signed-off-by: Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
+Upstream-Status: Inappropriate [disable feature]
+---
+ include/configs/imx8mp_evk.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/configs/imx8mp_evk.h b/include/configs/imx8mp_evk.h
+index e957a2c6896..6ebd5f7bda1 100644
+--- a/include/configs/imx8mp_evk.h
++++ b/include/configs/imx8mp_evk.h
+@@ -142,7 +142,7 @@
+ 	"bootm_size=0x10000000\0" \
+ 	"mmcdev="__stringify(CONFIG_SYS_MMC_ENV_DEV)"\0" \
+ 	"mmcpart=1\0" \
+-	"mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
++	"mmcroot=" CONFIG_MMCROOT " rootwait\0" \
+ 	"mmcautodetect=yes\0" \
+ 	"mmcargs=setenv bootargs ${jh_clk} ${mcore_clk} console=${console} root=${mmcroot}\0 " \
+ 	"loadbootscript=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${bsp_script};\0" \
+-- 
+2.47.1
+
