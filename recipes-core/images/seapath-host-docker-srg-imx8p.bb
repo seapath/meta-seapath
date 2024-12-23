@@ -18,6 +18,10 @@ IMAGE_INSTALL += " \
     service-tools \
 "
 
+IMAGE_INSTALL += " \
+    openvswitch \
+"
+
 # Add test tools
 # multiprocessing module needs to be installed manually as it is not part of
 # python3-core in this version of yocto.
