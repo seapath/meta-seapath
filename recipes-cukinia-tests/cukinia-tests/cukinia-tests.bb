@@ -50,7 +50,6 @@ SRC_URI = "\
     file://hypervisor_tests.d/virtualization.conf \
     file://hypervisor_tests.d/ovs.conf \
     file://hypervisor_tests.d/ceph.conf \
-    file://hypervisor_tests.d/cpu.conf \
     file://hypervisor_tests.d/kernel.conf \
     file://hypervisor_tests.d/auditd.conf \
     file://hypervisor_tests.d/libvirt.conf \
@@ -75,6 +74,8 @@ SRC_URI = "\
     file://includes/tests/kernel_hypervisor.conf \
     file://update_tests.d/partition-symlinks.conf \
 "
+
+SRC_URI:append:x86 = "file://hypervisor_tests.d/cpu.conf"
 
 RDEPENDS:${PN} += "cukinia"
 RDEPENDS:${PN} += "bash coreutils pciutils"
@@ -154,13 +155,11 @@ do_install () {
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/files.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
-    install -m 0644 ${WORKDIR}/hypervisor_tests.d/cpu.conf \
-        ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/readonly.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/iommu.conf \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
-    
+
 # hypervisor security
     install -m 0755 -d ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d/
     install -m 0644 ${WORKDIR}/configurations/cukinia-hypervisor-security.conf \
@@ -234,6 +233,11 @@ do_install () {
         ${D}${sysconfdir}/cukinia/update_tests.d
     install -m 0644 ${WORKDIR}/configurations/cukinia-update.conf \
         ${D}${sysconfdir}/cukinia/configurations/cukinia-update.conf
+}
+
+do_install:append:x86 () {
+    install -m 0644 ${WORKDIR}/hypervisor_tests.d/cpu.conf \
+    ${D}${sysconfdir}/cukinia/hypervisor_tests.d
 }
 
 PACKAGES =+ " \
