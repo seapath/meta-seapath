@@ -71,6 +71,7 @@ SRC_URI = "\
     file://includes/architecture_functions \
     file://includes/clustering_functions \
     file://includes/kernel_config_functions \
+    file://includes/tests/kernel_common_security.conf \
     file://update_tests.d/partition-symlinks.conf \
 "
 
@@ -105,6 +106,9 @@ do_install () {
         ${D}${datadir}/cukinia/includes/clustering_functions
     install -m 0644 ${WORKDIR}/includes/kernel_config_functions \
         ${D}${datadir}/cukinia/includes/kernel_config_functions
+    install -m 0755 -d ${D}${datadir}/cukinia/includes/tests
+    install -m 0644 ${WORKDIR}/includes/tests/kernel_common_security.conf \
+        ${D}${datadir}/cukinia/includes/tests/kernel_common_security.conf
     install -m 0755 -d  ${D}${sysconfdir}/cukinia/configurations/
     install -m 0644 ${WORKDIR}/configurations/cukinia-common.conf \
         ${D}${sysconfdir}/cukinia/configurations/
