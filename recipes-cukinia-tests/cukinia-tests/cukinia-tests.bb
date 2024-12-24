@@ -68,6 +68,8 @@ SRC_URI = "\
     file://hypervisor_security_tests.d/virtualization.conf \
     file://monitor_tests.d/files.conf \
     file://vm_tests.d/files.conf \
+    file://includes/architecture_functions \
+    file://includes/clustering_functions \
     file://includes/kernel_config_functions \
     file://update_tests.d/partition-symlinks.conf \
 "
@@ -97,6 +99,10 @@ do_install () {
         ${D}${sysconfdir}/cukinia/common_tests.d
 
     install -m 0755 -d ${D}${datadir}/cukinia/includes/
+    install -m 0644 ${WORKDIR}/includes/architecture_functions \
+        ${D}${datadir}/cukinia/includes/architecture_functions
+    install -m 0644 ${WORKDIR}/includes/clustering_functions \
+        ${D}${datadir}/cukinia/includes/clustering_functions
     install -m 0644 ${WORKDIR}/includes/kernel_config_functions \
         ${D}${datadir}/cukinia/includes/kernel_config_functions
     install -m 0755 -d  ${D}${sysconfdir}/cukinia/configurations/
