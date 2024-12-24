@@ -1,0 +1,6 @@
+# Copyright (C) 2024 Savoir-faire Linux, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+is_x86() {
+    test "$(uname -m)" = "x86_64"
+}
