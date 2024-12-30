@@ -1,0 +1,8 @@
+# Copyright (C) 2022, RTE (http://www.rte-france.com)
+# Copyright (C) 2023-2024 Savoir-faire Linux, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+require conf/machine/intel-corei7-64.conf
+PREFERRED_PROVIDER_virtual/kernel = "linux-mainline-rt"
+PREFERRED_VERSION_linux-mainline-rt ?= "6.1.%"
+EFI_PROVIDER = "grub-efi"
