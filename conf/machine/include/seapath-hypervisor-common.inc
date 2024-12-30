@@ -10,5 +10,5 @@ APPEND += " \
     hugepagesz=1G \
     skew_tick=1 \
     rcutree.kthread_prio=10 \
-    ${@bb.utils.contains("DISTRO_FEATURES", "kvm", "kvm.halt_poll_ns=0", "", d)
+    ${@bb.utils.contains("DISTRO_FEATURES", "kvm", "kvm.halt_poll_ns=0", "", d)} \
     "
