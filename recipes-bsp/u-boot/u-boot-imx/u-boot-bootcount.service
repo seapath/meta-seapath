@@ -1,0 +1,12 @@
+[Unit]
+Description="Reset U-Boot bootcount after startup"
+After=network-online.target local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/fw_setenv bootcount 0 && /usr/bin/fw_setenv upgrade_available 0
+RemainAfterExit=true
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
