@@ -21,6 +21,7 @@ IMAGE_INSTALL += " \
 IMAGE_INSTALL += " \
     net-snmp-configuration \
     openvswitch \
+    u-boot-bootcount \
 "
 
 # Add test tools
