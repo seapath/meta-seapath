@@ -1,0 +1,125 @@
+From c370b5fc67c76324fa87d8e00bde594099850038 Mon Sep 17 00:00:00 2001
+From: Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
+Date: Thu, 2 Jan 2025 10:48:49 +0100
+Subject: [PATCH] imx8mp_evk.h: add support for A/B layout in uboot env
+
+This adds A/B partition layout in uboot env for software updates.
+
+The active partition is controlled by "partitionset_active" uboot env
+variable. The bootcount is handled by uboot and allows altbootcmd to be
+executed when the bootcount exceeds the bootlimit defined in uboot
+configuration.
+
+Signed-off-by: Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
+Upstream-Status: Inappropriate [configuration]
+---
+ include/configs/imx8mp_evk.h | 85 +++++++++++++++++-------------------
+ 1 file changed, 39 insertions(+), 46 deletions(-)
+
+diff --git a/include/configs/imx8mp_evk.h b/include/configs/imx8mp_evk.h
+index e957a2c6896..d3cfb6c0f78 100644
+--- a/include/configs/imx8mp_evk.h
++++ b/include/configs/imx8mp_evk.h
+@@ -121,6 +121,10 @@
+ 		"booti ${loadaddr} - ${fdt_addr_r}"
+ 
+ #else
++
++#define CONFIG_BOOTCOUNT_LIMIT
++#define CONFIG_BOOTCOUNT_ENV
++
+ #define CONFIG_EXTRA_ENV_SETTINGS		\
+ 	CONFIG_MFG_ENV_SETTINGS \
+ 	JAILHOUSE_ENV \
+@@ -145,53 +149,42 @@
+ 	"mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
+ 	"mmcautodetect=yes\0" \
+ 	"mmcargs=setenv bootargs ${jh_clk} ${mcore_clk} console=${console} root=${mmcroot}\0 " \
+-	"loadbootscript=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${bsp_script};\0" \
+-	"bootscript=echo Running bootscript from mmc ...; " \
+-		"source\0" \
+-	"loadimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
+-	"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr_r} ${fdtfile}\0" \
+-	"mmcboot=echo Booting from mmc ...; " \
+-		"run mmcargs; " \
+-		"if test ${boot_fit} = yes || test ${boot_fit} = try; then " \
+-			"bootm ${loadaddr}; " \
+-		"else " \
+-			"if run loadfdt; then " \
+-				"booti ${loadaddr} - ${fdt_addr_r}; " \
+-			"else " \
+-				"echo WARN: Cannot load the DT; " \
+-			"fi; " \
+-		"fi;\0" \
+-	"netargs=setenv bootargs ${jh_clk} ${mcore_clk} console=${console} " \
+-		"root=/dev/nfs " \
+-		"ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0" \
+-	"netboot=echo Booting from net ...; " \
+-		"run netargs;  " \
+-		"if test ${ip_dyn} = yes; then " \
+-			"setenv get_cmd dhcp; " \
+-		"else " \
+-			"setenv get_cmd tftp; " \
+-		"fi; " \
+-		"${get_cmd} ${loadaddr} ${image}; " \
+-		"if test ${boot_fit} = yes || test ${boot_fit} = try; then " \
+-			"bootm ${loadaddr}; " \
+-		"else " \
+-			"if ${get_cmd} ${fdt_addr_r} ${fdtfile}; then " \
+-				"booti ${loadaddr} - ${fdt_addr_r}; " \
+-			"else " \
+-				"echo WARN: Cannot load the DT; " \
+-			"fi; " \
+-		"fi;\0" \
++	"loadimage=fatload mmc ${mmcdev}:${boot_part} ${loadaddr} ${image}\0" \
++	"loadfdt=fatload mmc ${mmcdev}:${boot_part} ${fdt_addr_r} ${fdtfile}\0" \
++	"active_boot_A=1\0" \
++	"active_rootfs_A=3\0" \
++	"active_boot_B=2\0" \
++	"active_rootfs_B=4\0" \
++	"partitionset_active=A\0" \
++	"partitions_setup=echo setting active partitions ...;" \
++		"if itest.s ${partitionset_active} == A; then " \
++			"setenv active_rootfs_part ${active_rootfs_A};" \
++			"setenv active_boot_part ${active_boot_A};" \
++			"fi;" \
++		"if itest.s ${partitionset_active} == B; then " \
++			"setenv active_rootfs_part ${active_rootfs_B};" \
++			"setenv active_boot_part ${active_boot_B};" \
++		"fi;" \
++		"setenv rootfs_part ${active_rootfs_part};" \
++		"setenv boot_part ${active_boot_part};" \
++		"saveenv;\0" \
++	"altbootcmd=echo running altbootcmd;" \
++		"if itest.s ${partitionset_active} == A; then " \
++			"setenv partitionset_active B;" \
++		"else;" \
++			"setenv partitionset_active A;" \
++		"fi;" \
++		"saveenv;" \
++		"run bsp_bootcmd;\0" \
++	"prepare_boot_cmd=" \
++		"run partitions_setup;" \
++		"run loadfdt;" \
++		"run loadimage;" \
++		"setenv mmcroot /dev/mmcblk${mmcdev}p${rootfs_part} rootwait;" \
++		"run mmcargs;" \
++		"booti ${loadaddr} - ${fdt_addr_r};\0 " \
+ 	"bsp_bootcmd=echo Running BSP bootcmd ...; " \
+-		"mmc dev ${mmcdev}; if mmc rescan; then " \
+-		   "if run loadbootscript; then " \
+-			   "run bootscript; " \
+-		   "else " \
+-			   "if run loadimage; then " \
+-				   "run mmcboot; " \
+-			   "else run netboot; " \
+-			   "fi; " \
+-		   "fi; " \
+-	   "fi;"
++		"run prepare_boot_cmd;"
+ #endif
+ 
+ /* Link Definitions */
+-- 
+2.47.1
+
