@@ -6,6 +6,7 @@ LICENSE = "Apache-2.0"
 DESCRIPTION = "A production image for host with docker installed compatible with AAEON srg-imx8p machine"
 
 require recipes-core/images/seapath-host-common.inc
+require recipes-core/images/seapath-swupdate-common.inc
 
 WKS_FILE="sdimage-aaeon.wks.in"
 
@@ -21,7 +22,6 @@ IMAGE_INSTALL += " \
 IMAGE_INSTALL += " \
     net-snmp-configuration \
     openvswitch \
-    u-boot-bootcount \
 "
 
 # Add test tools
