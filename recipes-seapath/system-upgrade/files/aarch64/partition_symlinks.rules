@@ -1,0 +1,2 @@
+ENV{ID_FS_LABEL}=="boot*", PROGRAM="/usr/share/update/is_from_inactive_bank.sh 'bootloader' '/dev/%k'", RESULT=="1", SYMLINK+="upgradable_bootloader"
+ENV{ID_FS_LABEL}=="rootfs*", PROGRAM="/usr/share/update/is_from_inactive_bank.sh 'rootfs' '/dev/%k'", RESULT=="1", SYMLINK+="upgradable_rootfs"
