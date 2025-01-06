@@ -1,4 +1,4 @@
-From c370b5fc67c76324fa87d8e00bde594099850038 Mon Sep 17 00:00:00 2001
+From ad03537a0fea1177e0a300c689a69e93d40e06d1 Mon Sep 17 00:00:00 2001
 From: Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
 Date: Thu, 2 Jan 2025 10:48:49 +0100
 Subject: [PATCH] imx8mp_evk.h: add support for A/B layout in uboot env
@@ -13,11 +13,11 @@ configuration.
 Signed-off-by: Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
 Upstream-Status: Inappropriate [configuration]
 ---
- include/configs/imx8mp_evk.h | 85 +++++++++++++++++-------------------
- 1 file changed, 39 insertions(+), 46 deletions(-)
+ include/configs/imx8mp_evk.h | 95 +++++++++++++++++++-----------------
+ 1 file changed, 49 insertions(+), 46 deletions(-)
 
 diff --git a/include/configs/imx8mp_evk.h b/include/configs/imx8mp_evk.h
-index e957a2c6896..d3cfb6c0f78 100644
+index e957a2c6896..e1be4d08621 100644
 --- a/include/configs/imx8mp_evk.h
 +++ b/include/configs/imx8mp_evk.h
 @@ -121,6 +121,10 @@
@@ -31,7 +31,7 @@ index e957a2c6896..d3cfb6c0f78 100644
  #define CONFIG_EXTRA_ENV_SETTINGS		\
  	CONFIG_MFG_ENV_SETTINGS \
  	JAILHOUSE_ENV \
-@@ -145,53 +149,42 @@
+@@ -145,53 +149,52 @@
  	"mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
  	"mmcautodetect=yes\0" \
  	"mmcargs=setenv bootargs ${jh_clk} ${mcore_clk} console=${console} root=${mmcroot}\0 " \
@@ -77,6 +77,7 @@ index e957a2c6896..d3cfb6c0f78 100644
 +	"active_rootfs_A=3\0" \
 +	"active_boot_B=2\0" \
 +	"active_rootfs_B=4\0" \
++	"old_partitionset_active=B\0" \
 +	"partitionset_active=A\0" \
 +	"partitions_setup=echo setting active partitions ...;" \
 +		"if itest.s ${partitionset_active} == A; then " \
@@ -89,7 +90,10 @@ index e957a2c6896..d3cfb6c0f78 100644
 +		"fi;" \
 +		"setenv rootfs_part ${active_rootfs_part};" \
 +		"setenv boot_part ${active_boot_part};" \
-+		"saveenv;\0" \
++		"if itest.s ${partitionset_active} != ${old_partitionset_active}; then " \
++			"setenv old_partitionset_active ${partitionset_active};" \
++			"saveenv;" \
++		"fi;\0" \
 +	"altbootcmd=echo running altbootcmd;" \
 +		"if itest.s ${partitionset_active} == A; then " \
 +			"setenv partitionset_active B;" \
@@ -116,7 +120,13 @@ index e957a2c6896..d3cfb6c0f78 100644
 -			   "fi; " \
 -		   "fi; " \
 -	   "fi;"
-+		"run prepare_boot_cmd;"
++		"if run prepare_boot_cmd; then " \
++			"echo Boot preparation succeeded; " \
++		"else " \
++			"echo Boot preparation failed, running altbootcmd; " \
++			"run altbootcmd; " \
++		"fi;"
++
  #endif
  
  /* Link Definitions */
