@@ -18,7 +18,8 @@ IMAGE_INSTALL:append = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'cukinia-tests-hypervisor-security', '', d)} \
     syslog-ng-client \
     system-config-host \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'system-config-cluster', '', d)} \
+    system-config-ovs \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'system-config-livemigration', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
     system-upgrade \
     net-snmp-server \

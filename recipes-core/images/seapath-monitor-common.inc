@@ -7,7 +7,8 @@ USERS_LIST_LOCKED:remove = "qemu"
 IMAGE_INSTALL:append = " \
     cukinia-tests-monitor \
     system-upgrade \
-    system-config-cluster \
+    system-config-ovs \
+    system-config-livemigration \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-readonly', 'system-config-ro', '', d)} \
     chrony \

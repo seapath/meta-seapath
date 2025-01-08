@@ -21,7 +21,6 @@ IMAGE_INSTALL += " \
 
 IMAGE_INSTALL += " \
     net-snmp-configuration \
-    openvswitch \
 "
 
 # Add test tools
