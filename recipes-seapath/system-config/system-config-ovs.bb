@@ -1,30 +1,16 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
-# Copyright (C) 2023-2024 Savoir-faire Linux, Inc.
+# Copyright (C) 2023-2025 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-DESCRIPTION = "Seapath System configuration cluster"
+DESCRIPTION = "Seapath openvswitch System configuration"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
-SRCREV = "${AUTOREV}"
-RDEPENDS:${PN} = "python3-setup-ovs openvswitch libvirt pacemaker"
-
-# Add DEPENDS required for create the livemigration user
-DEPENDS += "libvirt pacemaker"
+RDEPENDS:${PN} = "python3-setup-ovs openvswitch"
 
 SRC_URI = " \
     file://openvswitch.conf \
     file://seapath-config_ovs.service \
-"
-
-USERADD_PACKAGES = "${PN}"
-USERADD_PARAM:${PN} = "\
-    --system \
-    -b /var/lib \
-    -m \
-    -p '*' \
-    -G haclient,libvirt \
-    livemigration \
 "
 
 do_install () {
@@ -45,7 +31,7 @@ SYSTEMD_SERVICE:${PN} = " \
 
 REQUIRED_DISTRO_FEATURES = "systemd"
 
-inherit allarch systemd features_check useradd
+inherit allarch systemd features_check
 
 FILES:${PN} = " \
     ${sysconfdir}/modules-load.d/openvswitch.conf \
