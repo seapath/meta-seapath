@@ -1,14 +1,8 @@
-# Copyright (C) 2024 Savoir-faire Linux, Inc.
+# Copyright (C) 2024-2025 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-#@TYPE: Machine
-#@NAME: seapath-hypervisor-aaeon
-#@SOC: ARM i.MX8M
-#@DESCRIPTION: Machine configuration for host machines compatible with SEAPATH
+MACHINEOVERRIDES =. "seapath:seapath-hypervisor-aaeon:"
 
-MACHINEOVERRIDES =. "seapath:"
-
-require conf/machine/srg-imx8p-2g.conf
 require conf/machine/include/seapath-hypervisor-common.inc
 
 PREFERRED_PROVIDER_virtual/bootloader:imx-nxp-bsp = "u-boot-imx"
@@ -21,4 +15,3 @@ REQUIRED_VERSION_dpdk:seapath-hypervisor-aaeon = "21.11"
 APPEND += " \
     ro \
 "
-
