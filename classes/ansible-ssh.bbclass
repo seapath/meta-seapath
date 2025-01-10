@@ -25,8 +25,6 @@ do_add_ansible_ssh_key() {
 
         eval flock -x ${IMAGE_ROOTFS}/home/${user} -c \"$PSEUDO chown -R $user:$user ${IMAGE_ROOTFS}/home/${user}/.ssh \"
     done
-    sed -i "s/^UsePAM*/#UsePAM/g" \
-        ${IMAGE_ROOTFS}/${sysconfdir}/ssh/sshd_config_readonly
 }
 
 python() {
