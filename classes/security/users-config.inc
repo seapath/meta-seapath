@@ -31,6 +31,9 @@ USERS_LIST_LOCKED[doc] = "List of users to lock"
 # Configure users with the ansible key enabled
 USERS_SSH_ANSIBLE = "admin"
 
+# Disable polyinstantiated directories for ansible users
+SEAPATH_PAM_NAMESPACES_EXCLUDE_USERS = "${USERS_SSH_ANSIBLE}"
+
 # Additionnal group definition
 GROUPS_LIST ?= "privileged operator maint-n1 maint-n3 admincluster adminsys ansible"
 GROUPS_LIST[doc] = "List of groups to be added"
