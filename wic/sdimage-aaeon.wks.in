@@ -4,6 +4,9 @@
 # short-description: Creates an SD card image for i.MX SoC family
 # long-description: Creates an SD card image for i.MX SoC family matching SEAPATH partitioning.
 # It uses u-boot + other binaries gathered together on imx-boot file
+
+# TODO: Adjust partition sizes to fit the internal eMMC card when the time comes to flash the card.
+
 bootloader --ptable gpt
 
 part u-boot --source rawcopy --sourceparams="file=imx-boot" --ondisk mmcblk0 --no-table --align ${IMX_BOOT_SEEK}
@@ -13,4 +16,4 @@ part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boo
 part / --source rootfs --exclude-path boot/ --ondisk mmcblk0 --fstype=ext4 --label rootfs0 --align 1024 --fixed-size 3G
 part / --ondisk mmcblk0 --fstype=ext4 --label rootfs1 --align 1024 --fixed-size 3G
 part /var/log --fixed-size 4096 --ondisk mmcblk0 --fstype=ext4 --label log --align 1024 --use-label
-part /mnt/persistent --fixed-size 256 --ondisk mmcblk0 --fstype=ext4 --label persistent --align 1024
+part /mnt/persistent --fixed-size 3G --ondisk mmcblk0 --fstype=ext4 --label persistent --align 1024
