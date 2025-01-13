@@ -6,6 +6,8 @@
 # Setup and install hardened PAM policy
 #
 
+SEAPATH_PAM_NAMESPACES_EXCLUDE_USERS ?= ""
+
 install_pam_policy() {
     if ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'true', 'false', d)}; then
         rm --one-file-system -f ${IMAGE_ROOTFS}/etc/pam.d/*
@@ -30,6 +32,9 @@ install_pam_access() {
 
 install_pam_namespace() {
     install -D -m 0640 ${SEC_ARTIFACTS_DIR}/pam/config/etc/namespace.conf ${IMAGE_ROOTFS}/etc/security/namespace.conf
+
+    sed -i 's/@@SEAPATH_PAM_NAMESPACES_EXCLUDE_USERS@@/${@','.join(d.getVar("SEAPATH_PAM_NAMESPACES_EXCLUDE_USERS", True).split())}/g' \
+        ${IMAGE_ROOTFS}/etc/security/namespace.conf
 }
 
 python() {
