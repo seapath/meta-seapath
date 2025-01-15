@@ -8,6 +8,8 @@
 
 USERS_LIST ?= "admin emergadmin"
 USERS_LIST[doc] = "List of users to be added"
+USERS_LIST_DISABLEMAXDAYS ?= "admin"
+USERS_LIST_DISABLEMAXDAYS[doc] = "List of added users without maximum number of days for the password validity. Users that aren't in USERS_LIST are ignored."
 USERS_LIST_EXPIRED ?= "emergadmin"
 USERS_LIST_EXPIRED[doc] = "List of users with expiration password set. This will enforce a password change at first login."
 USERS_LIST_SUDOERS ?= "admin emergadmin"

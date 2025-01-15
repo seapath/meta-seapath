@@ -11,6 +11,7 @@ inherit extrausers
 SUDO_BIN ?="${IMAGE_ROOTFS}/usr/bin/sudo"
 SUDOERS_DIR ?="${IMAGE_ROOTFS}/etc/sudoers.d"
 USERS_LIST ?= ""
+USERS_LIST_DISABLEMAXDAYS ?= ""
 USERS_LIST_EXPIRED ?= ""
 USERS_LIST_LOCKED ?= ""
 USERS_LIST_REMOVED ?= ""
@@ -30,6 +31,7 @@ python do_configure_users() {
         return crypt.crypt(user, crypt.mksalt(crypt.METHOD_SHA512)).replace("$","\$")
 
     userslist = d.getVar("USERS_LIST").split()
+    userslistdisablemaxdays = d.getVar("USERS_LIST_DISABLEMAXDAYS").split()
     userslistexpired = d.getVar("USERS_LIST_EXPIRED").split()
     userslistlocked = d.getVar("USERS_LIST_LOCKED").split()
     userslistremoved = d.getVar("USERS_LIST_REMOVED").split()
@@ -43,8 +45,12 @@ python do_configure_users() {
         return
     # add users defined in USERS_LIST
     for user in userslist:
-        extrausersparams += " useradd -p '{}' {} ;".format(
-           encrypt_user_password(user), user)
+        useradd_options = "-p '{}'".format(encrypt_user_password(user))
+        if user in userslistdisablemaxdays:
+            useradd_options += " -K PASS_MAX_DAYS=-1"
+
+        extrausersparams += " useradd {} {} ;".format(
+           useradd_options, user)
 
     # set expiration for users in USERS_LIST_EXPIRED
     for user in userslistexpired:
