@@ -7,8 +7,6 @@ HOMEPAGE = "https://github.com/savoirfairelinux/cukinia"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
-inherit allarch
-
 SRC_URI = "\
     file://cukinia.conf \
     file://cukinia-cluster.conf \
@@ -75,7 +73,7 @@ SRC_URI = "\
     file://update_tests.d/partition-symlinks.conf \
 "
 
-SRC_URI:append:x86 = "file://hypervisor_tests.d/cpu.conf"
+SRC_URI:append:x86-64 = "file://hypervisor_tests.d/cpu.conf"
 
 RDEPENDS:${PN} += "cukinia"
 RDEPENDS:${PN} += "bash coreutils pciutils"
@@ -235,7 +233,7 @@ do_install () {
         ${D}${sysconfdir}/cukinia/configurations/cukinia-update.conf
 }
 
-do_install:append:x86 () {
+do_install:append:x86-64 () {
     install -m 0644 ${WORKDIR}/hypervisor_tests.d/cpu.conf \
     ${D}${sysconfdir}/cukinia/hypervisor_tests.d
 }

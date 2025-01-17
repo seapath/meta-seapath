@@ -25,7 +25,7 @@ SRC_URI = "\
 "
 
 SRCREV = "1.2"
-inherit allarch systemd
+inherit systemd
 
 PACKAGES =+ "${PN}-hawkbit"
 
@@ -75,7 +75,7 @@ FILES:${PN}-hawkbit:append = " \
     ${systemd_unitdir}/system/swupdate_hawkbit.service \
 "
 
-RDEPENDS:${PN}:x86 = "bash dosfstools swupdate udev grub-efi-editenv"
+RDEPENDS:${PN}:x86-64 = "bash dosfstools swupdate udev grub-efi-editenv"
 RDEPENDS:${PN}:aarch64 = "bash dosfstools swupdate udev u-boot-bootcount"
 RDEPENDS:${PN}-hawkbit = "bash ${PN}"
 
