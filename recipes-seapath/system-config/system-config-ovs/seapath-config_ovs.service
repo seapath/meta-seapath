@@ -12,7 +12,7 @@ Requires=ovs-vswitchd.service
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStart=/usr/bin/setup_ovs.py
+ExecStart=/usr/bin/setup_ovs
 
 [Install]
 WantedBy=multi-user.target
