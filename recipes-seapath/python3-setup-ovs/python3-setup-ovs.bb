@@ -13,3 +13,7 @@ S = "${WORKDIR}/git"
 RDEPENDS:${PN} = "python3 openvswitch python3-pyyaml"
 
 inherit setuptools3
+
+do_install:append() {
+    mv ${D}${bindir}/setup_ovs.py ${D}${bindir}/setup_ovs
+}
