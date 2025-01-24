@@ -11,27 +11,12 @@ SRC_URI = " \
     file://0001-vm-manager-fix-RADOS-permission-denied-issue.patch \
 "
 
-SRCREV = "dc7d106c011b0458982a2ba3c6b38d26f9046b16"
+SRCREV = "8441289638a855b71fe667aa2cc90380c1753ee0"
 S = "${WORKDIR}/git"
 
 RDEPENDS:${PN} = "python3 libvirt"
 RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', "pacemaker ceph", '', d)}"
 
 inherit setuptools3
-
-do_install:append() {
-    # Create testdata directory
-    install -d ${D}/${datadir}/testdata
-
-    # Move python test scripts in testdata
-    mv ${D}/${bindir}/* ${D}/${datadir}/testdata/
-    rm -rf ${D}/${bindir}
-
-    # testdata files
-    install -m 644 ${S}/vm_manager/testdata/* ${D}/${datadir}/testdata/
-
-    # Install CLI tool as "vm-mgr"
-    install -D -m 750 ${S}/vm_manager_cmd.py ${D}/${sbindir}/vm-mgr
-}
 
 FILES:${PN} += "${datadir}/testdata/*"
