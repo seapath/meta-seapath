@@ -19,11 +19,13 @@ IMAGE_INSTALL:append = " \
     syslog-ng-client \
     system-config-host \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'system-config-cluster', '', d)} \
+    system-config-ovs \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
     system-upgrade \
     net-snmp-server \
     net-snmp-client \
     python3-vm-manager \
+    python3-setup-ovs \
     tuna \
     irqbalance \
     chrony \
