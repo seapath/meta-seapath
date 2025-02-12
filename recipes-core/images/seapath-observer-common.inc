@@ -8,8 +8,10 @@ IMAGE_INSTALL:append = " \
     cukinia-tests-observer \
     net-snmp-server \
     net-snmp-client \
+    python3-setup-ovs \
     system-upgrade \
     system-config-cluster \
+    system-config-ovs \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-readonly', 'system-config-ro', '', d)} \
     chrony \
