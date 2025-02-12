@@ -21,6 +21,8 @@ SRC_URI = " \
     file://host/hugetlb-gigantic-pages.service \
     file://host/hugetlb-reserve-pages.sh \
     file://host/rt-runtime-share.service \
+    file://host/configure-cpu-partitioning.py \
+    file://host/configure-cpu-partitioning.service \
     file://security/disable-local-login.sh \
     file://test/usb-cdc-acm.conf \
 "
@@ -52,6 +54,11 @@ do_install () {
     install -m 0644 ${WORKDIR}/host/rt-runtime-share.service \
         ${D}${systemd_unitdir}/system
     install -m 0755 ${WORKDIR}/host/enable-rt-runtime-share.sh \
+        ${D}/${sbindir}/
+
+    install -m 0644 ${WORKDIR}/host/configure-cpu-partitioning.service \
+        ${D}${systemd_unitdir}/system
+    install -m 0755 ${WORKDIR}/host/configure-cpu-partitioning.py \
         ${D}/${sbindir}/
 
 # Security
@@ -100,6 +107,7 @@ SYSTEMD_SERVICE:${PN}-common = " \
 SYSTEMD_SERVICE:${PN}-host = " \
     hugetlb-gigantic-pages.service \
     rt-runtime-share.service \
+    configure-cpu-partitioning.service \
 "
 
 REQUIRED_DISTRO_FEATURES = "systemd"
@@ -120,8 +128,10 @@ FILES:${PN}-keymap = " \
 FILES:${PN}-host = " \
     ${systemd_unitdir}/system/hugetlb-gigantic-pages.service \
     ${systemd_unitdir}/system/rt-runtime-share.service \
+    ${systemd_unitdir}/system/configure-cpu-partitioning.service \
     ${sbindir}/hugetlb-reserve-pages.sh \
     ${sbindir}/enable-rt-runtime-share.sh \
+    ${sbindir}/configure-cpu-partitioning.py \
 "
 
 FILES:${PN}-security = " \
