@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
 SRC_URI = "git://github.com/seapath/svtrace;protocol=https;branch=main"
 
 PV = "0.1+git${SRCPV}"
-SRCREV = "b2d59c082c7cf187d620ae0d8b7b5a133f39278b"
+SRCREV = "0ae04c6a34cc1a6a3beaa1d60e6cf34d0cd10ec5"
 
 S = "${WORKDIR}/git"
 
