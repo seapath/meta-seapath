@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 SRCREV = "${AUTOREV}"
 RDEPENDS:${PN}-security = "bash glibc-utils"
 RDEPENDS:${PN}-common= "${PN}-keymap"
+RDEPENDS:${PN}-ovs = "python3-setup-ovs openvswitch"
 
 SRC_URI = " \
     file://common/10-erspan0.network \
@@ -23,6 +24,8 @@ SRC_URI = " \
     file://host/rt-runtime-share.service \
     file://host/configure-cpu-partitioning.py \
     file://host/configure-cpu-partitioning.service \
+    file://ovs/openvswitch.conf \
+    file://ovs/seapath-config_ovs.service \
     file://security/disable-local-login.sh \
     file://test/usb-cdc-acm.conf \
 "
@@ -31,6 +34,7 @@ do_install () {
     install -d ${D}/${sbindir}
     install -d ${D}${systemd_unitdir}/system
     install -d ${D}${sysconfdir}/sysconfig
+    install -d ${D}${sysconfdir}/modules-load.d
 
 # Common
     install -d ${D}${sysconfdir}/sysctl.d
@@ -77,13 +81,18 @@ do_install () {
     install -m 0644 ${WORKDIR}/common/10-gretap0.network \
         ${D}${systemd_unitdir}/network
 
+# OpenVSwitch
+    install -m 0644 ${WORKDIR}/ovs/openvswitch.conf \
+        ${D}${sysconfdir}/modules-load.d
+    install -m 0644 ${WORKDIR}/ovs/seapath-config_ovs.service \
+        ${D}${systemd_unitdir}/system
+
 # Read-only
     install -d ${D}/${base_sbindir}
     echo '#!/bin/sh\nexec /sbin/init $@' > ${D}/${base_sbindir}/init.sh
     chmod 755 ${D}/${base_sbindir}/init.sh
 
 # Tests
-    install -d ${D}${sysconfdir}/modules-load.d
     install -m 0644 ${WORKDIR}/test/usb-cdc-acm.conf ${D}/${sysconfdir}/modules-load.d/
 }
 
@@ -94,10 +103,12 @@ PACKAGES =+ " \
     ${PN}-ro \
     ${PN}-test \
     ${PN}-keymap \
+    ${PN}-ovs \
 "
 SYSTEMD_PACKAGES += " \
     ${PN}-common \
     ${PN}-host \
+    ${PN}-ovs \
 "
 
 SYSTEMD_SERVICE:${PN}-common = " \
@@ -108,6 +119,10 @@ SYSTEMD_SERVICE:${PN}-host = " \
     hugetlb-gigantic-pages.service \
     rt-runtime-share.service \
     configure-cpu-partitioning.service \
+"
+
+SYSTEMD_SERVICE:${PN}-ovs = " \
+    seapath-config_ovs.service \
 "
 
 REQUIRED_DISTRO_FEATURES = "systemd"
@@ -138,6 +153,11 @@ FILES:${PN}-security = " \
     ${sbindir}/disable-local-login.sh \
     ${sysconfdir}/sysctl.d/90-sysctl-hardening.conf \
     ${sysconfdir}/profile.d/terminal_idle.sh \
+"
+
+FILES:${PN}-ovs = " \
+    ${sysconfdir}/modules-load.d/openvswitch.conf \
+    ${systemd_unitdir}/system/seapath-config_ovs.service \
 "
 
 FILES:${PN}-ro = "${base_sbindir}/init.sh"

@@ -7,12 +7,7 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
 SRCREV = "${AUTOREV}"
-RDEPENDS:${PN} = "python3-setup-ovs openvswitch libvirt pacemaker"
-
-SRC_URI = " \
-    file://openvswitch.conf \
-    file://seapath-config_ovs.service \
-"
+RDEPENDS:${PN} = "libvirt pacemaker"
 
 USERADD_PACKAGES = "${PN}"
 USERADD_PARAM:${PN} = "\
@@ -25,27 +20,6 @@ USERADD_PARAM:${PN} = "\
 "
 USERADD_DEPENDS = "libvirt pacemaker"
 
-do_install () {
+ALLOW_EMPTY:${PN} = '1'
 
-    install -d ${D}${sysconfdir}/modules-load.d
-    install -m 0644 ${WORKDIR}/openvswitch.conf \
-        ${D}${sysconfdir}/modules-load.d
-    install -d ${D}${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/seapath-config_ovs.service \
-        ${D}${systemd_unitdir}/system
-}
-
-SYSTEMD_PACKAGES += "${PN}"
-
-SYSTEMD_SERVICE:${PN} = " \
-    seapath-config_ovs.service \
-"
-
-REQUIRED_DISTRO_FEATURES = "systemd"
-
-inherit allarch systemd features_check useradd
-
-FILES:${PN} = " \
-    ${sysconfdir}/modules-load.d/openvswitch.conf \
-    ${systemd_unitdir}/system/seapath-config_ovs.service \
-"
+inherit allarch useradd
