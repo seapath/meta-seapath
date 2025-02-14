@@ -35,6 +35,8 @@ SRC_URI = "\
 RDEPENDS:${PN} += "cukinia"
 RDEPENDS:${PN} += "bash coreutils pciutils"
 
+SEAPATH_CLUSTER_USERS="ceph hacluster livemigration"
+
 install_dir () {
     SRC_DIR=$1
     DST_DIR=$2
@@ -81,6 +83,12 @@ do_install () {
         ${D}${sysconfdir}/cukinia/configurations/
     install_dir ${WORKDIR}/hypervisor_security_tests.d \
         ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
+
+    if ${@bb.utils.contains('DISTRO_FEATURES','seapath-clustering','false','true',d)}; then
+        for user in ${SEAPATH_CLUSTER_USERS}; do
+            sed '/$user/d' -i ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d/passwd.conf
+        done
+    fi
 
 # observer
     install -m 0644 ${WORKDIR}/cukinia-observer.conf ${D}${sysconfdir}/cukinia
