@@ -1,4 +1,4 @@
-From c28cd748aa7928abb77ac559d718d710e635cbde Mon Sep 17 00:00:00 2001
+From 26db999771339605b0e5e4b093fd36172be7d6c6 Mon Sep 17 00:00:00 2001
 From: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
 Date: Mon, 14 Oct 2024 15:08:21 +0200
 Subject: [PATCH] vm-manager: fix RADOS permission denied issue
@@ -14,28 +14,34 @@ module and keep it alive until the end of the program.
 
 Upstream-Status: Inappropriate [oe specific]
 
+Signed-off-by: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
 Signed-off-by: Mathieu Dupré <mathieu.dupre@savoirfairelinux.com>
 Signed-off-by: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
 ---
- vm_manager/__init__.py            |  4 ++++
+ vm_manager/__init__.py            |  4 +++-
  vm_manager/helpers/rbd_manager.py | 31 ++++++++++++++++++++++++-------
- 2 files changed, 28 insertions(+), 7 deletions(-)
+ 2 files changed, 27 insertions(+), 8 deletions(-)
 
 diff --git a/vm_manager/__init__.py b/vm_manager/__init__.py
-index 3f846a3..56014f8 100644
+index 3f846a3..b0df76b 100644
 --- a/vm_manager/__init__.py
 +++ b/vm_manager/__init__.py
-@@ -1,6 +1,10 @@
+@@ -1,12 +1,14 @@
  # Copyright (C) 2021, RTE (http://www.rte-france.com)
  # SPDX-License-Identifier: Apache-2.0
  
 +
-+from  .helpers.rbd_manager import get_or_create_rados_context
-+get_or_create_rados_context()
-+
  try:
-     from .helpers.rbd_manager import RbdManager
+-    from .helpers.rbd_manager import RbdManager
++    from .helpers.rbd_manager import RbdManager, get_or_create_rados_context
      from .helpers.pacemaker import Pacemaker
+ except ModuleNotFoundError:
+     cluster_mode = False
+ else:
++    get_or_create_rados_context()
+     cluster_mode = True
+ 
+ if cluster_mode:
 diff --git a/vm_manager/helpers/rbd_manager.py b/vm_manager/helpers/rbd_manager.py
 index de259d4..75f5bd6 100644
 --- a/vm_manager/helpers/rbd_manager.py
@@ -97,6 +103,3 @@ index de259d4..75f5bd6 100644
              self._ioctx = self._cluster.open_ioctx(self._pool)
              self.set_namespace(self._namespace)
              logger.info("Module has been successfully initialized")
--- 
-2.47.0
-
