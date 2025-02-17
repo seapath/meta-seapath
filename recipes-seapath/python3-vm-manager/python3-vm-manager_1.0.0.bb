@@ -19,4 +19,8 @@ RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering',
 
 inherit setuptools3
 
+do_install:append() {
+    ln -s ${bindir}/vm_manager_cmd ${D}/${bindir}/vm-mgr
+}
+
 FILES:${PN} += "${datadir}/testdata/*"
