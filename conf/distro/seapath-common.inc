@@ -96,8 +96,10 @@ INHERIT += "image-buildinfo"
 ROOT_HOME = "/root"
 
 # Enable UID and GID static allocation
+USERADDEXTENSION = "useradd-staticids"
+
 USERADD_UID_TABLES = "conf/distro/include/passwd.uid"
-GROUPADD_GID_TABLES = "conf/distro/include/group.gid"
+USERADD_GID_TABLES = "conf/distro/include/group.gid"
 
 # Ceph do not support the rocksdb version 9 provide by meta-oe
 # So we need to use a earlier version
