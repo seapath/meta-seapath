@@ -1,4 +1,5 @@
 # Copyright (C) 2022, RTE (http://www.rte-france.com)
+# Copyright (C) 2025 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 #
@@ -8,12 +9,15 @@
 #
 #
 
+BB_NO_NETWORK ??= "0"
+
 require hardening-handler.inc
 require hardening-config.inc
 
 # Community / 3rd-party classes to be included
-inherit cve-check
-include conf/distro/include/cve-extra-exclusions.inc
+
+inherit ${@'cve-check' if not bb.utils.to_boolean(BB_NO_NETWORK) else ''}
+include ${@'conf/distro/include/cve-extra-exclusions.inc' if not bb.utils.to_boolean(BB_NO_NETWORK) else ''}
 inherit image-buildinfo
 inherit create-spdx
 
