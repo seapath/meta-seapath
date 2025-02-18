@@ -86,7 +86,7 @@ do_install () {
 
     if ${@bb.utils.contains('DISTRO_FEATURES','seapath-clustering','false','true',d)}; then
         for user in ${SEAPATH_CLUSTER_USERS}; do
-            sed '/$user/d' -i ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d/passwd.conf
+            sed "/$user/d" -i ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d/passwd.conf
         done
     fi
 
