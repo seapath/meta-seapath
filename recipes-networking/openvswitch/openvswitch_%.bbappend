@@ -8,10 +8,10 @@ USERADD_PACKAGES = "${PN}-switch"
 USERADD_PARAM:${PN}-switch = "\
     --system \
     -G hugepages,vfio-net \
-    -N openvswitch \
+    -U openvswitch \
 "
 
-GROUPADD_PARAM:${PN}-switch = "-r hugepages ; -r vfio-net ; -r openvswitch"
+GROUPADD_PARAM:${PN}-switch = "-r hugepages ; -r vfio-net"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
