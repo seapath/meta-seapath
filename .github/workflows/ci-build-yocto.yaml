@@ -16,23 +16,34 @@ jobs:
     steps:
       - name: Configure runner - Install repo
         run:
-          apt update;
-          curl -o /usr/local/bin/repo https://storage.googleapis.com/git-repo-downloads/repo;
-          chmod +x /usr/local/bin/repo;
+          sudo apt update;
+          sudo curl -o /usr/local/bin/repo https://storage.googleapis.com/git-repo-downloads/repo;
+          sudo chmod +x /usr/local/bin/repo;
       - name: Configure runner - Install cqfd
         run:
-          apt-get -y install bash-completion build-essential git;
+          sudo apt-get -y install bash-completion build-essential git;
           git clone https://github.com/savoirfairelinux/cqfd.git;
           cd cqfd;
-          make install;
+          sudo make install;
       - name: Initialize sources
         run:
           git config --global user.email "seapath@seapath.com";
           git config --global user.name "seapath-ci";
           git config --global color.ui false;
-          cd ..;
+          cd ~/;
           mkdir build;
           cd build;
           repo init -u https://github.com/seapath/repo-manifest.git;
           repo sync;
           cqfd init;
+      - name: Build image
+        run:
+
+          echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns;
+          cd ~/;
+          mkdir ~/dl_dir;
+          mkdir ~/sstate_cache;
+          pwd;
+          export CQFD_EXTRA_RUN_ARGS="-v /home/runner/dl_dir:/mnt/dl -e DL_DIR=/mnt/dl -v /home/runner/sstate_cache:/mnt/sstate -e SSTATE_DIR=/mnt/sstate";
+          cd ~/build;
+          cqfd -b sfl_ci
