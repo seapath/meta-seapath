@@ -15,6 +15,11 @@ backup:x:34:34:backup:/var/backups:/sbin/nologin
 list:x:38:38:Mailing List Manager:/var/list:/sbin/nologin
 irc:x:39:39:ircd:/var/run/ircd:/sbin/nologin
 gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/sbin/nologin
+avahi:x:48:48:avahi:/var/avahi:/usr/sbin/nologin
+avahi-autoipd:x:49:49:avahi-autoipd:/var/avahi-autoipd:/usr/sbin/nologin
+ptest:x:51:51:ptest:/var/ptest:/usr/sbin/nologin
+cyrus:x:52:8:cyrus:/var/spool/mail:/usr/sbin/nologin
+coroqnetd:x:979:979:User for corosync-qnetd:/run/corosync-qnetd:/usr/sbin/nologin
 qemu:x:989:984::/home/qemu:/bin/sh
 systemd-timesync:x:990:985::/:/sbin/nologin
 systemd-resolve:x:991:986::/:/sbin/nologin

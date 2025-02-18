@@ -97,6 +97,7 @@ ROOT_HOME = "/root"
 
 # Enable UID and GID static allocation
 USERADDEXTENSION = "useradd-staticids"
+USERADD_ERROR_DYNAMIC = "error"
 
 USERADD_UID_TABLES = "conf/distro/include/passwd.uid"
 USERADD_GID_TABLES = "conf/distro/include/group.gid"
