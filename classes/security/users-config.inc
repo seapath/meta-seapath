@@ -6,9 +6,9 @@
 # Configuration used by users.bbclass
 #
 
-USERS_LIST ?= "admin emergadmin"
+USERS_LIST ?= "admin emergadmin ansible"
 USERS_LIST[doc] = "List of users to be added"
-USERS_LIST_DISABLEMAXDAYS ?= "admin"
+USERS_LIST_DISABLEMAXDAYS ?= "admin ansible"
 USERS_LIST_DISABLEMAXDAYS[doc] = "List of added users without maximum number of days for the password validity. Users that aren't in USERS_LIST are ignored."
 USERS_LIST_EXPIRED ?= "emergadmin"
 USERS_LIST_EXPIRED[doc] = "List of users with expiration password set. This will enforce a password change at first login."
@@ -31,10 +31,10 @@ USERS_LIST_LOCKED ?= "daemon \
 USERS_LIST_LOCKED[doc] = "List of users to lock"
 
 # Configure users with the ansible key enabled
-USERS_SSH_ANSIBLE = "admin"
+USERS_SSH_ANSIBLE = "admin ansible"
 
 # Disable polyinstantiated directories for ansible users
-SEAPATH_PAM_NAMESPACES_EXCLUDE_USERS = "${USERS_SSH_ANSIBLE}"
+SEAPATH_PAM_NAMESPACES_EXCLUDE_USERS = "ansible"
 
 # Additionnal group definition
 GROUPS_LIST ?= "privileged operator maint-n1 maint-n3 admincluster adminsys ansible"
@@ -49,6 +49,7 @@ SUDO_GROUP_OWNER ?= "privileged"
 SUDO_GROUP_OWNER[doc] = "Group owner of sudo binary"
 
 # Groups set for users
+USER_GROUP_LIST[ansible] = "privileged"
 USER_GROUP_LIST[admin] = "admin privileged"
 USER_GROUP_LIST[emergadmin] = "privileged"
 
