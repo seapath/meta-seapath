@@ -33,5 +33,6 @@ messagebus:x:999:997::/var/lib/dbus:/bin/false
 admin:x:1000:1000::/home/admin:/bin/sh
 emergadmin:x:1001:1001::/home/emergadmin:/bin/sh
 virtu:x:1002:1002::/home/virtu:/bin/sh
-livemigration:x:300:300::/:/bin/sh
+ansible:x:1003:1003::/home/ansible:/bin/sh
+livemigration:x:300:300::/var/lib/livemigration:/bin/sh
 nobody:x:65534:65534:nobody:/nonexistent:/sbin/nologin
