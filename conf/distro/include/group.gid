@@ -56,7 +56,7 @@ snmp:x:991:
 vfio-net:x:993:openvswitch
 hugepages:x:994:openvswitch
 sshd:x:995:
-haclient:x:996:root
+haclient:x:996:livemigration
 messagebus:x:997:
 sgx:x:998:
 render:x:999:
