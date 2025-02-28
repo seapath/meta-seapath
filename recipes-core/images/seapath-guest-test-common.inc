@@ -3,5 +3,4 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Tests
-IMAGE_INSTALL += "test-sync-storage"
 IMAGE_INSTALL += "rt-tests"
