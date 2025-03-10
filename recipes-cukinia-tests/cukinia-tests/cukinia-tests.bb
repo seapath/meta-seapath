@@ -119,6 +119,9 @@ do_install () {
     install -m 0644 ${WORKDIR}/cukinia-update.conf ${D}${sysconfdir}/cukinia
     install_dir ${WORKDIR}/update_tests.d \
         ${D}${sysconfdir}/cukinia/update_tests.d
+    if ! ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','true','false',d)}; then
+        rm ${D}${sysconfdir}/cukinia/update_tests.d/bootloader.conf
+    fi
     install -m 0644 ${WORKDIR}/configurations/cukinia-update.conf \
         ${D}${sysconfdir}/cukinia/configurations/cukinia-update.conf
 }
