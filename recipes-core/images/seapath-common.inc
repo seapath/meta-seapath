@@ -23,6 +23,7 @@ IMAGE_INSTALL:append = " \
 IMAGE_INSTALL:append = " \
     python3-json \
     python3-modules \
+    python3-requests \
     python3-setuptools \
 "
 
