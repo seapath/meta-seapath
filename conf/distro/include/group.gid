@@ -53,10 +53,10 @@ systemd-resolve:x:986:
 systemd-network:x:987:
 systemd-journal:x:988:
 openvswitch:x:989:
-ceph:x:990:
+hugepages:x:990:openvswitch
 snmp:x:991:
 vfio-net:x:993:openvswitch
-hugepages:x:994:openvswitch
+ceph:x:994:
 sshd:x:995:
 haclient:x:996:livemigration
 messagebus:x:997:
