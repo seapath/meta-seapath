@@ -97,3 +97,5 @@ INHERIT += "image-buildinfo"
 # Enable UID and GID static allocation
 USERADD_UID_TABLES = "conf/distro/include/passwd.uid"
 GROUPADD_GID_TABLES = "conf/distro/include/group.gid"
+
+REQUIRED_VERSION_python3-requests = "2.31.0"
