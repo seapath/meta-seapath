@@ -24,6 +24,7 @@ IMAGE_INSTALL:append = " \
     python3-json \
     python3-modules \
     python3-requests \
+    rsync \
 "
 
 IMAGE_INSTALL:append = " less"
