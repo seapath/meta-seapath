@@ -16,7 +16,6 @@ IMAGE_INSTALL:append = " \
     net-snmp-server \
     net-snmp-client \
     net-snmp-configuration \
-    rsync \
 "
 #add docker
 IMAGE_INSTALL += " \
