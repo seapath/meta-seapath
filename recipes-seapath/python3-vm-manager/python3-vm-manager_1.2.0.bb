@@ -1,5 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
-# Copyright (C) 2024, Savoir-faire Linux, Inc
+# Copyright (C) 2025, Savoir-faire Linux, Inc
 # SPDX-License-Identifier: Apache-2.0
 
 DESCRIPTION = "A Python3 module to manage VMs in a SEAPATH cluster"
@@ -9,12 +9,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
 SRC_URI = " \
     git://github.com/seapath/vm_manager.git;protocol=https;branch=main \
     file://0001-vm-manager-fix-RADOS-permission-denied-issue.patch \
+    file://0002--Revert-Properly-close-connection-to-Rados.patch \
 "
 
-SRCREV = "df9a1b843d3ba4b7f8241f67a8af4472451f6c93"
+SRCREV = "733f2672aa456027bd7067e4901ff368ce83bc13"
 S = "${WORKDIR}/git"
 
-RDEPENDS:${PN} = "python3 libvirt"
+RDEPENDS:${PN} = "python3 libvirt jq"
 RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', "pacemaker ceph", '', d)}"
 
 inherit setuptools3
