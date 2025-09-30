@@ -41,6 +41,7 @@ games:x:60:
 shutdown:x:70:
 wheel:x:80:
 users:x:100:
+virtlogin:x:975:
 avahi:x:976:
 avahi-autoipd:x:977:
 ptest:x:978:
