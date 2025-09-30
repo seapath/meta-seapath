@@ -6,7 +6,7 @@ MACHINEOVERRIDES =. "seapath:"
 
 require conf/machine/intel-corei7-64.conf
 PREFERRED_PROVIDER_virtual/kernel = "linux-mainline-rt"
-PREFERRED_VERSION_linux-mainline-rt ?= "6.1.%"
+PREFERRED_VERSION_linux-mainline-rt ?= "6.12.%"
 IMAGE_FSTYPES = "wic"
 SERIAL_CONSOLES = "115200;ttyS0"
 EFI_PROVIDER = "grub-efi"
