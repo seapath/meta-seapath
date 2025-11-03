@@ -6,15 +6,15 @@ require linux-mainline-rt.inc
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 LINUX_MAJOR_VERSION = "5.15"
-LINUX_REVISION_VERSION = "177"
+LINUX_REVISION_VERSION = "195"
 LINUX_VERSION = "${LINUX_MAJOR_VERSION}.${LINUX_REVISION_VERSION}"
-RT_REVISION = "rt83"
+RT_REVISION = "rt90"
 KBRANCH = "v${LINUX_MAJOR_VERSION}-rt"
 LINUX_FULL_VERSION = "${LINUX_VERSION}-${RT_REVISION}"
 KTAG = "v${LINUX_FULL_VERSION}"
 PV = "${LINUX_FULL_VERSION}+git${SRCPV}"
 
-SRCREV = "322fcbc51c5afc26e44a4c57fb6d5b3a80b598c0"
+SRCREV = "a0c83323529d395eb71e0d2648fba5a2152e977a"
 
 SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;protocol=https;name=machine;branch=${KBRANCH} \
         file://defconfig \
