@@ -31,7 +31,7 @@ SRCREV_libvirt = "8ba3d94995cd044ca7836cb937b14cd47eb0b868"
 LIBVIRT_VERSION = "11.4.0"
 PV = "v${LIBVIRT_VERSION}+git"
 
-SRC_URI = "gitsm://github.com/libvirt/libvirt.git;name=libvirt;protocol=https;branch=master \
+SRC_URI = "gitsm://github.com/libvirt/libvirt.git;name=libvirt;protocol=https;branch=master;destsuffix=${S} \
            file://libvirtd.sh \
            file://libvirtd.conf \
            file://dnsmasq.conf \
@@ -207,9 +207,9 @@ do_install:append() {
 	install -d ${D}/etc/dnsmasq.d
 	install -d ${D}${nonarch_libdir}/sysusers.d/
 
-	install -m 0755 ${UNPACKDIR}/libvirtd.sh ${D}/etc/init.d/libvirtd
-	install -m 0644 ${UNPACKDIR}/libvirtd.conf ${D}/etc/libvirt/libvirtd.conf
-	install -m 0644 ${UNPACKDIR}/libvirt-qemu.conf ${D}${nonarch_libdir}/sysusers.d/libvirt-qemu.conf
+	install -m 0755 ${WORKDIR}/libvirtd.sh ${D}/etc/init.d/libvirtd
+	install -m 0644 ${WORKDIR}/libvirtd.conf ${D}/etc/libvirt/libvirtd.conf
+	install -m 0644 ${WORKDIR}/libvirt-qemu.conf ${D}${nonarch_libdir}/sysusers.d/libvirt-qemu.conf
 
 	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
 	    # This will wind up in the libvirtd package, but will NOT be invoked by default.
@@ -259,12 +259,12 @@ do_install:append() {
 	mkdir -p ${D}/etc/libvirt/hooks
 	for hook in "daemon" "lxc" "network" "qemu"
 	do
-		install -m 0755 ${UNPACKDIR}/hook_support.py ${D}/etc/libvirt/hooks/${hook}
+		install -m 0755 ${WORKDIR}/hook_support.py ${D}/etc/libvirt/hooks/${hook}
 	done
 
 	# Force the main dnsmasq instance to bind only to specified interfaces and
 	# to not bind to virbr0. Libvirt will run its own instance on this interface.
-	install -m 644 ${UNPACKDIR}/dnsmasq.conf ${D}/${sysconfdir}/dnsmasq.d/libvirt-daemon
+	install -m 644 ${WORKDIR}/dnsmasq.conf ${D}/${sysconfdir}/dnsmasq.d/libvirt-daemon
 
 	# remove .la references to our working diretory
 	for i in `find ${D}${libdir} -type f -name *.la`; do
@@ -290,14 +290,14 @@ do_install:append() {
 
 	if ${@bb.utils.contains('PACKAGECONFIG','gnutls','true','false',d)}; then
 	    # Generate sample keys and certificates.
-	    ${UNPACKDIR}/${BP}/gnutls-helper.py -y
+	    ${WORKDIR}/${BP}/gnutls-helper.py -y
 
 	    # Deploy all sample keys and certificates of CA, server and client
 	    # to target so that libvirtd is able to boot successfully and local
 	    # connection via 127.0.0.1 is available out of box.
 	    install -d ${D}/etc/pki/CA
 	    install -d ${D}/etc/pki/libvirt/private
-	    install -m 0755 ${UNPACKDIR}/${BP}/gnutls-helper.py ${D}/${bindir}
+	    install -m 0755 ${WORKDIR}/${BP}/gnutls-helper.py ${D}/${bindir}
 	    install -m 0644 cakey.pem ${D}/${sysconfdir}/pki/libvirt/private/cakey.pem
 	    install -m 0644 cacert.pem ${D}/${sysconfdir}/pki/CA/cacert.pem
 	    install -m 0644 serverkey.pem ${D}/${sysconfdir}/pki/libvirt/private/serverkey.pem
