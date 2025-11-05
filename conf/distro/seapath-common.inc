@@ -107,3 +107,6 @@ USERADD_GID_TABLES = "conf/distro/include/group.gid"
 REQUIRED_VERSION_rocksdb = "6.20.%"
 REQUIRED_VERSION_python3-cython = "0.29.%"
 REQUIRED_VERSION_python3-requests = "2.31.0"
+
+# Backported to meta-seapath
+QEMUVERSION = "10.0.%"
