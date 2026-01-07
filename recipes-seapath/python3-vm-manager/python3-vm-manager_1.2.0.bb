@@ -10,10 +10,9 @@ SRC_URI = " \
     git://github.com/seapath/vm_manager.git;protocol=https;branch=main \
     file://0001-vm-manager-fix-RADOS-permission-denied-issue.patch \
     file://0002--Revert-Properly-close-connection-to-Rados.patch \
-    file://0003-pyproject.toml-rollback-to-old-licence-field.patch \
 "
 
-SRCREV = "e656f18688e6366d637a3668406f0616f39177ee"
+SRCREV = "80ab2ac02241ffde1988ab42fa6fff8023dfff23"
 S = "${WORKDIR}/git"
 
 RDEPENDS:${PN} = "python3 libvirt jq"
