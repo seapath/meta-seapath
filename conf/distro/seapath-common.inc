@@ -1,5 +1,5 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
-# Copyright (C) 2023 Savoir-faire Linux, Inc.
+# Copyright (C) 2023-2026 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 DISTROOVERRIDES =. "seapath:"
@@ -86,7 +86,7 @@ INHERIT += "overlay"
 IMAGE_FEATURES[validitems] += "unsafe-pam-policy"
 
 # Set version of ceph to 16.x.y
-REQUIRED_VERSION_ceph = "16.%"
+REQUIRED_VERSION_ceph = "18.2.7"
 
 # Create /etc/build
 INHERIT += "image-buildinfo"
