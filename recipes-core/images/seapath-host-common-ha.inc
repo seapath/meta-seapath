@@ -1,5 +1,5 @@
 # Copyright (C) 2021, RTE (http://www.rte-france.com)
-# Copyright (C) 2023-2024 Savoir-faire Linux, Inc.
+# Copyright (C) 2023-2026 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 # HA
@@ -13,6 +13,7 @@ IMAGE_INSTALL:append = " \
     cluster-glue-plugin-raexec \
     crmsh \
     ceph \
+    cephadm \
     net-snmp-configuration-cluster \
     pacemaker \
     resource-agents \
