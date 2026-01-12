@@ -15,7 +15,7 @@ USERADD_PARAM:${PN} = "\
     -m \
     -p '*' \
     -G haclient,libvirt \
-    livemigration \
+    libvirtadmin \
 "
 USERADD_DEPENDS = "libvirt pacemaker"
 
