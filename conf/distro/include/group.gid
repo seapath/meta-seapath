@@ -59,7 +59,7 @@ snmp:x:991:
 vfio-net:x:993:openvswitch
 ceph:x:994:
 sshd:x:995:
-haclient:x:996:livemigration
+haclient:x:996:libvirtadmin
 messagebus:x:997:
 sgx:x:998:
 render:x:999:
@@ -75,4 +75,4 @@ admincluster:x:2005:
 adminsys:x:2006:
 ansible:x:2007:
 virtu:x:1002:
-livemigration:x:300:
+libvirtadmin:x:300:
