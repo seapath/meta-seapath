@@ -20,5 +20,8 @@ IMAGE_INSTALL:append = " \
     corosync-qdevice \
 "
 
+# Remove corosync-qdevice in the toolchain to avoid a bash conflict
+TOOLCHAIN_HOST_TASK:remove:append = " corosync-qdevice"
+
 # Install ipmitool for fencing
 IMAGE_INSTALL:append = " ipmitool"
