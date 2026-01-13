@@ -56,5 +56,8 @@ inherit ansible-ssh
 require ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','','recipes-core/images/seapath-common-no-security.inc',d)}
 
 DEPENDS += "kconfig-hardened-check-native"
-PACKAGE_EXCLUDE += "*-dev"
-BAD_RECOMMENDATIONS += "*-dev"
+IMAGE_INSTALL:remove = "*-dev"
+
+# Install setuptools and pip in the toolchain
+TOOLCHAIN_TARGET_TASK:append = " python3-pip python3-setuptools"
+TOOLCHAIN_HOST_TASK:append = " nativesdk-python3-pip nativesdk-python3-setuptools"
