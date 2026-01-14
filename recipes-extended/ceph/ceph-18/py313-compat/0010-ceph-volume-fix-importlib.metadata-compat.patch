@@ -1,0 +1,42 @@
+From d6b0ff52e8c133f58f819b173aa8ba08ea45d9d1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mathieu=20Dupr=C3=A9?= <mathieu.dupre@savoirfairelinux.com>
+Date: Tue, 13 Jan 2026 13:36:19 +0100
+Subject: [PATCH] ceph-volume: fix importlib.metadata compat
+
+The importlib.metadata library removed older shims in releases >5.0.0
+where EntryPoints objects use .select() instead of dict-like access.
+
+Fixes: https://tracker.ceph.com/issues/68032
+
+Upstream-Status: Backport 8c78a22
+
+Signed-off-by: Peter Sabaini <peter.sabaini@canonical.com>
+---
+ src/ceph-volume/ceph_volume/main.py | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/src/ceph-volume/ceph_volume/main.py b/src/ceph-volume/ceph_volume/main.py
+index f8eca65ec..4f27f429e 100644
+--- a/src/ceph-volume/ceph_volume/main.py
++++ b/src/ceph-volume/ceph_volume/main.py
+@@ -11,8 +11,16 @@ try:
+     from importlib.metadata import entry_points
+ 
+     def get_entry_points(group: str):  # type: ignore
+-        return entry_points().get(group, [])  # type: ignore
++        eps = entry_points()
++        if hasattr(eps, 'select'):
++            # New importlib.metadata uses .select()
++            return eps.select(group=group)
++        else:
++            # Fallback to older EntryPoints that returns dicts
++            return eps.get(group, [])  # type: ignore
++
+ except ImportError:
++    # Fallback to `pkg_resources` for older versions
+     from pkg_resources import iter_entry_points as entry_points  # type: ignore
+ 
+     def get_entry_points(group: str):  # type: ignore
+-- 
+2.52.0
+
