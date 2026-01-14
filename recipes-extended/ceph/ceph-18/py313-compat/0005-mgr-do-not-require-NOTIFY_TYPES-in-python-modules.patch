@@ -1,0 +1,41 @@
+From ce0aa1ca8b3b0a86b5ef66c1425273f3f020025b Mon Sep 17 00:00:00 2001
+From: John Mulligan <jmulligan@redhat.com>
+Date: Fri, 26 Apr 2024 10:53:33 -0400
+Subject: [PATCH 5/9] mgr: do not require NOTIFY_TYPES in python modules
+
+Many python mgr modules lack a NOTIFY_TYPES member apparently without
+any downsides beyond an annoying message in the logs.  This includes
+commonly used mgr modules like 'volumes' and 'cephadm'.  Stop emitting
+an error for missing NOTIFY_TYPES by not assuming all mgr modules in
+python should provide it. The return code is also changed to indicate
+that this is not an error but the return from this function is never
+checked and so it should have no impact. However, if someone started
+using the return value in the future this would match the log change.
+
+Fixes: https://tracker.ceph.com/issues/55835
+
+Upstream-Status: Inappropriate [oe specific]
+
+Signed-off-by: John Mulligan <jmulligan@redhat.com>
+---
+ src/mgr/PyModule.cc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/mgr/PyModule.cc b/src/mgr/PyModule.cc
+index 084cf3ffc1e..1083aede8dd 100644
+--- a/src/mgr/PyModule.cc
++++ b/src/mgr/PyModule.cc
+@@ -515,8 +515,8 @@ int PyModule::load_notify_types()
+ {
+   PyObject *ls = PyObject_GetAttrString(pClass, "NOTIFY_TYPES");
+   if (ls == nullptr) {
+-    derr << "Module " << get_name() << " has missing NOTIFY_TYPES member" << dendl;
+-    return -EINVAL;
++    dout(10) << "Module " << get_name() << " has no NOTIFY_TYPES member" << dendl;
++    return 0;
+   }
+   if (!PyObject_TypeCheck(ls, &PyList_Type)) {
+     // Relatively easy mistake for human to make, e.g. defining COMMANDS
+-- 
+2.47.1
+
