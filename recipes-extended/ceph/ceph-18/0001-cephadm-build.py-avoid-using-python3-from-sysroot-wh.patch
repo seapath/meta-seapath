@@ -9,7 +9,7 @@ is the python used at target, but this is not true for
 cross compilation. We'll need to use the target python3 here,
 otherwise, the cephadm zipapp cannot be executed.
 
-Upstream-Status: Pending
+Upstream-Status: Inappropriate [oe specific]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
