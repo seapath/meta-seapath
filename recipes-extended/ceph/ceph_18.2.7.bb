@@ -94,14 +94,6 @@ do_configure:prepend () {
     echo "set( CMAKE_C_COMPILER_FORCED TRUE )" >> ${WORKDIR}/toolchain.cmake
 }
 
-do_compile:prepend() {
-    export BUILD_DOC=1
-}
-
-do_install:prepend() {
-    export BUILD_DOC=1
-}
-
 do_install:append () {
     sed -i -e 's:^#!/usr/bin/python$:&3:' \
         -e 's:${WORKDIR}.*python3:${bindir}/python3:' \
