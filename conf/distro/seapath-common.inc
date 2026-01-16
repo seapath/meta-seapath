@@ -110,3 +110,6 @@ REQUIRED_VERSION_python3-requests = "2.31.0"
 
 # Backported to meta-seapath
 QEMUVERSION = "10.0.%"
+
+# Use the cephadm recipe as cephadm provider to have the latest version
+PREFERRED_RPROVIDER_cephadm = "cephadm"
