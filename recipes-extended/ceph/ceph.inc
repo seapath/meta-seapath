@@ -5,8 +5,10 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 inherit useradd
 
-USERADD_PACKAGES = "${PN}"
-USERADD_PARAM:${PN} = "\
+CEPH_USER_PACKAGE ?= "${PN}"
+
+USERADD_PACKAGES = "${CEPH_USER_PACKAGE}"
+USERADD_PARAM:${CEPH_USER_PACKAGE} = "\
     --system --no-create-home \
     --home-dir ${localstatedir}/lib/ceph \
     --shell /bin/nologin \
