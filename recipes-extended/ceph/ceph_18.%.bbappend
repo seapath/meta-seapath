@@ -18,6 +18,8 @@ SRC_URI:append = " \
     file://0001-fix-cross-compilation-with-python-cython-modules-18.patch \
 "
 
+CEPH_USER_PACKAGE = "${PN}-common"
+
 include ceph.inc
 
 inherit features_check
@@ -198,7 +200,6 @@ FILES:${PN}-common = " \
 "
 
 RDEPENDS:${PN}-common = " \
-    ${PN} \
     gawk \
     bash \
     librbd1 \
@@ -250,7 +251,7 @@ FILES:${PN}-base = " \
 "
 
 RDEPENDS:${PN}-base = " \
-    ${PN} \
+    ${CEPH_USER_PACKAGE} \
     ${PN}-common \
     python3-core \
     cryptsetup \
@@ -330,6 +331,7 @@ FILES:${PN}-mgr = " \
 "
 
 RDEPENDS:${PN}-mgr = " \
+    ${CEPH_USER_PACKAGE} \
     ${PN}-common \
     ${PN}-mgr-modules-core \
     libsqlite3-mod-ceph \
@@ -377,7 +379,6 @@ FILES:${PN}-mgr-modules-core = " \
 "
 
 RDEPENDS:${PN}-mgr-modules-core = " \
-    ${PN} \
     python3-dateutil \
     python3-natsort \
     python3-packaging \
@@ -538,7 +539,6 @@ RDEPENDS:cephfs-top = "python3-core"
 # radosgw: REST gateway for RADOS distributed object store
 # =============================================================================
 FILES:radosgw = " \
-    ${PN} \
     ${bindir}/ceph-diff-sorted \
     ${bindir}/radosgw \
     ${bindir}/radosgw-es \
@@ -550,6 +550,7 @@ FILES:radosgw = " \
 "
 
 RDEPENDS:radosgw = " \
+    ${CEPH_USER_PACKAGE} \
     ${PN}-common \
     librgw2 \
 "
@@ -608,7 +609,6 @@ FILES:${PN}-resource-agents = " \
 "
 
 RDEPENDS:${PN}-resource-agents = " \
-    ${PN} \
     resource-agents \
 "
 
@@ -616,7 +616,6 @@ RDEPENDS:${PN}-resource-agents = " \
 # ceph-test: Test and benchmarking tools
 # =============================================================================
 FILES:${PN}-test = " \
-    ${PN} \
     ${bindir}/ceph-client-debug \
     ${bindir}/ceph-coverage \
     ${bindir}/ceph-dedup-tool \
