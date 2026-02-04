@@ -9,15 +9,15 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/linux-mainline-rt_6.12:"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 LINUX_MAJOR_VERSION = "6.12"
-LINUX_REVISION_VERSION = "57"
+LINUX_REVISION_VERSION = "66"
 LINUX_VERSION = "${LINUX_MAJOR_VERSION}.${LINUX_REVISION_VERSION}"
-RT_REVISION = "rt14"
+RT_REVISION = "rt15"
 KBRANCH = "v${LINUX_MAJOR_VERSION}-rt"
 LINUX_FULL_VERSION = "${LINUX_VERSION}-${RT_REVISION}"
 KTAG = "v${LINUX_FULL_VERSION}"
 PV = "${LINUX_FULL_VERSION}+git${SRCPV}"
 
-SRCREV = "dd1490bab92cf543071e728408cf0ff55de81e66"
+SRCREV = "682cc16c05c6cec473f4277c9b807dcd5cacd0c8"
 
 SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;protocol=https;name=machine;branch=${KBRANCH} \
         file://defconfig \
