@@ -49,8 +49,8 @@ IMAGE_INSTALL:append = " \
     chronyc \
 "
 
-# Docker
-IMAGE_INSTALL += " docker-moby docker-moby-contrib docker-compose"
+# Pomdan
+IMAGE_INSTALL += "podman podman-compose"
 
 # Host images are compatible with seapath-hypervisor only
 # GRUB static configuration for host machines
