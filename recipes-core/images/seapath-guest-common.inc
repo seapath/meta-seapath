@@ -17,12 +17,8 @@ IMAGE_INSTALL:append = " \
     net-snmp-client \
     net-snmp-configuration \
 "
-#add docker
-IMAGE_INSTALL += " \
-    docker-moby \
-    docker-moby-contrib \
-    docker-compose \
-"
+#add podman
+IMAGE_INSTALL += "podman podman-compose"
 
 IMAGE_FSTYPES = "wic.qcow2 wic.vmdk"
 WKS_FILE = "mkefidisk-guest.wks.in"
