@@ -12,7 +12,7 @@ IMAGE_INSTALL:append = " \
     cluster-glue-plugin-test \
     cluster-glue-plugin-raexec \
     crmsh \
-    ceph \
+    ceph-client \
     cephadm \
     net-snmp-configuration-cluster \
     pacemaker \
