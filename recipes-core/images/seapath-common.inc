@@ -10,6 +10,7 @@ IMAGE_INSTALL:append = " \
     cukinia-tests-common \
     ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','cukinia-tests-common-security','',d)} \
     linuxptp \
+    ncurses-terminfo \
     netplan \
     os-release \
     system-config-common \
