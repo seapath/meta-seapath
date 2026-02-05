@@ -30,6 +30,8 @@ change_init () {
 /bin/mount -t proc proc /proc
 /bin/mount -t sysfs sysfs /sys
 /bin/mount -t ext4 \$(blkid -L persistent) /mnt/persistent
+mount --make-rshared /
+mount --make-rshared /mnt/persistent
 /bin/mkdir -p /mnt/persistent/etc
 /bin/mkdir -p /mnt/persistent/.etc-work
 /bin/mkdir -p /mnt/persistent/var
