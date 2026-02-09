@@ -55,3 +55,6 @@ USER_GROUP_LIST[emergadmin] = "privileged"
 
 # Permissions policies to enforce
 GROUP_POLICIES_SUDO ?= "operator maint-n1 maint-n3 admincluster adminsys ansible"
+
+# List of users that is allowed to run rootless containers
+USER_CONTAINER_LIST ?= "admin"
