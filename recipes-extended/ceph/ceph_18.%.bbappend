@@ -459,6 +459,7 @@ RDEPENDS:${PN}-volume = " \
     parted \
     xfsprogs \
     python3-core \
+    python3-packaging \
 "
 
 # =============================================================================
