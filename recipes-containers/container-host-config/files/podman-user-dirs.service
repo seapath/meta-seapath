@@ -1,0 +1,16 @@
+# Copyright (C) 2026 Savoir-faire Linux, Inc.
+# SPDX-License-Identifier: Apache-2.0
+# /etc/systemd/system/podman-user-dirs.service
+[Unit]
+Description=Create Podman user directories
+After=mnt-persistent.mount local-fs.target
+Requires=mnt-persistent.mount
+
+[Service]
+Type=oneshot
+EnvironmentFile=-/etc/sysconfig/setup-podman-dirs
+ExecStart=/usr/sbin/setup-podman-dirs.sh ${USER_CONTAINER_LIST}
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
