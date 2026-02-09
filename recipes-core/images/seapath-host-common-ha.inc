@@ -14,6 +14,7 @@ IMAGE_INSTALL:append = " \
     crmsh \
     ceph-client \
     cephadm \
+    ceph-volume \
     net-snmp-configuration-cluster \
     pacemaker \
     resource-agents \
