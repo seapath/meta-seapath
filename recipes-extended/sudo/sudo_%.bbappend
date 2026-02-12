@@ -12,3 +12,9 @@ do_install:append() {
     install -m 0440 ${WORKDIR}/sudoers \
        ${D}${sysconfdir}/sudoers
 }
+
+inherit useradd security/users
+
+
+USERADD_PACKAGES = "${PN}"
+GROUPADD_PARAM:${PN} = "${SUDO_GROUP_OWNER}"
