@@ -32,8 +32,6 @@ DEPENDS = "boost bzip2 curl cryptsetup expat gperf-native \
 
 OECMAKE_C_COMPILER = "${@oecmake_map_compiler('CC', d)[0]} --sysroot=${RECIPE_SYSROOT}"
 OECMAKE_CXX_COMPILER = "${@oecmake_map_compiler('CXX', d)[0]} --sysroot=${RECIPE_SYSROOT}"
-USERADD_PACKAGES = "${PN}"
-USERADD_PARAM:${PN} = "--system --user-group --home-dir /var/lib/ceph --shell /sbin/nologin ceph"
 
 SYSTEMD_SERVICE:${PN} = " \
         ceph-radosgw@.service \
