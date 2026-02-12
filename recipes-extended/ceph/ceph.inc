@@ -7,7 +7,7 @@ inherit useradd
 
 CEPH_USER_PACKAGE ?= "${PN}"
 
-USERADD_PACKAGES = "${CEPH_USER_PACKAGE}"
+USERADD_PACKAGES += "${CEPH_USER_PACKAGE}"
 USERADD_PARAM:${CEPH_USER_PACKAGE} = "\
     --system --no-create-home \
     --home-dir ${localstatedir}/lib/ceph \
