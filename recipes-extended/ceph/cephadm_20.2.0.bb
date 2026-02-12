@@ -17,10 +17,11 @@ do_install() {
     install -m 0755 ${WORKDIR}/cephadm-${PV} ${D}${sbindir}/cephadm
 }
 
-RDEPENDS:${PN} = "python3-core lvm2"
-
-RRECOMMENDS:${PN} = " \
-    podman \
-"
-
 COMPATIBLE_HOST = "(x86_64).*"
+
+include cephadm.inc
+
+FILES:${PN}:append = " \
+    ${sbindir}/cephadm \
+    ${sysconfdir}/sudoers.d/cephadm \
+"

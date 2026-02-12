@@ -76,3 +76,5 @@ adminsys:x:2006:
 ansible:x:2007:
 virtu:x:1002:
 libvirtadmin:x:300:
+containerized-ceph:x:167:
+cephadm:x:168:

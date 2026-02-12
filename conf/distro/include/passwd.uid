@@ -36,3 +36,5 @@ virtu:x:1002:1002::/home/virtu:/bin/sh
 ansible:x:1003:1003::/home/ansible:/bin/sh
 libvirtadmin:x:300:300::/var/lib/libvirtadmin:/bin/sh
 nobody:x:65534:65534:nobody:/nonexistent:/sbin/nologin
+containerized-ceph:x:167:167::/var/lib/containerized-ceph:/sbin/nologin
+cephadm:x:168:168::/var/lib/cephadm:/sbin/nologin
