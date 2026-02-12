@@ -39,7 +39,7 @@ USERS_LIST_LOCKED[doc] = "List of users to lock"
 USERS_SSH_ANSIBLE = "admin ansible"
 
 # Disable polyinstantiated directories for ansible users
-SEAPATH_PAM_NAMESPACES_EXCLUDE_USERS = "ansible"
+SEAPATH_PAM_NAMESPACES_EXCLUDE_USERS = "ansible ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', "cephadm", '', d)}"
 
 # Additionnal group definition
 GROUPS_LIST ?= "privileged operator maint-n1 maint-n3 admincluster adminsys"
@@ -60,4 +60,4 @@ SUDO_GROUP_OWNER[doc] = "Group owner of sudo binary"
 GROUP_POLICIES_SUDO ?= "operator maint-n1 maint-n3 admincluster adminsys"
 
 # List of users that is allowed to run rootless containers
-USER_CONTAINER_LIST ?= "admin"
+USER_CONTAINER_LIST ?= "admin ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', "containerized-ceph", '', d)}"

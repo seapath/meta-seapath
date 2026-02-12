@@ -19,6 +19,7 @@ SRC_URI:append = " \
 "
 
 CEPH_USER_PACKAGE = "${PN}-common"
+CEPHADM_PACKAGE = "${PN}-cephadm"
 
 include ceph.inc
 
@@ -468,17 +469,11 @@ RDEPENDS:${PN}-volume = " \
 # =============================================================================
 # cephadm: Utility to bootstrap ceph daemons with systemd and containers
 # =============================================================================
-FILES:${PN}-cephadm = " \
+include cephadm.inc
+
+FILES:${PN}-cephadm:append = " \
     ${sbindir}/cephadm \
-"
-
-RDEPENDS:${PN}-cephadm = " \
-    lvm2 \
-    python3-core \
-"
-
-RRECOMMENDS:${PN}-cephadm = " \
-    podman \
+    ${sysconfdir}/sudoers.d/cephadm \
 "
 
 # =============================================================================
