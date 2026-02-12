@@ -1,7 +1,7 @@
-## Read drop-in files from /etc/sudoers.d
-## (the '#' here does not indicate a comment)
-#includedir /etc/sudoers.d
-
 ## Add hardening configuration options
 Defaults noexec,requiretty,use_pty,umask=0027
 Defaults ignore_dot,env_reset,passwd_timeout=1
+
+## Read drop-in files from /etc/sudoers.d
+## (the '#' here does not indicate a comment)
+#includedir /etc/sudoers.d
