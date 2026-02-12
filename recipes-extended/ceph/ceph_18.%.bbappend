@@ -58,6 +58,9 @@ do_install:append() {
     # tmpfiles.d
     install -v -D -m 644 ${S}/systemd/ceph.tmpfiles.d ${D}${nonarch_libdir}/tmpfiles.d/ceph.conf
 
+    # remove /etc/ceph/ceph.conf
+    rm -vf ${D}${sysconfdir}/ceph/ceph.conf
+
 
     # Remove runpath and .gnu_debuglink section which contains reference to
     # TMPDIR for every cython module
