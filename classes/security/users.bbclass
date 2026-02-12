@@ -16,6 +16,8 @@ USERS_LIST_EXPIRED ?= ""
 USERS_LIST_LOCKED ?= ""
 USERS_LIST_REMOVED ?= ""
 USERS_LIST_SUDOERS ?= ""
+USERS_LIST_NOPASSWD ?= ""
+USERS_LIST_EXEC ?= ""
 USER_GROUP_LIST ?= ""
 GROUPS_LIST ?= ""
 GROUPS_LIST_SUDOERS ?= ""
@@ -36,6 +38,9 @@ python do_configure_users() {
     userslistlocked = d.getVar("USERS_LIST_LOCKED").split()
     userslistremoved = d.getVar("USERS_LIST_REMOVED").split()
     userslistsudoers = d.getVar("USERS_LIST_SUDOERS").split()
+    userslistnopasswd = d.getVar("USERS_LIST_NOPASSWD").split()
+    userslistexec = d.getVar("USERS_LIST_EXEC").split()
+    sudogroupowner = d.getVar("SUDO_GROUP_OWNER")
 
     sudoersdir = d.getVar("SUDOERS_DIR")
 
@@ -67,10 +72,19 @@ python do_configure_users() {
             bb.warn("Can not add sudoers for user %s (not in USERS_LIST)"
                 %(user))
             continue
+        tags = ""
+        if user in userslistnopasswd:
+            tags += "NOPASSWD:"
+        if user in userslistexec:
+            tags += "EXEC:"
 
         with open(os.path.join(sudoersdir, user), "w") as f:
-            f.write(user+"  ALL=(ALL) ALL")
+            f.write(user+"  ALL=(ALL) "+tags+" ALL\n")
             os.chmod(f.name, 0o440)
+        # Add user the sudo group to be able to use sudo
+        extrausersparams += " usermod -a -G "+sudogroupowner+" "+user+";"
+        bb.note(f"adding group %s for %s" %(sudogroupowner, user))
+
 
     # remove users from USERS_LIST_REMOVED
     for user in userslistremoved:
@@ -93,6 +107,8 @@ def configure_groups(d, userslist, extrausersparams):
     groupslistsudoers = d.getVar("GROUPS_LIST_SUDOERS").split()
     sudoersdir = d.getVar("SUDOERS_DIR")
     usergrouplist = d.getVarFlags("USER_GROUP_LIST")
+    if usergrouplist == None:
+        usergrouplist = {}
     groupslistnopasswd = d.getVar("GROUPS_LIST_NOPASSWD").split()
     groupslistexec = d.getVar("GROUPS_LIST_EXEC").split()
     ret = ""
@@ -114,7 +130,7 @@ def configure_groups(d, userslist, extrausersparams):
                 tags += "NOPASSWD:"
             if group in groupslistexec:
                 tags += "EXEC:"
-            f.write("%"+group+"  ALL=(ALL) "+tags+" ALL")
+            f.write("%"+group+"  ALL=(ALL) "+tags+" ALL\n")
             os.chmod(f.name, 0o440)
 
     for g in usergrouplist:
