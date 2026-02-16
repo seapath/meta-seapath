@@ -29,6 +29,8 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;
         file://vsockets.cfg \
         file://rt.cfg \
         file://podman.cfg \
+        file://x86-64-hardening.cfg \
+        file://generic-hardened.cfg \
 "
 
 SRC_URI:append:seapath-installer = " file://exfat.cfg"
