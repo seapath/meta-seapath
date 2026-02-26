@@ -4,19 +4,7 @@
 
 require seapath-host-common.inc
 
-# Cockpit web GUI
 IMAGE_INSTALL:append = " \
-    cockpit \
-    cockpit-bridge \
-    cockpit-cluster-dashboard \
-    cockpit-cluster-vm-management \
-    cockpit-dashboard \
-    cockpit-machines \
-    cockpit-shell \
-    cockpit-systemd \
-    cockpit-update \
-    cockpit-users \
-    cockpit-ws \
     ethtool \
     rt-tests \
 "
