@@ -8,6 +8,23 @@ require ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'seapath-h
 
 inherit ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'security/qa-host-images', '', d)}
 
+# Cockpit web GUI
+COCKPIT_PACKAGES = " \
+    cockpit \
+    cockpit-bridge \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'cockpit-cluster-dashboard', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'cockpit-cluster-vm-management', '', d)} \
+    cockpit-dashboard \
+    cockpit-machines \
+    cockpit-shell \
+    cockpit-systemd \
+    cockpit-update \
+    cockpit-users \
+    cockpit-ws \
+"
+
+IMAGE_INSTALL:append = "${@bb.utils.contains('DISTRO_FEATURES', 'seapath-cockpit', ' ${COCKPIT_PACKAGES}', '', d)}"
+
 # Hypervisor and cluster tests
 IMAGE_INSTALL:append = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'cukinia-tests-cluster', '', d)} \
