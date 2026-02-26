@@ -4,19 +4,7 @@
 
 require seapath-host-common.inc
 
-# Cockpit web GUI
 IMAGE_INSTALL:append = " \
-    cockpit \
-    cockpit-bridge \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'cockpit-cluster-dashboard', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'cockpit-cluster-vm-management', '', d)} \
-    cockpit-dashboard \
-    cockpit-machines \
-    cockpit-shell \
-    cockpit-systemd \
-    cockpit-update \
-    cockpit-users \
-    cockpit-ws \
     ethtool \
     rt-tests \
 "
