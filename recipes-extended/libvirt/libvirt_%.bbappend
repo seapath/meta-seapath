@@ -42,3 +42,10 @@ FILES:${PN} += " \
     ${sysconfdir}/libvirt/qemu.conf \
     ${systemd_system_unitdir}/libvirtd.service.d/hardening.conf \
 "
+
+CVE_STATUS[CVE-2014-8135] = "fixed-version: in 1.2.11"
+CVE_STATUS[CVE-2014-8136] = "fixed-version: in 1.2.11"
+CVE_STATUS[CVE-2015-5313] = "fixed-version: in 1.3.1"
+CVE_STATUS[CVE-2018-5748] = "fixed-version: after 3.x"
+CVE_STATUS[CVE-2018-6764] = "fixed-version: after 3.x"
+CVE_STATUS[CVE-2023-3750] = "fixed-version: after 9.5.0"
