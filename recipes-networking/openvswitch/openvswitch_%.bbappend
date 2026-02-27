@@ -27,6 +27,8 @@ SRC_URI += " \
     file://99-vfio-net.rules \
 "
 
+CVE_STATUS[CVE-2023-5366] = "fixed-version: patched in 7570744c5add3a91b468c4ffa5bc73ef1f5bb18a"
+
 do_install:append()  {
     install -d ${D}/${sysconfdir}/sysconfig/
     install -m 0644 ${WORKDIR}/openvswitch.conf \

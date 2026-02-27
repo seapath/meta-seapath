@@ -30,6 +30,10 @@ def limit_parallel(d):
 
 PARALLEL_MAKE = "${@limit_parallel(d)}"
 
+CVE_STATUS[CVE-2017-12155] = "not-applicable-config: not using OpenStack"
+CVE_STATUS[CVE-2017-7519] = "fixed-version: from 10.x"
+CVE_STATUS[CVE-2020-1700] = "fixed-version: from 10.x"
+
 do_install:append () {
     install -m 0755 -d ${D}${localstatedir}/lib/ceph
     for directory in mon osd mds tmp radosgw bootstrap-rgw bootstrap-mgr \
