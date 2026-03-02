@@ -4,6 +4,8 @@
 
 require linux-mainline-rt.inc
 
+include cve-exclusion-5.15.inc
+
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 LINUX_MAJOR_VERSION = "5.15"
 LINUX_REVISION_VERSION = "195"
