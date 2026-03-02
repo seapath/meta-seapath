@@ -3,6 +3,8 @@
 
 require linux-mainline-rt.inc
 
+include cve-exclusion-6.12.inc
+
 FILESEXTRAPATHS:prepend := "${THISDIR}/linux-mainline-rt_6.12:"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"

@@ -3,6 +3,8 @@
 
 require linux-mainline-rt.inc
 
+include cve-exclusion-6.1.inc
+
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 LINUX_MAJOR_VERSION = "6.1"
 LINUX_REVISION_VERSION = "157"
