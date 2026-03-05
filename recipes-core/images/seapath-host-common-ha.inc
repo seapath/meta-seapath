@@ -12,7 +12,7 @@ IMAGE_INSTALL:append = " \
     cluster-glue-plugin-test \
     cluster-glue-plugin-raexec \
     crmsh \
-    ceph-client \
+    ceph \
     cephadm \
     ceph-volume \
     net-snmp-configuration-cluster \
