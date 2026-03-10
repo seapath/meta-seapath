@@ -36,9 +36,12 @@ LINUX_VERSION_EXTENSION:append = "-mainline-rt"
 
 S = "${WORKDIR}/git"
 
-EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
-
 COMPATIBLE_MACHINE = "(seapath|seapath-no-iommu)"
+
+CVE_VERSION = "${LINUX_VERSION}"
+SPDX_PACKAGE_VERSION = "${LINUX_VERSION}"
+
+SRC_URI:append = "${@'file://debug.cfg' if d.getVar('SPDX_INCLUDE_COMPILED_SOURCES') == '1' else ''}"
 
 do_deploy:append() {
    install -m 0644 .config $deployDir/config_kernel
