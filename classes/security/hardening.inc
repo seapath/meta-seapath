@@ -29,9 +29,13 @@ inherit create-spdx-2.2
 inherit vex
 
 SPDX_PRETTY = "1"
-SPDX_INCLUDE_SOURCES = "1"
-SPDX_ARCHIVE_SOURCES = "1"
-SPDX_ARCHIVE_PACKAGED = "1"
+SPDX_INCLUDE_SOURCES = "0"
+SPDX_ARCHIVE_SOURCES = "0"
+SPDX_ARCHIVE_PACKAGED = "0"
+
+# The following is required so kernel CVEs are filtered based on the files that
+# have actually been compiled.
+SPDX_INCLUDE_COMPILED_SOURCES:pn-linux-mainline-rt = "1"
 
 # Hardening framework classes
 inherit security/kconfig-hardened-check
