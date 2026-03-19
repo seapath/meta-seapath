@@ -2,7 +2,7 @@
 # Copyright (C) 2024 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-DESCRIPTION = "A production image for Seapath"
+DESCRIPTION ?= "A production image for Seapath"
 require seapath-common.inc
 require ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'seapath-host-common-ha.inc', '', d)}
 
