@@ -2,7 +2,7 @@
 # Copyright (C) 2023 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-DESCRIPTION = "A common base for Seapath images"
+DESCRIPTION ?= "A common base for Seapath images"
 LICENSE = "Apache-2.0"
 require recipes-core/images/core-image-minimal.bb
 IMAGE_INSTALL:append = " \
