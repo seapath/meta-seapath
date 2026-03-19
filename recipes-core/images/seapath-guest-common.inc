@@ -2,7 +2,7 @@
 # Copyright (C) 2024 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-DESCRIPTION = "A common base for guest image"
+DESCRIPTION ?= "A common base for guest image"
 
 require seapath-common.inc
 
