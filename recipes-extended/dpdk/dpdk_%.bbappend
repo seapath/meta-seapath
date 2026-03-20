@@ -9,3 +9,5 @@ do_install:append() {
 }
 
 FILES:${PN}-tools += "${sbindir}/dpdk-devbind"
+
+CVE_CHECK_IGNORE = ""
