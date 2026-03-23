@@ -11,7 +11,7 @@ SRC_URI:append = " \
 "
 PACKAGECONFIG:append = " seccomp"
 do_install:append () {
-    install -m 0644 ${WORKDIR}/basic.conf ${D}/usr/lib/sysusers.d/
+    install -m 0644 ${UNPACKDIR}/basic.conf ${D}/usr/lib/sysusers.d/
     # Remove audio group references
     sed '/- audio -/d' -i ${D}/usr/lib/tmpfiles.d/static-nodes-permissions.conf
     # Remove missing group in udev rules
@@ -20,10 +20,10 @@ do_install:append () {
             ${D}/${rootlibexecdir}/udev/rules.d/50-udev-default.rules
     done
     # Change boot-complete.target to be run after multi-user.target
-    install -m 644 ${WORKDIR}/boot-complete.target \
+    install -m 644 ${UNPACKDIR}/boot-complete.target \
         ${D}/${systemd_unitdir}/system/boot-complete.target
-    install -m 0644 ${WORKDIR}/journald.conf \
+    install -m 0644 ${UNPACKDIR}/journald.conf \
         ${D}${sysconfdir}/systemd
-    install -m 0644 ${WORKDIR}/resolved.conf \
+    install -m 0644 ${UNPACKDIR}/resolved.conf \
         ${D}${sysconfdir}/systemd
 }

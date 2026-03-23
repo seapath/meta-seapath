@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 SRC_URI = "https://github.com/seapath/${BPN}/releases/download/v${PV}/${BPN}.tar.gz"
 SRC_URI[sha256sum] = "15d6384a1a792a85d524262eb8a58b2ca717bcef68034bbaa78b24d4738c648f"
 
-S = "${WORKDIR}"
+S = "${UNPACKDIR}"
 
 inherit allarch
 

@@ -18,14 +18,13 @@ do_install:append() {
     fi
     if ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','true','false',d)}; then
         install -d ${D}${sysconfdir}/ssh
-        install -m 0644 ${WORKDIR}/sshd_config_seapath \
+        install -m 0644 ${UNPACKDIR}/sshd_config_seapath \
            ${D}${sysconfdir}/ssh/sshd_config
     fi
 }
 
 do_install:append_seapath-flash() {
     install -d ${D}${sysconfdir}/ssh
-    install -m 0644 ${WORKDIR}/sshd_config_seapath_flash \
+    install -m 0644 ${UNPACKDIR}/sshd_config_seapath_flash \
         ${D}${sysconfdir}/ssh/sshd_config
 }
-

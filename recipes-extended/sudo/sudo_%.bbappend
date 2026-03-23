@@ -9,7 +9,7 @@ SRC_URI += " \
 
 do_install:append() {
     install -d ${D}${sysconfdir}
-    install -m 0440 ${WORKDIR}/sudoers \
+    install -m 0440 ${UNPACKDIR}/sudoers \
        ${D}${sysconfdir}/sudoers
 }
 

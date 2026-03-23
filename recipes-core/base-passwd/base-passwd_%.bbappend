@@ -5,6 +5,6 @@ SRC_URI:prepend:seapath-sec = " \
 "
 
 do_configure:prepend:seapath-sec () {
-    cp -v ${WORKDIR}/passwd.master ${S}/
-    cp -v ${WORKDIR}/group.master ${S}/
+    cp -v ${UNPACKDIR}/passwd.master ${S}/
+    cp -v ${UNPACKDIR}/group.master ${S}/
 }

@@ -13,7 +13,7 @@ FILESEXTRAPATHS:prepend :="${THISDIR}/files:"
 
 PACKAGES += "${PN}-cluster ${PN}-virtualization"
 
-S = "${WORKDIR}"
+S = "${UNPACKDIR}"
 
 # Create snmp user
 inherit useradd
@@ -48,19 +48,19 @@ SRC_URI = " \
 
 do_install() {
     install -d ${D}/${sysconfdir}/snmp/config.d
-    install -m 0644 ${WORKDIR}/common.conf ${D}/${sysconfdir}/snmp/config.d/common.conf
-    install -m 0644 ${WORKDIR}/libvirt.conf ${D}/${sysconfdir}/snmp/config.d/libvirt.conf
-    install -m 0644 ${WORKDIR}/cluster.conf ${D}/${sysconfdir}/snmp/config.d/cluster.conf
+    install -m 0644 ${UNPACKDIR}/common.conf ${D}/${sysconfdir}/snmp/config.d/common.conf
+    install -m 0644 ${UNPACKDIR}/libvirt.conf ${D}/${sysconfdir}/snmp/config.d/libvirt.conf
+    install -m 0644 ${UNPACKDIR}/cluster.conf ${D}/${sysconfdir}/snmp/config.d/cluster.conf
     install -d ${D}/${libexecdir}
-    install -m 0744 -o snmp -g snmp ${WORKDIR}/snmp_domstats.sh ${D}/${libexecdir}/snmp_domstats.sh
-    install -m 0744 -o snmp -g snmp  ${WORKDIR}/snmp_dommemstat.sh ${D}/${libexecdir}/snmp_dommemstat.sh
-    install -m 0744 -o snmp -g snmp ${WORKDIR}/snmp_crmstatus.sh ${D}/${libexecdir}/snmp_crmstatus.sh
-    install -m 0744 -o snmp -g snmp  ${WORKDIR}/snmp_diskusage.sh ${D}/${libexecdir}/snmp_diskusage.sh
-    install -m 0744 -o snmp -g snmp  ${WORKDIR}/virt-df.sh ${D}/${libexecdir}/virt-df.sh
+    install -m 0744 -o snmp -g snmp ${UNPACKDIR}/snmp_domstats.sh ${D}/${libexecdir}/snmp_domstats.sh
+    install -m 0744 -o snmp -g snmp  ${UNPACKDIR}/snmp_dommemstat.sh ${D}/${libexecdir}/snmp_dommemstat.sh
+    install -m 0744 -o snmp -g snmp ${UNPACKDIR}/snmp_crmstatus.sh ${D}/${libexecdir}/snmp_crmstatus.sh
+    install -m 0744 -o snmp -g snmp  ${UNPACKDIR}/snmp_diskusage.sh ${D}/${libexecdir}/snmp_diskusage.sh
+    install -m 0744 -o snmp -g snmp  ${UNPACKDIR}/virt-df.sh ${D}/${libexecdir}/virt-df.sh
     install -d -m 0750 ${D}/${sysconfdir}/sudoers.d
-    install -m 0440 ${WORKDIR}/snmp ${D}/${sysconfdir}/sudoers.d/snmp
+    install -m 0440 ${UNPACKDIR}/snmp ${D}/${sysconfdir}/sudoers.d/snmp
     install -d ${D}/${sysconfdir}/default
-    install -m 0644 ${WORKDIR}/net-snmp-service.conf ${D}/${sysconfdir}/default/snmpd
+    install -m 0644 ${UNPACKDIR}/net-snmp-service.conf ${D}/${sysconfdir}/default/snmpd
 }
 
 FILES:${PN} = " \
@@ -81,4 +81,3 @@ FILES:${PN}-cluster = " \
     ${libexecdir}/virt-df.sh \
     ${sysconfdir}/sudoers.d/snmp \
 "
-

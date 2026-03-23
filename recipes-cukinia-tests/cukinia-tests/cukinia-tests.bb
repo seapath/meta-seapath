@@ -48,40 +48,40 @@ install_dir () {
 
 do_install () {
     install -m 0755 -d ${D}${sysconfdir}/cukinia/
-    install -m 0644 ${WORKDIR}/cukinia.conf ${D}${sysconfdir}/cukinia
+    install -m 0644 ${UNPACKDIR}/cukinia.conf ${D}${sysconfdir}/cukinia
 
 # common
-    install -m 0644 ${WORKDIR}/cukinia-common.conf \
+    install -m 0644 ${UNPACKDIR}/cukinia-common.conf \
         ${D}${sysconfdir}/cukinia/cukinia-common.conf
-    install_dir ${WORKDIR}/common_tests.d \
+    install_dir ${UNPACKDIR}/common_tests.d \
         ${D}${sysconfdir}/cukinia/common_tests.d
 
     install -m 0755 -d ${D}${datadir}/cukinia/includes/
-    install -m 0644 ${WORKDIR}/includes/kernel_config_functions \
+    install -m 0644 ${UNPACKDIR}/includes/kernel_config_functions \
         ${D}${datadir}/cukinia/includes/kernel_config_functions
     install -m 0755 -d  ${D}${sysconfdir}/cukinia/configurations/
-    install -m 0644 ${WORKDIR}/configurations/cukinia-common.conf \
+    install -m 0644 ${UNPACKDIR}/configurations/cukinia-common.conf \
         ${D}${sysconfdir}/cukinia/configurations/
 
 # common security
-    install -m 0644 ${WORKDIR}/cukinia-sec.conf \
+    install -m 0644 ${UNPACKDIR}/cukinia-sec.conf \
         ${D}${sysconfdir}/cukinia/
-    install -m 0644 ${WORKDIR}/configurations/cukinia-common-security.conf \
+    install -m 0644 ${UNPACKDIR}/configurations/cukinia-common-security.conf \
         ${D}${sysconfdir}/cukinia/configurations/
-    install_dir ${WORKDIR}/common_security_tests.d \
+    install_dir ${UNPACKDIR}/common_security_tests.d \
         ${D}${sysconfdir}/cukinia/common_security_tests.d
 
 # hypervisor
-    install -m 0644 ${WORKDIR}/cukinia-hypervisor.conf ${D}${sysconfdir}/cukinia
-    install -m 0644 ${WORKDIR}/configurations/cukinia-hypervisor-common.conf \
+    install -m 0644 ${UNPACKDIR}/cukinia-hypervisor.conf ${D}${sysconfdir}/cukinia
+    install -m 0644 ${UNPACKDIR}/configurations/cukinia-hypervisor-common.conf \
         ${D}${sysconfdir}/cukinia/configurations/
-    install_dir ${WORKDIR}/hypervisor_tests.d \
+    install_dir ${UNPACKDIR}/hypervisor_tests.d \
         ${D}${sysconfdir}/cukinia/hypervisor_tests.d
 
 # hypervisor security
-    install -m 0644 ${WORKDIR}/configurations/cukinia-hypervisor-security.conf \
+    install -m 0644 ${UNPACKDIR}/configurations/cukinia-hypervisor-security.conf \
         ${D}${sysconfdir}/cukinia/configurations/
-    install_dir ${WORKDIR}/hypervisor_security_tests.d \
+    install_dir ${UNPACKDIR}/hypervisor_security_tests.d \
         ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
 
     if ${@bb.utils.contains('DISTRO_FEATURES','seapath-clustering','false','true',d)}; then
@@ -91,38 +91,38 @@ do_install () {
     fi
 
 # observer
-    install -m 0644 ${WORKDIR}/cukinia-observer.conf ${D}${sysconfdir}/cukinia
-    install_dir ${WORKDIR}/observer_tests.d \
+    install -m 0644 ${UNPACKDIR}/cukinia-observer.conf ${D}${sysconfdir}/cukinia
+    install_dir ${UNPACKDIR}/observer_tests.d \
         ${D}${sysconfdir}/cukinia/observer_tests.d
 
 # cluster
     install -m 0755 -d ${D}${sysconfdir}/cukinia/configurations-cluster
-    install -m 0644 ${WORKDIR}/cukinia-cluster.conf \
+    install -m 0644 ${UNPACKDIR}/cukinia-cluster.conf \
         ${D}${sysconfdir}/cukinia/cukinia-cluster.conf
-    install_dir ${WORKDIR}/cluster_tests.d \
+    install_dir ${UNPACKDIR}/cluster_tests.d \
         ${D}${sysconfdir}/cukinia/cluster_tests.d
-    install -m 0644 ${WORKDIR}/configurations-cluster/cukinia-cluster-common.conf \
+    install -m 0644 ${UNPACKDIR}/configurations-cluster/cukinia-cluster-common.conf \
         ${D}${sysconfdir}/cukinia/configurations-cluster/cukinia-cluster-common.conf
 
 # cluster security
-    install_dir ${WORKDIR}/cluster_security_tests.d \
+    install_dir ${UNPACKDIR}/cluster_security_tests.d \
         ${D}${sysconfdir}/cukinia/cluster_security_tests.d
-    install -m 0644 ${WORKDIR}/configurations-cluster/cukinia-cluster-security.conf \
+    install -m 0644 ${UNPACKDIR}/configurations-cluster/cukinia-cluster-security.conf \
         ${D}${sysconfdir}/cukinia/configurations-cluster/cukinia-cluster-security.conf
 
 # vm
-    install -m 0644 ${WORKDIR}/cukinia-vm.conf ${D}${sysconfdir}/cukinia
-    install_dir ${WORKDIR}/vm_tests.d \
+    install -m 0644 ${UNPACKDIR}/cukinia-vm.conf ${D}${sysconfdir}/cukinia
+    install_dir ${UNPACKDIR}/vm_tests.d \
         ${D}${sysconfdir}/cukinia/vm_tests.d
 
 # update
-    install -m 0644 ${WORKDIR}/cukinia-update.conf ${D}${sysconfdir}/cukinia
-    install_dir ${WORKDIR}/update_tests.d \
+    install -m 0644 ${UNPACKDIR}/cukinia-update.conf ${D}${sysconfdir}/cukinia
+    install_dir ${UNPACKDIR}/update_tests.d \
         ${D}${sysconfdir}/cukinia/update_tests.d
     if ! ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','true','false',d)}; then
         rm ${D}${sysconfdir}/cukinia/update_tests.d/bootloader.conf
     fi
-    install -m 0644 ${WORKDIR}/configurations/cukinia-update.conf \
+    install -m 0644 ${UNPACKDIR}/configurations/cukinia-update.conf \
         ${D}${sysconfdir}/cukinia/configurations/cukinia-update.conf
 }
 

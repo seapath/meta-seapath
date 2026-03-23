@@ -10,7 +10,7 @@ SRC_URI += " \
 do_install:append() {
     if ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','true','false',d)}; then
         install -d ${D}${sysconfdir}
-        install -m 0644 ${WORKDIR}/login.defs \
+        install -m 0644 ${UNPACKDIR}/login.defs \
            ${D}${sysconfdir}
     fi
 }

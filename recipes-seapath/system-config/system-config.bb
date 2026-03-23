@@ -37,9 +37,9 @@ do_install () {
 
 # Common
     install -d ${D}${sysconfdir}/sysctl.d
-    install -m 0644 ${WORKDIR}/common/99-sysctl-network.conf \
+    install -m 0644 ${UNPACKDIR}/common/99-sysctl-network.conf \
         ${D}${sysconfdir}/sysctl.d
-    install -m 0644 ${WORKDIR}/common/var-log.mount \
+    install -m 0644 ${UNPACKDIR}/common/var-log.mount \
         ${D}${systemd_unitdir}/system
 
 # keymap
@@ -49,41 +49,41 @@ do_install () {
     echo "KEYMAP=\"${SEAPATH_KEYMAP}\"" > ${D}${sysconfdir}/vconsole.conf
 
 # Host
-    install -m 0644 ${WORKDIR}/host/hugetlb-gigantic-pages.service \
+    install -m 0644 ${UNPACKDIR}/host/hugetlb-gigantic-pages.service \
         ${D}${systemd_unitdir}/system
-    install -m 0755 ${WORKDIR}/host/hugetlb-reserve-pages.sh \
+    install -m 0755 ${UNPACKDIR}/host/hugetlb-reserve-pages.sh \
         ${D}/${sbindir}
 
-    install -m 0644 ${WORKDIR}/host/rt-runtime-share.service \
+    install -m 0644 ${UNPACKDIR}/host/rt-runtime-share.service \
         ${D}${systemd_unitdir}/system
-    install -m 0755 ${WORKDIR}/host/enable-rt-runtime-share.sh \
+    install -m 0755 ${UNPACKDIR}/host/enable-rt-runtime-share.sh \
         ${D}/${sbindir}/
 
-    install -m 0644 ${WORKDIR}/host/configure-cpu-partitioning.service \
+    install -m 0644 ${UNPACKDIR}/host/configure-cpu-partitioning.service \
         ${D}${systemd_unitdir}/system
-    install -m 0755 ${WORKDIR}/host/configure-cpu-partitioning.py \
+    install -m 0755 ${UNPACKDIR}/host/configure-cpu-partitioning.py \
         ${D}/${sbindir}/
 
 # Security
-    install -m 0755 ${WORKDIR}/security/disable-local-login.sh \
+    install -m 0755 ${UNPACKDIR}/security/disable-local-login.sh \
         ${D}/${sbindir}
     install -d ${D}${sysconfdir}/profile.d
-    install -m 0644 ${WORKDIR}/common/terminal_idle.sh \
+    install -m 0644 ${UNPACKDIR}/common/terminal_idle.sh \
         ${D}${sysconfdir}/profile.d
-    install -m 0644 ${WORKDIR}/common/90-sysctl-hardening.conf \
+    install -m 0644 ${UNPACKDIR}/common/90-sysctl-hardening.conf \
         ${D}${sysconfdir}/sysctl.d
 
 # Network
     install -d ${D}${systemd_unitdir}/network
-    install -m 0644 ${WORKDIR}/common/10-erspan0.network \
+    install -m 0644 ${UNPACKDIR}/common/10-erspan0.network \
         ${D}${systemd_unitdir}/network
-    install -m 0644 ${WORKDIR}/common/10-gretap0.network \
+    install -m 0644 ${UNPACKDIR}/common/10-gretap0.network \
         ${D}${systemd_unitdir}/network
 
 # OpenVSwitch
-    install -m 0644 ${WORKDIR}/ovs/openvswitch.conf \
+    install -m 0644 ${UNPACKDIR}/ovs/openvswitch.conf \
         ${D}${sysconfdir}/modules-load.d
-    install -m 0644 ${WORKDIR}/ovs/seapath-config_ovs.service \
+    install -m 0644 ${UNPACKDIR}/ovs/seapath-config_ovs.service \
         ${D}${systemd_unitdir}/system
 
 # Read-only
@@ -92,7 +92,7 @@ do_install () {
     chmod 755 ${D}/${base_sbindir}/init.sh
 
 # Tests
-    install -m 0644 ${WORKDIR}/test/usb-cdc-acm.conf ${D}/${sysconfdir}/modules-load.d/
+    install -m 0644 ${UNPACKDIR}/test/usb-cdc-acm.conf ${D}/${sysconfdir}/modules-load.d/
 }
 
 PACKAGES =+ " \

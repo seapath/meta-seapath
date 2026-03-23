@@ -15,9 +15,9 @@ SRC_URI += " \
 
 do_install:append() {
     install -d ${D}/${systemd_unitdir}/system/
-    install -m 644 ${WORKDIR}/corosync.service \
+    install -m 644 ${UNPACKDIR}/corosync.service \
         ${D}/${systemd_unitdir}/system/corosync.service
-    install -m 0644 ${WORKDIR}/create-corosync-pid.service \
+    install -m 0644 ${UNPACKDIR}/create-corosync-pid.service \
         ${D}/${systemd_unitdir}/system/create-corosync-pid.service
 }
 

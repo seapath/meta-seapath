@@ -29,7 +29,7 @@ USERADD_PARAM:${CEPHADM_PACKAGE} = "\
 
 do_install:append () {
     install -m 0750 -d ${D}${sysconfdir}/sudoers.d
-    install -m 0440 ${WORKDIR}/cephadm-sudoers ${D}${sysconfdir}/sudoers.d/cephadm
+    install -m 0440 ${UNPACKDIR}/cephadm-sudoers ${D}${sysconfdir}/sudoers.d/cephadm
 }
 
 RDEPENDS:${CEPHADM_PACKAGE} = " \

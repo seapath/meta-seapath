@@ -41,7 +41,7 @@ do_install:append() {
 
     install -d ${D}${libdir}/ocf/resource.d/seapath
 
-    install -m 755 ${WORKDIR}/VirtualDomain \
+    install -m 755 ${UNPACKDIR}/VirtualDomain \
         ${D}${libdir}/ocf/resource.d/seapath/VirtualDomain
 
     # Remove unused heartbeat modules not declared in REQUIRED_HEARTBEAT_SCRIPTS
