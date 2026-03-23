@@ -11,7 +11,6 @@ SRC_URI = "git://gitlab.com/libosinfo/osinfo-db-tools.git;branch=main;protocol=h
            "
 SRCREV = "85a1788c6977419b6facad11dbfbf823e739eb3b"
 
-S = "${WORKDIR}/git"
 
 inherit meson pkgconfig
 

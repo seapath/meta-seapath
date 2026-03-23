@@ -15,7 +15,6 @@ SRC_URI[sha256sum] = "ffea105f7532fe03ae48f4d0b8c9c0a74f1279a924111214c43f96e120
 # v0.6.1
 SRCREV="fa8743fca74f444f29fd33adc8adfa300dfd0656"
 
-S = "${WORKDIR}/git"
 
 BBCLASSEXTEND = "native"
 

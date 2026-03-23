@@ -31,20 +31,20 @@ CVE_STATUS[CVE-2023-5366] = "fixed-version: patched in 7570744c5add3a91b468c4ffa
 
 do_install:append()  {
     install -d ${D}/${sysconfdir}/sysconfig/
-    install -m 0644 ${WORKDIR}/openvswitch.conf \
+    install -m 0644 ${UNPACKDIR}/openvswitch.conf \
         ${D}${sysconfdir}/sysconfig/openvswitch
 
     install -d ${D}/${systemd_unitdir}/system/
-    install -m 644 ${WORKDIR}/openvswitch.service \
+    install -m 644 ${UNPACKDIR}/openvswitch.service \
         ${D}/${systemd_unitdir}/system/openvswitch.service
-    install -m 644 ${WORKDIR}/ovs-vswitchd.service \
+    install -m 644 ${UNPACKDIR}/ovs-vswitchd.service \
         ${D}/${systemd_unitdir}/system/ovs-vswitchd.service
     install -d ${D}/${libexecdir}
-    install -m 755 ${WORKDIR}/configure_vm_sockets.sh \
+    install -m 755 ${UNPACKDIR}/configure_vm_sockets.sh \
         ${D}/${libexecdir}/configure_vm_sockets.sh
-    install -m 644 ${WORKDIR}/ovsdb-server.service \
+    install -m 644 ${UNPACKDIR}/ovsdb-server.service \
         ${D}/${systemd_unitdir}/system/ovsdb-server.service
-    install -m 644 ${WORKDIR}/set-hugepages-permissions.service \
+    install -m 644 ${UNPACKDIR}/set-hugepages-permissions.service \
         ${D}/${systemd_unitdir}/system/set-hugepages-permissions.service
 
     chown openvswitch:openvswitch ${D}/${sysconfdir}/openvswitch
@@ -58,11 +58,11 @@ do_install:append()  {
 
     # Create /run/openvswitch volatile directory each time the machine boots
     install -d ${D}/${sysconfdir}/tmpfiles.d
-    install -m 0644 ${WORKDIR}/tmpfile-openvswitch.conf \
+    install -m 0644 ${UNPACKDIR}/tmpfile-openvswitch.conf \
         ${D}/${sysconfdir}/tmpfiles.d/openvswitch.conf
 
     install -d ${D}${sysconfdir}/udev/rules.d
-    install -m 0644 ${WORKDIR}/99-vfio-net.rules \
+    install -m 0644 ${UNPACKDIR}/99-vfio-net.rules \
         ${D}${sysconfdir}/udev/rules.d
 }
 

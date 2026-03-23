@@ -30,7 +30,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.amd-ucode;md5=3c5399dc9148d7f0e1f41e34b69cf14
 NO_GENERIC_LICENSE[Firmware-amd-ucode] = "LICENSE.amd-ucode"
 PE = "1"
 
-S = "${WORKDIR}"
+S = "${UNPACKDIR}"
 
 inherit allarch
 CLEANBROKEN = "1"
@@ -45,4 +45,3 @@ do_install() {
 
 
 FILES:${PN} = "${nonarch_base_libdir}/firmware/*"
-

@@ -21,18 +21,18 @@ SRC_URI += " \
 
 do_install:append() {
     install -d ${D}/${sysconfdir}/sysconfig/
-    install -m 0644 ${WORKDIR}/libvirtd \
+    install -m 0644 ${UNPACKDIR}/libvirtd \
         ${D}${sysconfdir}/sysconfig/libvirtd
 
     install -d ${D}/${sysconfdir}/libvirt/
-    install -m 0644 ${WORKDIR}/libvirtd.conf \
+    install -m 0644 ${UNPACKDIR}/libvirtd.conf \
         ${D}${sysconfdir}/libvirt/libvirtd.conf
-    install -m 0644 ${WORKDIR}/qemu.conf \
+    install -m 0644 ${UNPACKDIR}/qemu.conf \
         ${D}${sysconfdir}/libvirt/qemu.conf
 
     install -d ${D}/${systemd_system_unitdir}/libvirtd.service.d
 
-    install -m 644 ${WORKDIR}/libvirtd.service.fragment \
+    install -m 644 ${UNPACKDIR}/libvirtd.service.fragment \
         ${D}${systemd_system_unitdir}/libvirtd.service.d/hardening.conf
 }
 

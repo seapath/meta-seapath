@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 SRC_URI = "https://github.com/seapath/${BPN}/releases/download/v${PV}/${BPN}.tar.gz"
 SRC_URI[sha256sum] = "3e767d4ca0bec712d3e11a0b67eb628aa77c9195a4df649ee597a87423903814"
 
-S = "${WORKDIR}"
+S = "${UNPACKDIR}"
 
 inherit allarch
 
@@ -25,4 +25,3 @@ do_install() {
 
 FILES:${PN} += "${datadir}/cockpit/${PN}"
 RDEPENDS:${PN} += "cockpit"
-

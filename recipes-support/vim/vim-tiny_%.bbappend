@@ -10,8 +10,8 @@ SRC_URI += " \
 
 do_install:append() {
     install -d ${D}/${datadir}/vim/
-    install -m 644 ${WORKDIR}/vimrc ${D}/${datadir}/vim/vimrc
-    install -m 644 ${WORKDIR}/defaults.vim ${D}/${datadir}/vim/defaults.vim
+    install -m 644 ${UNPACKDIR}/vimrc ${D}/${datadir}/vim/vimrc
+    install -m 644 ${UNPACKDIR}/defaults.vim ${D}/${datadir}/vim/defaults.vim
 }
 
 FILES:${PN}:append = " \

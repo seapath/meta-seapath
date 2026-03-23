@@ -14,11 +14,11 @@ SRC_URI:append = " \
 inherit systemd security/users
 
 do_install:append() {
-    install -m 0644 ${WORKDIR}/containers.conf ${D}${sysconfdir}/containers/containers.conf
+    install -m 0644 ${UNPACKDIR}/containers.conf ${D}${sysconfdir}/containers/containers.conf
     install -d ${D}${sbindir}
-    install -m 0755 ${WORKDIR}/setup-podman-dirs.sh ${D}${sbindir}/setup-podman-dirs.sh
+    install -m 0755 ${UNPACKDIR}/setup-podman-dirs.sh ${D}${sbindir}/setup-podman-dirs.sh
     install -d ${D}${systemd_system_unitdir}
-    install -m 0644 ${WORKDIR}/podman-user-dirs.service ${D}${systemd_system_unitdir}/podman-user-dirs.service
+    install -m 0644 ${UNPACKDIR}/podman-user-dirs.service ${D}${systemd_system_unitdir}/podman-user-dirs.service
     install -d ${D}/etc/sysconfig
     echo "USER_CONTAINER_LIST=\"${USER_CONTAINER_LIST}\"" > ${D}/etc/sysconfig/setup-podman-dirs
 }

@@ -10,11 +10,11 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/LGPL-2.1-or-later;md5=2a4f4fd21
 SRC_URI = "https://download.ceph.com/rpm-${PV}/el9/noarch/cephadm;downloadfilename=cephadm-${PV}"
 SRC_URI[sha256sum] = "ed5a13ad26f7f55dd30e9b63855e4e581fd86973bec1d21a12ed0bb26af19c8b"
 
-S = "${WORKDIR}"
+S = "${UNPACKDIR}"
 
 do_install() {
     install -d ${D}${sbindir}
-    install -m 0755 ${WORKDIR}/cephadm-${PV} ${D}${sbindir}/cephadm
+    install -m 0755 ${UNPACKDIR}/cephadm-${PV} ${D}${sbindir}/cephadm
 }
 
 COMPATIBLE_HOST = "(x86_64).*"

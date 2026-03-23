@@ -16,9 +16,9 @@ SRC_URI:append = " \
 "
 do_install:append() {
   install -d ${D}${systemd_system_unitdir}
-  install -m 0644 ${WORKDIR}/ptp4l@.service ${D}${systemd_system_unitdir}/
-  install -m 0644 ${WORKDIR}/phc2sys@.service ${D}${systemd_system_unitdir}/
-  install -m 0644 ${WORKDIR}/timemaster.service ${D}${systemd_system_unitdir}/
+  install -m 0644 ${UNPACKDIR}/ptp4l@.service ${D}${systemd_system_unitdir}/
+  install -m 0644 ${UNPACKDIR}/phc2sys@.service ${D}${systemd_system_unitdir}/
+  install -m 0644 ${UNPACKDIR}/timemaster.service ${D}${systemd_system_unitdir}/
   install -d ${D}/etc/linuxptp
 }
 

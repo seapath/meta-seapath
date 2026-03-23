@@ -24,11 +24,11 @@ SRC_URI = " \
 
 do_install () {
     install -d ${D}/${bindir}
-    install -m 0755 ${WORKDIR}/flash.sh ${D}/${bindir}/flash
+    install -m 0755 ${UNPACKDIR}/flash.sh ${D}/${bindir}/flash
     install -d -m 0700 ${D}/${ROOT_HOME}
-    install -m 0644 ${WORKDIR}/profile ${D}/${ROOT_HOME}/.profile
+    install -m 0644 ${UNPACKDIR}/profile ${D}/${ROOT_HOME}/.profile
     install -d ${D}${sysconfdir}/init.d
-    install -m 0755 ${WORKDIR}/auto-flash.sh.in \
+    install -m 0755 ${UNPACKDIR}/auto-flash.sh.in \
         ${D}${sysconfdir}/init.d/auto-flash.sh
     sed "s|@@SEAPATH_AUTO_FLASH@@|${SEAPATH_AUTO_FLASH}|" -i \
         ${D}${sysconfdir}/init.d/auto-flash.sh

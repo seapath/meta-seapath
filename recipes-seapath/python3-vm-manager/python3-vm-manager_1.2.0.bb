@@ -13,7 +13,6 @@ SRC_URI = " \
 "
 
 SRCREV = "80ab2ac02241ffde1988ab42fa6fff8023dfff23"
-S = "${WORKDIR}/git"
 
 RDEPENDS:${PN} = "python3 libvirt jq"
 RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', "pacemaker ceph", '', d)}"

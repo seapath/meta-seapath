@@ -35,7 +35,7 @@ do_compile:append:class-target() {
         fi
     fi
     echo "set kernel_parameters='${APPEND}${extra_append}'" >> "${B}/grub-efi.cfg"
-    cat "${WORKDIR}/grub-efi.cfg.in" >> "${B}/grub-efi.cfg"
+    cat "${UNPACKDIR}/grub-efi.cfg.in" >> "${B}/grub-efi.cfg"
 }
 
 do_install:prepend:class-target:seapath-hypervisor() {

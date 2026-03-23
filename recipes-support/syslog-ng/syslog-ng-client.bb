@@ -17,13 +17,13 @@ SRC_URI += " \
 
 do_install() {
     install -d ${D}${sysconfdir}/syslog-ng
-    install -m 0644 ${WORKDIR}/syslog-client-seapath.conf.systemd \
+    install -m 0644 ${UNPACKDIR}/syslog-client-seapath.conf.systemd \
        ${D}${sysconfdir}/syslog-ng/syslog-ng.conf
 
     install -d ${D}${sysconfdir}/syslog-ng/cert.d
-    install -m 0400 ${WORKDIR}/clientcert.pem \
+    install -m 0400 ${UNPACKDIR}/clientcert.pem \
         ${D}${sysconfdir}/syslog-ng/cert.d
-    install -m 0400 ${WORKDIR}/clientkey.pem \
+    install -m 0400 ${UNPACKDIR}/clientkey.pem \
         ${D}${sysconfdir}/syslog-ng/cert.d
 }
 

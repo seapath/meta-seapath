@@ -12,5 +12,5 @@ inherit allarch
 
 do_install(){
     install -d -m 0750 ${D}/${sysconfdir}/sudoers.d
-    install -m 0440 ${WORKDIR}/cockpit ${D}/${sysconfdir}/sudoers.d/cockpit
+    install -m 0440 ${UNPACKDIR}/cockpit ${D}/${sysconfdir}/sudoers.d/cockpit
 }

@@ -34,29 +34,29 @@ do_install () {
     install -d ${D}${sysconfdir}/udev/rules.d
     install -d ${D}${sysconfdir}/sysconfig
     install -d ${D}${systemd_unitdir}/system
-    install -m 0755 ${WORKDIR}/is_from_inactive_bank.sh \
+    install -m 0755 ${UNPACKDIR}/is_from_inactive_bank.sh \
         ${D}${datadir}/update/is_from_inactive_bank.sh
-    install -m 0644 ${WORKDIR}/partition_symlinks.rules \
+    install -m 0644 ${UNPACKDIR}/partition_symlinks.rules \
         ${D}${sysconfdir}/udev/rules.d
-    install -m 0755 ${WORKDIR}/mount_boot.sh \
+    install -m 0755 ${UNPACKDIR}/mount_boot.sh \
         ${D}${datadir}/update/mount_boot.sh
-    install -m 0755 ${WORKDIR}/switch_bootloader.sh \
+    install -m 0755 ${UNPACKDIR}/switch_bootloader.sh \
         ${D}${datadir}/update/switch_bootloader.sh
-    install -m 0755 ${WORKDIR}/check-health.sh \
+    install -m 0755 ${UNPACKDIR}/check-health.sh \
         ${D}${datadir}/update/check-health.sh
-    install -m 0755 ${WORKDIR}/swupdate_check.sh \
+    install -m 0755 ${UNPACKDIR}/swupdate_check.sh \
         ${D}${datadir}/update/swupdate_check.sh
-    install -m 0644 ${WORKDIR}/swupdate_check.service \
+    install -m 0644 ${UNPACKDIR}/swupdate_check.service \
         ${D}${systemd_unitdir}/system/swupdate_check.service
 
     # hawkbit
-    install -m 0755 ${WORKDIR}/swupdate_hawkbit.sh \
+    install -m 0755 ${UNPACKDIR}/swupdate_hawkbit.sh \
         ${D}${datadir}/update/swupdate_hawkbit.sh
-    install -m 0644 ${WORKDIR}/swupdate_hawkbit.conf \
+    install -m 0644 ${UNPACKDIR}/swupdate_hawkbit.conf \
         ${D}${sysconfdir}/sysconfig/swupdate_hawkbit.conf
     sed -i "s|@SEAPATH_HAWKBIT_SERVER_URL@|${SEAPATH_HAWKBIT_SERVER_URL}|" \
         ${D}${sysconfdir}/sysconfig/swupdate_hawkbit.conf
-    install -m 0644 ${WORKDIR}/swupdate_hawkbit.service \
+    install -m 0644 ${UNPACKDIR}/swupdate_hawkbit.service \
         ${D}${systemd_unitdir}/system/swupdate_hawkbit.service
 }
 
