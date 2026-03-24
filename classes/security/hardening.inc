@@ -19,13 +19,7 @@ require hardening-config.inc
 include conf/distro/include/cve-extra-exclusions.inc
 inherit image-buildinfo
 
-# In Scarthgap, create-spdx implcitely inherits create-spdx-2.2. In order not
-# to be confused once we upgrade to the next Yocto version, we explicitely ask
-# for the 2.2 class.
-inherit create-spdx-2.2
-# Even though we don't use cve-check, we want the annotations generated with
-# the CVE_STATUS variables to be exported, thus we use the vex class.
-# This will no longer be needed with SPDX3 in the future Yocto version.
+inherit create-spdx
 inherit vex
 
 SPDX_PRETTY = "1"
