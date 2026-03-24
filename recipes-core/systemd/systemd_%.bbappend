@@ -17,7 +17,7 @@ do_install:append () {
     # Remove missing group in udev rules
     for group in dialout kmem render audio lp cdrom tape ; do
         sed "/GROUP=\"${group}\"/d" -i \
-            ${D}/${rootlibexecdir}/udev/rules.d/50-udev-default.rules
+            ${D}/${nonarch_libdir}/udev/rules.d/50-udev-default.rules
     done
     # Change boot-complete.target to be run after multi-user.target
     install -m 644 ${UNPACKDIR}/boot-complete.target \
