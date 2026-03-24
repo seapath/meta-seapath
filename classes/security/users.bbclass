@@ -8,8 +8,8 @@
 require users-config.inc
 inherit extrausers
 
-SUDO_BIN ?="${IMAGE_ROOTFS}/usr/bin/sudo"
-SUDOERS_DIR ?="${IMAGE_ROOTFS}/etc/sudoers.d"
+SUDO_BIN ?= "${IMAGE_ROOTFS}/usr/bin/sudo"
+SUDOERS_DIR ?= "${IMAGE_ROOTFS}/etc/sudoers.d"
 USERS_LIST ?= ""
 USERS_LIST_DISABLEMAXDAYS ?= ""
 USERS_LIST_EXPIRED ?= ""

@@ -35,7 +35,7 @@ SRC_URI = "\
 RDEPENDS:${PN} += "cukinia"
 RDEPENDS:${PN} += "bash coreutils pciutils"
 
-SEAPATH_CLUSTER_USERS="ceph hacluster libvirtadmin"
+SEAPATH_CLUSTER_USERS = "ceph hacluster libvirtadmin"
 
 install_dir () {
     SRC_DIR=$1

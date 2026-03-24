@@ -17,7 +17,7 @@ do_compile:append:class-target() {
     if [ -n "${SEAPATH_GRUB_PASSWORD}" ] ; then
         grub_password="${SEAPATH_GRUB_PASSWORD}"
     fi
-    echo "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1" \ 
+    echo "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1" \
         > "${B}/grub-efi.cfg"
     if ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','true','false',d)}; then
         echo 'set superusers="root"' >> "${B}/grub-efi.cfg"
@@ -72,4 +72,4 @@ FILES:${PN}:append = " ${EFI_FILES_PATH}"
 
 GRUB_BUILDIN += " password_pbkdf2 probe regexp chain"
 
-COMPATIBLE_MACHINE:${PN}= "seapath"
+COMPATIBLE_MACHINE:${PN} = "seapath"

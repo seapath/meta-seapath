@@ -9,7 +9,7 @@ RDEPENDS:${PN} = "net-snmp bash"
 RDEPENDS:${PN}-cluster = "net-snmp bash ${PN} ${PN}-virtualization"
 RDEPENDS:${PN}-virtualization = "net-snmp bash ${PN}"
 
-FILESEXTRAPATHS:prepend :="${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 PACKAGES += "${PN}-cluster ${PN}-virtualization"
 

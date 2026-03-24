@@ -14,4 +14,4 @@ IMAGE_INSTALL:append = " \
 "
 
 IMAGE_FSTYPES += "tar.xz"
-SYSTEMD_DEFAULT_TARGET="boot-complete.target"
+SYSTEMD_DEFAULT_TARGET = "boot-complete.target"
