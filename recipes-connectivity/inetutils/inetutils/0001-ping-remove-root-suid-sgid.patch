@@ -1,4 +1,4 @@
-From 1e23322e5827eca3516ec14c4ec7d462b757d1e7 Mon Sep 17 00:00:00 2001
+From f74266c64cf197b9613fe6ee85cefa2f3841594f Mon Sep 17 00:00:00 2001
 From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
 Date: Tue, 10 Dec 2024 14:03:12 +0100
 Subject: [PATCH] ping: remove root suid/sgid
@@ -10,12 +10,12 @@ Signed-off-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelin
  1 file changed, 2 deletions(-)
 
 diff --git a/ping/Makefile.am b/ping/Makefile.am
-index 40ab34d..1421adb 100644
+index edf83fc..fa0f3cf 100644
 --- a/ping/Makefile.am
 +++ b/ping/Makefile.am
-@@ -35,8 +35,6 @@ ping_SOURCES = ping.c ping_common.c ping_echo.c ping_address.c \
-   ping_router.c ping_timestamp.c ping_common.h  ping_impl.h ping.h libping.c
- ping6_SOURCES = ping6.c ping_common.c ping_common.h ping6.h
+@@ -41,8 +41,6 @@ ping6_SOURCES = ping6.c ping_common.c ping_common.h ping6.h
+ ping6_LDADD = $(top_builddir)/libicmp/libicmp.a $(LDADD) $(LIBSOCKET) \
+   $(HOSTENT_LIB) $(LIBINTL) $(GETADDRINFO_LIB)
  
 -SUIDMODE = -o root -m 4755
 -
