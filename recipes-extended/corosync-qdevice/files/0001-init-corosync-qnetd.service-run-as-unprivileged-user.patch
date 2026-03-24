@@ -9,6 +9,7 @@ Content-Transfer-Encoding: 8bit
 This patch sets the User directive in the corosync-qnetd.service file to
 coroqnetd. This is the user that the qnetd daemon should run as.
 
+Upstream-Status: Inappropriate [oe specific]
 Signed-off-by: Mathieu Dupré <mathieu.dupre@savoirfairelinux.com>
 ---
  init/corosync-qnetd.service.in | 2 +-
@@ -26,7 +27,6 @@ index a8d6a7e..8b59110 100644
 +User=coroqnetd
  RuntimeDirectory=corosync-qnetd
  RuntimeDirectoryMode=0770
- 
--- 
-2.34.1
 
+--
+2.34.1
