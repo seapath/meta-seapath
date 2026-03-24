@@ -4,11 +4,7 @@
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRCREV = "0680912fba002e419170f63a3d66ac079fa7c427"
-PV = "1.9.2+git${SRCPV}"
-
-SRC_URI = " \
-    git://github.com/Irqbalance/irqbalance;branch=master;protocol=https \
+SRC_URI += " \
     file://irqbalanced.service \
     file://set_irq_max_core.sh \
     file://irqbalance.env \
@@ -29,3 +25,5 @@ do_install:append () {
     sed -i -e 's/@RT_CORE_LIST@/${SEAPATH_RT_CORES}/g' \
         ${D}${sysconfdir}/irqbalance.env
 }
+
+FILES:${PN} += "${systemd_unitdir}/system/irqbalanced.service"
