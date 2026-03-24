@@ -7,7 +7,7 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
 RDEPENDS:${PN}-security = "bash glibc-utils"
-RDEPENDS:${PN}-common= "${PN}-keymap"
+RDEPENDS:${PN}-common = "${PN}-keymap"
 RDEPENDS:${PN}-ovs = "python3-setup-ovs openvswitch"
 
 SRC_URI = " \
