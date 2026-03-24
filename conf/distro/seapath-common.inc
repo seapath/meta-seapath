@@ -105,9 +105,6 @@ USERADD_ERROR_DYNAMIC = "error"
 USERADD_UID_TABLES = "conf/distro/include/passwd.uid"
 USERADD_GID_TABLES = "conf/distro/include/group.gid"
 
-# Ceph do not support the rocksdb version 9 provide by meta-oe
-# So we need to use a earlier version
-REQUIRED_VERSION_rocksdb = "6.20.%"
 
 
 # Use the cephadm recipe as cephadm provider to have the latest version
