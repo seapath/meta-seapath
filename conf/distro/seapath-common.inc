@@ -109,8 +109,6 @@ USERADD_GID_TABLES = "conf/distro/include/group.gid"
 # So we need to use a earlier version
 REQUIRED_VERSION_rocksdb = "6.20.%"
 
-# Backported to meta-seapath
-QEMUVERSION = "10.0.%"
 
 # Use the cephadm recipe as cephadm provider to have the latest version
 PREFERRED_RPROVIDER_cephadm = "cephadm"
