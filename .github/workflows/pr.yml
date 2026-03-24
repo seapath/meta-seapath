@@ -1,0 +1,50 @@
+name: Pull Requests
+
+on:
+  pull_request:
+    branches:
+      - scarthgap
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  delegate-main-repo:
+    name: Delegate to the main repository
+    # See detailed explanations in push.yml
+    runs-on: ["ubuntu-slim"]
+    steps:
+      - name: Create a token
+        id: app-token
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          permission-actions: write
+
+      - name: Invoke the PR workflow
+        id: delegation
+        uses: benc-uk/workflow-dispatch@70455941930e5212314c10c0e38ec94986096618
+        with:
+          workflow: pr.yml
+          repo: "${{ vars.MAIN_REPO }}"
+          # the branch names are the same between this repo and the main one
+          ref: "${{ github.base_ref }}"
+          token: "${{ steps.app-token.outputs.token }}"
+          wait-for-completion: true
+          wait-timeout-seconds: 21600 # 6 hours
+          sync-status: true
+          inputs: |
+            {
+              "origin_repository": "${{ github.repository }}",
+              "origin_sha": "${{ github.sha }}",
+              "origin_run_id": "${{ github.run_id }}",
+              "origin_pr_number": "${{ github.event.pull_request.number }}"
+            }
+
+      - name: Display notice
+        if: always()
+        run: |
+          echo "::notice::The Pull Request workflow was delegated to the main repository. See details at ${{ steps.delegation.outputs.runUrlHtml }}"
