@@ -12,6 +12,7 @@ We need to revert this patch because it is imcompatible with our patch.
 
 Sould be removed in the 2.0.0 release.
 
+Upstream-Status: Inappropriate [oe specific]
 Signed-off-by: Mathieu Dupré <mathieu.dupre@savoirfairelinux.com>
 ---
  vm_manager/helpers/rbd_manager.py | 1 -
@@ -26,9 +27,8 @@ index e427275..de259d4 100644
          """
          self._ioctx.close()
 -        self._cluster.shutdown()
- 
+
      # Namespace methods
      def list_namespaces(self):
--- 
+--
 2.51.0
-
