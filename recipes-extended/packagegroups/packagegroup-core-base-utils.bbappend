@@ -10,9 +10,13 @@ RDEPENDS:${PN}:remove = " \
     ed                    \
     inetutils             \
     inetutils-telnet      \
+    inetutils-telnetd     \
     inetutils-tftp        \
     inetutils-traceroute  \
     parted                \
     patch                 \
     time                  \
 "
+
+# CAUTION: a CVE has been ignored for inetutils-telnetd
+# in the inetutils_%.bbappend file.
