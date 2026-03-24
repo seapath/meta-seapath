@@ -9,6 +9,8 @@ Content-Transfer-Encoding: 8bit
 Remove the hardcoded log file inside ovs-lib to allow changing
 the log file.
 
+Upstream-Status: Inappropriate [oe specific]
+
 Signed-off-by: Mathieu Dupré <mathieu.dupre@savoirfairelinux.com>
 ---
  utilities/ovs-lib.in | 4 ----
@@ -21,7 +23,7 @@ index 13477a6a9..127e899af 100644
 @@ -176,10 +176,6 @@ start_daemon () {
      set "$@" --no-chdir
      cd "$DAEMON_CWD"
- 
+
 -    # log file
 -    install_dir "$logdir" "750"
 -    set "$@" --log-file="$logdir/$daemon.log"
@@ -29,6 +31,5 @@ index 13477a6a9..127e899af 100644
      # pidfile and monitoring
      install_dir "$rundir"
      set "$@" --pidfile="$rundir/$daemon.pid"
--- 
+--
 2.34.1
-
