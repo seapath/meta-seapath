@@ -3,7 +3,7 @@ From: Bas Couwenberg <sebastic@debian.org>
 Date: Thu, 12 Jan 2023 07:19:25 +0100
 Subject: [PATCH] Don't use inspect.getargspec, removed in Python 3.11.
 
-Upstream-Status: Backport[https://github.com/ClusterLabs/crmsh/commit/8d0fa04f52f4734e7b4fdcd5524bba55301b81ad]
+Upstream-Status: Backport [https://github.com/ClusterLabs/crmsh/commit/8d0fa04f52f4734e7b4fdcd5524bba55301b81ad]
 
 ---
  crmsh/ui_utils.py | 4 ++--
