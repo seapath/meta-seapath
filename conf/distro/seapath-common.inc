@@ -78,8 +78,6 @@ DISTRO_FEATURES:append = " seapath-clustering"
 # Enable Cockpit Web UI if defined in seapath.conf
 DISTRO_FEATURES:append = "${@bb.utils.contains('SEAPATH_COCKPIT', 'true', ' seapath-cockpit', '', d)}"
 
-# Set persistent /var/log
-VOLATILE_LOG_DIR = "no"
 
 #Inherit all bbclass that will check DISTRO_FEATURES
 INHERIT += "security/hardening"
@@ -97,6 +95,8 @@ INHERIT += "image-buildinfo"
 # Set the root home directory
 # By default, it is set to /home/root, but it is not well supported by systemd
 ROOT_HOME = "/root"
+
+FILESYSTEM_PERMS_TABLES:remove = "files/fs-perms-volatile-log.txt"
 
 # Enable UID and GID static allocation
 USERADDEXTENSION = "useradd-staticids"
