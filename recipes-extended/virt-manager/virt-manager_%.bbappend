@@ -3,10 +3,9 @@
 
 PACKAGECONFIG = ""
 
-RDEPENDS:${PN}:append = " \
-  libvirt-glib \
-  libxml2-python \
-  python3-pygobject \
-  python3-requests \
+RDEPENDS:${PN}:remove = " \
+  gdk-pixbuf \
+  gtk+3 \
+  hicolor-icon-theme \
 "
 RDEPENDS:${PN}-install = "${PN}"
