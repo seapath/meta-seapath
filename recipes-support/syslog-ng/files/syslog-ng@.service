@@ -35,4 +35,5 @@ PrivateDevices=yes
 SystemCallFilter=@system-service @privileged @basic-io @chown @file-system @io-event @ipc @network-io @process @signal
 
 [Install]
+DefaultInstance=default
 WantedBy=multi-user.target
