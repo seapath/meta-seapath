@@ -1,0 +1,109 @@
+name: Pull Requests (delegation)
+
+on:
+  # This workflow runs after the real pull_request workflow ended. In this way,
+  # we can use the secrets to dispatch the workflow to the main repository
+  # while still having the "approve workflow runs" button for maintainers.
+  # 'workflow_run' is a sensitive trigger since it can run user-provided code
+  # in environments with potentially sensitive information (secrets, tokens...)
+  # Since we are not checking out any user code in this workflow, there is no
+  # security risk here.
+  # However, the dispatched workflow on the main repo will checkout the PR code
+  # in a context with secrets and potentially with a write-enabeld token so
+  # extra care has been taken there.
+  # The workflow is only ran after approval of the PR by maintainers so it
+  # already mitigates most security issues.
+  workflow_run:
+    workflows:
+      - Pull Requests
+    types:
+      - completed
+
+jobs:
+  delegate-main-repo:
+    name: "Delegate to the main repository"
+    # See detailed explanations about the runner type in push.yml
+    runs-on: ["ubuntu-slim"]
+    permissions:
+      checks: write
+      actions: read
+    env:
+      PR_METADATA_FILE: pr_metadata.json
+    steps:
+      - name: Download PR metadata
+        uses: actions/download-artifact@v8
+        with:
+          name: "${{ env.PR_METADATA_FILE }}"
+          run-id: "${{ github.event.workflow_run.id }}"
+          # Since we are downloading an artifact from another run, we have to
+          # specify the github-token parameter.
+          github-token: ${{ github.token }}
+
+      - name: Process PR metadata
+        id: pr-metadata
+        run: |
+          echo "number=$(cat "${{ env.PR_METADATA_FILE }}" | jq -r '.pr_number')" >> "$GITHUB_OUTPUT"
+          echo "sha=$(cat "${{ env.PR_METADATA_FILE }}" | jq -r '.pr_sha')" >> "$GITHUB_OUTPUT"
+          echo "base_ref=$(cat "${{ env.PR_METADATA_FILE }}" | jq -r '.pr_base_ref')" >> "$GITHUB_OUTPUT"
+
+      # We create a check so the PR does not appear as "CI passed" since we are
+      # actually waiting for the CI in this workflow.
+      - name: Create delegation check
+        id: create-check
+        uses: LouisBrunner/checks-action@dfcbcf801bff1ea7f1414824fc28f2cd697b35da
+        with:
+          token: "${{ github.token }}"
+          name: "PR workflow on the main repository"
+          sha: "${{ steps.pr-metadata.outputs.sha }}"
+          status: "in_progress"
+          details_url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          output: |
+            {
+              "summary": "Delegating the check tasks to the main repository."
+            }
+
+      - name: Create a token
+        id: app-token
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          permission-actions: write
+
+      - name: Invoke the PR workflow
+        id: delegation
+        uses: benc-uk/workflow-dispatch@70455941930e5212314c10c0e38ec94986096618
+        with:
+          workflow: pr.yml
+          repo: "${{ vars.MAIN_REPO }}"
+          # the branch names are the same between this repo and the main one
+          ref: "${{ steps.pr-metadata.outputs.base_ref }}"
+          token: "${{ steps.app-token.outputs.token }}"
+          wait-for-completion: true
+          wait-timeout-seconds: 21600 # 6 hours
+          sync-status: true
+          inputs: |
+            {
+              "origin_repository": "${{ github.repository }}",
+              "origin_sha": "${{ steps.pr-metadata.outputs.sha }}",
+              "origin_run_id": "${{ github.run_id }}",
+              "origin_pr_number": "${{ steps.pr-metadata.outputs.number }}"
+            }
+
+      - name: Display notice
+        run: |
+          echo "::notice::The Pull Request workflow was delegated to the main repository. See details at ${{ steps.delegation.outputs.runUrlHtml }}"
+
+      - name: Update delegation check
+        if: always()
+        uses: LouisBrunner/checks-action@dfcbcf801bff1ea7f1414824fc28f2cd697b35da
+        with:
+          token: "${{ github.token }}"
+          check_id: "${{ steps.create-check.outputs.check_id }}"
+          status: "completed"
+          conclusion: "${{ steps.delegation.outcome }}"
+          output: |
+            {
+              "summary": "Delegating the check tasks to the main repository: ${{ steps.delegation.outputs.runUrlHtml }}"
+            }
