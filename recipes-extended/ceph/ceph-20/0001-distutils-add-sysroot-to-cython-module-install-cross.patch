@@ -1,0 +1,36 @@
+From 0000000000000000000000000000000000000001 Mon Sep 17 00:00:00 2001
+From: GitHub Copilot <copilot@github.com>
+Date: Mon, 13 Apr 2026 00:00:00 +0000
+Subject: [PATCH] distutils: add sysroot to cython module install cross-compile
+
+When cross-compiling, CMAKE_SYSROOT is set but is not propagated to
+the compiler commands used during cmake install for python cython
+modules. As a result, setup.py's sanity check invokes the cross
+compiler without --sysroot and fails to find standard headers such as
+netinet/in.h.
+
+Add the sysroot to PY_CC and PY_LDSHARED when CMAKE_SYSROOT is set so
+the install-time python extension build uses the target sysroot.
+
+Upstream-Status: Inappropriate [oe-specific]
+
+Signed-off-by: GitHub Copilot <copilot@github.com>
+---
+ cmake/modules/Distutils.cmake | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+Index: ceph-20.2.0/cmake/modules/Distutils.cmake
+===================================================================
+--- ceph-20.2.0.orig/cmake/modules/Distutils.cmake
++++ ceph-20.2.0/cmake/modules/Distutils.cmake
+@@ -113,6 +113,10 @@ function(distutils_install_cython_module
+   get_property(link_launcher GLOBAL PROPERTY RULE_LAUNCH_LINK)
+   set(PY_CC "${compiler_launcher} ${CMAKE_C_COMPILER}")
+   set(PY_LDSHARED "${link_launcher} ${CMAKE_C_COMPILER} -shared")
++  if(CMAKE_SYSROOT)
++    string(APPEND PY_CC " --sysroot=${CMAKE_SYSROOT}")
++    string(APPEND PY_LDSHARED " --sysroot=${CMAKE_SYSROOT}")
++  endif()
+   cmake_parse_arguments(DU "DISABLE_VTA" "" "" ${ARGN})
+   if(DU_DISABLE_VTA AND HAS_VTA)
+     set(CFLAG_DISABLE_VTA -fno-var-tracking-assignments)

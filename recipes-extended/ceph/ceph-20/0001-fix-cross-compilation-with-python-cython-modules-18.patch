@@ -1,0 +1,288 @@
+From ecc6fe9cc1f0677b6c640a755d1414993b5d0410 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mathieu=20Dupr=C3=A9?= <mathieu.dupre@savoirfairelinux.com>
+Date: Tue, 1 Oct 2024 16:27:25 +0200
+Subject: [PATCH] fix cross-compilation with python cython modules
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Inappropriate [oe specific]
+
+Signed-off-by: Mathieu Dupré <mathieu.dupre@savoirfairelinux.com>
+
+---
+ cmake/modules/Distutils.cmake | 14 +++---
+ src/pybind/cephfs/setup.py    | 95 ++++++++---------------------------
+ src/pybind/rados/setup.py     | 91 ++++++++-------------------------
+ src/pybind/rbd/setup.py       | 93 ++++++++--------------------------
+ src/pybind/rgw/setup.py       | 93 ++++++++--------------------------
+ 5 files changed, 96 insertions(+), 290 deletions(-)
+
+Index: ceph-18.2.7/cmake/modules/Distutils.cmake
+===================================================================
+--- ceph-18.2.7.orig/cmake/modules/Distutils.cmake
++++ ceph-18.2.7/cmake/modules/Distutils.cmake
+@@ -37,6 +37,7 @@ function(distutils_install_module name)
+     if(NOT \"${DU_INSTALL_SCRIPT}\" STREQUAL \"\")
+       list(APPEND options --install-script=${DU_INSTALL_SCRIPT})
+     endif()
++    list(APPEND options --install-lib=${PYTHON_SITEPACKAGES_DIR})
+     execute_process(
+     COMMAND ${Python3_EXECUTABLE}
+         setup.py install \${options}
+@@ -53,8 +54,6 @@ function(distutils_add_cython_module tar
+   # distutils tries to execve something like "/usr/bin/cmake gcc" and fails.
+   # Removing the leading whitespace from CMAKE_C_COMPILER_ARG1 helps to avoid
+   # the failure.
+-  string(STRIP "${CMAKE_C_COMPILER_ARG1}" c_compiler_arg1)
+-  string(STRIP "${CMAKE_CXX_COMPILER_ARG1}" cxx_compiler_arg1)
+   # Note: no quotes, otherwise distutils will execute "/usr/bin/ccache gcc"
+   # CMake's implicit conversion between strings and lists is wonderful, isn't it?
+   set(PY_CFLAGS ${COMPILE_OPTIONS})
+@@ -67,9 +66,10 @@ function(distutils_add_cython_module tar
+   # Note: this is reproduced in distutils_install_cython_module
+   list(APPEND PY_CPPFLAGS -D'void0=dead_function\(void\)')
+   list(APPEND PY_CPPFLAGS -D'__Pyx_check_single_interpreter\(ARG\)=ARG\#\#0')
+-  set(PY_CC ${compiler_launcher} ${CMAKE_C_COMPILER} ${c_compiler_arg1})
+-  set(PY_CXX ${compiler_launcher} ${CMAKE_CXX_COMPILER} ${cxx_compiler_arg1})
+-  set(PY_LDSHARED ${link_launcher} ${CMAKE_C_COMPILER} ${c_compiler_arg1} "-shared")
++  list(APPEND PY_CPPFLAGS -I${CMAKE_SOURCE_DIR}/src/include -I${CMAKE_SOURCE_DIR}/src -I${CMAKE_BINARY_DIR}/include)
++  set(PY_CC ${CC} ${PY_CPPFLAGS} ${PY_CFLAGS} -L${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
++  set(PY_CXX ${CXX} ${PY_CPPFLAGS} ${PY_CFLAGS} -L${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
++  set(PY_LDSHARED ${LD} ${LDFLAGS} "-shared")
+ 
+   execute_process(COMMAND "${Python3_EXECUTABLE}" -c
+     "import sysconfig; print(sysconfig.get_config_var('EXT_SUFFIX'))"
+@@ -89,13 +89,7 @@ function(distutils_add_cython_module tar
+     OUTPUT ${output_dir}/${name}${ext_suffix}
+     COMMAND
+     env
+-    CC="${PY_CC}"
+-    CFLAGS="${PY_CFLAGS}"
+-    CPPFLAGS="${PY_CPPFLAGS}"
+-    CXX="${PY_CXX}"
+-    LDSHARED="${PY_LDSHARED}"
+-    OPT=\"-DNDEBUG -g -fwrapv -O2 -w\"
+-    LDFLAGS=-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
++    CPPFLAGS=\"-iquote${CMAKE_SOURCE_DIR}/src/include -D'void0=dead_function\(void\)' -D'__Pyx_check_single_interpreter\(ARG\)=ARG\#\#0' ${CFLAG_DISABLE_VTA} -L${CMAKE_BINARY_DIR}/lib \"
+     CYTHON_BUILD_DIR=${CMAKE_CURRENT_BINARY_DIR}
+     CEPH_LIBDIR=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+     ${Python3_EXECUTABLE} ${setup_py}
+@@ -111,8 +105,6 @@ endfunction(distutils_add_cython_module)
+ function(distutils_install_cython_module name)
+   get_property(compiler_launcher GLOBAL PROPERTY RULE_LAUNCH_COMPILE)
+   get_property(link_launcher GLOBAL PROPERTY RULE_LAUNCH_LINK)
+-  set(PY_CC "${compiler_launcher} ${CMAKE_C_COMPILER}")
+-  set(PY_LDSHARED "${link_launcher} ${CMAKE_C_COMPILER} -shared")
+   cmake_parse_arguments(DU "DISABLE_VTA" "" "" ${ARGN})
+   if(DU_DISABLE_VTA AND HAS_VTA)
+     set(CFLAG_DISABLE_VTA -fno-var-tracking-assignments)
+@@ -121,22 +113,19 @@ function(distutils_install_cython_module
+     set(maybe_verbose --verbose)
+   endif()
+   install(CODE "
+-    set(ENV{CC} \"${PY_CC}\")
+-    set(ENV{LDSHARED} \"${PY_LDSHARED}\")
+-    set(ENV{CPPFLAGS} \"-iquote${CMAKE_SOURCE_DIR}/src/include
++    set(ENV{CPPFLAGS} \"-iquote${CMAKE_SOURCE_DIR}/src/include \
+                         -D'void0=dead_function\(void\)' \
+                         -D'__Pyx_check_single_interpreter\(ARG\)=ARG\#\#0' \
+-                        ${CFLAG_DISABLE_VTA}\")
+-    set(ENV{LDFLAGS} \"-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY}\")
+-    set(ENV{CYTHON_BUILD_DIR} \"${CMAKE_CURRENT_BINARY_DIR}\")
++                        ${CFLAG_DISABLE_VTA} \
++                        -L${CMAKE_BINARY_DIR}/lib \")
+     set(ENV{CEPH_LIBDIR} \"${CMAKE_LIBRARY_OUTPUT_DIRECTORY}\")
+-
+     set(options --prefix=${CMAKE_INSTALL_PREFIX})
+     if(DEFINED ENV{DESTDIR})
+       list(APPEND options --root=\$ENV{DESTDIR})
+     else()
+       list(APPEND options --root=/)
+     endif()
++    list(APPEND options --install-lib=${PYTHON_SITEPACKAGES_DIR})
+     execute_process(
+        COMMAND
+            ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/setup.py
+Index: ceph-18.2.7/src/pybind/cephfs/setup.py
+===================================================================
+--- ceph-18.2.7.orig/src/pybind/cephfs/setup.py
++++ ceph-18.2.7/src/pybind/cephfs/setup.py
+@@ -1,16 +1,11 @@
+ import os
+-import pkgutil
+ import shutil
+ import subprocess
+ import sys
+ import tempfile
+ import textwrap
+-if not pkgutil.find_loader('setuptools'):
+-    from distutils.core import setup
+-    from distutils.extension import Extension
+-else:
+-    from setuptools import setup
+-    from setuptools.extension import Extension
++from setuptools import setup
++from Cython.Distutils.extension import Extension
+ try:
+     from distutils.ccompiler import new_compiler
+ except ImportError:
+@@ -26,6 +21,11 @@ try:
+ except ImportError:
+     import sysconfig
+ 
++for envname in "CC", "CXX", "LDSHARED":
++    envname_value = os.environ.get(envname)
++    if envname_value:
++        os.environ[envname] = envname_value.replace('\\', '')
++
+ 
+ def filter_unsupported_flags(compiler, flags):
+     args = takewhile(lambda argv: not argv.startswith('-'), [compiler] + flags)
+@@ -75,6 +75,8 @@ def get_python_flags(libs):
+     sysconfig.customize_compiler(compiler)
+     libpl = sysconfig.get_config_var('LIBPL')
+     sysroot = os.environ.get('STAGING_DIR_HOST')
++    if not sysroot:
++        sysroot = os.environ.get("PKG_CONFIG_SYSROOT_DIR")
+     if not libpl.startswith(sysroot):
+         libpl = sysroot + libpl
+     return dict(
+@@ -210,6 +212,8 @@ setup(
+             Extension(
+                 "cephfs",
+                 [source],
++                cython_compile_time_env=cython_constants,
++                cython_directives={'language_level': sys.version_info.major},
+                 **ext_args
+             )
+         ],
+Index: ceph-18.2.7/src/pybind/rados/setup.py
+===================================================================
+--- ceph-18.2.7.orig/src/pybind/rados/setup.py
++++ ceph-18.2.7/src/pybind/rados/setup.py
+@@ -1,10 +1,5 @@
+-import pkgutil
+-if not pkgutil.find_loader('setuptools'):
+-    from distutils.core import setup
+-    from distutils.extension import Extension
+-else:
+-    from setuptools import setup
+-    from setuptools.extension import Extension
++from setuptools import setup
++from Cython.Distutils.extension import Extension
+ try:
+     from distutils import sysconfig
+ except ImportError:
+@@ -26,6 +21,12 @@ import tempfile
+ import textwrap
+ 
+ 
++for envname in "CC", "CXX", "LDSHARED":
++    envname_value = os.environ.get(envname)
++    if envname_value:
++        os.environ[envname] = envname_value.replace('\\', '')
++
++
+ def filter_unsupported_flags(compiler, flags):
+     args = takewhile(lambda argv: not argv.startswith('-'), [compiler] + flags)
+     if any('clang' in arg for arg in args):
+@@ -73,6 +74,8 @@ def get_python_flags(libs):
+     sysconfig.customize_compiler(compiler)
+     libpl = sysconfig.get_config_var('LIBPL')
+     sysroot = os.environ.get('STAGING_DIR_HOST')
++    if not sysroot:
++        sysroot = os.environ.get("PKG_CONFIG_SYSROOT_DIR")
+     if not libpl.startswith(sysroot):
+         libpl = sysroot + libpl
+     return dict(
+@@ -199,6 +202,8 @@ setup(
+             Extension(
+                 "rados",
+                 [source],
++                cython_compile_time_env=cython_constants,
++                cython_directives={'language_level': sys.version_info.major},
+                 **ext_args
+             )
+         ],
+Index: ceph-18.2.7/src/pybind/rbd/setup.py
+===================================================================
+--- ceph-18.2.7.orig/src/pybind/rbd/setup.py
++++ ceph-18.2.7/src/pybind/rbd/setup.py
+@@ -1,17 +1,12 @@
+ import os
+-import pkgutil
+ import shutil
+ import subprocess
+ import sys
+ import tempfile
+ import textwrap
+ 
+-if not pkgutil.find_loader("setuptools"):
+-    from distutils.core import setup
+-    from distutils.extension import Extension
+-else:
+-    from setuptools import setup
+-    from setuptools.extension import Extension
++from setuptools import setup
++from Cython.Distutils.extension import Extension
+ try:
+     from distutils.ccompiler import new_compiler
+ except ImportError:
+@@ -92,6 +87,8 @@ def get_python_flags(libs):
+     sysconfig.customize_compiler(compiler)
+     libpl = sysconfig.get_config_var("LIBPL")
+     sysroot = os.environ.get("STAGING_DIR_HOST")
++    if not sysroot:
++        sysroot = os.environ.get("PKG_CONFIG_SYSROOT_DIR")
+     if not libpl.startswith(sysroot):
+         libpl = sysroot + libpl
+     return dict(
+Index: ceph-18.2.7/src/pybind/rgw/setup.py
+===================================================================
+--- ceph-18.2.7.orig/src/pybind/rgw/setup.py
++++ ceph-18.2.7/src/pybind/rgw/setup.py
+@@ -1,18 +1,12 @@
+-import pkgutil
+-
+-if not pkgutil.find_loader("setuptools"):
+-    from distutils.core import setup
+-    from distutils.extension import Extension
+-else:
+-    from setuptools import setup
+-    from setuptools.extension import Extension
+-
+ import os
+ import shutil
+ import sys
+ import tempfile
+ import textwrap
+ 
++from setuptools import setup
++from Cython.Distutils.extension import Extension
++
+ try:
+     from distutils.ccompiler import new_compiler
+ except ImportError:
+@@ -29,6 +23,12 @@ except ImportError:
+     import sysconfig
+ 
+ 
++for envname in "CC", "CXX", "LDSHARED":
++    envname_value = os.environ.get(envname)
++    if envname_value:
++        os.environ[envname] = envname_value.replace('\\', '')
++
++
+ def filter_unsupported_flags(compiler, flags):
+     args = takewhile(lambda argv: not argv.startswith("-"), [compiler] + flags)
+     if any("clang" in arg for arg in args):
+@@ -92,6 +92,8 @@ def get_python_flags(libs):
+     sysconfig.customize_compiler(compiler)
+     libpl = sysconfig.get_config_var("LIBPL")
+     sysroot = os.environ.get("STAGING_DIR_HOST")
++    if not sysroot:
++        sysroot = os.environ.get("PKG_CONFIG_SYSROOT_DIR")
+     if not libpl.startswith(sysroot):
+         libpl = sysroot + libpl
+     return dict(

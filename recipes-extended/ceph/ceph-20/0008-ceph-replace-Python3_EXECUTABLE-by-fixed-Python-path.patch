@@ -1,0 +1,63 @@
+From 2dba66fade9ee7f507b9322cf0008b83b9acbba5 Mon Sep 17 00:00:00 2001
+From: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+Date: Tue, 7 Apr 2026 09:59:36 +0200
+Subject: [PATCH] ceph: replace Python3_EXECUTABLE by fixed Python path
+
+Using Python3_EXECUTABLE generate host contamination with the use of
+the host native Python interpreter.
+
+Upstream-Status: Inappropriate [oe-specific]
+Signed-off-by: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+---
+ src/ceph-crash.in              | 2 +-
+ src/ceph-volume/CMakeLists.txt | 3 +--
+ src/ceph.in                    | 4 ++--
+ 3 files changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/src/ceph-crash.in b/src/ceph-crash.in
+index 0e02837fadd..8167d7524b8 100755
+--- a/src/ceph-crash.in
++++ b/src/ceph-crash.in
+@@ -1,4 +1,4 @@
+-#!@Python3_EXECUTABLE@
++#!/usr/bin/env python3
+ # -*- mode:python -*-
+ # vim: ts=4 sw=4 smarttab expandtab
+
+diff --git a/src/ceph-volume/CMakeLists.txt b/src/ceph-volume/CMakeLists.txt
+index 9166553dc73..bb5b1489e06 100644
+--- a/src/ceph-volume/CMakeLists.txt
++++ b/src/ceph-volume/CMakeLists.txt
+@@ -13,7 +13,7 @@ set(CEPH_VOLUME_VIRTUALENV ${CEPH_BUILD_VIRTUALENV}/ceph-volume-virtualenv)
+
+ add_custom_command(
+   OUTPUT ${CEPH_VOLUME_VIRTUALENV}/bin/python
+-  COMMAND ${CMAKE_SOURCE_DIR}/src/tools/setup-virtualenv.sh --python=${Python3_EXECUTABLE} ${CEPH_VOLUME_VIRTUALENV}
++  COMMAND ${CMAKE_SOURCE_DIR}/src/tools/setup-virtualenv.sh --python="/usr/bin/env python3" ${CEPH_VOLUME_VIRTUALENV}
+   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/src/ceph-volume
+   COMMENT "ceph-volume venv is being created")
+
+@@ -26,4 +26,3 @@ add_custom_command(
+
+ add_custom_target(ceph-volume-venv-setup
+   DEPENDS ${CEPH_VOLUME_VIRTUALENV}/bin/ceph-volume)
+-
+diff --git a/src/ceph.in b/src/ceph.in
+index 51743dd9ae8..24041b4ca4f 100755
+--- a/src/ceph.in
++++ b/src/ceph.in
+@@ -1,4 +1,4 @@
+-#!@Python3_EXECUTABLE@
++#!/usr/bin/env python3
+ # -*- mode:python -*-
+ # vim: ts=4 sw=4 smarttab expandtab
+ #
+@@ -94,7 +94,7 @@ def respawn_in_path(lib_path, pybind_path, pythonlib_path, asan_lib_path):
+             print(DEVMODEMSG, file=sys.stderr)
+         execv_cmd = []
+         if 'CEPH_DBG' in os.environ:
+-            execv_cmd += ['@Python3_EXECUTABLE@', '-mpdb']
++            execv_cmd += ['/usr/bin/env python3', '-mpdb']
+         execv_cmd += sys.argv
+         os.execvp(execv_cmd[0], execv_cmd)
+     else:

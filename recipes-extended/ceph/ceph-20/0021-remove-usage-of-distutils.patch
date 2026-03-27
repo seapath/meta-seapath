@@ -1,0 +1,1103 @@
+From 49a24a8df3bc384c1cb1af0069a3d48417def787 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mathieu=20Dupr=C3=A9?= <mathieu.dupre@savoirfairelinux.com>
+Date: Tue, 13 Jan 2026 13:33:26 +0100
+Subject: [PATCH] Remove usage of distutils
+
+ distutils is gone from Python 3.12, but there are replacements for all of
+its API. This patch fixes the situation, as Debian is moving toward the
+Python 3.12 interpreter.
+
+Upstream-Status: Inappropriate [oe specific]
+
+Signed-off-by: Thomas Goirand <zigo@debian.org>
+---
+ src/fmt/support/manage.py                     |   6 +-
+ src/pybind/cephfs/setup.py                    |  36 +--
+ src/pybind/mgr/dashboard/tools.py             |  19 +-
+ .../mgr/volumes/fs/operations/pin_util.py     |  21 +-
+ src/pybind/rados/setup.py                     |  35 +--
+ src/pybind/rbd/setup.py                       | 205 ++++++++++--------
+ src/pybind/rgw/setup.py                       | 198 ++++++++++-------
+ src/seastar/dpdk/doc/guides/conf.py           |   4 +-
+ src/seastar/scripts/perftune.py               |  23 +-
+ src/spdk/dpdk/doc/guides/conf.py              |   4 +-
+ src/test/rgw/bucket_notification/test_bn.py   |  20 +-
+ 11 files changed, 356 insertions(+), 215 deletions(-)
+
+diff --git a/src/fmt/support/manage.py b/src/fmt/support/manage.py
+index d2afcee92..faac4a6ef 100755
+--- a/src/fmt/support/manage.py
++++ b/src/fmt/support/manage.py
+@@ -14,7 +14,7 @@ from __future__ import print_function
+ import datetime, docopt, errno, fileinput, json, os
+ import re, requests, shutil, sys, tempfile
+ from contextlib import contextmanager
+-from distutils.version import LooseVersion
++from packaging.version import parse
+ from subprocess import check_call
+ 
+ 
+@@ -194,9 +194,9 @@ def update_site(env):
+         if os.path.exists(html_dir):
+             shutil.rmtree(html_dir)
+         include_dir = env.fmt_repo.dir
+-        if LooseVersion(version) >= LooseVersion('5.0.0'):
++        if parse(version) >= parse('5.0.0'):
+             include_dir = os.path.join(include_dir, 'include', 'fmt')
+-        elif LooseVersion(version) >= LooseVersion('3.0.0'):
++        elif parse(version) >= parse('3.0.0'):
+             include_dir = os.path.join(include_dir, 'fmt')
+         import build
+         build.build_docs(version, doc_dir=target_doc_dir,
+diff --git a/src/pybind/cephfs/setup.py b/src/pybind/cephfs/setup.py
+index dd2a94d3b..29e1e779e 100755
+--- a/src/pybind/cephfs/setup.py
++++ b/src/pybind/cephfs/setup.py
+@@ -11,10 +11,20 @@ if not pkgutil.find_loader('setuptools'):
+ else:
+     from setuptools import setup
+     from setuptools.extension import Extension
+-from distutils.ccompiler import new_compiler
+-from distutils.errors import CompileError, LinkError
++try:
++    from distutils.ccompiler import new_compiler
++except ImportError:
++    from setuptools._distutils.ccompiler import new_compiler
++try:
++    from distutils.errors import CompileError, LinkError
++except ImportError:
++    from setuptools._distutils.errors import CompileError, LinkError
++
+ from itertools import filterfalse, takewhile
+-import distutils.sysconfig
++try:
++    from distutils import sysconfig
++except ImportError:
++    import sysconfig
+ 
+ 
+ def filter_unsupported_flags(compiler, flags):
+@@ -46,8 +56,8 @@ def monkey_with_compiler(customize):
+     return patched
+ 
+ 
+-distutils.sysconfig.customize_compiler = \
+-    monkey_with_compiler(distutils.sysconfig.customize_compiler)
++sysconfig.customize_compiler = \
++    monkey_with_compiler(sysconfig.customize_compiler)
+ 
+ # PEP 440 versioning of the Ceph FS package on PyPI
+ # Bump this version, after every changeset
+@@ -57,24 +67,24 @@ __version__ = '2.0.0'
+ 
+ def get_python_flags(libs):
+     py_libs = sum((libs.split() for libs in
+-                   distutils.sysconfig.get_config_vars('LIBS', 'SYSLIBS')), [])
++                   sysconfig.get_config_vars('LIBS', 'SYSLIBS')), [])
+     ldflags = list(filterfalse(lambda lib: lib.startswith('-l'), py_libs))
+     py_libs = [lib.replace('-l', '') for lib in
+                filter(lambda lib: lib.startswith('-l'), py_libs)]
+     compiler = new_compiler()
+-    distutils.sysconfig.customize_compiler(compiler)
+-    libpl = distutils.sysconfig.get_config_var('LIBPL')
++    sysconfig.customize_compiler(compiler)
++    libpl = sysconfig.get_config_var('LIBPL')
+     sysroot = os.environ.get('STAGING_DIR_HOST')
+     if not libpl.startswith(sysroot):
+         libpl = sysroot + libpl
+     return dict(
+-        include_dirs=[distutils.sysconfig.get_python_inc()],
+-        library_dirs=[distutils.sysconfig.get_config_var('LIBDIR'), libpl],
++        include_dirs=[sysconfig.get_python_inc()],
++        library_dirs=[sysconfig.get_config_var('LIBDIR'), libpl],
+         libraries=libs + py_libs,
+         extra_compile_args=filter_unsupported_flags(
+             compiler.compiler[0],
+-            compiler.compiler[1:] + distutils.sysconfig.get_config_var('CFLAGS').split()),
+-        extra_link_args=(distutils.sysconfig.get_config_var('LDFLAGS').split() +
++            compiler.compiler[1:] + sysconfig.get_config_var('CFLAGS').split()),
++        extra_link_args=(sysconfig.get_config_var('LDFLAGS').split() +
+                          ldflags))
+ 
+ 
+@@ -105,7 +115,7 @@ def check_sanity():
+         fp.write(dummy_prog)
+ 
+     compiler = new_compiler()
+-    distutils.sysconfig.customize_compiler(compiler)
++    sysconfig.customize_compiler(compiler)
+ 
+     if 'CEPH_LIBDIR' in os.environ:
+         # The setup.py has been invoked by a top-level Ceph make.
+diff --git a/src/pybind/mgr/dashboard/tools.py b/src/pybind/mgr/dashboard/tools.py
+index 4e4837d93..d3e99d5fe 100644
+--- a/src/pybind/mgr/dashboard/tools.py
++++ b/src/pybind/mgr/dashboard/tools.py
+@@ -9,7 +9,6 @@ import threading
+ import time
+ import urllib
+ from datetime import datetime, timedelta
+-from distutils.util import strtobool
+ 
+ import cherrypy
+ from mgr_util import build_url
+@@ -26,6 +25,22 @@ except ImportError:
+     pass  # For typing only
+ 
+ 
++def _strtobool(val):
++    """Convert a string representation of truth to true (1) or false (0).
++
++    True values are 'y', 'yes', 't', 'true', 'on', and '1'; false values
++    are 'n', 'no', 'f', 'false', 'off', and '0'.  Raises ValueError if
++    'val' is anything else.
++    """
++    # Copied from distutils
++    val = val.lower()
++    if val in ('y', 'yes', 't', 'true', 'on', '1'):
++        return 1
++    elif val in ('n', 'no', 'f', 'false', 'off', '0'):
++        return 0
++    else:
++        raise ValueError("invalid truth value %r" % (val,))
++
+ class RequestLoggingTool(cherrypy.Tool):
+     def __init__(self):
+         cherrypy.Tool.__init__(self, 'before_handler', self.request_begin,
+@@ -745,7 +760,7 @@ def str_to_bool(val):
+     """
+     if isinstance(val, bool):
+         return val
+-    return bool(strtobool(val))
++    return bool(_strtobool(val))
+ 
+ 
+ def json_str_to_object(value):  # type: (AnyStr) -> Any
+diff --git a/src/pybind/mgr/volumes/fs/operations/pin_util.py b/src/pybind/mgr/volumes/fs/operations/pin_util.py
+index a12ab5b4d..bd7f993ab 100644
+--- a/src/pybind/mgr/volumes/fs/operations/pin_util.py
++++ b/src/pybind/mgr/volumes/fs/operations/pin_util.py
+@@ -3,11 +3,28 @@ import errno
+ import cephfs
+ 
+ from ..exception import VolumeException
+-from distutils.util import strtobool
++
++
++def _strtobool(val):
++    """Convert a string representation of truth to true (1) or false (0).
++
++    True values are 'y', 'yes', 't', 'true', 'on', and '1'; false values
++    are 'n', 'no', 'f', 'false', 'off', and '0'.  Raises ValueError if
++    'val' is anything else.
++    """
++    # Copied from distutils
++    val = val.lower()
++    if val in ('y', 'yes', 't', 'true', 'on', '1'):
++        return 1
++    elif val in ('n', 'no', 'f', 'false', 'off', '0'):
++        return 0
++    else:
++        raise ValueError("invalid truth value %r" % (val,))
++
+ 
+ _pin_value = {
+     "export": lambda x: int(x),
+-    "distributed": lambda x: int(strtobool(x)),
++    "distributed": lambda x: int(_strtobool(x)),
+     "random": lambda x: float(x),
+ }
+ _pin_xattr = {
+diff --git a/src/pybind/rados/setup.py b/src/pybind/rados/setup.py
+index 0d8d7ec64..072adab86 100755
+--- a/src/pybind/rados/setup.py
++++ b/src/pybind/rados/setup.py
+@@ -5,9 +5,18 @@ if not pkgutil.find_loader('setuptools'):
+ else:
+     from setuptools import setup
+     from setuptools.extension import Extension
+-import distutils.sysconfig
+-from distutils.errors import CompileError, LinkError
+-from distutils.ccompiler import new_compiler
++try:
++    from distutils import sysconfig
++except ImportError:
++    import sysconfig
++try:
++    from distutils.errors import CompileError, LinkError
++except ImportError:
++    from setuptools._distutils.errors import CompileError, LinkError
++try:
++    from distutils.ccompiler import new_compiler
++except ImportError:
++    from setuptools._distutils.ccompiler import new_compiler
+ from itertools import filterfalse, takewhile
+ 
+ import os
+@@ -46,8 +55,8 @@ def monkey_with_compiler(customize):
+     return patched
+ 
+ 
+-distutils.sysconfig.customize_compiler = \
+-    monkey_with_compiler(distutils.sysconfig.customize_compiler)
++sysconfig.customize_compiler = \
++    monkey_with_compiler(sysconfig.customize_compiler)
+ 
+ # PEP 440 versioning of the Rados package on PyPI
+ # Bump this version, after every changeset
+@@ -56,24 +65,24 @@ __version__ = '2.0.0'
+ 
+ def get_python_flags(libs):
+     py_libs = sum((libs.split() for libs in
+-                   distutils.sysconfig.get_config_vars('LIBS', 'SYSLIBS')), [])
++                   sysconfig.get_config_vars('LIBS', 'SYSLIBS')), [])
+     ldflags = list(filterfalse(lambda lib: lib.startswith('-l'), py_libs))
+     py_libs = [lib.replace('-l', '') for lib in
+                filter(lambda lib: lib.startswith('-l'), py_libs)]
+     compiler = new_compiler()
+-    distutils.sysconfig.customize_compiler(compiler)
+-    libpl = distutils.sysconfig.get_config_var('LIBPL')
++    sysconfig.customize_compiler(compiler)
++    libpl = sysconfig.get_config_var('LIBPL')
+     sysroot = os.environ.get('STAGING_DIR_HOST')
+     if not libpl.startswith(sysroot):
+         libpl = sysroot + libpl
+     return dict(
+-        include_dirs=[distutils.sysconfig.get_python_inc()],
+-        library_dirs=[distutils.sysconfig.get_config_var('LIBDIR'), libpl],
++        include_dirs=[sysconfig.get_python_inc()],
++        library_dirs=[sysconfig.get_config_var('LIBDIR'), libpl],
+         libraries=libs + py_libs,
+         extra_compile_args=filter_unsupported_flags(
+             compiler.compiler[0],
+-            compiler.compiler[1:] + distutils.sysconfig.get_config_var('CFLAGS').split()),
+-        extra_link_args=(distutils.sysconfig.get_config_var('LDFLAGS').split() +
++            compiler.compiler[1:] + sysconfig.get_config_var('CFLAGS').split()),
++        extra_link_args=(sysconfig.get_config_var('LDFLAGS').split() +
+                          ldflags))
+ 
+ 
+@@ -103,7 +112,7 @@ def check_sanity():
+         fp.write(dummy_prog)
+ 
+     compiler = new_compiler()
+-    distutils.sysconfig.customize_compiler(compiler)
++    sysconfig.customize_compiler(compiler)
+ 
+     if 'CEPH_LIBDIR' in os.environ:
+         # The setup.py has been invoked by a top-level Ceph make.
+diff --git a/src/pybind/rbd/setup.py b/src/pybind/rbd/setup.py
+index 7f6d38960..59eae886d 100755
+--- a/src/pybind/rbd/setup.py
++++ b/src/pybind/rbd/setup.py
+@@ -5,30 +5,47 @@ import subprocess
+ import sys
+ import tempfile
+ import textwrap
+-if not pkgutil.find_loader('setuptools'):
++
++if not pkgutil.find_loader("setuptools"):
+     from distutils.core import setup
+     from distutils.extension import Extension
+ else:
+     from setuptools import setup
+     from setuptools.extension import Extension
+-from distutils.ccompiler import new_compiler
+-from distutils.errors import CompileError, LinkError
++try:
++    from distutils.ccompiler import new_compiler
++except ImportError:
++    from setuptools._distutils.ccompiler import new_compiler
++try:
++    from distutils.errors import CompileError, LinkError
++except ImportError:
++    from setuptools._distutils.errors import CompileError, LinkError
+ from itertools import filterfalse, takewhile
+ from packaging import version
+-import distutils.sysconfig
++
++try:
++    from distutils import sysconfig
++except ImportError:
++    import sysconfig
+ 
+ 
+ def filter_unsupported_flags(compiler, flags):
+-    args = takewhile(lambda argv: not argv.startswith('-'), [compiler] + flags)
+-    if any('clang' in arg for arg in args):
+-        return list(filterfalse(lambda f:
+-                                f in ('-mcet',
+-                                      '-fstack-clash-protection',
+-                                      '-fno-var-tracking-assignments',
+-                                      '-Wno-deprecated-register',
+-                                      '-Wno-gnu-designator') or
+-                                f.startswith('-fcf-protection'),
+-                                flags))
++    args = takewhile(lambda argv: not argv.startswith("-"), [compiler] + flags)
++    if any("clang" in arg for arg in args):
++        return list(
++            filterfalse(
++                lambda f: f
++                in (
++                    "-mcet",
++                    "-fstack-clash-protection",
++                    "-fno-var-tracking-assignments",
++                    "-Wno-deprecated-register",
++                    "-Wno-gnu-designator",
++                )
++                or f.startswith("-fcf-protection"),
++                flags,
++            )
++        )
+     else:
+         return flags
+ 
+@@ -36,47 +53,59 @@ def filter_unsupported_flags(compiler, flags):
+ def monkey_with_compiler(customize):
+     def patched(compiler):
+         customize(compiler)
+-        if compiler.compiler_type != 'unix':
++        if compiler.compiler_type != "unix":
+             return
+-        compiler.compiler[1:] = \
+-            filter_unsupported_flags(compiler.compiler[0],
+-                                     compiler.compiler[1:])
+-        compiler.compiler_so[1:] = \
+-            filter_unsupported_flags(compiler.compiler_so[0],
+-                                     compiler.compiler_so[1:])
++        compiler.compiler[1:] = filter_unsupported_flags(
++            compiler.compiler[0], compiler.compiler[1:]
++        )
++        compiler.compiler_so[1:] = filter_unsupported_flags(
++            compiler.compiler_so[0], compiler.compiler_so[1:]
++        )
++
+     return patched
+ 
+ 
+-distutils.sysconfig.customize_compiler = \
+-    monkey_with_compiler(distutils.sysconfig.customize_compiler)
++sysconfig.customize_compiler = monkey_with_compiler(
++    sysconfig.customize_compiler
++)
+ 
+ # PEP 440 versioning of the RBD package on PyPI
+ # Bump this version, after every changeset
+ 
+-__version__ = '2.0.0'
++__version__ = "2.0.0"
+ 
+ 
+ def get_python_flags(libs):
+-    py_libs = sum((libs.split() for libs in
+-                   distutils.sysconfig.get_config_vars('LIBS', 'SYSLIBS')), [])
+-    ldflags = list(filterfalse(lambda lib: lib.startswith('-l'), py_libs))
+-    py_libs = [lib.replace('-l', '') for lib in
+-               filter(lambda lib: lib.startswith('-l'), py_libs)]
++    py_libs = sum(
++        (
++            libs.split()
++            for libs in sysconfig.get_config_vars("LIBS", "SYSLIBS")
++        ),
++        [],
++    )
++    ldflags = list(filterfalse(lambda lib: lib.startswith("-l"), py_libs))
++    py_libs = [
++        lib.replace("-l", "")
++        for lib in filter(lambda lib: lib.startswith("-l"), py_libs)
++    ]
+     compiler = new_compiler()
+-    distutils.sysconfig.customize_compiler(compiler)
+-    libpl = distutils.sysconfig.get_config_var('LIBPL')
+-    sysroot = os.environ.get('STAGING_DIR_HOST')
++    sysconfig.customize_compiler(compiler)
++    libpl = sysconfig.get_config_var("LIBPL")
++    sysroot = os.environ.get("STAGING_DIR_HOST")
+     if not libpl.startswith(sysroot):
+         libpl = sysroot + libpl
+     return dict(
+-        include_dirs=[distutils.sysconfig.get_python_inc()],
+-        library_dirs=[distutils.sysconfig.get_config_var('LIBDIR'), libpl],
++        include_dirs=[sysconfig.get_python_inc()],
++        library_dirs=[sysconfig.get_config_var("LIBDIR"), libpl],
+         libraries=libs + py_libs,
+         extra_compile_args=filter_unsupported_flags(
+             compiler.compiler[0],
+-            compiler.compiler[1:] + distutils.sysconfig.get_config_var('CFLAGS').split()),
+-        extra_link_args=(distutils.sysconfig.get_config_var('LDFLAGS').split() +
+-                         ldflags))
++            compiler.compiler[1:] + sysconfig.get_config_var("CFLAGS").split(),
++        ),
++        extra_link_args=(
++            sysconfig.get_config_var("LDFLAGS").split() + ldflags
++        ),
++    )
+ 
+ 
+ def check_sanity():
+@@ -84,16 +113,17 @@ def check_sanity():
+     Test if development headers and library for rbd is available by compiling a dummy C program.
+     """
+     CEPH_SRC_DIR = os.path.join(
+-        os.path.dirname(os.path.abspath(__file__)),
+-        '..',
+-        '..'
++        os.path.dirname(os.path.abspath(__file__)), "..", ".."
+     )
+ 
+-    tmp_dir = tempfile.mkdtemp(dir=os.environ.get('TMPDIR', os.path.dirname(__file__)))
+-    tmp_file = os.path.join(tmp_dir, 'rbd_dummy.c')
++    tmp_dir = tempfile.mkdtemp(
++        dir=os.environ.get("TMPDIR", os.path.dirname(__file__))
++    )
++    tmp_file = os.path.join(tmp_dir, "rbd_dummy.c")
+ 
+-    with open(tmp_file, 'w') as fp:
+-        dummy_prog = textwrap.dedent("""
++    with open(tmp_file, "w") as fp:
++        dummy_prog = textwrap.dedent(
++            """
+         #include <stddef.h>
+         #include <rbd/librbd.h>
+         int main(void) {
+@@ -101,37 +131,38 @@ def check_sanity():
+             rados_create(&cluster, NULL);
+             return 0;
+         }
+-        """)
++        """
++        )
+         fp.write(dummy_prog)
+ 
+     compiler = new_compiler()
+-    distutils.sysconfig.customize_compiler(compiler)
++    sysconfig.customize_compiler(compiler)
+ 
+-    if 'CEPH_LIBDIR' in os.environ:
++    if "CEPH_LIBDIR" in os.environ:
+         # The setup.py has been invoked by a top-level Ceph make.
+         # Set the appropriate CFLAGS and LDFLAGS
+-        compiler.set_include_dirs([os.path.join(CEPH_SRC_DIR, 'include')])
+-        compiler.set_library_dirs([os.environ.get('CEPH_LIBDIR')])
++        compiler.set_include_dirs([os.path.join(CEPH_SRC_DIR, "include")])
++        compiler.set_library_dirs([os.environ.get("CEPH_LIBDIR")])
+     try:
+-        compiler.define_macro('_FILE_OFFSET_BITS', '64')
++        compiler.define_macro("_FILE_OFFSET_BITS", "64")
+ 
+-        link_objects = compiler.compile(
+-            sources=[tmp_file],
+-            output_dir=tmp_dir
+-        )
++        link_objects = compiler.compile(sources=[tmp_file], output_dir=tmp_dir)
+ 
+         compiler.link_executable(
+             objects=link_objects,
+-            output_progname=os.path.join(tmp_dir, 'rbd_dummy'),
+-            libraries=['rbd', 'rados'],
++            output_progname=os.path.join(tmp_dir, "rbd_dummy"),
++            libraries=["rbd", "rados"],
+             output_dir=tmp_dir,
+         )
+ 
+     except CompileError:
+-        print('\nCompile Error: RBD development headers not found', file=sys.stderr)
++        print(
++            "\nCompile Error: RBD development headers not found",
++            file=sys.stderr,
++        )
+         return False
+     except LinkError:
+-        print('\nLink Error: RBD library not found', file=sys.stderr)
++        print("\nLink Error: RBD library not found", file=sys.stderr)
+         return False
+     else:
+         return True
+@@ -139,27 +170,28 @@ def check_sanity():
+         shutil.rmtree(tmp_dir)
+ 
+ 
+-if 'BUILD_DOC' in os.environ or 'READTHEDOCS' in os.environ:
++if "BUILD_DOC" in os.environ or "READTHEDOCS" in os.environ:
+     ext_args = {}
+     cython_constants = dict(BUILD_DOC=True)
+     cythonize_args = dict(compile_time_env=cython_constants)
+ elif check_sanity():
+-    ext_args = get_python_flags(['rados', 'rbd'])
++    ext_args = get_python_flags(["rados", "rbd"])
+     cython_constants = dict(BUILD_DOC=False)
+     include_path = [os.path.join(os.path.dirname(__file__), "..", "rados")]
+-    cythonize_args = dict(compile_time_env=cython_constants,
+-                          include_path=include_path)
++    cythonize_args = dict(
++        compile_time_env=cython_constants, include_path=include_path
++    )
+ else:
+     sys.exit(1)
+ 
+ cmdclass = {}
+-compiler_directives={'language_level': sys.version_info.major}
++compiler_directives = {"language_level": sys.version_info.major}
+ try:
+     from Cython.Build import cythonize
+     from Cython.Distutils import build_ext
+     from Cython import __version__ as cython_version
+ 
+-    cmdclass = {'build_ext': build_ext}
++    cmdclass = {"build_ext": build_ext}
+ 
+     # Needed for building with Cython 0.x and Cython 3 from the same file,
+     # preserving the same behavior.
+@@ -167,15 +199,16 @@ try:
+     # noexcept on rbd_callback_t and librbd_progress_fn_t (or consider doing
+     # something similar to except? -9000 on rbd_diff_iterate2() callback for
+     # progress callbacks to propagate exceptions).
+-    if version.parse(cython_version) >= version.parse('3'):
+-        compiler_directives['legacy_implicit_noexcept'] = True
++    if version.parse(cython_version) >= version.parse("3"):
++        compiler_directives["legacy_implicit_noexcept"] = True
+ except ImportError:
+     print("WARNING: Cython is not installed.")
+ 
+-    if not os.path.isfile('rbd.c'):
+-        print('ERROR: Cannot find Cythonized file rbd.c', file=sys.stderr)
++    if not os.path.isfile("rbd.c"):
++        print("ERROR: Cannot find Cythonized file rbd.c", file=sys.stderr)
+         sys.exit(1)
+     else:
++
+         def cythonize(x, **kwargs):
+             return x
+ 
+@@ -184,14 +217,16 @@ else:
+     source = "rbd.pyx"
+ 
+ # Disable cythonification if we're not really building anything
+-if (len(sys.argv) >= 2 and
+-        any(i in sys.argv[1:] for i in ('--help', 'clean', 'egg_info', '--version')
+-            )):
++if len(sys.argv) >= 2 and any(
++    i in sys.argv[1:] for i in ("--help", "clean", "egg_info", "--version")
++):
++
+     def cythonize(x, **kwargs):
+         return x
+ 
++
+ setup(
+-    name='rbd',
++    name="rbd",
+     version=__version__,
+     description="Python bindings for the RBD library",
+     long_description=(
+@@ -202,28 +237,22 @@ setup(
+         "are striped over objects and stored in a RADOS object store. The size "
+         "of the objects the image is striped over must be a power of two."
+     ),
+-    url='https://github.com/ceph/ceph/tree/master/src/pybind/rbd',
+-    license='LGPLv2+',
+-    platforms='Linux',
++    url="https://github.com/ceph/ceph/tree/master/src/pybind/rbd",
++    license="LGPLv2+",
++    platforms="Linux",
+     ext_modules=cythonize(
+-        [
+-            Extension(
+-                "rbd",
+-                [source],
+-                **ext_args
+-            )
+-        ],
++        [Extension("rbd", [source], **ext_args)],
+         compiler_directives=compiler_directives,
+         build_dir=os.environ.get("CYTHON_BUILD_DIR", None),
+         **cythonize_args
+     ),
+     classifiers=[
+-        'Intended Audience :: Developers',
+-        'Intended Audience :: System Administrators',
+-        'License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)',
+-        'Operating System :: POSIX :: Linux',
+-        'Programming Language :: Cython',
+-        'Programming Language :: Python :: 3'
++        "Intended Audience :: Developers",
++        "Intended Audience :: System Administrators",
++        "License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)",
++        "Operating System :: POSIX :: Linux",
++        "Programming Language :: Cython",
++        "Programming Language :: Python :: 3",
+     ],
+     cmdclass=cmdclass,
+ )
+diff --git a/src/pybind/rgw/setup.py b/src/pybind/rgw/setup.py
+index 09806ebf3..d585d41d0 100755
+--- a/src/pybind/rgw/setup.py
++++ b/src/pybind/rgw/setup.py
+@@ -1,34 +1,51 @@
+ import pkgutil
+-if not pkgutil.find_loader('setuptools'):
++
++if not pkgutil.find_loader("setuptools"):
+     from distutils.core import setup
+     from distutils.extension import Extension
+ else:
+     from setuptools import setup
+     from setuptools.extension import Extension
+-import distutils.core
+ 
+ import os
+ import shutil
+ import sys
+ import tempfile
+ import textwrap
+-from distutils.ccompiler import new_compiler
+-from distutils.errors import CompileError, LinkError
++
++try:
++    from distutils.ccompiler import new_compiler
++except ImportError:
++    from setuptools._distutils.ccompiler import new_compiler
++try:
++    from distutils.errors import CompileError, LinkError
++except ImportError:
++    from setuptools._distutils.errors import CompileError, LinkError
+ from itertools import filterfalse, takewhile
+-import distutils.sysconfig
++
++try:
++    from distutils import sysconfig
++except ImportError:
++    import sysconfig
+ 
+ 
+ def filter_unsupported_flags(compiler, flags):
+-    args = takewhile(lambda argv: not argv.startswith('-'), [compiler] + flags)
+-    if any('clang' in arg for arg in args):
+-        return list(filterfalse(lambda f:
+-                                f in ('-mcet',
+-                                      '-fstack-clash-protection',
+-                                      '-fno-var-tracking-assignments',
+-                                      '-Wno-deprecated-register',
+-                                      '-Wno-gnu-designator') or
+-                                f.startswith('-fcf-protection'),
+-                                flags))
++    args = takewhile(lambda argv: not argv.startswith("-"), [compiler] + flags)
++    if any("clang" in arg for arg in args):
++        return list(
++            filterfalse(
++                lambda f: f
++                in (
++                    "-mcet",
++                    "-fstack-clash-protection",
++                    "-fno-var-tracking-assignments",
++                    "-Wno-deprecated-register",
++                    "-Wno-gnu-designator",
++                )
++                or f.startswith("-fcf-protection"),
++                flags,
++            )
++        )
+     else:
+         return flags
+ 
+@@ -36,47 +53,59 @@ def filter_unsupported_flags(compiler, flags):
+ def monkey_with_compiler(customize):
+     def patched(compiler):
+         customize(compiler)
+-        if compiler.compiler_type != 'unix':
++        if compiler.compiler_type != "unix":
+             return
+-        compiler.compiler[1:] = \
+-            filter_unsupported_flags(compiler.compiler[0],
+-                                     compiler.compiler[1:])
+-        compiler.compiler_so[1:] = \
+-            filter_unsupported_flags(compiler.compiler_so[0],
+-                                     compiler.compiler_so[1:])
++        compiler.compiler[1:] = filter_unsupported_flags(
++            compiler.compiler[0], compiler.compiler[1:]
++        )
++        compiler.compiler_so[1:] = filter_unsupported_flags(
++            compiler.compiler_so[0], compiler.compiler_so[1:]
++        )
++
+     return patched
+ 
+ 
+-distutils.sysconfig.customize_compiler = \
+-    monkey_with_compiler(distutils.sysconfig.customize_compiler)
++sysconfig.customize_compiler = monkey_with_compiler(
++    sysconfig.customize_compiler
++)
+ 
+ # PEP 440 versioning of the RGW package on PyPI
+ # Bump this version, after every changeset
+ 
+-__version__ = '2.0.0'
++__version__ = "2.0.0"
+ 
+ 
+ def get_python_flags(libs):
+-    py_libs = sum((libs.split() for libs in
+-                   distutils.sysconfig.get_config_vars('LIBS', 'SYSLIBS')), [])
+-    ldflags = list(filterfalse(lambda lib: lib.startswith('-l'), py_libs))
+-    py_libs = [lib.replace('-l', '') for lib in
+-               filter(lambda lib: lib.startswith('-l'), py_libs)]
++    py_libs = sum(
++        (
++            libs.split()
++            for libs in sysconfig.get_config_vars("LIBS", "SYSLIBS")
++        ),
++        [],
++    )
++    ldflags = list(filterfalse(lambda lib: lib.startswith("-l"), py_libs))
++    py_libs = [
++        lib.replace("-l", "")
++        for lib in filter(lambda lib: lib.startswith("-l"), py_libs)
++    ]
+     compiler = new_compiler()
+-    distutils.sysconfig.customize_compiler(compiler)
+-    libpl = distutils.sysconfig.get_config_var('LIBPL')
+-    sysroot = os.environ.get('STAGING_DIR_HOST')
++    sysconfig.customize_compiler(compiler)
++    libpl = sysconfig.get_config_var("LIBPL")
++    sysroot = os.environ.get("STAGING_DIR_HOST")
+     if not libpl.startswith(sysroot):
+         libpl = sysroot + libpl
+     return dict(
+-        include_dirs=[distutils.sysconfig.get_python_inc()],
+-        library_dirs=[distutils.sysconfig.get_config_var('LIBDIR'), libpl],
++        include_dirs=[sysconfig.get_python_inc()],
++        library_dirs=[sysconfig.get_config_var("LIBDIR"), libpl],
+         libraries=libs + py_libs,
+         extra_compile_args=filter_unsupported_flags(
+             compiler.compiler[0],
+-            compiler.compiler[1:] + distutils.sysconfig.get_config_var('CFLAGS').split()),
+-        extra_link_args=(distutils.sysconfig.get_config_var('LDFLAGS').split() +
+-                         ldflags))
++            compiler.compiler[1:] + sysconfig.get_config_var("CFLAGS").split(),
++        ),
++        extra_link_args=(
++            sysconfig.get_config_var("LDFLAGS").split() + ldflags
++        ),
++    )
+ 
+ 
+ def check_sanity():
+@@ -84,16 +113,17 @@ def check_sanity():
+     Test if development headers and library for rgw is available by compiling a dummy C program.
+     """
+     CEPH_SRC_DIR = os.path.join(
+-        os.path.dirname(os.path.abspath(__file__)),
+-        '..',
+-        '..'
++        os.path.dirname(os.path.abspath(__file__)), "..", ".."
+     )
+ 
+-    tmp_dir = tempfile.mkdtemp(dir=os.environ.get('TMPDIR', os.path.dirname(__file__)))
+-    tmp_file = os.path.join(tmp_dir, 'rgw_dummy.c')
++    tmp_dir = tempfile.mkdtemp(
++        dir=os.environ.get("TMPDIR", os.path.dirname(__file__))
++    )
++    tmp_file = os.path.join(tmp_dir, "rgw_dummy.c")
+ 
+-    with open(tmp_file, 'w') as fp:
+-        dummy_prog = textwrap.dedent("""
++    with open(tmp_file, "w") as fp:
++        dummy_prog = textwrap.dedent(
++            """
+         #include <stddef.h>
+         #include "rados/rgw_file.h"
+ 
+@@ -101,19 +131,20 @@ def check_sanity():
+             rgwfile_version(NULL, NULL, NULL);
+             return 0;
+         }
+-        """)
++        """
++        )
+         fp.write(dummy_prog)
+ 
+     compiler = new_compiler()
+-    distutils.sysconfig.customize_compiler(compiler)
++    sysconfig.customize_compiler(compiler)
+ 
+-    if 'CEPH_LIBDIR' in os.environ:
++    if "CEPH_LIBDIR" in os.environ:
+         # The setup.py has been invoked by a top-level Ceph make.
+         # Set the appropriate CFLAGS and LDFLAGS
+-        compiler.set_include_dirs([os.path.join(CEPH_SRC_DIR, 'include')])
+-        compiler.set_library_dirs([os.environ.get('CEPH_LIBDIR')])
++        compiler.set_include_dirs([os.path.join(CEPH_SRC_DIR, "include")])
++        compiler.set_library_dirs([os.environ.get("CEPH_LIBDIR")])
+     try:
+-        compiler.define_macro('_FILE_OFFSET_BITS', '64')
++        compiler.define_macro("_FILE_OFFSET_BITS", "64")
+ 
+         link_objects = compiler.compile(
+             sources=[tmp_file],
+@@ -122,16 +153,19 @@ def check_sanity():
+ 
+         compiler.link_executable(
+             objects=link_objects,
+-            output_progname=os.path.join(tmp_dir, 'rgw_dummy'),
+-            libraries=['rgw', 'rados'],
++            output_progname=os.path.join(tmp_dir, "rgw_dummy"),
++            libraries=["rgw", "rados"],
+             output_dir=tmp_dir,
+         )
+ 
+     except CompileError:
+-        print('\nCompile Error: RGW development headers not found', file=sys.stderr)
++        print(
++            "\nCompile Error: RGW development headers not found",
++            file=sys.stderr,
++        )
+         return False
+     except LinkError:
+-        print('\nLink Error: RGW library not found', file=sys.stderr)
++        print("\nLink Error: RGW library not found", file=sys.stderr)
+         return False
+     else:
+         return True
+@@ -139,16 +173,17 @@ def check_sanity():
+         shutil.rmtree(tmp_dir)
+ 
+ 
+-if 'BUILD_DOC' in os.environ or 'READTHEDOCS' in os.environ:
++if "BUILD_DOC" in os.environ or "READTHEDOCS" in os.environ:
+     ext_args = {}
+     cython_constants = dict(BUILD_DOC=True)
+     cythonize_args = dict(compile_time_env=cython_constants)
+ elif check_sanity():
+-    ext_args = get_python_flags(['rados', 'rgw'])
++    ext_args = get_python_flags(["rados", "rgw"])
+     cython_constants = dict(BUILD_DOC=False)
+     include_path = [os.path.join(os.path.dirname(__file__), "..", "rados")]
+-    cythonize_args = dict(compile_time_env=cython_constants,
+-                          include_path=include_path)
++    cythonize_args = dict(
++        compile_time_env=cython_constants, include_path=include_path
++    )
+ else:
+     sys.exit(1)
+ 
+@@ -157,14 +192,15 @@ try:
+     from Cython.Build import cythonize
+     from Cython.Distutils import build_ext
+ 
+-    cmdclass = {'build_ext': build_ext}
++    cmdclass = {"build_ext": build_ext}
+ except ImportError:
+     print("WARNING: Cython is not installed.")
+ 
+-    if not os.path.isfile('rgw.c'):
+-        print('ERROR: Cannot find Cythonized file rgw.c', file=sys.stderr)
++    if not os.path.isfile("rgw.c"):
++        print("ERROR: Cannot find Cythonized file rgw.c", file=sys.stderr)
+         sys.exit(1)
+     else:
++
+         def cythonize(x, **kwargs):
+             return x
+ 
+@@ -173,14 +209,16 @@ else:
+     source = "rgw.pyx"
+ 
+ # Disable cythonification if we're not really building anything
+-if (len(sys.argv) >= 2 and
+-        any(i in sys.argv[1:] for i in ('--help', 'clean', 'egg_info', '--version')
+-            )):
++if len(sys.argv) >= 2 and any(
++    i in sys.argv[1:] for i in ("--help", "clean", "egg_info", "--version")
++):
++
+     def cythonize(x, **kwargs):
+         return x
+ 
++
+ setup(
+-    name='rgw',
++    name="rgw",
+     version=__version__,
+     description="Python bindings for the RGW library",
+     long_description=(
+@@ -190,28 +228,22 @@ setup(
+         "Ceph Object Storage support S3 and Swift APIs, "
+         "and file operations."
+     ),
+-    url='https://github.com/ceph/ceph/tree/master/src/pybind/rgw',
+-    license='LGPLv2+',
+-    platforms='Linux',
++    url="https://github.com/ceph/ceph/tree/master/src/pybind/rgw",
++    license="LGPLv2+",
++    platforms="Linux",
+     ext_modules=cythonize(
+-        [
+-            Extension(
+-                "rgw",
+-                [source],
+-                **ext_args
+-            )
+-        ],
+-        compiler_directives={'language_level': sys.version_info.major},
++        [Extension("rgw", [source], **ext_args)],
++        compiler_directives={"language_level": sys.version_info.major},
+         build_dir=os.environ.get("CYTHON_BUILD_DIR", None),
+         **cythonize_args
+     ),
+     classifiers=[
+-        'Intended Audience :: Developers',
+-        'Intended Audience :: System Administrators',
+-        'License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)',
+-        'Operating System :: POSIX :: Linux',
+-        'Programming Language :: Cython',
+-        'Programming Language :: Python :: 3',
++        "Intended Audience :: Developers",
++        "Intended Audience :: System Administrators",
++        "License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)",
++        "Operating System :: POSIX :: Linux",
++        "Programming Language :: Cython",
++        "Programming Language :: Python :: 3",
+     ],
+     cmdclass=cmdclass,
+ )
+diff --git a/src/seastar/dpdk/doc/guides/conf.py b/src/seastar/dpdk/doc/guides/conf.py
+index a85f6c9d9..5eace9bf7 100644
+--- a/src/seastar/dpdk/doc/guides/conf.py
++++ b/src/seastar/dpdk/doc/guides/conf.py
+@@ -4,7 +4,7 @@
+ from __future__ import print_function
+ import subprocess
+ from docutils import nodes
+-from distutils.version import LooseVersion
++from packaging.version import parse
+ from sphinx import __version__ as sphinx_version
+ from sphinx.highlighting import PygmentsBridge
+ from pygments.formatters.latex import LatexFormatter
+@@ -402,7 +402,7 @@ def setup(app):
+                             'Features availability in compression drivers',
+                             'Feature')
+ 
+-    if LooseVersion(sphinx_version) < LooseVersion('1.3.1'):
++    if parse(sphinx_version) < parse('1.3.1'):
+         print('Upgrade sphinx to version >= 1.3.1 for '
+               'improved Figure/Table number handling.')
+         # Add a role to handle :numref: references.
+diff --git a/src/seastar/scripts/perftune.py b/src/seastar/scripts/perftune.py
+index 39e6fe203..be916642c 100755
+--- a/src/seastar/scripts/perftune.py
++++ b/src/seastar/scripts/perftune.py
+@@ -2,7 +2,6 @@
+ 
+ import abc
+ import argparse
+-import distutils.util
+ import enum
+ import functools
+ import glob
+@@ -22,6 +21,22 @@ import yaml
+ import platform
+ import shlex
+ 
++def _strtobool(val):
++    """Convert a string representation of truth to true (1) or false (0).
++
++    True values are 'y', 'yes', 't', 'true', 'on', and '1'; false values
++    are 'n', 'no', 'f', 'false', 'off', and '0'.  Raises ValueError if
++    'val' is anything else.
++    """
++    # Copied from distutils
++    val = val.lower()
++    if val in ('y', 'yes', 't', 'true', 'on', '1'):
++        return 1
++    elif val in ('n', 'no', 'f', 'false', 'off', '0'):
++        return 0
++    else:
++        raise ValueError("invalid truth value %r" % (val,))
++
+ dry_run_mode = False
+ def perftune_print(log_msg, *args, **kwargs):
+     if dry_run_mode:
+@@ -1585,7 +1600,7 @@ def extend_and_unique(orig_list, iterable):
+ def parse_tri_state_arg(value, arg_name):
+     try:
+         if value is not None:
+-            return distutils.util.strtobool(value)
++            return _strtobool(value)
+         else:
+             return None
+     except:
+@@ -1635,10 +1650,10 @@ def parse_options_file(prog_args):
+         prog_args.devs = extend_and_unique(prog_args.devs, y['dev'])
+ 
+     if 'write_back_cache' in y:
+-        prog_args.set_write_back = distutils.util.strtobool("{}".format(y['write_back_cache']))
++        prog_args.set_write_back = _strtobool("{}".format(y['write_back_cache']))
+ 
+     if 'arfs' in y:
+-        prog_args.enable_arfs = distutils.util.strtobool("{}".format(y['arfs']))
++        prog_args.enable_arfs = _strtobool("{}".format(y['arfs']))
+ 
+     if 'num_rx_queues' in y:
+         prog_args.num_rx_queues = int(y['num_rx_queues'])
+diff --git a/src/spdk/dpdk/doc/guides/conf.py b/src/spdk/dpdk/doc/guides/conf.py
+index 700e05e17..056156158 100644
+--- a/src/spdk/dpdk/doc/guides/conf.py
++++ b/src/spdk/dpdk/doc/guides/conf.py
+@@ -4,7 +4,7 @@
+ from __future__ import print_function
+ import subprocess
+ from docutils import nodes
+-from distutils.version import LooseVersion
++from packaging.version import parse
+ from sphinx import __version__ as sphinx_version
+ from sphinx.highlighting import PygmentsBridge
+ from pygments.formatters.latex import LatexFormatter
+@@ -420,7 +420,7 @@ def setup(app):
+                             'Features availability in bbdev drivers',
+                             'Feature')
+ 
+-    if LooseVersion(sphinx_version) < LooseVersion('1.3.1'):
++    if parse(sphinx_version) < parse('1.3.1'):
+         print('Upgrade sphinx to version >= 1.3.1 for '
+               'improved Figure/Table number handling.')
+         # Add a role to handle :numref: references.
+diff --git a/src/test/rgw/bucket_notification/test_bn.py b/src/test/rgw/bucket_notification/test_bn.py
+index c09b6e247..b58372f8b 100644
+--- a/src/test/rgw/bucket_notification/test_bn.py
++++ b/src/test/rgw/bucket_notification/test_bn.py
+@@ -2130,14 +2130,28 @@ def test_ps_s3_creation_triggers_on_master():
+     ps_s3_creation_triggers_on_master(external_endpoint_address="amqp://localhost:5672")
+ 
+ 
++def _strtobool(val):
++    """Convert a string representation of truth to true (1) or false (0).
++
++    True values are 'y', 'yes', 't', 'true', 'on', and '1'; false values
++    are 'n', 'no', 'f', 'false', 'off', and '0'.  Raises ValueError if
++    'val' is anything else.
++    """
++    # Copied from distutils
++    val = val.lower()
++    if val in ('y', 'yes', 't', 'true', 'on', '1'):
++        return 1
++    elif val in ('n', 'no', 'f', 'false', 'off', '0'):
++        return 0
++    else:
++        raise ValueError("invalid truth value %r" % (val,))
++
+ @attr('amqp_ssl_test')
+ def test_ps_s3_creation_triggers_on_master_external():
+ 
+-    from distutils.util import strtobool
+-
+     if 'AMQP_EXTERNAL_ENDPOINT' in os.environ:
+         try:
+-            if strtobool(os.environ['AMQP_VERIFY_SSL']):
++            if _strtobool(os.environ['AMQP_VERIFY_SSL']):
+                 verify_ssl = 'true'
+             else:
+                 verify_ssl = 'false'
+-- 
+2.52.0
+
