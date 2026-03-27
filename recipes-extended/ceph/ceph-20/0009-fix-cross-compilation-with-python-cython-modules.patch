@@ -1,0 +1,213 @@
+From 655121a575bd794658f85eb086ed3fe13d154820 Mon Sep 17 00:00:00 2001
+From: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+Date: Tue, 14 Apr 2026 11:21:24 +0200
+Subject: [PATCH] fix cross-compilation with python cython modules
+
+This commit based on previous Ceph 18 same patch, and fix various build
+issues due to incorrect sysroot configuration.
+
+Upstream-Status: Inappropriate [oe-specific]
+Signed-off-by: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+---
+ cmake/modules/Distutils.cmake | 19 +++++--------------
+ src/pybind/cephfs/setup.py    | 23 +++++++++--------------
+ src/pybind/rados/setup.py     | 24 +++++++++++++-----------
+ src/pybind/rbd/setup.py       | 26 +++++++++++---------------
+ 4 files changed, 38 insertions(+), 54 deletions(-)
+
+diff --git a/cmake/modules/Distutils.cmake b/cmake/modules/Distutils.cmake
+index f07086c92..70b533b6a 100644
+--- a/cmake/modules/Distutils.cmake
++++ b/cmake/modules/Distutils.cmake
+@@ -29,14 +29,8 @@ function(distutils_install_module name)
+   cmake_parse_arguments(DU "" "INSTALL_SCRIPT" "" ${ARGN})
+   install(CODE "
+     set(options --prefix=${CMAKE_INSTALL_PREFIX})
+-    if(DEFINED ENV{DESTDIR})
+-      list(APPEND options
+-        --root=\$ENV{DESTDIR}
+-        --single-version-externally-managed)
+-    endif()
+-    if(NOT \"${DU_INSTALL_SCRIPT}\" STREQUAL \"\")
+-      list(APPEND options --install-script=${DU_INSTALL_SCRIPT})
+-    endif()
++    list(APPEND options --root=${CMAKE_DESTDIR})
++    list(APPEND options --install-lib=${PYTHON_SITEPACKAGES_DIR})
+     execute_process(
+     COMMAND ${Python3_EXECUTABLE}
+         setup.py install \${options}
+@@ -62,7 +56,7 @@ function(distutils_add_cython_module target name src)
+   if(DU_DISABLE_VTA AND HAS_VTA)
+     list(APPEND PY_CFLAGS -fno-var-tracking-assignments)
+   endif()
+-  list(APPEND PY_CPPFLAGS -iquote${CMAKE_SOURCE_DIR}/src/include -w)
++  list(APPEND PY_CPPFLAGS -iquote${CMAKE_SOURCE_DIR}/src/include -w --sysroot=${CMAKE_SYSROOT})
+   # This little bit of magic wipes out __Pyx_check_single_interpreter()
+   # Note: this is reproduced in distutils_install_cython_module
+   list(APPEND PY_CPPFLAGS -D'void0=dead_function\(void\)')
+@@ -134,11 +128,8 @@ function(distutils_install_cython_module name)
+     set(ENV{CEPH_LIBDIR} \"${CMAKE_LIBRARY_OUTPUT_DIRECTORY}\")
+
+     set(options --prefix=${CMAKE_INSTALL_PREFIX})
+-    if(DEFINED ENV{DESTDIR})
+-      list(APPEND options --root=\$ENV{DESTDIR})
+-    else()
+-      list(APPEND options --root=/)
+-    endif()
++    list(APPEND options --root=${CMAKE_DESTDIR})
++    list(APPEND options --install-lib=${PYTHON_SITEPACKAGES_DIR})
+     execute_process(
+        COMMAND
+            ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/setup.py
+diff --git a/src/pybind/cephfs/setup.py b/src/pybind/cephfs/setup.py
+index 6195820b8..860802dd9 100755
+--- a/src/pybind/cephfs/setup.py
++++ b/src/pybind/cephfs/setup.py
+@@ -63,9 +63,13 @@ def get_python_flags(libs):
+                filter(lambda lib: lib.startswith('-l'), py_libs)]
+     compiler = new_compiler()
+     distutils.sysconfig.customize_compiler(compiler)
++    libpl = distutils.sysconfig.get_config_var('LIBPL')
++    sysroot = os.environ.get('PKG_CONFIG_SYSROOT_DIR')
++    if not libpl.startswith(sysroot):
++        libpl = sysroot + libpl
+     return dict(
+         include_dirs=[distutils.sysconfig.get_python_inc()],
+-        library_dirs=distutils.sysconfig.get_config_vars('LIBDIR', 'LIBPL'),
++        library_dirs=[distutils.sysconfig.get_config_var('LIBDIR'), libpl],
+         libraries=libs + py_libs,
+         extra_compile_args=filter_unsupported_flags(
+             compiler.compiler[0],
+@@ -141,20 +145,11 @@ def check_sanity():
+     finally:
+         shutil.rmtree(tmp_dir)
+
+-
+-if 'BUILD_DOC' in os.environ or 'READTHEDOCS' in os.environ:
+-    ext_args = {}
+-    cython_constants = dict(BUILD_DOC=True)
+-    cythonize_args = dict(compile_time_env=cython_constants)
+-elif check_sanity():
+-    ext_args = get_python_flags(['cephfs'])
+-    cython_constants = dict(BUILD_DOC=False)
+-    include_path = [os.path.join(os.path.dirname(__file__), "..", "rados")]
+-    cythonize_args = dict(compile_time_env=cython_constants,
++ext_args = get_python_flags(['cephfs'])
++cython_constants = dict(BUILD_DOC=False)
++include_path = [os.path.join(os.path.dirname(__file__), "..", "rados")]
++cythonize_args = dict(compile_time_env=cython_constants,
+                           include_path=include_path)
+-else:
+-    sys.exit(1)
+-
+ cmdclass = {}
+ try:
+     from Cython.Build import cythonize
+diff --git a/src/pybind/rados/setup.py b/src/pybind/rados/setup.py
+index c26d2faab..65a84065c 100755
+--- a/src/pybind/rados/setup.py
++++ b/src/pybind/rados/setup.py
+@@ -16,6 +16,10 @@ import sys
+ import tempfile
+ import textwrap
+
++for envname in "CC", "CXX", "LDSHARED":
++    envname_value = os.environ.get(envname)
++    if envname_value:
++        os.environ[envname] = envname_value.replace('\\', '')
+
+ def filter_unsupported_flags(compiler, flags):
+     args = takewhile(lambda argv: not argv.startswith('-'), [compiler] + flags)
+@@ -62,9 +66,13 @@ def get_python_flags(libs):
+                filter(lambda lib: lib.startswith('-l'), py_libs)]
+     compiler = new_compiler()
+     distutils.sysconfig.customize_compiler(compiler)
++    libpl = distutils.sysconfig.get_config_var('LIBPL')
++    sysroot = os.environ.get('PKG_CONFIG_SYSROOT_DIR')
++    if not libpl.startswith(sysroot):
++        libpl = sysroot + libpl
+     return dict(
+         include_dirs=[distutils.sysconfig.get_python_inc()],
+-        library_dirs=distutils.sysconfig.get_config_vars('LIBDIR', 'LIBPL'),
++        library_dirs=[distutils.sysconfig.get_config_var('LIBDIR'), libpl],
+         libraries=libs + py_libs,
+         extra_compile_args=filter_unsupported_flags(
+             compiler.compiler[0],
+@@ -136,17 +144,9 @@ def check_sanity():
+     finally:
+         shutil.rmtree(tmp_dir)
+
+-
+-if 'BUILD_DOC' in os.environ or 'READTHEDOCS' in os.environ:
+-    ext_args = {}
+-    cython_constants = dict(BUILD_DOC=True)
+-elif check_sanity():
+-    ext_args = get_python_flags(['rados'])
+-    cython_constants = dict(BUILD_DOC=False)
+-else:
+-    sys.exit(1)
+-
+ cmdclass = {}
++ext_args = get_python_flags(['rados'])
++cython_constants = dict(BUILD_DOC=False)
+ try:
+     from Cython.Build import cythonize
+     from Cython.Distutils import build_ext
+@@ -192,6 +192,8 @@ setup(
+             Extension(
+                 "rados",
+                 [source],
++                cython_compile_time_env=cython_constants,
++                cython_directives={'language_level': sys.version_info.major},
+                 **ext_args
+             )
+         ],
+diff --git a/src/pybind/rbd/setup.py b/src/pybind/rbd/setup.py
+index e7671dbb3..6f1255c70 100755
+--- a/src/pybind/rbd/setup.py
++++ b/src/pybind/rbd/setup.py
+@@ -64,9 +64,13 @@ def get_python_flags(libs):
+                filter(lambda lib: lib.startswith('-l'), py_libs)]
+     compiler = new_compiler()
+     distutils.sysconfig.customize_compiler(compiler)
++    libpl = distutils.sysconfig.get_config_var('LIBPL')
++    sysroot = os.environ.get('PKG_CONFIG_SYSROOT_DIR')
++    if not libpl.startswith(sysroot):
++        libpl = sysroot + libpl
+     return dict(
+         include_dirs=[distutils.sysconfig.get_python_inc()],
+-        library_dirs=distutils.sysconfig.get_config_vars('LIBDIR', 'LIBPL'),
++        library_dirs=[distutils.sysconfig.get_config_var('LIBDIR'), libpl],
+         libraries=libs + py_libs,
+         extra_compile_args=filter_unsupported_flags(
+             compiler.compiler[0],
+@@ -140,21 +144,13 @@ def check_sanity():
+     finally:
+         shutil.rmtree(tmp_dir)
+
+-
+-if 'BUILD_DOC' in os.environ or 'READTHEDOCS' in os.environ:
+-    ext_args = {}
+-    cython_constants = dict(BUILD_DOC=True)
+-    cythonize_args = dict(compile_time_env=cython_constants)
+-elif check_sanity():
+-    ext_args = get_python_flags(['rados', 'rbd'])
+-    cython_constants = dict(BUILD_DOC=False)
+-    include_path = [os.path.join(os.path.dirname(__file__), "..", "rados")]
+-    cythonize_args = dict(compile_time_env=cython_constants,
+-                          include_path=include_path)
+-else:
+-    sys.exit(1)
+-
++ext_args = get_python_flags(['rados', 'rbd'])
++cython_constants = dict(BUILD_DOC=False)
+ cmdclass = {}
++cythonize_args = {}
++include_path = [os.path.join(os.path.dirname(__file__), "..", "rados")]
++cythonize_args = dict(compile_time_env=cython_constants,
++                          include_path=include_path)
+ compiler_directives={'language_level': sys.version_info.major}
+ try:
+     from Cython.Build import cythonize
+--
+2.34.1

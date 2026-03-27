@@ -1,0 +1,104 @@
+From a137a1a8a004b60a4f3c4b808a0d881550c36383 Mon Sep 17 00:00:00 2001
+From: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+Date: Fri, 3 Apr 2026 15:43:42 +0200
+Subject: [PATCH] Fix boost api break
+
+Recent Boost releases breaks API and generate compile issues.
+Backported from AUR Package Repositories [1].
+
+[1]: https://aur.archlinux.org/cgit/aur.git/tree/ceph-19.2.2-rgw-lua-boost-process-v1.patch?h=ceph
+
+Upstream-Status: Inappropriate [SEAPATH specific]
+Signed-off-by: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+---
+ src/include/boost_process_compat.hpp   | 39 ++++++++++++++++++++++++++
+ src/rgw/driver/rados/rgw_sal_rados.cc  |  2 +-
+ src/rgw/rgw_lua.cc                     |  2 +-
+ src/test/mon/test_mon_memory_target.cc |  2 +-
+ 4 files changed, 42 insertions(+), 3 deletions(-)
+ create mode 100644 src/include/boost_process_compat.hpp
+
+diff --git a/src/include/boost_process_compat.hpp b/src/include/boost_process_compat.hpp
+new file mode 100644
+index 00000000000..6f698ec3f64
+--- /dev/null
++++ b/src/include/boost_process_compat.hpp
+@@ -0,0 +1,39 @@
++// -*- mode:C; tab-width:8; c-basic-offset:2; indent-tabs-mode:t -*-
++// vim: ts=8 sw=2 smarttab ft=cpp
++
++/*
++ * Work around a missing boost/process/v1.h header as of boost 1.88
++ * -> https://github.com/boostorg/process/issues/480
++ */
++
++#include <boost/version.hpp>
++#if BOOST_VERSION < 108800
++#if !defined(BOOST_PROCESS_VERSION)
++#define  BOOST_PROCESS_VERSION 2
++#endif
++#include <boost/process.hpp>
++#else
++#if !defined(BOOST_PROCESS_VERSION)
++#define  BOOST_PROCESS_VERSION 1
++#define  BOOST_PROCESS_V1_INLINE inline
++#endif
++#include <boost/process/v1/args.hpp>
++#include <boost/process/v1/async.hpp>
++#include <boost/process/v1/async_system.hpp>
++#include <boost/process/v1/group.hpp>
++#include <boost/process/v1/child.hpp>
++#include <boost/process/v1/cmd.hpp>
++#include <boost/process/v1/env.hpp>
++#include <boost/process/v1/environment.hpp>
++#include <boost/process/v1/error.hpp>
++#include <boost/process/v1/exe.hpp>
++#include <boost/process/v1/group.hpp>
++#include <boost/process/v1/handles.hpp>
++#include <boost/process/v1/io.hpp>
++#include <boost/process/v1/pipe.hpp>
++#include <boost/process/v1/shell.hpp>
++#include <boost/process/v1/search_path.hpp>
++#include <boost/process/v1/spawn.hpp>
++#include <boost/process/v1/system.hpp>
++#include <boost/process/v1/start_dir.hpp>
++#endif
+diff --git a/src/rgw/driver/rados/rgw_sal_rados.cc b/src/rgw/driver/rados/rgw_sal_rados.cc
+index 9563d452914..efcd20b9551 100644
+--- a/src/rgw/driver/rados/rgw_sal_rados.cc
++++ b/src/rgw/driver/rados/rgw_sal_rados.cc
+@@ -20,7 +20,7 @@
+ #include <unistd.h>
+
+ #include <boost/algorithm/string.hpp>
+-#include <boost/process.hpp>
++#include "include/boost_process_compat.hpp"
+
+ #include <fmt/core.h>
+
+diff --git a/src/rgw/rgw_lua.cc b/src/rgw/rgw_lua.cc
+index b9c74cf730b..68ccd068ddb 100644
+--- a/src/rgw/rgw_lua.cc
++++ b/src/rgw/rgw_lua.cc
+@@ -8,7 +8,7 @@
+ #include "rgw_lua.h"
+ #ifdef WITH_RADOSGW_LUA_PACKAGES
+ #include <filesystem>
+-#include <boost/process.hpp>
++#include "include/boost_process_compat.hpp"
+ #endif
+
+ #define dout_subsys ceph_subsys_rgw
+diff --git a/src/test/mon/test_mon_memory_target.cc b/src/test/mon/test_mon_memory_target.cc
+index e8f975b47bb..b905b96de76 100644
+--- a/src/test/mon/test_mon_memory_target.cc
++++ b/src/test/mon/test_mon_memory_target.cc
+@@ -6,7 +6,7 @@
+ #include <regex>
+ #include <system_error>
+
+-#include <boost/process.hpp>
++#include "include/boost_process_compat.hpp"
+ #include <boost/tokenizer.hpp>
+
+ namespace bp = boost::process;
