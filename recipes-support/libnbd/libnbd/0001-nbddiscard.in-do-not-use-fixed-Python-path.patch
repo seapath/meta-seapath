@@ -1,0 +1,39 @@
+From 82054adc9098b4faa7bc2f9316b1ca457a434305 Mon Sep 17 00:00:00 2001
+From: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+Date: Wed, 1 Apr 2026 16:55:53 +0200
+Subject: [PATCH] nbddiscard.in: do not use fixed Python path
+
+@PYTHON@ might point to an host path causing host contamination plus a
+shebang > 128 char, so use a fixed path instead.
+
+Upstream-Status: Inappropriate
+Signed-off-by: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+---
+ misc/nbddiscard.in | 2 +-
+ sh/nbdsh.in        | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/misc/nbddiscard.in b/misc/nbddiscard.in
+index 6db51f9..b9b4190 100644
+--- a/misc/nbddiscard.in
++++ b/misc/nbddiscard.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+ # -*- python -*-
+ # Copyright Red Hat
+ #
+diff --git a/sh/nbdsh.in b/sh/nbdsh.in
+index c258d40..5cca9f3 100644
+--- a/sh/nbdsh.in
++++ b/sh/nbdsh.in
+@@ -34,7 +34,7 @@ esac
+ # Test if /bin/sh supports exec -a option (only supported in bash 4.2
+ # and above, and not part of POSIX).
+ if /bin/sh -c 'exec -a test true' 2>/dev/null; then
+-    exec -a nbdsh @PYTHON@ -mnbd "$@"
++    exec -a nbdsh /usr/bin/env python3 -mnbd "$@"
+ else
+-    exec          @PYTHON@ -mnbd "$@"
++    exec          /usr/bin/env python3 -mnbd "$@"
+ fi
