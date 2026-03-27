@@ -1,6 +1,16 @@
 name: Pull Requests
 
 on:
+  # With the"pull_request" trigger, workflows triggered by PRs made from forks
+  # are executed in a "safe" context without access to secrets.
+  # Since we need the secret necessary to dispatch the workflow on the main
+  # repo, we have to use a separate workflow using the workflow_run trigger to
+  # get the necessary permissions: pr-delegation.
+  # Thus, this "Pull Requests" workflow does nothing except uploading some
+  # metadata so the other workflow can do the actual dispatching.
+  # N.B. we cannot use the pull_request_target trigger since it does not wait
+  # for approval of reviewers, which is a big security issue.
+
   pull_request:
     branches:
       - scarthgap
@@ -12,41 +22,30 @@ on:
       - .github/**/*
 
 jobs:
-  delegate-main-repo:
-    name: Delegate to the main repository
-    # See detailed explanations in push.yml
+  # It can look crazy but the workflow_run trigger does not expose data about
+  # the PR of the initial workflow _for forked repositories_.
+  # (https://github.com/orgs/community/discussions/25220)
+  # Thus, we do this ugly thing of putting it in an artifact to consume it
+  # in the next workflow.
+  export-pr-metadata:
+    name: "Export PR metadata"
+    env:
+      PR_METADATA_FILE: pr_metadata.json
     runs-on: ["ubuntu-slim"]
     steps:
-      - name: Create a token
-        id: app-token
-        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859
-        with:
-          app-id: ${{ vars.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-          permission-actions: write
-
-      - name: Invoke the PR workflow
-        id: delegation
-        uses: benc-uk/workflow-dispatch@70455941930e5212314c10c0e38ec94986096618
-        with:
-          workflow: pr.yml
-          repo: "${{ vars.MAIN_REPO }}"
-          # the branch names are the same between this repo and the main one
-          ref: "${{ github.base_ref }}"
-          token: "${{ steps.app-token.outputs.token }}"
-          wait-for-completion: true
-          wait-timeout-seconds: 21600 # 6 hours
-          sync-status: true
-          inputs: |
-            {
-              "origin_repository": "${{ github.repository }}",
-              "origin_sha": "${{ github.sha }}",
-              "origin_run_id": "${{ github.run_id }}",
-              "origin_pr_number": "${{ github.event.pull_request.number }}"
-            }
-
-      - name: Display notice
-        if: always()
+      - name: Create metadata file
         run: |
-          echo "::notice::The Pull Request workflow was delegated to the main repository. See details at ${{ steps.delegation.outputs.runUrlHtml }}"
+          cat <<EOF > ${{ env.PR_METADATA_FILE }}
+          {
+            "pr_number": ${{ github.event.pull_request.number }},
+            "pr_sha": "${{ github.sha }}",
+            "pr_base_ref": "${{ github.base_ref }}"
+          }
+          EOF
+
+      - name: Upload metadata artifact
+        uses: actions/upload-artifact@v7
+        with:
+          archive: false
+          path: "${{ env.PR_METADATA_FILE }}"
+          retention-days: 1
