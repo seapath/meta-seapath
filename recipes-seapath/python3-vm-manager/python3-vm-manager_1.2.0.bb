@@ -17,7 +17,7 @@ SRCREV = "80ab2ac02241ffde1988ab42fa6fff8023dfff23"
 RDEPENDS:${PN} = "python3 libvirt jq"
 RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', "pacemaker ceph", '', d)}"
 
-inherit setuptools3
+inherit python_setuptools_build_meta
 
 do_install:append() {
     ln -s ${bindir}/vm_manager_cmd ${D}/${bindir}/vm-mgr
