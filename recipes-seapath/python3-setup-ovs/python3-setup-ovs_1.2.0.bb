@@ -11,4 +11,4 @@ SRCREV = "f2b575b7cd1c1954f4338d65a83bc88f62e26746"
 
 RDEPENDS:${PN} = "python3 openvswitch python3-pyyaml"
 
-inherit setuptools3
+inherit python_setuptools_build_meta
