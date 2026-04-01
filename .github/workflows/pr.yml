@@ -8,6 +8,8 @@ on:
       - opened
       - synchronize
       - reopened
+    paths-ignore:
+      - .github/**/*
 
 jobs:
   delegate-main-repo:
