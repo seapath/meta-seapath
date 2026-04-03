@@ -30,6 +30,9 @@ DISTRO_FEATURES_BACKFILL_CONSIDERED += "pulseaudio"
 DISTRO_FEATURES:append = " virtualization"
 DISTRO_FEATURES:append = " kvm"
 
+# Enable predictable network interface names
+DISTRO_FEATURES:append = " pni-names"
+
 # Disable and blacklist busybox
 PREFERRED_PROVIDER_virtual/base-utils = "packagegroup-core-base-utils"
 VIRTUAL-RUNTIME_base-utils = "packagegroup-core-base-utils"
