@@ -13,6 +13,7 @@ RDEPENDS:${PN}-ovs = "python3-setup-ovs openvswitch"
 SRC_URI = " \
     file://common/10-erspan0.network \
     file://common/10-gretap0.network \
+    file://common/73-usb-net-by-mac.link \
     file://common/90-sysctl-hardening.conf \
     file://common/99-sysctl-network.conf \
     file://common/terminal_idle.sh \
@@ -79,6 +80,8 @@ do_install () {
         ${D}${systemd_unitdir}/network
     install -m 0644 ${UNPACKDIR}/common/10-gretap0.network \
         ${D}${systemd_unitdir}/network
+    install -m 0644 ${WORKDIR}/common/73-usb-net-by-mac.link \
+        ${D}${systemd_unitdir}/link
 
 # OpenVSwitch
     install -m 0644 ${UNPACKDIR}/ovs/openvswitch.conf \
@@ -133,6 +136,7 @@ FILES:${PN}-common = " \
     ${systemd_unitdir}/system/var-log.mount \
     ${systemd_unitdir}/network/10-erspan0.network \
     ${systemd_unitdir}/network/10-gretap0.network \
+    ${systemd_unitdir}/link/73-usb-net-by-mac.link \
 "
 
 FILES:${PN}-keymap = " \
