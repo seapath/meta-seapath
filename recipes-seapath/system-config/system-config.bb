@@ -81,7 +81,7 @@ do_install () {
     install -m 0644 ${WORKDIR}/common/10-gretap0.network \
         ${D}${systemd_unitdir}/network
     install -m 0644 ${WORKDIR}/common/73-usb-net-by-mac.link \
-        ${D}${systemd_unitdir}/link
+        ${D}${systemd_unitdir}/network
 
 # OpenVSwitch
     install -m 0644 ${WORKDIR}/ovs/openvswitch.conf \
@@ -136,7 +136,7 @@ FILES:${PN}-common = " \
     ${systemd_unitdir}/system/var-log.mount \
     ${systemd_unitdir}/network/10-erspan0.network \
     ${systemd_unitdir}/network/10-gretap0.network \
-    ${systemd_unitdir}/link/73-usb-net-by-mac.link \
+    ${systemd_unitdir}/network/73-usb-net-by-mac.link \
 "
 
 FILES:${PN}-keymap = " \
