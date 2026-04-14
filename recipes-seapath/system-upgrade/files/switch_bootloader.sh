@@ -22,9 +22,9 @@ if ! grep -q /sys/firmware/efi/efivars /proc/mounts ; then
 fi
 
 boot0=$(efibootmgr | \
-    awk '/SEAPATH slot 0/{ gsub("Boot", ""); gsub("*", ""); print $1 }')
+    awk '/SEAPATH slot 0/{ gsub("Boot", ""); gsub("\\*", ""); print $1 }')
 boot1=$(efibootmgr | \
-    awk '/SEAPATH slot 1/{ gsub("Boot", ""); gsub("*", ""); print $1 }')
+    awk '/SEAPATH slot 1/{ gsub("Boot", ""); gsub("\\*", ""); print $1 }')
 
 if [ ! -n "${boot0}" ] ; then
     die "Could not retrieve boot0 entry in EFI boot order"
