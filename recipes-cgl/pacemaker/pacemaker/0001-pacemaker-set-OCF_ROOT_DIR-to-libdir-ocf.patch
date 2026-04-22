@@ -1,0 +1,32 @@
+From 3ca78a6441eefc26f18211375b18205ed6fc28c6 Mon Sep 17 00:00:00 2001
+From: Mingli Yu <mingli.yu@windriver.com>
+Date: Thu, 3 Sep 2020 05:26:36 +0000
+Subject: [PATCH] pacemaker: set OCF_ROOT_DIR to $libdir/ocf
+
+* Set the default OCF_ROOT_DIR to $libdir/ocf
+  to make the resource agents components more
+  compatible
+
+Upstream-Status: Pending
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 58d39cdc0..eb4275560 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -315,7 +315,7 @@ dnl This defaults to /usr/lib rather than libdir because it's determined by the
+ dnl OCF project and not pacemaker. Even if a user wants to install pacemaker to
+ dnl /usr/local or such, the OCF agents will be expected in their usual
+ dnl location. However, we do give the user the option to override it.
+-OCF_ROOT_DIR="/usr/lib/ocf"
++OCF_ROOT_DIR="$libdir/ocf"
+ AC_ARG_WITH([ocfdir],
+     [AS_HELP_STRING([--with-ocfdir=DIR],
+         [OCF resource agent root directory (advanced option: changing this may break other cluster components unless similarly configured) @<:@/usr/lib/ocf@:>@])],
+-- 
+2.26.2
+

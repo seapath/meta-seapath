@@ -1,0 +1,7 @@
+d hacluster haclient 0750 /var/lib/pacemaker/ none
+d hacluster haclient 0750 /var/lib/pacemaker/cib none
+d hacluster haclient 0750 /var/lib/pacemaker/cores none
+d hacluster haclient 0750 /var/lib/pacemaker/pengine none
+d hacluster haclient 0750 /var/lib/pacemaker/blackbox none
+d hacluster haclient 0750 /var/run/crm none
+d hacluster haclient 0750 /var/log/pacemaker none

@@ -1,0 +1,178 @@
+From 9568715afa3a882edd9db7c2ac19cb3e2a3d3025 Mon Sep 17 00:00:00 2001
+From: Jeremy Puhlman <jpuhlman@mvista.com>
+Date: Wed, 22 Apr 2026 13:25:41 +0200
+Subject: [PATCH] Fix python3 usage
+
+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+Signed-off-by: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+Upstream-Status: Pending
+---
+ agents/stonith/fence_legacy.in      | 2 +-
+ agents/stonith/fence_watchdog.in    | 2 +-
+ cts/cluster_test.in                 | 2 +-
+ cts/cts-attrd.in                    | 2 +-
+ cts/cts-cli.in                      | 2 +-
+ cts/cts-exec.in                     | 2 +-
+ cts/cts-fencing.in                  | 2 +-
+ cts/cts-lab.in                      | 2 +-
+ cts/cts-regression.in               | 2 +-
+ cts/cts-scheduler.in                | 2 +-
+ cts/support/cts-support.in          | 2 +-
+ cts/support/fence_dummy.in          | 2 +-
+ cts/support/pacemaker-cts-dummyd.in | 2 +-
+ python/setup.py.in                  | 2 +-
+ tools/pcmk_simtimes.in              | 2 +-
+ 15 files changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/agents/stonith/fence_legacy.in b/agents/stonith/fence_legacy.in
+index 596facf8d8..f1fe4590fb 100755
+--- a/agents/stonith/fence_legacy.in
++++ b/agents/stonith/fence_legacy.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+
+ __copyright__ = "Copyright 2018-2025 the Pacemaker project contributors"
+ __license__ = "GNU General Public License version 2 or later (GPLv2+) WITHOUT ANY WARRANTY"
+diff --git a/agents/stonith/fence_watchdog.in b/agents/stonith/fence_watchdog.in
+index f43ab879d4..df168e0359 100755
+--- a/agents/stonith/fence_watchdog.in
++++ b/agents/stonith/fence_watchdog.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+ """Dummy watchdog fence agent for providing meta-data for the pacemaker internal agent
+ """
+
+diff --git a/cts/cluster_test.in b/cts/cluster_test.in
+index f5cb3e82b8..5b2e6a621c 100755
+--- a/cts/cluster_test.in
++++ b/cts/cluster_test.in
+@@ -172,4 +172,4 @@ printf "\nAll set to go for %d iterations!\n" "$CTS_numtests"
+     || echo "+ To use a different configuration, remove ~/.cts and re-run cts (or edit it manually)."
+
+ echo Now paste the following command into this shell:
+-echo "@PYTHON@ `dirname "$0"`/cts-lab -L \"$CTS_logfile\" --syslog-facility \"$CTS_logfacility\" --no-unsafe-tests --stack \"$CTS_stack\" $CTS_adv --at-boot \"$CTS_boot\" $cts_extra \"$CTS_numtests\" --nodes \"$CTS_node_list\""
++echo "/usr/bin/env python3 `dirname "$0"`/cts-lab -L \"$CTS_logfile\" --syslog-facility \"$CTS_logfacility\" --no-unsafe-tests --stack \"$CTS_stack\" $CTS_adv --at-boot \"$CTS_boot\" $cts_extra \"$CTS_numtests\" --nodes \"$CTS_node_list\""
+diff --git a/cts/cts-attrd.in b/cts/cts-attrd.in
+index 94eef777a3..015bfb8e1d 100644
+--- a/cts/cts-attrd.in
++++ b/cts/cts-attrd.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+ """Regression tests for Pacemaker's attribute daemon."""
+
+ # pylint doesn't like the module name "cts-attrd" which is an invalid complaint for this file
+diff --git a/cts/cts-cli.in b/cts/cts-cli.in
+index e85a986a44..acd04631a9 100644
+--- a/cts/cts-cli.in
++++ b/cts/cts-cli.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+ """Regression tests for Pacemaker's command line tools."""
+
+ # pylint doesn't like the module name "cts-cli" which is an invalid complaint for this file
+diff --git a/cts/cts-exec.in b/cts/cts-exec.in
+index 6f0147805d..a59ec56bd7 100644
+--- a/cts/cts-exec.in
++++ b/cts/cts-exec.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+ """Regression tests for Pacemaker's pacemaker-execd."""
+
+ # pylint doesn't like the module name "cts-execd" which is an invalid complaint for this file
+diff --git a/cts/cts-fencing.in b/cts/cts-fencing.in
+index 30fb39f298..f26b7529d0 100644
+--- a/cts/cts-fencing.in
++++ b/cts/cts-fencing.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+ """Regression tests for Pacemaker's fencer."""
+
+ # pylint doesn't like the module name "cts-fencing" which is an invalid complaint for this file
+diff --git a/cts/cts-lab.in b/cts/cts-lab.in
+index 3d2dd7f63d..a0db72545f 100644
+--- a/cts/cts-lab.in
++++ b/cts/cts-lab.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+ """Command-line interface to Pacemaker's Cluster Test Suite (CTS)."""
+
+ # pylint doesn't like the module name "cts-lab" which is an invalid complaint for this file
+diff --git a/cts/cts-regression.in b/cts/cts-regression.in
+index 3f1119d3ed..d6503ed266 100644
+--- a/cts/cts-regression.in
++++ b/cts/cts-regression.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+ """Convenience wrapper for running Pacemaker regression tests.
+
+ Usage: cts-regression [-h] [-V] [-v] [COMPONENT ...]
+diff --git a/cts/cts-scheduler.in b/cts/cts-scheduler.in
+index 86dba9edf7..1afca6ee6b 100644
+--- a/cts/cts-scheduler.in
++++ b/cts/cts-scheduler.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+ """Regression tests for Pacemaker's scheduler."""
+
+ # pylint doesn't like the module name "cts-scheduler" which is an invalid complaint for this file
+diff --git a/cts/support/cts-support.in b/cts/support/cts-support.in
+index 795a392df1..8a1d68cd3b 100644
+--- a/cts/support/cts-support.in
++++ b/cts/support/cts-support.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+ """Manage support files for Pacemaker CTS."""
+
+ # pylint doesn't like the module name "cts-attrd" which is an invalid complaint for this file
+diff --git a/cts/support/fence_dummy.in b/cts/support/fence_dummy.in
+index 842fe47504..f2a8a0672a 100644
+--- a/cts/support/fence_dummy.in
++++ b/cts/support/fence_dummy.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+ """Dummy fence agent for testing."""
+
+ __copyright__ = "Copyright 2012-2025 the Pacemaker project contributors"
+diff --git a/cts/support/pacemaker-cts-dummyd.in b/cts/support/pacemaker-cts-dummyd.in
+index 53512484fd..91165529fa 100644
+--- a/cts/support/pacemaker-cts-dummyd.in
++++ b/cts/support/pacemaker-cts-dummyd.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+ """Slow-starting idle daemon that notifies systemd when it starts."""
+
+ # pylint doesn't like the module name "pacemaker-cts-dummyd" which is an invalid complaint
+diff --git a/python/setup.py.in b/python/setup.py.in
+index e9d61d0a68..6cfa44e146 100644
+--- a/python/setup.py.in
++++ b/python/setup.py.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+
+ import re
+ from setuptools import setup
+diff --git a/tools/pcmk_simtimes.in b/tools/pcmk_simtimes.in
+index c8b0af60f5..0092b290ac 100644
+--- a/tools/pcmk_simtimes.in
++++ b/tools/pcmk_simtimes.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON@
++#!/usr/bin/env python3
+ """ Timing comparisons for crm_simulate profiling output
+ """
+
+--
+2.34.1
