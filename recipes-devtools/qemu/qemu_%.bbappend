@@ -5,4 +5,4 @@
 EXTRA_OECONF:append:class-target = "${@bb.utils.contains('DISTRO_FEATURES','seapath-clustering', " --enable-rbd", "",d)}"
 DEPENDS:append:class-target = "${@bb.utils.contains('DISTRO_FEATURES','seapath-clustering'," ceph", "",d)}"
 
-PACKAGECONFIG:append = " libusb pixman spice vhost virtfs vnc-jpeg"
+PACKAGECONFIG:append = " libusb pixman spice vhost virtfs vnc-jpeg gnutls"
