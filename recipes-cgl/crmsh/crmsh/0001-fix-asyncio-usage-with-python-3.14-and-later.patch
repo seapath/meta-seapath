@@ -1,0 +1,32 @@
+From 3c05746524ac9171bfae29412b4f3129f3984188 Mon Sep 17 00:00:00 2001
+From: Andreas Hasenack <andreas.hasenack@canonical.com>
+Date: Thu, 26 Feb 2026 10:03:56 -0300
+Subject: [PATCH] Fix: fix asyncio usage with python 3.14 and later
+
+From the python 3.14 changes document[1]:
+
+> asyncio.get_event_loop() now raises a RuntimeError if there is no current
+> event loop, and no longer implicitly creates an event loop.
+
+Fixes: #2032
+
+1. https://docs.python.org/3/whatsnew/3.14.html#id10
+
+Upstream-Status: Backport [https://github.com/ClusterLabs/crmsh/commit/3fb70725ade739a02cfd05818a766977f78f0ffe]
+---
+ crmsh/utils.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/crmsh/utils.py b/crmsh/utils.py
+index 68f274eeaa..010fa31488 100644
+--- a/crmsh/utils.py
++++ b/crmsh/utils.py
+@@ -3042,7 +3042,7 @@ async def wrapper():
+             except Exception:
+                 pass
+             await asyncio.sleep(interval_sec)
+-    return asyncio.get_event_loop_policy().get_event_loop().run_until_complete(asyncio.wait_for(wrapper(), timeout_sec))
++    return asyncio.run(asyncio.wait_for(wrapper(), timeout_sec))
+
+
+ def fetch_cluster_node_list_from_node(init_node):
