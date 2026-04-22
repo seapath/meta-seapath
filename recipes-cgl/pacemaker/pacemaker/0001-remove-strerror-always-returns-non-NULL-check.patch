@@ -1,0 +1,37 @@
+From de12fef3110f1fb733c53aacefbf86810ff5da15 Mon Sep 17 00:00:00 2001
+From: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+Date: Wed, 22 Apr 2026 14:49:08 +0200
+Subject: [PATCH] remove strerror always returns non-NULL check
+
+This check is failing when using host compiler, but can be considered
+as a false positive as this check pass on the target.
+
+Upstream-Status: Inappropriate [oe specific]
+Signed-off-by: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+---
+ configure.ac | 10 ----------
+ 1 file changed, 10 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 782b9e51f0..e84bc849d0 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1236,16 +1236,6 @@ AC_CHECK_FUNCS([strchrnul])
+ AC_CHECK_FUNCS([fopen64])
+ AM_CONDITIONAL([WRAPPABLE_FOPEN64], [test x"$ac_cv_func_fopen64" = x"yes"])
+
+-AC_MSG_CHECKING([whether strerror always returns non-NULL])
+-AC_RUN_IFELSE([AC_LANG_PROGRAM([[
+-    #include <stdio.h>
+-    #include <string.h>
+-                               ]], [[
+-    return strerror(-1) == NULL;
+-                               ]])],
+-              [AC_MSG_RESULT([yes])],
+-              [AC_MSG_ERROR([strerror() is not C99-compliant])],
+-              [AC_MSG_ERROR([strerror() is not C99-compliant])])
+
+ AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>]], [[
+     const char *s = "some-command-line-arg";
+--
+2.34.1

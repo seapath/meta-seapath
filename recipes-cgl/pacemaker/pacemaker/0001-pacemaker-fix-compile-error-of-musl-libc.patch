@@ -1,0 +1,29 @@
+From ba9e4810a09893521d28f6c699fb7f213d4a4b34 Mon Sep 17 00:00:00 2001
+From: Changqing Li <changqing.li@windriver.com>
+Date: Fri, 10 Aug 2018 15:08:31 +0800
+Subject: [PATCH] pacemaker: fix compile error of musl libc
+
+Upstream-Status: Pending
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ lib/cib/cib_remote.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/lib/cib/cib_remote.c b/lib/cib/cib_remote.c
+index 4de0a0f7b..7686637db 100644
+--- a/lib/cib/cib_remote.c
++++ b/lib/cib/cib_remote.c
+@@ -45,9 +45,6 @@ typedef void gnutls_session_t;
+ #endif
+ 
+ #include <arpa/inet.h>
+-#ifndef ON_BSD
+-#  include <sgtty.h>
+-#endif
+ 
+ #define DH_BITS 1024
+ 
+-- 
+2.17.1
+
