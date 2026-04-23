@@ -2,8 +2,7 @@
 # Copyright (C) 2023-2024 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 #
-
-PYTHON_BASEVERSION = "3.12"
+PYTHON_BASEVERSION = "3.14"
 PYTHON_DIR = "python${PYTHON_BASEVERSION}"
 PYTHON_SITEPACKAGES_DIR = "${libdir}/${PYTHON_DIR}/site-packages"
 
