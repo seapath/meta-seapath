@@ -59,6 +59,9 @@ require ${@bb.utils.contains('DISTRO_FEATURES','seapath-security','','recipes-co
 DEPENDS += "kconfig-hardened-check-native"
 IMAGE_INSTALL:remove = "*-dev"
 
+# Brought by smartmontools, add useless binary with setuid perm
+BAD_RECOMMENDATIONS += "s-nail"
+
 # Install setuptools and pip in the toolchain
 TOOLCHAIN_TARGET_TASK:append = " python3-pip python3-setuptools"
 TOOLCHAIN_HOST_TASK:append = " nativesdk-python3-pip nativesdk-python3-setuptools"
