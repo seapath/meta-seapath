@@ -32,6 +32,8 @@ SRC_URI = "\
     file://vm_tests.d \
 "
 
+S = "${UNPACKDIR}"
+
 RDEPENDS:${PN} += "cukinia"
 RDEPENDS:${PN} += "bash coreutils pciutils"
 
