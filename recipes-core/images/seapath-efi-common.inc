@@ -11,6 +11,23 @@ IMAGE_INSTALL:append = " \
     efibootmgr           \
 "
 
+# Cockpit web GUI
+COCKPIT_PACKAGES = " \
+    cockpit \
+    cockpit-bridge \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'cockpit-cluster-dashboard', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'cockpit-cluster-vm-management', '', d)} \
+    cockpit-dashboard \
+    cockpit-machines \
+    cockpit-shell \
+    cockpit-systemd \
+    cockpit-update \
+    cockpit-users \
+    cockpit-ws \
+"
+
+IMAGE_INSTALL:append = "${@bb.utils.contains('DISTRO_FEATURES', 'seapath-cockpit', ' ${COCKPIT_PACKAGES}', '', d)}"
+
 python do_generate_seapath_metadata(){
     # Add in the associated image BMAP file SEAPATH image metadata (name,
     # version, description and flavor).
