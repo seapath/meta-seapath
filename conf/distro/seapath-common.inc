@@ -79,7 +79,7 @@ DISTRO_FEATURES:append = " seapath-overlay"
 DISTRO_FEATURES:append = " seapath-clustering"
 
 # Enable Cockpit Web UI if defined in seapath.conf
-DISTRO_FEATURES:append = "${@bb.utils.contains('SEAPATH_COCKPIT', 'true', ' seapath-cockpit', '', d)}"
+DISTRO_FEATURES:append = " ${@bb.utils.contains('SEAPATH_COCKPIT', 'true', ' seapath-cockpit', '', d)}"
 
 
 #Inherit all bbclass that will check DISTRO_FEATURES
