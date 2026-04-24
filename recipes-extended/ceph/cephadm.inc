@@ -12,6 +12,10 @@ DEPENDS:append = " sudo"
 inherit useradd security/users
 
 USERADD_PACKAGES += "${CEPHADM_PACKAGE}"
+GROUPADD_PARAM:${CEPHADM_PACKAGE} = "\
+    --force --system --gid 168 cephadm ; \
+    --force --system --gid 167 containerized-ceph"
+
 USERADD_PARAM:${CEPHADM_PACKAGE} = "\
     --system \
     --create-home \
