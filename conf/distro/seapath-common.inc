@@ -24,7 +24,7 @@ DISTRO_FEATURES:remove = " wayland"
 
 # Remove unneeded distribution features
 DISTRO_FEATURES:remove = " 3g alsa bluetooth nfc nfs opengl pcmcia vulkan wifi zeroconf"
-DISTRO_FEATURES_BACKFILL_CONSIDERED += "pulseaudio"
+DISTRO_FEATURES_OPTED_OUT += "pulseaudio"
 
 # Use virtualization features
 DISTRO_FEATURES:append = " virtualization"
