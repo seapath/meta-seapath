@@ -18,6 +18,6 @@ SRCREV = "afc376f2a935994793343cfeb05953583cc30191"
 
 BBCLASSEXTEND = "native"
 
-RDEPENDS:${PN} += "python3"
+RDEPENDS:${PN} += "bash python3"
 
 inherit python3native python_setuptools_build_meta
