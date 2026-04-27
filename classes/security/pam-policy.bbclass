@@ -41,7 +41,11 @@ python() {
     if bb.data.inherits_class('image', d):
         if bb.utils.contains('DISTRO_FEATURES', 'pam', True, False, d):
             has_unsafe_policy = bb.utils.contains('IMAGE_FEATURES', 'unsafe-pam-policy', True, False, d)
-            has_debug_tweaks = bb.utils.contains('IMAGE_FEATURES', 'debug-tweaks', True, False, d)
+            has_debug_tweaks = bb.utils.contains_any('IMAGE_FEATURES', \
+            '"allow-empty-password \
+            allow-root-login \
+            empty-root-password \
+            post-install-logging', True, False, d)
             has_unsafe_features = bb.utils.contains('IMAGE_FEATURES', 'allow-empty-password', True, False, d) or \
                                   bb.utils.contains('IMAGE_FEATURES', 'empty-root-password', True, False, d)
 
@@ -54,7 +58,7 @@ python() {
                 if not has_unsafe_policy:
                     raise bb.parse.SkipRecipe("Image uses features incompatible with SEAPATH PAM policy.\n" + \
                                               "Consider adding 'unsafe-pam-policy' to IMAGE_FEATURES " + \
-                                              "or remove 'debug-tweaks / allow-empty-password / empty-root-password'")
+                                              "or remove 'allow-root-login / allow-empty-password / empty-root-password / post-install-logging '")
 
             d.appendVar("ROOTFS_POSTPROCESS_COMMAND", "install_pam_policy; clear_securetty; install_pam_environment; install_pam_access; install_pam_namespace;")
             d.appendVar("IMAGE_INSTALL", " pam-plugin-access pam-plugin-namespace")

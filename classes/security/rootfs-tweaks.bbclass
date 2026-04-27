@@ -6,7 +6,10 @@
 #
 
 python() {
-    if not bb.utils.contains('IMAGE_FEATURES', 'debug-tweaks', True, False, d):
+    if not bb.utils.contains_any('IMAGE_FEATURES', \
+        'allow-empty-password \
+        allow-root-login \
+        empty-root-password', True, False, d):
         d.appendVar("ROOTFS_POSTPROCESS_COMMAND", "set_random_root_passwd;")
     d.appendVar("ROOTFS_POSTPROCESS_COMMAND", "set_bash_profile;")
 }
