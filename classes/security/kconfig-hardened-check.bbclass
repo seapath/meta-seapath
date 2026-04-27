@@ -38,7 +38,7 @@ exec_kconfig_hardened_check() {
 
     mkdir -p "${KCONFIG_HARDENED_CHECK_REPORT_DIR}"
 
-    kconfig-hardened-check    \
+    kernel-hardening-checker  \
         -m "${SELECTED_MODE}" \
         -c "${kernel_config}" > "${KCONFIG_HARDENED_CHECK_REPORT_DIR}/kernel-hardened-config.report"
 }
