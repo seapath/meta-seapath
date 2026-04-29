@@ -1,5 +1,18 @@
 # Copyright (C) 2020, RTE (http://www.rte-france.com)
+# Copyright (C) 2026 Savoir-faire Linux, Inc.
+# SPDX-License-Identifier: Apache-2.0
 
-echo "To flash the distribution you can used the flash script."
+SEAPATH_AUTO_FLASH="@@SEAPATH_AUTO_FLASH@@"
+
+if [ -n "$SEAPATH_AUTO_FLASH" ]; then
+    echo "Auto flash is enable on $SEAPATH_AUTO_FLASH."
+    echo "Hit CTRL + C to interrupt it."
+
+    auto-flash start
+    exit 0
+fi
+
+echo "Auto flash is disable"
+echo "To flash the distribution you can use the flash script:"
 flash --help
 echo "Images can be found in /media directory."
