@@ -10,4 +10,4 @@ part /boot --source bootimg-biosplusefi --sourceparams="loader=${EFI_PROVIDER},t
 
 part /media --ondisk sda --fstype=ext4 --label flasher_data --align 1024 --use-uuid --size 7G --fsoptions="defaults,ro"
 
-bootloader --configfile="flasher-grub-config.cfg"
+bootloader --append="rootwait quiet ro efi=runtime rootwait console=ttyS0,115200 console=tty0"
