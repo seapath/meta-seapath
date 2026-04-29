@@ -37,7 +37,12 @@ INITRAMFS_IMAGE_BUNDLE = "0"
 
 IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
 
-IMAGE_FEATURES += "ssh-server-openssh allow-empty-password empty-root-password"
+IMAGE_FEATURES += " \
+    ssh-server-openssh \
+    allow-empty-password \
+    empty-root-password \
+    serial-autologin-root \
+"
 EXTRA_IMAGE_FEATURES = ""
 
 USERS_SSH_ANSIBLE = "root"
