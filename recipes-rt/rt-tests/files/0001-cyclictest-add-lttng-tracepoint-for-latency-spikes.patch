@@ -1,0 +1,120 @@
+From 5771f5716108a97fc0ca091288b01c59acc884d2 Mon Sep 17 00:00:00 2001
+From: Florent Mussard <florent.mussard@savoirfairelinux.com>
+Date: Mon, 4 May 2026 16:08:59 +0200
+Subject: [PATCH] cyclictest: add lttng tracepoint for latency spikes
+
+Add lttng tracepoint when using --spike to record the latencies using
+lttng. The tracepoint will record the latency and the cycle when it was
+detected.
+
+Upstream-Status: Inappropriate [seapath specific]
+---
+ Makefile                       |  7 ++++---
+ src/cyclictest/cyclictest.c    |  8 ++++++--
+ src/cyclictest/cyclictest_tp.c |  3 +++
+ src/cyclictest/cyclictest_tp.h | 33 +++++++++++++++++++++++++++++++++
+ 4 files changed, 46 insertions(+), 5 deletions(-)
+ create mode 100644 src/cyclictest/cyclictest_tp.c
+ create mode 100644 src/cyclictest/cyclictest_tp.h
+
+diff --git a/Makefile b/Makefile
+index e757839..5a4a29f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -119,7 +119,7 @@ VPATH	+= src/ssdd:
+ VPATH	+= src/oslat:
+
+ $(OBJDIR)/%.o: %.c | $(OBJDIR)
+-	$(CC) -D VERSION=$(VERSION) -c $< $(CFLAGS) $(CPPFLAGS) -o $@
++	$(CC) -D VERSION=$(VERSION) -I. -c $< $(CFLAGS) $(CPPFLAGS) -o $@
+
+ # Pattern rule to generate dependency files from .c files
+ $(OBJDIR)/%.d: %.c | $(OBJDIR)
+@@ -133,9 +133,10 @@ $(OBJDIR):
+
+ # Include dependency files, automatically generate them if needed.
+ -include $(addprefix $(OBJDIR)/,$(sources:.c=.d))
++-include $(addprefix $(OBJDIR)/,cyclictest_tp.d)
+
+-cyclictest: $(OBJDIR)/cyclictest.o $(OBJDIR)/librttest.a $(OBJDIR)/librttestnuma.a
+-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< $(LIBS) $(RTTESTLIB) $(RTTESTNUMA) $(LIBCPUPOWER)
++cyclictest: $(OBJDIR)/cyclictest.o $(OBJDIR)/cyclictest_tp.o $(OBJDIR)/librttest.a $(OBJDIR)/librttestnuma.a
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< $(word 2, $^) $(LIBS) $(RTTESTLIB) $(RTTESTNUMA) $(LIBCPUPOWER) -llttng-ust -ldl
+
+ cyclicdeadline: $(OBJDIR)/cyclicdeadline.o $(OBJDIR)/librttest.a
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< $(LIBS) $(RTTESTLIB)
+diff --git a/src/cyclictest/cyclictest.c b/src/cyclictest/cyclictest.c
+index 191945e..93cd339 100644
+--- a/src/cyclictest/cyclictest.c
++++ b/src/cyclictest/cyclictest.c
+@@ -42,6 +42,9 @@
+
+ #include <bionic.h>
+
++#define LTTNG_UST_TRACEPOINT_DEFINE
++#include "cyclictest_tp.h"
++
+ #define DEFAULT_INTERVAL 1000
+ #define DEFAULT_DISTANCE 500
+
+@@ -838,9 +841,10 @@ static void *timerthread(void *param)
+ 		}
+ 		stat->avg += (double) diff;
+
+-		if (trigger && (diff > trigger))
++		if (trigger && (diff > trigger)) {
++			lttng_ust_tracepoint(cyclictest_provider, latency_spike, diff, stat->cycles);
+ 			trigger_update(par, diff, calctime(now));
+-
++		}
+ 		if (duration && (calcdiff(now, stop) >= 0))
+ 			shutdown++;
+
+diff --git a/src/cyclictest/cyclictest_tp.c b/src/cyclictest/cyclictest_tp.c
+new file mode 100644
+index 0000000..8c05188
+--- /dev/null
++++ b/src/cyclictest/cyclictest_tp.c
+@@ -0,0 +1,3 @@
++#define LTTNG_UST_TRACEPOINT_CREATE_PROBES
++
++#include "cyclictest_tp.h"
+diff --git a/src/cyclictest/cyclictest_tp.h b/src/cyclictest/cyclictest_tp.h
+new file mode 100644
+index 0000000..09ac059
+--- /dev/null
++++ b/src/cyclictest/cyclictest_tp.h
+@@ -0,0 +1,33 @@
++#undef LTTNG_UST_TRACEPOINT_PROVIDER
++#define LTTNG_UST_TRACEPOINT_PROVIDER cyclictest_provider
++
++#undef LTTNG_UST_TRACEPOINT_INCLUDE
++#define LTTNG_UST_TRACEPOINT_INCLUDE "./src/cyclictest/cyclictest_tp.h"
++
++#if !defined(_CYCLICTEST_TP_H) || defined(LTTNG_UST_TRACEPOINT_HEADER_MULTI_READ)
++#define _CYCLICTEST_TP_H
++
++#include <lttng/tracepoint.h>
++
++/*
++ * TRACEPOINT_EVENT(), TRACEPOINT_EVENT_CLASS(),
++ * TRACEPOINT_EVENT_INSTANCE(), TRACEPOINT_LOGLEVEL(),
++ * and `TRACEPOINT_ENUM()` are used here.
++ */
++
++ LTTNG_UST_TRACEPOINT_EVENT(
++    cyclictest_provider,
++    latency_spike,
++    LTTNG_UST_TP_ARGS(
++        uint64_t, trace_diff,
++        unsigned long, trace_cycles
++    ),
++    LTTNG_UST_TP_FIELDS(
++        lttng_ust_field_integer(uint64_t, latency, trace_diff)
++        lttng_ust_field_integer(unsigned long, cycles, trace_cycles)
++    )
++ )
++
++#endif /* _CYCLICTEST_TP_H */
++
++#include <lttng/tracepoint-event.h>
