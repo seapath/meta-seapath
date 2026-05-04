@@ -3,7 +3,6 @@
 
 [Service]
 PIDFile=/run/libvirt/libvirtd.pid
-EnvironmentFile=/etc/sysconfig/libvirtd
 # Sandboxing
 PrivateTmp=yes
 NoNewPrivileges=true

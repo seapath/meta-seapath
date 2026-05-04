@@ -13,16 +13,12 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 GROUPADD_PARAM:${PN}:append = "; -r libvirt"
 
 SRC_URI += " \
-    file://libvirtd \
     file://libvirtd.conf \
     file://libvirtd.service.fragment \
     file://qemu.conf \
 "
 
 do_install:append() {
-    install -d ${D}/${sysconfdir}/sysconfig/
-    install -m 0644 ${UNPACKDIR}/libvirtd \
-        ${D}${sysconfdir}/sysconfig/libvirtd
 
     install -d ${D}/${sysconfdir}/libvirt/
     install -m 0644 ${UNPACKDIR}/libvirtd.conf \
@@ -37,7 +33,6 @@ do_install:append() {
 }
 
 FILES:${PN} += " \
-    ${sysconfdir}/sysconfig/libvirtd \
     ${sysconfdir}/libvirt/libvirtd.conf \
     ${sysconfdir}/libvirt/qemu.conf \
     ${systemd_system_unitdir}/libvirtd.service.d/hardening.conf \

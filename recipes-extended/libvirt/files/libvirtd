@@ -1,9 +1,0 @@
-# Copyright (C) 2024 Savoir-faire Linux, Inc.
-# SPDX-License-Identifier: Apache-2.0
-
-LIBVIRTD_ARGS=" \
-    --listen \
-    --daemon \
-    -f /etc/libvirt/libvirtd.conf \
-     -p /var/run/libvirt/libvirtd.pid \
-"
