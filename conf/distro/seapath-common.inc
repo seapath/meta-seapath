@@ -92,7 +92,7 @@ IMAGE_FEATURES[validitems] += "unsafe-pam-policy"
 # Set version of ceph to 16.x.y
 REQUIRED_VERSION_ceph = "20.2.1"
 REQUIRED_VERSION_boost = "1.89.0"
-
+REQUIRED_VERSION_grub = "2.12"
 # Create /etc/build
 INHERIT += "image-buildinfo"
 
