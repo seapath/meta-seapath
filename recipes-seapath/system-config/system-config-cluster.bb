@@ -6,7 +6,24 @@ DESCRIPTION = "Seapath System configuration cluster"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
-RDEPENDS:${PN} = "libvirt pacemaker"
+SRC_URI += " \
+    file://wait-for-mds.sh \
+    file://ceph-mds-ready@seapathcephfs.service \
+"
+
+do_install:append () {
+    install -d ${D}${bindir}
+    install -m 0755 ${UNPACKDIR}/wait-for-mds.sh \
+        ${D}${bindir}
+
+    install -d ${D}${systemd_unitdir}/system
+    install -m 0755 ${UNPACKDIR}/ceph-mds-ready@seapathcephfs.service \
+        ${D}${systemd_unitdir}/system
+}
+
+SYSTEMD_SERVICE:${PN} = "ceph-mds-ready@seapathcephfs.service"
+
+RDEPENDS:${PN} = "bash jq libvirt pacemaker"
 
 USERADD_PACKAGES = "${PN}"
 USERADD_PARAM:${PN} = "\
@@ -21,4 +38,4 @@ USERADD_DEPENDS = "libvirt pacemaker"
 
 ALLOW_EMPTY:${PN} = '1'
 
-inherit allarch useradd
+inherit allarch useradd systemd
