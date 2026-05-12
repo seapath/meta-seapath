@@ -1,0 +1,39 @@
+From 87cb56b0c04b82dc2926796bf00478d1b19e72a5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mathieu=20Dupr=C3=A9?= <mathieu.dupre@savoirfairelinux.com>
+Date: Tue, 12 May 2026 17:24:27 +0200
+Subject: [PATCH] wic: support multiple bootimg-efi sources
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Generate a random temporary partition file name when using the
+bootimg-efi plugin to allow multiple bootimg-efi sources.
+
+Upstream-Status: Inappropriate [oe specific]
+
+Signed-off-by: Mathieu Dupré <mathieu.dupre@savoirfairelinux.com>
+---
+ src/wic/plugins/source/bootimg_efi.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/wic/plugins/source/bootimg_efi.py b/src/wic/plugins/source/bootimg_efi.py
+index 69aa38b..5cde611 100644
+--- a/src/wic/plugins/source/bootimg_efi.py
++++ b/src/wic/plugins/source/bootimg_efi.py
+@@ -15,6 +15,7 @@ import os
+ import tempfile
+ import shutil
+ import re
++import uuid
+ 
+ from glob import glob
+ 
+@@ -411,7 +412,7 @@ class BootimgEFIPlugin(SourcePlugin):
+                      part.mountpoint, blocks)
+ 
+         # dosfs image, created by mkdosfs
+-        bootimg = "%s/boot.img" % cr_workdir
++        bootimg = "%s/boot_%s.img" % (cr_workdir, uuid.uuid4())
+ 
+         label = part.label if part.label else "ESP"
+ 
