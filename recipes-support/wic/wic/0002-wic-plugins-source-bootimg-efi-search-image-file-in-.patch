@@ -1,0 +1,40 @@
+From 35958cb4e3a1fe01ad0d61444ac2a4ddbdb52631 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mathieu=20Dupr=C3=A9?= <mathieu.dupre@savoirfairelinux.com>
+Date: Tue, 12 May 2026 17:27:34 +0200
+Subject: [PATCH] wic/plugins/source/bootimg-efi: search image file in
+ IMGDEPLOYDIR
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+It is possible that some images are not copy inside the DEPLOY_DIR_IMAGE
+when wic is called. Also search these images inside IMGDEPLOYDIR.
+
+Upstream-Status: Inappropriate [oe specific]
+
+Signed-off-by: Mathieu Dupré <mathieu.dupre@savoirfairelinux.com>
+---
+ src/wic/plugins/source/bootimg_efi.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/src/wic/plugins/source/bootimg_efi.py b/src/wic/plugins/source/bootimg_efi.py
+index 5cde611..db6e54e 100644
+--- a/src/wic/plugins/source/bootimg_efi.py
++++ b/src/wic/plugins/source/bootimg_efi.py
+@@ -42,9 +42,15 @@ class BootimgEFIPlugin(SourcePlugin):
+             raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
+ 
+         if initrd:
++            tmp_bootimg_dir = get_bitbake_var("IMGDEPLOYDIR")
++            if not tmp_bootimg_dir:
++                raise WicError("Couldn't find IMGDEPLOYDIR, exiting")
+             initrds = initrd.split(';')
+             for rd in initrds:
+-                cp_cmd = "cp -v -p %s/%s %s" % (bootimg_dir, rd, hdddir)
++                full_rd = os.path.join(bootimg_dir, rd)
++                if not os.path.exists(full_rd):
++                    full_rd = os.path.join(tmp_bootimg_dir, rd)
++                cp_cmd = "cp %s %s" % (full_rd, hdddir)
+                 out = exec_cmd(cp_cmd, True)
+                 logger.debug("initrd files:\n%s" % (out))
+         else:
