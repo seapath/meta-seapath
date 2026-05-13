@@ -80,7 +80,7 @@ do_install () {
         ${D}${systemd_unitdir}/network
     install -m 0644 ${UNPACKDIR}/common/10-gretap0.network \
         ${D}${systemd_unitdir}/network
-    install -m 0644 ${WORKDIR}/common/73-usb-net-by-mac.link \
+    install -m 0644 ${UNPACKDIR}/common/73-usb-net-by-mac.link \
         ${D}${systemd_unitdir}/network
 
 # OpenVSwitch
