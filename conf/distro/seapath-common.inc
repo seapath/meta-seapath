@@ -78,6 +78,9 @@ DISTRO_FEATURES:append = " seapath-overlay"
 # Enable clustering
 DISTRO_FEATURES:append = " seapath-clustering"
 
+# Pre-provisioned container images (ceph, registry) for offline Ansible deployment
+DISTRO_FEATURES:append = " seapath-preprovisioned-containers"
+
 # Enable Cockpit Web UI if defined in seapath.conf
 DISTRO_FEATURES:append = " ${@bb.utils.contains('SEAPATH_COCKPIT', 'true', ' seapath-cockpit', '', d)}"
 
