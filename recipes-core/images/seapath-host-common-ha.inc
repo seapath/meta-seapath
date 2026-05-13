@@ -24,5 +24,10 @@ IMAGE_INSTALL:append = " \
 # Remove corosync-qdevice in the toolchain to avoid a bash conflict
 TOOLCHAIN_HOST_TASK:remove:append = " corosync-qdevice"
 
+# Pre-provisioned container images for offline cephadm deployment
+IMAGE_INSTALL:append = " \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-preprovisioned-containers', 'seapath-container-images', '', d)} \
+"
+
 # Install ipmitool for fencing
 IMAGE_INSTALL:append = " ipmitool"

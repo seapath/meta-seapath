@@ -1,0 +1,13 @@
+[Unit]
+Description=Import pre-provisioned SEAPATH container images
+RequiresMountsFor=/mnt/persistent
+After=mnt-persistent.mount
+Before=sshd.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/seapath-load-images.sh
+
+[Install]
+WantedBy=multi-user.target
