@@ -6,7 +6,7 @@
 # Script that switches between bootloader "SEAPATH slot 0" and "SEAPATH slot 1"
 # EFI bootloader entries or disable the passive slot if the parameter disable is
 # given
-# Note: entries should already be created and boot order correctly
+# If entries are missing, they are recreated automatically.
 
 set -e
 
@@ -26,16 +26,29 @@ boot0=$(efibootmgr | \
 boot1=$(efibootmgr | \
     awk '/SEAPATH slot 1/{ gsub("Boot", ""); gsub("\\*", ""); print $1 }')
 
-if [ ! -n "${boot0}" ] ; then
-    die "Could not retrieve boot0 entry in EFI boot order"
+# Determine the disk for EFI entry creation
+upgradable_bootloader=$(readlink -f /dev/upgradable_bootloader)
+if [ -z "${upgradable_bootloader}" ] ; then
+    die "Could not find upgradable bootloader"
 fi
-if [ -z "${boot1}" ] ;then
-    echo "Recreate SEAPATH slot 1 entry"
-    upgradable_bootloader=$(readlink -f /dev/upgradable_bootloader)
-    if [ -z "${upgradable_bootloader}" ] ; then
-        die "Could not find upgradable bootloader"
+disk="/dev/$(lsblk -no pkname ${upgradable_bootloader})"
+
+if [ -z "${boot0}" ] ; then
+    echo "Recreate SEAPATH slot 0 entry"
+    if ! efibootmgr \
+        -q -c -d "$disk" \
+        -p 1 \
+        -L "SEAPATH slot 0" \
+        -l /EFI/BOOT/bootx64.efi
+    then
+        die "Error while creating SEAPATH slot 0 entry"
     fi
-    disk="/dev/$(lsblk -no pkname ${upgradable_bootloader})"
+    boot0=$(efibootmgr | \
+        awk '/SEAPATH slot 0/{ gsub("Boot", ""); gsub("\\*", ""); print $1 }')
+fi
+
+if [ -z "${boot1}" ] ; then
+    echo "Recreate SEAPATH slot 1 entry"
     if ! efibootmgr \
         -q -c -d "$disk" \
         -p 2 \
@@ -44,7 +57,8 @@ if [ -z "${boot1}" ] ;then
     then
         die "Error while creating SEAPATH slot 1 entry"
     fi
-    exit 0
+    boot1=$(efibootmgr | \
+        awk '/SEAPATH slot 1/{ gsub("Boot", ""); gsub("\\*", ""); print $1 }')
 fi
 
 bootorder=$(efibootmgr |grep "BootOrder:")
