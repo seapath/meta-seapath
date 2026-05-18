@@ -30,7 +30,7 @@ if [[ "${1}" != "bootloader" && "${1}" != "rootfs" ]] ; then
 fi
 
 # Get disk name and partition num for current mounted rootfs
-rootfs_part=$(mount | awk '/\/ / { print $1 }')
+rootfs_part=$(mount | awk '/ \/ / { print $1 }')
 disk_name="${rootfs_part: : -1}"
 part_num="${rootfs_part:(-1)}"
 
