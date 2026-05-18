@@ -83,10 +83,10 @@ do_postinst()
         die "Could not unmount /boot"
     fi
 
+    if ! /usr/share/update/switch_bootloader.sh ; then
+        die "Switch bootloader did not succeed"
+    fi
     touch /var/log/update_marker
-
-    /usr/share/update/switch_bootloader.sh || echo "Switch bootloader did not succeed" 1>&2
-
 }
 
 case "$1" in
