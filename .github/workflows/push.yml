@@ -3,7 +3,7 @@ name: Build on push
 on:
   push:
     branches:
-      - scarthgap
+      - wrynose
     paths-ignore:
       - .github/**/*
   # We add the manual dispatch trigger so we can test our pipelines
