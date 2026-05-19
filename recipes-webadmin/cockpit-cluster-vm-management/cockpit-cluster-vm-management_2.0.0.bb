@@ -1,4 +1,4 @@
-# Copyright (C) 2025 Savoir-faire Linux, Inc.
+# Copyright (C) 2025-2026 Savoir-faire Linux, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 SUMMARY = "cockpit cluster vm management"
@@ -8,7 +8,7 @@ HOMEPAGE = "https://github.com/seapath/cockpit-cluster-vm-management"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 SRC_URI = "https://github.com/seapath/${BPN}/releases/download/v${PV}/${BPN}.tar.gz"
-SRC_URI[sha256sum] = "15d6384a1a792a85d524262eb8a58b2ca717bcef68034bbaa78b24d4738c648f"
+SRC_URI[sha256sum] = "8288872fa6412f2b67f3cf12c7d20fb455aec10bf4d9b746068dda64611d5266"
 
 S = "${UNPACKDIR}"
 
