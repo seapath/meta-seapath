@@ -32,6 +32,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;
         file://x86-64-hardening.cfg \
         file://generic-hardened.cfg \
         file://low-latency-passthrough.cfg \
+        file://fq_codel.cfg \
 "
 
 SRC_URI:append:seapath-installer = " file://exfat.cfg"
