@@ -20,7 +20,9 @@ include conf/distro/include/cve-extra-exclusions.inc
 inherit image-buildinfo
 
 inherit create-spdx
-inherit vex
+
+# We want the CVE statuses in the SPDX3 file:
+SPDX_INCLUDE_VEX = "all"
 
 SPDX_PRETTY = "1"
 SPDX_INCLUDE_SOURCES = "0"
