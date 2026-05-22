@@ -16,6 +16,8 @@ GROUPADD_PARAM:${CEPHADM_PACKAGE} = "\
     --force --system --gid 168 cephadm ; \
     --force --system --gid 167 containerized-ceph"
 
+USERADD_DEPENDS = "sudo"
+
 USERADD_PARAM:${CEPHADM_PACKAGE} = "\
     --system \
     --create-home \
