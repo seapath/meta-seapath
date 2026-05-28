@@ -10,7 +10,7 @@ SRC_URI = " \
     git://github.com/seapath/vm_manager.git;protocol=https;branch=main \
 "
 
-SRCREV = "16bf3bc5d6f9bb0b8edba624535ffa64065db3df"
+SRCREV = "a66517eadce4d6894e9684c6e850881d95cfb640"
 
 RDEPENDS:${PN} = "python3 libvirt jq"
 RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', "pacemaker ceph", '', d)}"
