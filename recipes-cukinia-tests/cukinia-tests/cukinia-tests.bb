@@ -38,6 +38,7 @@ RDEPENDS:${PN} += "cukinia"
 RDEPENDS:${PN} += "bash coreutils pciutils"
 
 SEAPATH_CLUSTER_USERS = "ceph containerized-ceph cephadm hacluster libvirtadmin"
+SEAPATH_COCKPIT_USERS = "libvirtdbus"
 
 install_dir () {
     SRC_DIR=$1
@@ -86,11 +87,17 @@ do_install () {
     install_dir ${UNPACKDIR}/hypervisor_security_tests.d \
         ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d
 
+    USERS_TO_REMOVE=""
     if ${@bb.utils.contains('DISTRO_FEATURES','seapath-clustering','false','true',d)}; then
-        for user in ${SEAPATH_CLUSTER_USERS}; do
-            sed -E "/^\s*${user}\s/d" -i ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d/passwd.conf
-        done
+        USERS_TO_REMOVE="${USERS_TO_REMOVE} ${SEAPATH_CLUSTER_USERS}"
     fi
+    if ${@bb.utils.contains('DISTRO_FEATURES','seapath-cockpit','false','true',d)}; then
+        USERS_TO_REMOVE="${USERS_TO_REMOVE} ${SEAPATH_COCKPIT_USERS}"
+    fi
+
+    for user in ${USERS_TO_REMOVE}; do
+        sed -E "/^\s*${user}\s/d" -i ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d/passwd.conf
+    done
 
 # observer
     install -m 0644 ${UNPACKDIR}/cukinia-observer.conf ${D}${sysconfdir}/cukinia
