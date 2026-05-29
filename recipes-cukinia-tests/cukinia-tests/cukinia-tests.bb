@@ -37,7 +37,7 @@ S = "${UNPACKDIR}"
 RDEPENDS:${PN} += "cukinia"
 RDEPENDS:${PN} += "bash coreutils pciutils"
 
-SEAPATH_CLUSTER_USERS = "ceph hacluster libvirtadmin"
+SEAPATH_CLUSTER_USERS = "ceph containerized-ceph cephadm hacluster libvirtadmin"
 
 install_dir () {
     SRC_DIR=$1
@@ -88,7 +88,7 @@ do_install () {
 
     if ${@bb.utils.contains('DISTRO_FEATURES','seapath-clustering','false','true',d)}; then
         for user in ${SEAPATH_CLUSTER_USERS}; do
-            sed "/$user/d" -i ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d/passwd.conf
+            sed -E "/^\s*${user}\s/d" -i ${D}${sysconfdir}/cukinia/hypervisor_security_tests.d/passwd.conf
         done
     fi
 
