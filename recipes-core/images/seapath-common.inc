@@ -42,7 +42,7 @@ IMAGE_INSTALL:append = " amd-ucode"
 GLIBC_GENERATE_LOCALES = "en_US.UTF-8"
 IMAGE_LINGUAS = "en-us"
 
-IMAGE_FSTYPES = "wic.gz wic.bmap"
+IMAGE_FSTYPES = "wic.gz wic.bmap wic.qcow2"
 WKS_FILE = "mkefidisk.wks.in"
 # Do not update fstab file when using wic images
 WIC_CREATE_EXTRA_ARGS += "--no-fstab-update"
