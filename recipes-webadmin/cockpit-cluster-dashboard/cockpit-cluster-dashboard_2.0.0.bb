@@ -8,7 +8,7 @@ HOMEPAGE = "https://github.com/seapath/cockpit-cluster-vm-management"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 SRC_URI = "https://github.com/seapath/${BPN}/releases/download/v${PV}/${BPN}.tar.gz"
-SRC_URI[sha256sum] = "5ae0aee8620d85af168b9609d3be3ff3d24484d6c84fb777eee89432e2a0930e"
+SRC_URI[sha256sum] = "643342d950916bc6023154f724fba0eae69ea555c867fd410cfb40c2db01a4ac"
 
 S = "${UNPACKDIR}"
 
