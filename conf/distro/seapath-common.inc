@@ -4,6 +4,8 @@
 
 DISTROOVERRIDES =. "seapath:"
 
+DISTROOVERRIDES =. "${@ 'seapath-lttng:' if (d.getVar('SEAPATH_USE_LTTNG') == 'true') else ''}"
+
 # Distro based on poky
 require conf/distro/poky.conf
 
