@@ -36,6 +36,9 @@ IMAGE_INSTALL:append = " openssh-sftp-server"
 
 IMAGE_INSTALL:append = " syslog-ng"
 
+# Tracing tools
+IMAGE_INSTALL:append:seapath-lttng = " lttng-tools lttng-modules"
+
 # AMD micro-codes
 IMAGE_INSTALL:append = " amd-ucode"
 
