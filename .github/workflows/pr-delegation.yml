@@ -23,7 +23,7 @@ jobs:
   delegate-main-repo:
     name: "Delegate to the main repository"
     # See detailed explanations about the runner type in push.yml
-    runs-on: ["ubuntu-slim"]
+    runs-on: ["ubuntu-latest"]
     permissions:
       checks: write
       actions: read

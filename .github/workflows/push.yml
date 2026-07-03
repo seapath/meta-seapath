@@ -16,10 +16,15 @@ jobs:
     # do network calls to the GitHub API.
     # The only problem is that it might run for a long time (same time as the
     # called build workflow on the main repo) so we might exceed usage limit
-    # of the free hosted runners.
+    # of the free hosted runners (which is a few hours).
     # In this case, it might be better to register a new self-hosted runner
     # specifically for doing this kind of lightweight workloads.
-    runs-on: ["ubuntu-slim"]
+    # For now we use public runners. For those workloads, ubuntu-slim would be
+    # perfect since the task is very lightweight. However, as explained in
+    # https://docs.github.com/en/actions/reference/runners/github-hosted-runners#usage-limits,
+    # slim runners have a fixed 15-minutes job timeout which makes them
+    # unusable in our case. Thus, we use a classic runner.
+    runs-on: ["ubuntu-latest"]
     steps:
       - name: Create a token
         id: app-token
