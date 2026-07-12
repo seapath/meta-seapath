@@ -92,6 +92,10 @@ INHERIT += "security/hardening"
 INHERIT += "security/readonly"
 INHERIT += "overlay"
 
+# Remove recipe work directories after build to save disk space.
+# Set SEAPATH_RM_WORK to true in seapath.conf to enable.
+INHERIT += "${@'rm_work' if (d.getVar('SEAPATH_RM_WORK') or 'false') == 'true' else ''}"
+
 IMAGE_FEATURES[validitems] += "unsafe-pam-policy"
 
 # Set version of ceph to 16.x.y
