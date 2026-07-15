@@ -18,7 +18,7 @@ IMAGE_INSTALL:append = " \
     net-snmp-configuration \
 "
 #add podman
-IMAGE_INSTALL += "podman podman-compose"
+IMAGE_INSTALL += "podman"
 
 IMAGE_FSTYPES = "wic.qcow2 wic.vmdk"
 WKS_FILE = "mkefidisk-guest.wks.in"

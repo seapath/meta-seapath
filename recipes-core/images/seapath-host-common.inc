@@ -33,7 +33,7 @@ IMAGE_INSTALL:append = " \
 "
 
 # Pomdan
-IMAGE_INSTALL += "podman podman-compose"
+IMAGE_INSTALL += "podman"
 
 # Host images are compatible with seapath-hypervisor only
 # GRUB static configuration for host machines
