@@ -34,8 +34,6 @@ inherit kernel-yocto
 
 LINUX_VERSION_EXTENSION:append = "-mainline-rt"
 
-S = "${WORKDIR}/git"
-
 COMPATIBLE_MACHINE = "(seapath|seapath-no-iommu)"
 
 CVE_VERSION = "${LINUX_VERSION}"
