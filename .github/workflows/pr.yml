@@ -38,6 +38,7 @@ jobs:
           cat <<EOF > ${{ env.PR_METADATA_FILE }}
           {
             "pr_number": ${{ github.event.pull_request.number }},
+            "pr_head_sha": "${{ github.event.pull_request.head.sha }}",
             "pr_sha": "${{ github.sha }}",
             "pr_base_ref": "${{ github.base_ref }}"
           }
