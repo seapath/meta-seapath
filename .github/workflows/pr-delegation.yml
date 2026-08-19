@@ -43,6 +43,9 @@ jobs:
         id: pr-metadata
         run: |
           echo "number=$(cat "${{ env.PR_METADATA_FILE }}" | jq -r '.pr_number')" >> "$GITHUB_OUTPUT"
+          # The check must be attached to the PR head (not the merge commit)
+          # so it shows up on the PR and can gate the merge.
+          echo "head_sha=$(cat "${{ env.PR_METADATA_FILE }}" | jq -r '.pr_head_sha')" >> "$GITHUB_OUTPUT"
           echo "sha=$(cat "${{ env.PR_METADATA_FILE }}" | jq -r '.pr_sha')" >> "$GITHUB_OUTPUT"
           echo "base_ref=$(cat "${{ env.PR_METADATA_FILE }}" | jq -r '.pr_base_ref')" >> "$GITHUB_OUTPUT"
 
@@ -54,7 +57,7 @@ jobs:
         with:
           token: "${{ github.token }}"
           name: "PR workflow on the main repository"
-          sha: "${{ steps.pr-metadata.outputs.sha }}"
+          sha: "${{ steps.pr-metadata.outputs.head_sha }}"
           status: "in_progress"
           details_url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           output: |
