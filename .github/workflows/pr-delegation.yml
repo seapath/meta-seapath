@@ -65,14 +65,23 @@ jobs:
               "summary": "Delegating the check tasks to the main repository."
             }
 
-      - name: Create a token
-        id: app-token
-        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859
-        with:
-          app-id: ${{ vars.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-          permission-actions: write
+      # Tokens have a 1 hour expiration duration that cannot be changed.
+      # https://github.com/actions/create-github-app-token/issues/121
+      # This causes the workflow-dispatch action below to crash after 1 hour.
+      # https://github.com/benc-uk/workflow-dispatch/issues/105
+      # For now, we use pre-generated Personal Access Tokens, but this is a
+      # security risk since they are not short lived and could be stolen.
+      # In the future, find another way to fire and dispatch another workflow
+      # and still use a GitHub App token.
+      #
+      # - name: Create GitHub App token
+      #   id: app-token
+      #   uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859
+      #   with:
+      #     app-id: ${{ vars.APP_ID }}
+      #     private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      #     owner: ${{ github.repository_owner }}
+      #     permission-actions: write
 
       - name: Invoke the PR workflow
         id: delegation
@@ -82,7 +91,7 @@ jobs:
           repo: "${{ vars.MAIN_REPO }}"
           # the branch names are the same between this repo and the main one
           ref: "${{ steps.pr-metadata.outputs.base_ref }}"
-          token: "${{ steps.app-token.outputs.token }}"
+          token: '${{ secrets.WEEKLY_IMAGE_BUILD_TOKEN }}'
           wait-for-completion: true
           wait-timeout-seconds: 21600 # 6 hours
           sync-status: true
