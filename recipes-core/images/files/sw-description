@@ -1,6 +1,6 @@
 software =
 {
-    version = "v0.1";
+    version = "@@DISTRO_VERSION@@";
 
     images: (
         {
@@ -9,6 +9,7 @@ software =
             type = "archive";
             device = "/dev/upgradable_bootloader";
             path = "/";
+            sha256 = "$swupdate_get_sha256(@@IMAGE_DEPENDS@@-boot.tar.xz)";
         },
         {
             filename = "@@IMAGE_DEPENDS@@-@@MACHINE@@.rootfs.tar.xz";
@@ -17,6 +18,7 @@ software =
             device = "/dev/upgradable_rootfs";
             preserve-attributes = true;
             path = "/";
+            sha256 = "$swupdate_get_sha256(@@IMAGE_DEPENDS@@-@@MACHINE@@.rootfs.tar.xz)";
         },
     );
 
@@ -24,6 +26,7 @@ software =
         {
             filename = "swupdate_install.sh";
             type = "shellscript";
+            sha256 = "$swupdate_get_sha256(swupdate_install.sh)";
         }
     );
 }

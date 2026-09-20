@@ -8,4 +8,7 @@ require seapath-host-common-ha.inc
 require seapath-observer-common.inc
 require seapath-swupdate-common.inc
 
+# Signed update packages are verified against the trust anchors installed here.
+IMAGE_INSTALL:append = " swupdate-trust"
+
 IMAGE_INSTALL:append = " syslog-ng-server"
