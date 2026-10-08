@@ -52,3 +52,13 @@ COMPATIBLE_MACHINE = "seapath-installer"
 
 # 256MB
 INITRAMFS_MAXSIZE = "512000"
+
+LOCAL_GETTY ?= "\
+    ${IMAGE_ROOTFS}${systemd_system_unitdir}/getty@.service \
+"
+
+local_autologin () {
+    sed -i -e 's/^\(ExecStart *=.*getty \)/\1--autologin root /' ${LOCAL_GETTY}
+}
+
+ROOTFS_POSTPROCESS_COMMAND += "local_autologin; "
