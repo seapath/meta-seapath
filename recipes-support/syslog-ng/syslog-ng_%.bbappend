@@ -11,39 +11,25 @@ SERVICE_DIRS_PREFIX = "log"
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
-    file://cacert.pem \
-    file://syslog-ng@default \
-    file://syslog-ng@.service \
+    file://syslog-ng-seapath@default \
+    file://10-seapath.conf \
+    file://20-hardening.conf \
 "
 
 do_install:append() {
     rm ${D}${sysconfdir}/${BPN}/syslog-ng.conf
 
-    install -d ${D}${sysconfdir}/syslog-ng/ca.d
-    install -m 0400 ${UNPACKDIR}/cacert.pem \
-       ${D}${sysconfdir}/syslog-ng/ca.d
-    hashconf=$(openssl x509 -noout -hash -in "${UNPACKDIR}/cacert.pem")
-    ln -sf cacert.pem \
-      ${D}${sysconfdir}/syslog-ng/ca.d/$hashconf.0
-    chmod 0400 ${D}${sysconfdir}/syslog-ng/ca.d/$hashconf.0
-
-    install -d {D}{systemd_unitdir}/system
-    install -m 0644 ${UNPACKDIR}/syslog-ng@.service \
-        ${D}${systemd_unitdir}/system
+    install -d ${D}/${systemd_system_unitdir}/syslog-ng@.service.d
+    install -m 0644 ${UNPACKDIR}/10-seapath.conf \
+        ${D}/${systemd_system_unitdir}/syslog-ng@.service.d
+    install -m 0644 ${UNPACKDIR}/20-hardening.conf \
+        ${D}/${systemd_system_unitdir}/syslog-ng@.service.d
 
     install -d ${D}{sysconfdir}/default
-    install -m 0644 ${UNPACKDIR}/syslog-ng@default \
+    install -m 0644 ${UNPACKDIR}/syslog-ng-seapath@default \
         ${D}${sysconfdir}/default
 }
 
-CONFFILES:${PN}:remove = "${sysconfdir}/${BPN}.conf"
-
-SYSTEMD_SERVICE:${PN} += " \
-    syslog-ng@.service \
-"
-
 FILES:${PN} += " \
-    ${sysconfdir}/syslog-ng/ca.d/* \
-    ${sysconfdir}/default/syslog-ng@default \
-    ${systemd_unitdir}/system/syslog-ng@.service \
+    ${systemd_system_unitdir}/syslog-ng@.service.d \
 "
