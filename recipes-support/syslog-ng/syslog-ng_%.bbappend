@@ -11,21 +11,12 @@ SERVICE_DIRS_PREFIX = "log"
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
-    file://cacert.pem \
     file://syslog-ng@default \
     file://syslog-ng@.service \
 "
 
 do_install:append() {
     rm ${D}${sysconfdir}/${BPN}/syslog-ng.conf
-
-    install -d ${D}${sysconfdir}/syslog-ng/ca.d
-    install -m 0400 ${UNPACKDIR}/cacert.pem \
-       ${D}${sysconfdir}/syslog-ng/ca.d
-    hashconf=$(openssl x509 -noout -hash -in "${UNPACKDIR}/cacert.pem")
-    ln -sf cacert.pem \
-      ${D}${sysconfdir}/syslog-ng/ca.d/$hashconf.0
-    chmod 0400 ${D}${sysconfdir}/syslog-ng/ca.d/$hashconf.0
 
     install -d {D}{systemd_unitdir}/system
     install -m 0644 ${UNPACKDIR}/syslog-ng@.service \
@@ -43,7 +34,6 @@ SYSTEMD_SERVICE:${PN} += " \
 "
 
 FILES:${PN} += " \
-    ${sysconfdir}/syslog-ng/ca.d/* \
     ${sysconfdir}/default/syslog-ng@default \
     ${systemd_unitdir}/system/syslog-ng@.service \
 "
