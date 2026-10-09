@@ -27,8 +27,6 @@ do_install:append() {
         ${D}${sysconfdir}/default
 }
 
-CONFFILES:${PN}:remove = "${sysconfdir}/${BPN}.conf"
-
 FILES:${PN} += " \
     ${sysconfdir}/default/syslog-ng@default \
     ${systemd_unitdir}/system/syslog-ng@.service \
