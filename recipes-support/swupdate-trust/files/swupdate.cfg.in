@@ -1,0 +1,21 @@
+# SWUpdate runtime configuration for SEAPATH.
+#
+# This file is installed by the swupdate-trust recipe and is the default
+# configuration file used by every SWUpdate invocation (Hawkbit service,
+# manual "swupdate -i", USB "swupdate-client") through
+# CONFIG_DEFAULT_CONFIG_FILE="/etc/swupdate.cfg". Do not edit it by hand.
+#
+# globals :
+#   public-key-file    CA bundle used to build the signing certificate chain.
+#   digest-provider    Force the CMS provider; several signature providers are
+#                      registered (RSA and CMS), and without this SWUpdate picks
+#                      RSA and tries to load the CA bundle as an RSA public key.
+#   cert-purpose       Expected certificate purpose (EKU) of the signer.
+#   no-downgrading     Refuse a release older than the running DISTRO_VERSION.
+globals :
+{
+    public-key-file = "/etc/swupdate/ca-chain.pem";
+    digest-provider = "opensslCMS";
+    cert-purpose = "codeSigning";
+    no-downgrading = "@@DISTRO_VERSION@@";
+};
