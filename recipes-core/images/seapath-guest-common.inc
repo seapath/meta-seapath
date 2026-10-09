@@ -10,7 +10,6 @@ inherit ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'security/qa
 
 IMAGE_INSTALL:append = " \
     cukinia-tests-vm \
-    syslog-ng-client \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'system-config-security', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-readonly', 'system-config-ro', '', d)} \
     net-snmp-server \

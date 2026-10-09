@@ -16,7 +16,6 @@ IMAGE_INSTALL:append = " \
                     'cukinia-tests-cluster-security', '', d), '', d)} \
     cukinia-tests-hypervisor \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-security', 'cukinia-tests-hypervisor-security', '', d)} \
-    syslog-ng-client \
     system-config-host \
     ${@bb.utils.contains('DISTRO_FEATURES', 'seapath-clustering', 'system-config-cluster', '', d)} \
     system-config-ovs \
