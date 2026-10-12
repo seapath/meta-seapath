@@ -28,8 +28,13 @@ do_install:append() {
     install -d ${D}{sysconfdir}/default
     install -m 0644 ${UNPACKDIR}/syslog-ng-seapath@default \
         ${D}${sysconfdir}/default
+
+    rm -r ${D}${systemd_unitdir}/system/multi-user.target.wants
 }
 
 FILES:${PN} += " \
     ${systemd_system_unitdir}/syslog-ng@.service.d \
 "
+
+SYSTEMD_SERVICE:${PN}:remove = "${BPN}@.service"
+FILES:${PN}:remove = "${systemd_unitdir}/system/multi-user.target.wants/*"
